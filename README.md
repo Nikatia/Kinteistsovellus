@@ -1,0 +1,2 @@
+# Kinteistsovellus
+Scrum projekti
