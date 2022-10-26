@@ -21,21 +21,6 @@ namespace Kiinteistosovellus.Controllers
             return View(otherSpendings.ToList());
         }
 
-        // GET: OtherSpendings/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
-            if (otherSpendings == null)
-            {
-                return HttpNotFound();
-            }
-            return View(otherSpendings);
-        }
-
         // GET: OtherSpendings/Create
         public ActionResult Create()
         {

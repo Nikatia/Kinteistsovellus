@@ -11,62 +11,23 @@
     <h4>OtherSpendings</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DateBegin)
-        </dt>
+        <dt>@Html.DisplayNameFor(model => model.DateBegin)</dt>
+        <dd>@Html.DisplayFor(model => model.DateBegin)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateBegin)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.DateEnd)</dt>
+        <dd>@Html.DisplayFor(model => model.DateEnd)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateEnd)
-        </dt>
+        <dt>@Html.DisplayNameFor(model => model.OtherSpendingTypes.TypeName)</dt>
+        <dd>@Html.DisplayFor(model => model.OtherSpendingTypes.TypeName)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateEnd)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contractors.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contractors.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Logins.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Logins.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OtherSpendingTypes.TypeName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OtherSpendingTypes.TypeName)
-        </dd>
-
+        <dt>@Html.DisplayNameFor(model => model.Contractors.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
     </dl>
 
     @using (Html.BeginForm()) {

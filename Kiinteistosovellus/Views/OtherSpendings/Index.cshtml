@@ -11,57 +11,28 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DateBegin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateEnd)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contractors.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Logins.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OtherSpendingTypes.TypeName)
-        </th>
+        <th>@Html.DisplayNameFor(model => model.DateBegin)</th>
+        <th>@Html.DisplayNameFor(model => model.DateEnd)</th>
+        <th>@Html.DisplayNameFor(model => model.OtherSpendingTypes.TypeName)</th>
+        <th>@Html.DisplayNameFor(model => model.Description)</th>
+        <th>@Html.DisplayNameFor(model => model.Price)</th>
+        <th>@Html.DisplayNameFor(model => model.Contractors.Name)</th>
+
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>@Html.DisplayFor(modelItem => item.DateBegin)</td>
+        <td>@Html.DisplayFor(modelItem => item.DateEnd)</td>
+        <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
+        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+        <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.DateBegin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateEnd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contractors.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Logins.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OtherSpendingsID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OtherSpendingsID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OtherSpendingsID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.OtherSpendingsID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.OtherSpendingsID })
         </td>
     </tr>
 }
