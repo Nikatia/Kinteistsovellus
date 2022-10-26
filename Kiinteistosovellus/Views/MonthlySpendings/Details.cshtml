@@ -1,0 +1,90 @@
+﻿@model Kiinteistosovellus.Models.MonthlySpendings
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MonthlySpendings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountOfUnits)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountOfUnits)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PricePerUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PricePerUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransferPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransferPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FullPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contractors.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contractors.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logins.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Logins.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlySpendingTypes.TypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MonthlySpendingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
