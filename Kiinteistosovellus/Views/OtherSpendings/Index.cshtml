@@ -23,8 +23,8 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.DateBegin)</td>
-        <td>@Html.DisplayFor(modelItem => item.DateEnd)</td>
+        <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+        <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
         <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
         <td>@Html.DisplayFor(modelItem => item.Description)</td>
         <td>@Html.DisplayFor(modelItem => item.Price)</td>
