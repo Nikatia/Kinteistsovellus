@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="083e99e8a2ba4c8584cb8b9da935e29e" Name="Diagram1">
+        <EntityTypeShape EntityType="KiinteistoDBModel.Contacts" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.Contractors" Width="1.5" PointX="6" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.Logins" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.MonthlySpendings" Width="1.5" PointX="8.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.MonthlySpendingTypes" Width="1.5" PointX="3" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.OtherSpendings" Width="1.5" PointX="8.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.OtherSpendingTypes" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.Persons" Width="1.5" PointX="8.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.Plans" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.Post" Width="1.5" PointX="3.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.database_firewall_rules" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__Contra__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__LoginI__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__Person__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Contracto__Login__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Contracto__PostI__0C85DE4D" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__MonthlySp__Contr__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Contr__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Persons__Contrac__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__MonthlySp__Login__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__MonthlySp__Login__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Login__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Login__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Persons__LoginID__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Plans__LoginID__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__MonthlySp__Spend__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Other__797309D9" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
