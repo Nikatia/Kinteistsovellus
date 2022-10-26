@@ -25,8 +25,11 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Create()
         {
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
             return View();
         }
 
@@ -45,7 +48,6 @@ namespace Kiinteistosovellus.Controllers
             }
 
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", otherSpendings.LoginID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
             return View(otherSpendings);
         }
@@ -63,8 +65,11 @@ namespace Kiinteistosovellus.Controllers
                 return HttpNotFound();
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", otherSpendings.LoginID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
             return View(otherSpendings);
         }
 
@@ -82,8 +87,11 @@ namespace Kiinteistosovellus.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", otherSpendings.LoginID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
             return View(otherSpendings);
         }
 
