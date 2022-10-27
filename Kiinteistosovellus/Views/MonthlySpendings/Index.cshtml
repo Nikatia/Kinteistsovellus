@@ -44,10 +44,14 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.DateBegin)
+            @if (item.DateBegin != null)
+            {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
+        @*@Html.DisplayFor(modelItem => item.DateBegin)*@
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateEnd)
+            @if (item.DateEnd != null)
+            {@Convert.ToDateTime(item.DateEnd).ToString("dd/MM/yyyy")}
+            @*@Html.DisplayFor(modelItem => item.DateEnd)*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AmountOfUnits)
@@ -72,7 +76,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.MonthlySpendingID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MonthlySpendingID }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.MonthlySpendingID }) |*@
             @Html.ActionLink("Delete", "Delete", new { id=item.MonthlySpendingID })
         </td>
     </tr>
