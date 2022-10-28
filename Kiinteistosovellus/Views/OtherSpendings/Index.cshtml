@@ -22,6 +22,22 @@
             });
         });
 
+        /*Edit Modal Window*/
+        $(function () {
+            $(".getOtherSpendingId").click(function () {
+                let otherSpendingId = $(this).data("otherspendingid");
+                console.log("Klikkasit kulunumeroa: " + otherSpendingId);
+                var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
+                console.log(url);
+
+                var $detailDivEdit = $("#otherSpendingEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalotherSpendingEdit').modal('show');
+                });
+            });
+        });
+
     </script>
 }
 
@@ -32,6 +48,8 @@
 </p>
 
 <div id="otherSpendingCreate"></div>
+<div id="otherSpendingEdit"></div>
+
 
 <table class="table">
     <tr>
@@ -45,7 +63,8 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
             <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
@@ -55,7 +74,8 @@
             <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.OtherSpendingsID }) |
+                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Edit</a>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.OtherSpendingsID })*@ |
                 @Html.ActionLink("Delete", "Delete", new { id = item.OtherSpendingsID })
             </td>
         </tr>

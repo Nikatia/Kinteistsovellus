@@ -280,9 +280,9 @@
     <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\MonthlySpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\Delete.cshtml" />
-    <Content Include="Views\OtherSpendings\Edit.cshtml" />
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
+    <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

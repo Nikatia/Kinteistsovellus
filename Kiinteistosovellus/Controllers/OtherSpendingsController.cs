@@ -21,18 +21,6 @@ namespace Kiinteistosovellus.Controllers
             return View(otherSpendings.ToList());
         }
 
-        //// GET: OtherSpendings/Create
-        //public ActionResult Create()
-        //{
-        //    ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-        //    ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
-
-        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-        //    ViewBag.LoginID = "1001";
-
-        //    return View();
-        //}
-
         public ActionResult _ModalCreate()
         {
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
@@ -64,7 +52,7 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // GET: OtherSpendings/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult _ModalEdit(int? id)
         {
             if (id == null)
             {
@@ -80,8 +68,7 @@ namespace Kiinteistosovellus.Controllers
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-
-            return View(otherSpendings);
+            return PartialView("_ModalEdit", otherSpendings);
         }
 
         // POST: OtherSpendings/Edit/5
