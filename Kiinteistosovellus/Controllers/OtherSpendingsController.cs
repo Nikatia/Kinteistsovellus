@@ -93,9 +93,10 @@ namespace Kiinteistosovellus.Controllers
             return View(otherSpendings);
         }
 
-        // GET: OtherSpendings/Delete/5
-        public ActionResult Delete(int? id)
+        //GET: OtherSpendings/Delete/5
+        public ActionResult _ModalDelete(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -105,19 +106,21 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View(otherSpendings);
+            return PartialView("_ModalDelete", otherSpendings);
+            
         }
 
         // POST: OtherSpendings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("_ModalDelete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult _DeleteConfirmed(int id)
         {
             OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
             db.OtherSpendings.Remove(otherSpendings);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {

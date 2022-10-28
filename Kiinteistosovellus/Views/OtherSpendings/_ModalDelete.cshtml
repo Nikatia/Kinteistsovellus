@@ -1,0 +1,59 @@
+﻿@model Kiinteistosovellus.Models.OtherSpendings
+
+<div class="modal fade" id="ModalOtherSpendingDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Poistaa</h2>
+            </div>
+            <div class="modal-body">
+                <h5>Haluatko varmasti poistaa tilaus @Html.DisplayFor(model => model.OtherSpendingsID)?</h5>
+                <div>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.OtherSpendingTypeID)</dt>
+                        <dd>@Html.DisplayFor(model => model.OtherSpendingTypeID)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+                        <dd>@Html.DisplayFor(model => model.Price)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.DateBegin)</dt>
+                        <dd>@Html.DisplayFor(model => model.DateBegin)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.DateEnd)</dt>
+                        <dd>@Html.DisplayFor(model => model.DateEnd)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+                        <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.LoginID)</dt>
+                        <dd>@Html.DisplayFor(model => model.LoginID)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.OtherSpendingsID)</dt>
+                        <dd>@Html.DisplayFor(model => model.OtherSpendingsID)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.OtherSpendingsID)</dt>
+                        <dd>@Html.DisplayFor(model => model.OtherSpendingsID)</dd>
+
+                        <dt>@Html.DisplayNameFor(model => model.ContractorID)</dt>
+                        <dd>@Html.DisplayFor(model => model.ContractorID)</dd>
+
+                    </dl>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                        <a href="@Url.Action("Index", "OtherSpendings")">Peruuta</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
