@@ -283,6 +283,7 @@
     <Content Include="Views\OtherSpendings\Delete.cshtml" />
     <Content Include="Views\OtherSpendings\Edit.cshtml" />
     <Content Include="Views\OtherSpendings\Index.cshtml" />
+    <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -33,6 +33,17 @@ namespace Kiinteistosovellus.Controllers
             return View();
         }
 
+        public ActionResult _ModalCreate()
+        {
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return PartialView(); ;
+        }
+
         // POST: OtherSpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

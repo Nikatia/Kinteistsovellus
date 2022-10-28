@@ -4,11 +4,36 @@
     ViewBag.Title = "Index";
 }
 
+@section scripts {
+    <script type="text/javascript">
+
+        $(function () {
+            $(".creNewOtherSpending").click(function () {
+                console.log("Klikkasit uuden kulun luontipainiketta: ");
+                var url = "/OtherSpendings/_ModalCreate";
+                console.log(url);
+
+                $("#otherSpendingCreate").append(" <b>Avataan tilauksen luonti-ikkuna...</b>");
+
+                var $detailDivCreate = $("#otherSpendingCreate");
+                $.get(url, function (data) {
+                    $detailDivCreate.replaceWith(data);
+                    $('#ModalOtherSpendingCreate').modal('show');
+                });
+            });
+        });
+
+    </script>
+}
+
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="card-link creNewOtherSpending" role="button" title="Lisätä uusi tilaus">Lisätä uusi tilaus</a><br />
 </p>
+
+<div id="otherSpendingCreate"></div>
+
 <table class="table">
     <tr>
         <th>@Html.DisplayNameFor(model => model.DateBegin)</th>
@@ -21,20 +46,20 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
-        <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
-        <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
-        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-        <td>@Html.DisplayFor(modelItem => item.Price)</td>
-        <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+            <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+            <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+            <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
 
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.OtherSpendingsID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.OtherSpendingsID })
-        </td>
-    </tr>
-}
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.OtherSpendingsID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.OtherSpendingsID })
+            </td>
+        </tr>
+    }
 
 </table>
