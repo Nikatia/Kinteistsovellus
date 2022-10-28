@@ -65,6 +65,34 @@ namespace Kiinteistosovellus.Controllers
             return View(monthlySpendings);
         }
 
+        public ActionResult _CreateModal()
+        {
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
+            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
+            return PartialView("_CreateModal");
+        }
+
+        // POST: MonthlySpendings/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
+        {
+            if (ModelState.IsValid)
+            {
+                db.MonthlySpendings.Add(monthlySpendings);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
+            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendings.LoginID);
+            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
+            return View(monthlySpendings);
+        }
+
         // GET: MonthlySpendings/Edit/5
         public ActionResult Edit(int? id)
         {

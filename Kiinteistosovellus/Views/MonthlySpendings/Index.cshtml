@@ -7,9 +7,9 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button" id="CreateMS">Create New</button>
 </p>
-<div id="orderEdit"></div>
+<div id="ModalPlace"></div>
 <table class="table">
     <tr>
         <th>
@@ -94,7 +94,7 @@
             // alert("Klikkasit" + orderId);
             var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
 
-            var $detailDivEdit = $("#orderEdit");
+            var $detailDivEdit = $("#ModalPlace");
             $.get(url, function (data) {
                $detailDivEdit.replaceWith(data);
                 $("#ModalMSEdit").modal("show");
@@ -110,7 +110,7 @@
             // alert("Klikkasit" + orderId);
             var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
 
-            var $detailDivEdit = $("#orderEdit");
+            var $detailDivEdit = $("#ModalPlace");
             $.get(url, function (data) {
                 $detailDivEdit.replaceWith(data);
                 $("#ModalMSDelete").modal("show");
@@ -119,4 +119,17 @@
 
         });
     });
+    $(document).ready(function () {
+        $("#CreateMS").click(function () {
+            var url = "/MonthlySpendings/_CreateModal";
+
+            var $detailDivEdit = $("#ModalPlace");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSCreate").modal("show");
+
+            });
+        });
+        });
+    
 </script>
