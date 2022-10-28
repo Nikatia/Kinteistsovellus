@@ -7,13 +7,12 @@
 @section scripts {
     <script type="text/javascript">
 
+        /* Create Modal Window */
         $(function () {
             $(".creNewOtherSpending").click(function () {
                 console.log("Klikkasit uuden kulun luontipainiketta: ");
                 var url = "/OtherSpendings/_ModalCreate";
                 console.log(url);
-
-                $("#otherSpendingCreate").append(" <b>Avataan tilauksen luonti-ikkuna...</b>");
 
                 var $detailDivCreate = $("#otherSpendingCreate");
                 $.get(url, function (data) {
@@ -29,7 +28,7 @@
 <h2>Index</h2>
 
 <p>
-    <a class="card-link creNewOtherSpending" role="button" title="Lisätä uusi tilaus">Lisätä uusi tilaus</a><br />
+    <a class="card-link creNewOtherSpending" role="button">Create new</a><br />
 </p>
 
 <div id="otherSpendingCreate"></div>

@@ -21,17 +21,17 @@ namespace Kiinteistosovellus.Controllers
             return View(otherSpendings.ToList());
         }
 
-        // GET: OtherSpendings/Create
-        public ActionResult Create()
-        {
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+        //// GET: OtherSpendings/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+        //    ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
 
-            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-            ViewBag.LoginID = "1001";
+        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+        //    ViewBag.LoginID = "1001";
 
-            return View();
-        }
+        //    return View();
+        //}
 
         public ActionResult _ModalCreate()
         {
