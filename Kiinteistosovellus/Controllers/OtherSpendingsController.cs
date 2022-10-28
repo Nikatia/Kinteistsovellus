@@ -113,7 +113,7 @@ namespace Kiinteistosovellus.Controllers
         // POST: OtherSpendings/Delete/5
         [HttpPost, ActionName("_ModalDelete")]
         [ValidateAntiForgeryToken]
-        public ActionResult _DeleteConfirmed(int id)
+        public ActionResult _ModalDeleteConfirmed(int id)
         {
             OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
             db.OtherSpendings.Remove(otherSpendings);
