@@ -57,10 +57,10 @@
     </script>
 }
 
-<h2>Index</h2>
+<h2>Muut kulut</h2>
 
 <p>
-    <a class="card-link creNewOtherSpending" role="button">Create new</a><br />
+    <a class="card-link creNewOtherSpending" role="button">Luo uusi</a><br />
 </p>
 
 @*Modal Containers*@
@@ -71,12 +71,29 @@
 
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.DateBegin)</th>
-        <th>@Html.DisplayNameFor(model => model.DateEnd)</th>
-        <th>@Html.DisplayNameFor(model => model.OtherSpendingTypes.TypeName)</th>
-        <th>@Html.DisplayNameFor(model => model.Description)</th>
-        <th>@Html.DisplayNameFor(model => model.Price)</th>
-        <th>@Html.DisplayNameFor(model => model.Contractors.Name)</th>
+        @*---NAMES FROM TIETOHAKEMISTO---*@
+        @*<th>Päivämäärä / Alkupäivämäärä</th>
+        <th>Loppupäivämäärä</th>
+        <th>Kulutustyyppi</th>
+        <th>Kuvaus</th>
+        <th>Hinta yhteensä</th>
+        <th>Nimi</th>*@
+
+        @*---IN MY OPINION BETTER VERSION---*@
+        @*<th>Alkupäivämäärä</th>
+        <th>Loppupäivämäärä</th>
+        <th>Kulutustyyppi</th>
+        <th style="width:40%">Kuvaus</th>
+        <th>Hinta</th>
+        <th>Urakoitsija</th>*@
+
+        @*---IN MY OPINION THE BEST VERSION---*@
+        <th>Alkupvm</th>
+        <th>Loppupvm</th>
+        <th>Kulutustyyppi</th>
+        <th style="width:45%">Kuvaus</th>
+        <th>Hinta</th>
+        <th>Urakoitsija</th>
 
         <th></th>
     </tr>
@@ -92,8 +109,8 @@
             <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
 
             <td>
-                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Edit</a> |
-                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Delete</a>
+                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Muokkaa</a> |
+                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Poista</a>
             </td>
         </tr>
     }
