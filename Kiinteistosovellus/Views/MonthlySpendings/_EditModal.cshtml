@@ -18,14 +18,14 @@
     </div>*@
 
 @*<h4>_ModalEdit</h4>*@
-<div class="modal fade" id="ModalOrderEdit">
+<div class="modal fade" id="ModalMSEdit">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Edit orders</h2>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("edit", "MonthlySpendings", FormMethod.Post, new { id = "editMSForm" }))
+                @using (Html.BeginForm("_editModal", "MonthlySpendings", FormMethod.Post, new { id = "editMSForm" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -128,7 +128,7 @@
                 }
             </div>
             <div class="modal-footer" style="display:inline-block">
-                <button type="submit" class="btn btn-primary" form="editForm">Save</button>
+                <button type="submit" class="btn btn-primary" form="editMSForm">Save</button>
                 <a href="@Url.Action("index","MonthlySpendings")" class="btn btn-primary">Back</a>
             </div>
         </div>

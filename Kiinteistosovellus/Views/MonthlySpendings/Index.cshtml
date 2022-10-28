@@ -79,27 +79,41 @@
             <button class="getOrderId" data-orderid="@item.MonthlySpendingID">Edit</button>
             @*@Html.ActionLink("Edit", "Edit", new { id=item.MonthlySpendingID })*@ |
             @*@Html.ActionLink("Details", "Details", new { id=item.MonthlySpendingID }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.MonthlySpendingID })
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.MonthlySpendingID })*@
+            <button class="getId" data-id="@item.MonthlySpendingID">Delete</button>
         </td>
     </tr>
 }
 
 </table>
 <script type="text/javascript">
-    //var getid = document.getElementsByClassName("getOrderId");
-    // function myFunction() {
-    //   let orderId = $(this).data("orderId");
-    //alert(orderId);
+   
     $(document).ready(function () {
         $(".getOrderId").click(function () {
-             let orderId = $(this).data("orderid");
+             let MSEditId = $(this).data("orderid");
             // alert("Klikkasit" + orderId);
-            var url = "/MonthlySpendings/_EditModal/?id=" + orderId;
+            var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
 
             var $detailDivEdit = $("#orderEdit");
             $.get(url, function (data) {
                $detailDivEdit.replaceWith(data);
-                $("#ModalOrderEdit").modal("show");
+                $("#ModalMSEdit").modal("show");
+
+            });
+
+        });
+    });
+
+    $(document).ready(function () {
+        $(".getId").click(function () {
+            let MSDeleteId = $(this).data("id");
+            // alert("Klikkasit" + orderId);
+            var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
+
+            var $detailDivEdit = $("#orderEdit");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSDelete").modal("show");
 
             });
 

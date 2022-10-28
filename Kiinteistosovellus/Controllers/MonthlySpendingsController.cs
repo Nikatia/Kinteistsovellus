@@ -166,6 +166,31 @@ namespace Kiinteistosovellus.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult _DeleteModal(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
+            if (monthlySpendings == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_DeleteModal",monthlySpendings);
+        }
+
+        // POST: MonthlySpendings/Delete/5
+        [HttpPost, ActionName("_DeleteModal")]
+        [ValidateAntiForgeryToken]
+        public ActionResult _DeleteModalConfirmed(int id)
+        {
+            MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
+            db.MonthlySpendings.Remove(monthlySpendings);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
