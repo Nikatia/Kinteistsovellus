@@ -279,16 +279,16 @@
     <Content Include="Views\MonthlySpendings\Details.cshtml" />
     <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\MonthlySpendings\Index.cshtml" />
-<<<<<<< HEAD
+
     <Content Include="Views\MonthlySpendings\_EditModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_DeleteModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_CreateModal.cshtml" />
-=======
+
     <Content Include="Views\OtherSpendings\Delete.cshtml" />
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
->>>>>>> Task6x_Other_Spending
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
