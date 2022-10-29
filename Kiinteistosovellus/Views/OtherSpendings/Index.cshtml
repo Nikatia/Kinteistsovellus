@@ -38,6 +38,22 @@
             });
         });
 
+        /*Delete Modal Window*/
+        $(function () {
+            $(".delOtherSpendingId").click(function () {
+                let otherSpendingId2 = $(this).data("otherspendingid2");
+                console.log("Klikkasit poistettavaa kulunumeroa: " + otherSpendingId2);
+                var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
+                console.log(url);
+
+                var $detailDivDelete = $("#otherSpendingDelete");
+                $.get(url, function (data) {
+                    $detailDivDelete.replaceWith(data);
+                    $('#ModalOtherSpendingDelete').modal('show');
+                });
+            });
+        });
+
     </script>
 }
 
@@ -47,8 +63,10 @@
     <a class="card-link creNewOtherSpending" role="button">Create new</a><br />
 </p>
 
+@*Modal Containers*@
 <div id="otherSpendingCreate"></div>
 <div id="otherSpendingEdit"></div>
+<div id="otherSpendingDelete"></div>
 
 
 <table class="table">
@@ -74,9 +92,8 @@
             <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
 
             <td>
-                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Edit</a>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.OtherSpendingsID })*@ |
-                @Html.ActionLink("Delete", "Delete", new { id = item.OtherSpendingsID })
+                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Edit</a> |
+                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Delete</a>
             </td>
         </tr>
     }
