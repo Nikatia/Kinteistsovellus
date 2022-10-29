@@ -32,6 +32,26 @@ namespace Kiinteistosovellus.Controllers
             return PartialView(); ;
         }
 
+
+    //    var LoggedUser = db.Logins.SingleOrDefault(x => x.UserName == LoginModel.UserName && x.PassWord == LoginModel.PassWord);
+    //        if (LoggedUser != null)
+    //        {
+    //            ViewBag.LoginMessage = "Onnistunut kirjautuminen";
+    //            ViewBag.LoginError = 0;
+    //            Session["UserName"] = LoggedUser.UserName;
+    //            Session["UserHenkiloID"] = LoggedUser.Henkilo_id;
+    //            return RedirectToAction("Index", "Home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa --> Home/Index
+    //}
+    //        else
+    //        {
+    //            ViewBag.LoginMessage = "Kirjautuminen epäonnistui";
+    //            ViewBag.LoginError = 1;
+    //            LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana.";
+    //            ViewBag.LoggedStatus = "";
+    //            return View("Index", LoginModel);
+//}
+
+
         // POST: OtherSpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -39,8 +59,10 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
         {
+
             if (ModelState.IsValid)
             {
+                Console.WriteLine("IsValid");
                 db.OtherSpendings.Add(otherSpendings);
                 db.SaveChanges();
                 return RedirectToAction("Index");
