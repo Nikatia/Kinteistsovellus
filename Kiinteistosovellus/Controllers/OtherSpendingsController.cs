@@ -21,6 +21,18 @@ namespace Kiinteistosovellus.Controllers
             return View(otherSpendings.ToList());
         }
 
+        // GET: OtherSpendings/Create
+        public ActionResult Create()
+        {
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return View();
+        }
+
         public ActionResult _ModalCreate()
         {
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
@@ -31,25 +43,6 @@ namespace Kiinteistosovellus.Controllers
 
             return PartialView(); ;
         }
-
-
-    //    var LoggedUser = db.Logins.SingleOrDefault(x => x.UserName == LoginModel.UserName && x.PassWord == LoginModel.PassWord);
-    //        if (LoggedUser != null)
-    //        {
-    //            ViewBag.LoginMessage = "Onnistunut kirjautuminen";
-    //            ViewBag.LoginError = 0;
-    //            Session["UserName"] = LoggedUser.UserName;
-    //            Session["UserHenkiloID"] = LoggedUser.Henkilo_id;
-    //            return RedirectToAction("Index", "Home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa --> Home/Index
-    //}
-    //        else
-    //        {
-    //            ViewBag.LoginMessage = "Kirjautuminen epäonnistui";
-    //            ViewBag.LoginError = 1;
-    //            LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana.";
-    //            ViewBag.LoggedStatus = "";
-    //            return View("Index", LoginModel);
-//}
 
 
         // POST: OtherSpendings/Create
