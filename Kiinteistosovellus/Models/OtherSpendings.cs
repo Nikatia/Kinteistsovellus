@@ -11,7 +11,8 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
+
     public partial class OtherSpendings
     {
         public int OtherSpendingsID { get; set; }
