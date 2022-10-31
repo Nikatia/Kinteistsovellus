@@ -54,6 +54,20 @@
             });
         });
 
+        /*Automatic change from dots to comma*/
+        function hintaChange() {
+            var startString = document.getElementById("hinta").value;
+            console.log(startString);
+            var endString = startString.replace(".", ",");
+            console.log(endString)
+            document.getElementById("hinta").value = endString;
+        }
+
+        /*Enabling saving decimals*/
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\,.]\d{3})+)(?:[\,.]\d+)?$/.test(value);
+        }
+
     </script>
 }
 
