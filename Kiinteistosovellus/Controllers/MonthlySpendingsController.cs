@@ -67,8 +67,9 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _CreateModal()
         {
+            ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
+            //ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
             return PartialView("_CreateModal");
         }
@@ -80,16 +81,19 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
         {
+            ViewBag.LoginID = "1000";
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
+            //ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendings.LoginID);
+            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             if (ModelState.IsValid)
             {
                 db.MonthlySpendings.Add(monthlySpendings);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+           
 
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendings.LoginID);
-            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
+            
             return View(monthlySpendings);
         }
 
