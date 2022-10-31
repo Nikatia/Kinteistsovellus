@@ -8,7 +8,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Edit </h2>
+                @*<h2>Edit </h2>*@
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("_editModal", "MonthlySpendings", FormMethod.Post, new { id = "editMSForm" }))
@@ -16,7 +16,7 @@
                     @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    <h4>MonthlySpendings</h4>
+                    <h4>Kuukausittaiset kulut</h4>
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.MonthlySpendingID)
@@ -106,8 +106,8 @@
                     }
                 </div>
             <div class="modal-footer" style="display:inline-block">
-                <button type="submit" class="btn btn-primary" form="editMSForm">Save</button>
-                <a href="@Url.Action("index","MonthlySpendings")" class="btn btn-primary">Back</a>
+                <button type="submit" class="btn btn-primary" form="editMSForm">Tallenna</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
             </div>
         </div>
     </div>
