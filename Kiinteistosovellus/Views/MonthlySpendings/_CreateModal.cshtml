@@ -1,30 +1,15 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendings
 
-@{
-    ViewBag.Title = "Create";
-}
 
-<h2>Create</h2>
 
-@*<script>
-    window.onload=function() {
-        $("#ModalCreateMSpendings").modal("show");
-    }
 
-</script>*@
 
-@*<button id="paina" style="display:none"></button>*@
 
-@*<div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@
-
-@*<h4>_ModalEdit</h4>*@
 <div class="modal fade" id="ModalMSCreate">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Create New</h2>
+                <h2>Luo uusi kuukausittainen kulu</h2>
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("_CreateModal", "MonthlySpendings", FormMethod.Post, new { id = "createMSForm" }))
@@ -32,7 +17,7 @@
                     @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    <h4>MonthlySpendings</h4>
+                    @*<h4>MonthlySpendings</h4>*@
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
@@ -122,8 +107,9 @@
 
 
                 <div class="modal-footer" style="display:inline-block">
-                    <button type="submit" class="btn btn-primary" form="createMSForm">Save</button>
-                    <a href="@Url.Action("index","MonthlySpendings")" class="btn btn-primary">Back</a>
+                    <button type="submit" class="btn btn-primary" form="createMSForm">Tallenna</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
+                   
                 </div>
             </div>
         </div>

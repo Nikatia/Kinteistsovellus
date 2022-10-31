@@ -16,7 +16,7 @@ namespace Kiinteistosovellus.Models
     public partial class MonthlySpendings
     {
         public int MonthlySpendingID { get; set; }
-       
+        [Required(ErrorMessage ="Anna p‰iv‰m‰‰r‰")]
         public System.DateTime DateBegin { get; set; }
        
         public Nullable<System.DateTime> DateEnd { get; set; }

@@ -63,10 +63,11 @@ namespace Kiinteistosovellus.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-           
 
-            
-            return View(monthlySpendings);
+
+
+            //return RedirectToAction("_CreateModal",monthlySpendings);
+            return RedirectToAction("Index");
         }
 
        
@@ -88,6 +89,7 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             return PartialView("_EditModal",monthlySpendings);
 
+
         }
 
         // POST: MonthlySpendings/Edit/5
@@ -106,7 +108,8 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
             ViewBag.LoginID = "1000";
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
-            return PartialView("_EditModal",monthlySpendings);
+            //return PartialView("_EditModal",monthlySpendings);
+            return RedirectToAction("Index");
         }
 
        
