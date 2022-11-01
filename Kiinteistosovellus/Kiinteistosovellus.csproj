@@ -279,21 +279,12 @@
     <Content Include="Views\MonthlySpendings\Details.cshtml" />
     <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\MonthlySpendings\Index.cshtml" />
-
-
     <Content Include="Views\MonthlySpendings\_EditModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_DeleteModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_CreateModal.cshtml" />
-
-    <Content Include="Views\OtherSpendings\Delete.cshtml" />
-
-    <Content Include="Views\OtherSpendings\Delete.cshtml" />
-
-
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
-
     <Content Include="Views\OtherSpendings\_ModalDelete.cshtml" />
     <Content Include="Views\OtherSpendings\Create.cshtml" />
     <Content Include="Views\OtherSpendings\Edit.cshtml" />
