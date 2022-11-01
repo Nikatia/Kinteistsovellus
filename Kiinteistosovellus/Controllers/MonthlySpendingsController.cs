@@ -64,10 +64,10 @@ namespace Kiinteistosovellus.Controllers
                 return RedirectToAction("Index");
             }
 
-
-
+            
+            return PartialView(monthlySpendings);
             //return RedirectToAction("_CreateModal",monthlySpendings);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
         }
 
        
