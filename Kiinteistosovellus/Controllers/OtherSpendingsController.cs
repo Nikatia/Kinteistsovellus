@@ -81,7 +81,8 @@ namespace Kiinteistosovellus.Controllers
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-            decimal hinta = otherSpendings.Price;
+            //decimal hinta = otherSpendings.Price;
+            
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
@@ -97,17 +98,19 @@ namespace Kiinteistosovellus.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.Entry(otherSpendings).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-
+            ViewBag.DateBegin = otherSpendings.DateBegin;
+            ViewBag.DateEnd = otherSpendings.DateEnd;
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return View(otherSpendings);
+            return View("Edit", otherSpendings);
         }
 
         //GET: OtherSpendings/Delete/5

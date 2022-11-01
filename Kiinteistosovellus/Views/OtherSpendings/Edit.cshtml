@@ -19,7 +19,8 @@
         <div class="form-group">
             Päivämäärä / Alkupäivämäärä @*Alkupvm*@
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.DateBegin, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @type = "date" }, @class = "form-control" })
+                @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })  Ennen oli: @ViewBag.DateBegin.ToString("dd.MM.yyyy")
+                <br />
                 @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,7 +28,8 @@
         <div class="form-group">
             Loppupäivämäärä @*Loppupvm*@
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.DateEnd, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @type = "date" }, @class = "form-control" })
+                @Html.TextBoxFor(model => model.DateEnd, "{0:dd/MM/yyyy}", new { @type = "date", @class = "form-control" }) Ennen oli: @ViewBag.DateEnd.ToString("dd.MM.yyyy")
+                <br />
                 @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
             </div>
         </div>
