@@ -275,10 +275,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\MonthlySpendings\Create.cshtml" />
-    <Content Include="Views\MonthlySpendings\Delete.cshtml" />
     <Content Include="Views\MonthlySpendings\Details.cshtml" />
-    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\MonthlySpendings\Index.cshtml" />
     <Content Include="Views\MonthlySpendings\_EditModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_DeleteModal.cshtml" />
@@ -292,6 +289,8 @@
     <Content Include="Views\Plans\Details.cshtml" />
     <Content Include="Views\Plans\Edit.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
+    <Content Include="Views\MonthlySpendings\Create.cshtml" />
+    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
 
   </ItemGroup>
   <ItemGroup>
