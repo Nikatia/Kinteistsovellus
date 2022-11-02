@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 
-                @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
+                @using (Html.BeginForm("_ModalCreate", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -52,6 +52,7 @@
                                     </div>
                                 </div>
 
+                                @*Temporary solution for LoginID until Login system is done*@
                                 @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
 
                             </div>

@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     Päivämäärä / Alkupäivämäärä @*Alkupvm*@
                                     <div class="col-md-10">
-                                        @Html.TextBoxFor(model => model.DateBegin, "{0:dd.MM.yyyy}", new { htmlAttributes = new { @type = "date" }, @class = "form-control" } )
+                                        @Html.TextBoxFor(model => model.DateBegin, "{0:dd.MM.yyyy}", new { htmlAttributes = new { @type = "date" }, @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -53,6 +53,7 @@
                                     </div>
                                 </div>
 
+                                @*Temporary solution for LoginID until Login system is done*@
                                 @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
 
                             </div>
