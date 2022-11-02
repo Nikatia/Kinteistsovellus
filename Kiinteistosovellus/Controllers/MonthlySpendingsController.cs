@@ -64,8 +64,8 @@ namespace Kiinteistosovellus.Controllers
                 return RedirectToAction("Index");
             }
 
-            
-            return PartialView(monthlySpendings);
+            return View("Create", monthlySpendings);
+            //return PartialView(monthlySpendings);
             //return RedirectToAction("_CreateModal",monthlySpendings);
             //return RedirectToAction("Index");
         }
@@ -109,7 +109,8 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.LoginID = "1000";
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             //return PartialView("_EditModal",monthlySpendings);
-            return RedirectToAction("Index");
+           // return RedirectToAction("Index");
+           return View("Edit",monthlySpendings);
         }
 
        
