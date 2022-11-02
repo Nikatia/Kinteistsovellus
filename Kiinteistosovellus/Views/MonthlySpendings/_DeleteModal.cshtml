@@ -1,142 +1,118 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendings
 
-@{
-    ViewBag.Title = "Delete";
-}
-
-@*<script>
-
-
-             //   $("#ModalOrderEdit").modal("show");
 
 
 
-    </script>
-    <button id="paina" style="display:none"></button>*@
-@*<div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@
-
-@*<h4>_ModalEdit</h4>*@
 <div class="modal fade" id="ModalMSDelete">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Delete</h2>
+              
             </div>
             <div class="modal-body">
-                @*@using (Html.BeginForm("_DeleteModal", "MonthlySpendings", FormMethod.Post, new { id = "deleteMSForm" }))
-                {*@
-                   
-                    <h2>Delete</h2>
 
-                    <h3>Are you sure you want to delete this?</h3>
-                    <div>
-                        <h4>MonthlySpendings</h4>
-                        <hr />
-                        <dl class="dl-horizontal">
-                            <dt>
-                                @Html.DisplayNameFor(model => model.DateBegin)
-                            </dt>
 
-                            <dd>
-                                @if (Model.DateBegin != null)
-                                {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
-                            @*@Html.DisplayFor(model => model.DateBegin)*@
-                            </dd>
+              
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.DateEnd)
-                            </dt>
+                <h3>Oletko varma, että haluat poistaa tämän?</h3>
+                <div>
+                    <h4>Kuukausittaiset kulut</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Aloituspäivämäärä
+                        </dt>
 
-                            <dd>
-                                @if (Model.DateBegin != null)
-                                {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
-                            @*@Html.DisplayFor(model => model.DateEnd)*@
-                            </dd>
+                        <dd>
+                            @if (Model.DateBegin != null)
+                            {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
+                        @*@Html.DisplayFor(model => model.DateBegin)*@
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.AmountOfUnits)
-                            </dt>
+                        <dt>
+                            Päättymispäivämäärä
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.AmountOfUnits)
-                            </dd>
+                        <dd>
+                            @if (Model.DateBegin != null)
+                            {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
+                        @*@Html.DisplayFor(model => model.DateEnd)*@
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.PricePerUnit)
-                            </dt>
+                        <dt>
+                            Yksikkömäärä
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.PricePerUnit)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.AmountOfUnits)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.TransferPayment)
-                            </dt>
+                        <dt>
+                            Yksikköhinta
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.TransferPayment)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.PricePerUnit)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.FullPrice)
-                            </dt>
+                        <dt>
+                            Siirtohinta
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.FullPrice)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.TransferPayment)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Contractors.Name)
-                            </dt>
+                        <dt>
+                            Kokonaishinta
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Contractors.Name)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.FullPrice)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Logins.UserName)
-                            </dt>
+                        <dt>
+                            Yrityksen nimi
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Logins.UserName)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Contractors.Name)
+                        </dd>
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.MonthlySpendingTypes.TypeName)
-                            </dt>
+                        <dt>
+                            Käyttäjän nimi
+                        </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
-                            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Logins.UserName)
+                        </dd>
 
-                        </dl>
-                      
-                            @*@using (Html.BeginForm())
-                            {
-                                @Html.AntiForgeryToken()
+                        <dt>
+                            Kulutustyyppi
+                        </dt>
 
-                                <div class="form-actions no-color">
-                                    <input type="submit" value="Delete" class="btn btn-danger" /> |
-                                    @Html.ActionLink("Back to List", "Index")
-                                </div>
-                            }
-                        </div>*@
-               
-            </div>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                <div class="modal-footer" style="display:inline-block">
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                    <a href="@Url.Action("index","MonthlySpendings")" class="btn btn-primary">Back</a>
+                        <dd>
+                            @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
+                        </dd>
+
+                    </dl>
+
+
+
                 </div>
-            }
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-footer" style="display:inline-block">
+                        <button type="submit" class="btn btn-primary">Poista</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
-      
+</div>
+
 
 
 
