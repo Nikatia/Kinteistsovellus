@@ -13,10 +13,11 @@ namespace Kiinteistosovellus.Controllers
     public class MonthlySpendingsController : Controller
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
-
+     
         // GET: MonthlySpendings
         public ActionResult Index()
         {
+            ViewBag.Error = 0;
             var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.Logins).Include(m => m.MonthlySpendingTypes);
             return View(monthlySpendings.ToList());
         }
@@ -59,20 +60,21 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             if (ModelState.IsValid)
             {
+                ViewBag.Error = 0;
                 db.MonthlySpendings.Add(monthlySpendings);
                 db.SaveChanges();
+               
                 return RedirectToAction("Index");
             }
+            ViewBag.Error = 1;
 
-            return View("Create", monthlySpendings);
-            //return PartialView(monthlySpendings);
-            //return RedirectToAction("_CreateModal",monthlySpendings);
-            //return RedirectToAction("Index");
+            //return View("Create", monthlySpendings);
+
+            //return PartialView("_CreateModal",monthlySpendings);
+            return RedirectToAction("Index");
         }
-
        
-
-        public ActionResult _EditModal(int? id)
+            public ActionResult _EditModal(int? id)
         {
            
             if (id == null)
