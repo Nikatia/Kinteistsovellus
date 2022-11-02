@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.OtherSpendings>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        /* Create Modal Window */
+        $(function () {
+            $(".creNewOtherSpending").click(function () {
+                console.log("Klikkasit uuden kulun luontipainiketta: ");
+                var url = "/OtherSpendings/_ModalCreate";
+                console.log(url);
+
+                var $detailDivCreate = $("#otherSpendingCreate");
+                $.get(url, function (data) {
+                    $detailDivCreate.replaceWith(data);
+                    $('#ModalOtherSpendingCreate').modal('show');
+                });
+            });
+        });
+
+        /*Edit Modal Window*/
+        $(function () {
+            $(".getOtherSpendingId").click(function () {
+                let otherSpendingId = $(this).data("otherspendingid");
+                console.log("Klikkasit kulunumeroa: " + otherSpendingId);
+                var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
+                console.log(url);
+
+                var $detailDivEdit = $("#otherSpendingEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalotherSpendingEdit').modal('show');
+                });
+            });
+        });
+
+        /*Delete Modal Window*/
+        $(function () {
+            $(".delOtherSpendingId").click(function () {
+                let otherSpendingId2 = $(this).data("otherspendingid2");
+                console.log("Klikkasit poistettavaa kulunumeroa: " + otherSpendingId2);
+                var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
+                console.log(url);
+
+                var $detailDivDelete = $("#otherSpendingDelete");
+                $.get(url, function (data) {
+                    $detailDivDelete.replaceWith(data);
+                    $('#ModalOtherSpendingDelete').modal('show');
+                });
+            });
+        });
+
+        /*Automatic change from dots to comma*/
+        function hintaChange() {
+            var startString = document.getElementById("hinta").value;
+            console.log(startString);
+            var endString = startString.replace(".", ",");
+            console.log(endString)
+            document.getElementById("hinta").value = endString;
+        }
+
+        /*Enabling saving decimals*/
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\,.]\d{3})+)(?:[\,.]\d+)?$/.test(value);
+        }
+
+    </script>
+}
+
+<h2>Muut kulut</h2>
+
+<p>
+    <a class="card-link creNewOtherSpending" role="button">Luo uusi</a><br />
+</p>
+
+@*Modal Containers*@
+<div id="otherSpendingCreate"></div>
+<div id="otherSpendingEdit"></div>
+<div id="otherSpendingDelete"></div>
+
+
+<table class="table">
+    <tr>
+        @*---NAMES FROM TIETOHAKEMISTO---*@
+        @*<th>Päivämäärä / Alkupäivämäärä</th>
+            <th>Loppupäivämäärä</th>
+            <th>Kulutustyyppi</th>
+            <th>Kuvaus</th>
+            <th>Hinta yhteensä</th>
+            <th>Nimi</th>*@
+
+        @*---IN MY OPINION BETTER VERSION---*@
+        @*<th>Alkupäivämäärä</th>
+            <th>Loppupäivämäärä</th>
+            <th>Kulutustyyppi</th>
+            <th style="width:40%">Kuvaus</th>
+            <th>Hinta</th>
+            <th>Urakoitsija</th>*@
+
+        @*---IN MY OPINION THE BEST VERSION---*@
+        <th>Alkupvm</th>
+        <th>Loppupvm</th>
+        <th>Kulutustyyppi</th>
+        <th style="width:45%">Kuvaus</th>
+        <th>Hinta</th>
+        <th>Urakoitsija</th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+            <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+            <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+            <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
+
+            <td>
+                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Muokkaa</a> |
+                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Poista</a>
+            </td>
+        </tr>
+    }
+
+</table>

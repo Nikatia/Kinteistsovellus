@@ -129,7 +129,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MonthlySpendingsController.cs" />
     <Compile Include="Controllers\OtherSpendingsController.cs" />
-    <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -275,26 +274,32 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\MonthlySpendings\Create.cshtml" />
+    <Content Include="Views\MonthlySpendings\Delete.cshtml" />
     <Content Include="Views\MonthlySpendings\Details.cshtml" />
+    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\MonthlySpendings\Index.cshtml" />
+
+
     <Content Include="Views\MonthlySpendings\_EditModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_DeleteModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_CreateModal.cshtml" />
 
-    <Content Include="Views\MonthlySpendings\Create.cshtml" />
-    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
+    <Content Include="Views\OtherSpendings\Delete.cshtml" />
+
+    <Content Include="Views\OtherSpendings\Delete.cshtml" />
+
 
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
+
     <Content Include="Views\OtherSpendings\_ModalDelete.cshtml" />
-    <Content Include="Views\Plans\_CreateModal.cshtml" />
-    <Content Include="Views\Plans\Delete.cshtml" />
-    <Content Include="Views\Plans\Details.cshtml" />
-    <Content Include="Views\Plans\Edit.cshtml" />
-    <Content Include="Views\Plans\Index.cshtml" />
+<<<<<<< HEAD
 
-
+=======
+    <Content Include="Views\OtherSpendings\Create.cshtml" />
+>>>>>>> 48394de (Temporary quick fix to create's errors, until I figure out how to do it better.)
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

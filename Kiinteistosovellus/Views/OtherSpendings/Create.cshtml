@@ -1,0 +1,96 @@
+﻿@model Kiinteistosovellus.Models.OtherSpendings
+
+@{
+    ViewBag.Title = "Create";
+}
+<br />
+<h2>Luo uusi</h2>
+
+
+@using (Html.BeginForm("_ModalCreate", "OtherSpendings", FormMethod.Post, new { id = "createForm"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Päivämäärä / Alkupäivämäärä @*Alkupvm*@
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Loppupäivämäärä @*Loppupvm*@
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Kuvaus
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Kulutustyyppi
+            <div class="col-md-10">
+                @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Nimi @*Urakoitsija*@
+            <div class="col-md-10">
+                @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+                Hinta yhteensä
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "hinta", onchange = "hintaChange(this)" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        @*Temporary solution for LoginID until Login system is done*@
+        @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lisätä" form="createForm" class="btn btn-primary" /> @Html.ActionLink("Takaisin", "Index")
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        /*Automatic change from dots to comma*/
+        function hintaChange() {
+            var startString = document.getElementById("hinta").value;
+            console.log(startString);
+            var endString = startString.replace(".", ",");
+            console.log(endString)
+            document.getElementById("hinta").value = endString;
+        }
+
+        /*Enabling saving decimals*/
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\,.]\d{3})+)(?:[\,.]\d+)?$/.test(value);
+        }
+
+    </script>
+}

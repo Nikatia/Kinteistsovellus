@@ -1,0 +1,59 @@
+﻿@model Kiinteistosovellus.Models.OtherSpendings
+
+<div class="modal fade" id="ModalOtherSpendingDelete">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Poistaa kulutus</h3>
+            </div>
+
+            <div class="modal-body">
+                <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
+                <div>
+                    <hr />
+                    <div class="row">
+
+                        <div class="col-sm-2">
+                            <dl class="dl-horizontal">
+                                <dt>Päivämäärä / Alkupäivämäärä @*Alkupvm*@</dt>
+                                <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
+
+                                <dt>Loppupäivämäärä @*Loppupvm*@</dt>
+                                <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
+
+                                <dt>Hinta yhteensä</dt>
+                                <dd>@Html.DisplayFor(model => model.Price)</dd>
+
+                                <dt>Nimi @*Urakoitsija*@</dt>
+                                <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
+
+                                <dt>Kulutustyyppi</dt>
+                                <dd>@Html.DisplayFor(model => model.OtherSpendingTypes.TypeName)</dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-10">
+                            <dl class="dl-horizontal">
+                                <dt>Kuvaus</dt>
+                                <dd>@Html.DisplayFor(model => model.Description)</dd>
+                            </dl>
+                        </div>
+
+                    </div>
+                       
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-actions no-color">
+                            <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                            <a href="@Url.Action("Index", "OtherSpendings")">Peruuta</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
