@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 
-                @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
+                @using (Html.BeginForm("_ModalCreate", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
                 {
                     @Html.AntiForgeryToken()
 

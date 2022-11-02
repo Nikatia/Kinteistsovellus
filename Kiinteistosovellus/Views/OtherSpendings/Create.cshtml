@@ -4,10 +4,10 @@
     ViewBag.Title = "Create";
 }
 <br />
-<h2>Luo uusi kulutus</h2>
+<h2>Luo uusi</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("_ModalCreate", "OtherSpendings", FormMethod.Post, new { id = "createForm"}))
 {
     @Html.AntiForgeryToken()
 
@@ -64,10 +64,10 @@
 
 
         @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lisätä" class="btn btn-primary" /> @Html.ActionLink("Takaisin", "Index")
+                <input type="submit" value="Lisätä" form="createForm" class="btn btn-primary" /> @Html.ActionLink("Takaisin", "Index")
             </div>
         </div>
     </div>
