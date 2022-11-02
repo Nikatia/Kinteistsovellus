@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.Plans>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<iframe id="plansCreate" style="display:none"></iframe>
+<iframe id="plansEdit" style="display:none"></iframe>
+<iframe id="plansDelete" style="display:none"></iframe>
+
+<p>
+    <a class="card-link" id="createNewPlanModal" role="button">Create new</a><br />
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateBegin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desciption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthlyOrOther)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Logins.UserName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateBegin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desciption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthlyOrOther)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Logins.UserName)
+            </td>
+            <td>
+                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.PlandID">Edit</a> |
+                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.PlandID">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+<script type="text/javascript">
+    /* Create Modal Window */
+    //var submitButtonCreate;
+    $(function () {
+        $("#createNewPlanModal").click(function () {
+            console.log("Klikkasit uuden kulun luontipainiketta: ");
+            var url = "/Plans/Create";
+            console.log(url);
+
+            var $detailDivCreate = $("#plansCreate");
+            $.get(url, function (data) {
+
+                $detailDivCreate.replaceWith(data);
+                $('#ModalPlansCreate').modal('show');
+                
+                //console.log($('#ModalPlansCreate'));
+                //submitButtonCreate = $("#ModalPlansCreate");
+                //console.log(submitButtonCreate);
+            });
+            //console.log($('#ModalPlansCreate'));
+            //console.log(submitButtonCreate);
+        });
+    });
+</script>
