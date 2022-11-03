@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Kiinteistosovellus.Models.MonthlySpendings>
 
 
+
 <h2 style="margin-top:15px;margin-left:34%">Kuukausittaiset kulut</h2>
 <p>
         <button type="button" id="CreateMS" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
@@ -95,11 +96,11 @@
 
 </table>
 <script type="text/javascript">
-   
+
     $(document).ready(function () {
         $(".getOrderId").click(function () {
              let MSEditId = $(this).data("orderid");
-            
+
             var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
 
             var $detailDivEdit = $("#ModalPlaceEdit");
@@ -115,7 +116,7 @@
     $(document).ready(function () {
         $(".getId").click(function () {
             let MSDeleteId = $(this).data("id");
-            
+
             var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
 
             var $detailDivEdit = $("#ModalPlaceDelete");
@@ -140,7 +141,7 @@
         });
     });
 
-   
+
         $(document).ready(function () {
             setTimeout(function () {
                // localStorage.setItem('alerted', '');
@@ -149,8 +150,15 @@
                     alert("Kiinnostavaa? Modalin 'Takaisin' -näppäimen ominaisuus 'data-bs-dismiss='modal'' sulkee modalin. RedirectToAction -komento lataa turhaan sivun uudelleen!");
                     localStorage.setItem('alerted', 'yes');
                 }
-               
+
             }, 3000);
         });
+<<<<<<< HEAD
        
+||||||| 44a223f
+        i++;
+    
+=======
+  
+>>>>>>> Task5x_Monthly_spending
 </script>
