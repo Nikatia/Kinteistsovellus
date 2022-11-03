@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MonthlyOrOther)
+                @Html.Display("testi");
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Logins.UserName)
@@ -77,22 +77,22 @@
     //var submitButtonCreate;
     $(function () {
         $("#createNewPlanModal").click(function () {
-            console.log("Klikkasit uuden kulun luontipainiketta: ");
-            var url = "/Plans/Create";
-            console.log(url);
+                            console.log("Klikkasit uuden kulun luontipainiketta: ");
+                            var url = "/Plans/Create";
+                            console.log(url);
 
-            var $detailDivCreate = $("#plansCreate");
+                            var $detailDivCreate = $("#plansCreate");
             $.get(url, function (data) {
 
                 $detailDivCreate.replaceWith(data);
                 $('#ModalPlansCreate').modal('show');
-                
-                //console.log($('#ModalPlansCreate'));
-                //submitButtonCreate = $("#ModalPlansCreate");
-                //console.log(submitButtonCreate);
-            });
-            //console.log($('#ModalPlansCreate'));
-            //console.log(submitButtonCreate);
-        });
+
+                                //console.log($('#ModalPlansCreate'));
+                                //submitButtonCreate = $("#ModalPlansCreate");
+                                //console.log(submitButtonCreate);
+                            });
+                            //console.log($('#ModalPlansCreate'));
+                            //console.log(submitButtonCreate);
+                        });
     });
 </script>
