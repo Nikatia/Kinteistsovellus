@@ -5,8 +5,10 @@
     }*@
 
 <br />
- <a href="/logins/create" class="btn btn-secondary" style="margin-top:15px;margin-left:33%;font-size:22px">Luo uusi</a>
-<br /><br />
+<button type="button" id="CreateLoginsButton" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
+@*<a href="/logins/create" class="btn btn-secondary" style="margin-top:15px;margin-left:33%;font-size:22px">Luo uusi</a>*@
+<br />
+<br />
 <table class="table">
     <tr>
         <th>
@@ -27,12 +29,64 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserPassword)
             </td>
+            
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.LoginID }) |
-                @*@Html.ActionLink("Details", "Details", new { id=item.LoginID }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.LoginID })
+                <button class="getOrderId" data-editlogin="@item.LoginID">Muokkaa</button>
+
+                <button class="getId" data-deletelogin="@item.LoginID">Poista</button>
             </td>
+            
         </tr>
     }
 
 </table>
+<div id="logModalCreate"></div>
+<div id="logModalDelete"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".getOrderId").click(function () {
+            let MSEditId = $(this).data("orderid");
+
+            var url = "/MonthlySpendings/_EditModal/?id=" + LogEditId;
+
+            var $detailDivEdit = $("#Modal");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSEdit").modal("show");
+
+            });
+
+        });
+    });
+
+    $(document).ready(function () {
+        $(".getId").click(function () {
+            let LoginDeleteId = $(this).data("deletelogin");
+
+            var url = "/Logins/_DeleteModalLogins/?id=" + LoginDeleteId;
+
+            var $detailDivEdit = $("#logModalDelete");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalLoginsDelete").modal("show");
+
+            });
+
+        });
+    });
+    $(document).ready(function () {
+        $("#CreateLoginsButton").click(function () {
+            var url = "/Logins/_CreateModalLogins";
+
+            var $detailDivEdit = $("#logModalCreate");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalLoginsCreate").modal("show");
+
+            });
+        });
+    });
+
+
+</script>

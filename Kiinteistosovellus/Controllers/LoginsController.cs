@@ -58,6 +58,10 @@ namespace Kiinteistosovellus.Controllers
             return View(logins);
         }
 
+        public ActionResult _CreateModalLogins()
+        {
+            return PartialView();
+        }
         // GET: Logins/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -108,6 +112,28 @@ namespace Kiinteistosovellus.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
+        {
+            Logins logins = db.Logins.Find(id);
+            db.Logins.Remove(logins);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public ActionResult _DeleteModalLogins(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Logins logins = db.Logins.Find(id);
+            if (logins == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(logins);
+        }
+        [HttpPost, ActionName("_DeleteModalLogins")]
+        [ValidateAntiForgeryToken]
+        public ActionResult _DeleteModalLoginsConfirmed(int id)
         {
             Logins logins = db.Logins.Find(id);
             db.Logins.Remove(logins);

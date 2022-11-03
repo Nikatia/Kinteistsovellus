@@ -1,0 +1,103 @@
+﻿@model Kiinteistosovellus.Models.Logins
+@{
+    ViewBag.Title = "_CreateModalLogins";
+}
+
+
+
+<div class="modal fade" id="ModalLoginsCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Luo uusi käyttäjä</h2>
+            </div>
+            <div class="modal-body">
+
+                @using (Html.BeginForm("Create", "Logins", FormMethod.Post, new { id = "createLoginsForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Käyttäjät</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, "Käyttäjänimi", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsi()", @id = "use", @class = "form-control", @maxlength="15" } })
+                                <label id="userlab" style="color:red">&nbsp; &nbsp;Kirjoita käyttäjänimi!</label>
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div style="clear:both" , class="form-group">
+                            @Html.LabelFor(model => model.UserPassword, "Salasana", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsi()", @id = "pas", @class = "form-control" , @maxlength = "15" } })
+                                <label id="passlab" style="color:red">&nbsp; &nbsp;Kirjoita salasana!</label>
+                                @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        @*<div style="clear:both" class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" id="loginCreateButton" value="Tallenna" class="btn btn-primary" />
+                                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
+                                </div>
+
+                            </div>*@
+
+                    </div>
+                }
+
+
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                }
+
+                <br />
+                <div class="modal-footer" style="display:inline-block">
+                    @*<button type="submit" class="btn btn-primary" id="cr">Validate</button>*@
+                    <button type="submit" id="LogModButton" class="btn btn-primary" form="createLoginsForm">Tallenna</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#LogModButton").prop('disabled', true);
+
+    });
+
+    function jepsi() {
+        var usernameValue = $("#use").val();
+        var passwordValue = $("#pas").val();
+        // alert(usernameValue);
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "") {
+            $("#LogModButton").prop('disabled', true);
+
+
+        } else {
+            $("#LogModButton").prop('disabled', false);
+
+        }
+        if (usernameValue == null || usernameValue == ""){
+            $("#userlab").show();
+        } else {
+            $("#userlab").hide();
+        }
+
+        if (passwordValue == null || passwordValue == "") {
+            $("#passlab").show();
+        } else {
+            $("#passlab").hide();
+        }
+    };
+</script>
+@*//.prop('disabled', true);
+    // .hide() .show()*@
+
