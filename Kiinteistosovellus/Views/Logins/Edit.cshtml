@@ -1,7 +1,7 @@
 ﻿@model Kiinteistosovellus.Models.Logins
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Muokkaa";
 }
 
 <h2>Edit</h2>
@@ -31,15 +31,14 @@
                 @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Tallenna" class="btn btn-primary" />
+                @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+

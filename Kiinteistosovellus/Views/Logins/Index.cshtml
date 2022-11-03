@@ -1,14 +1,12 @@
 ﻿@model IEnumerable<Kiinteistosovellus.Models.Logins>
 
-@{
-    ViewBag.Title = "Index";
-}
+@*@{
+        ViewBag.Title = "Index";
+    }*@
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<br />
+ <a href="/logins/create" class="btn btn-secondary" style="margin-top:15px;margin-left:33%;font-size:22px">Luo uusi</a>
+<br /><br />
 <table class="table">
     <tr>
         <th>
@@ -20,20 +18,21 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserPassword)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LoginID }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.LoginID }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.LoginID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserPassword)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.LoginID }) |
+                @*@Html.ActionLink("Details", "Details", new { id=item.LoginID }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.LoginID })
+            </td>
+        </tr>
+    }
 
 </table>
