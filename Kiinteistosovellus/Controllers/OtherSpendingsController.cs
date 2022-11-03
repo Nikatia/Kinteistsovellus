@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -51,7 +52,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
+        public PartialViewResult _ModalCreate([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
         {
 
             if (ModelState.IsValid)
@@ -59,12 +60,40 @@ namespace Kiinteistosovellus.Controllers
                 Console.WriteLine("IsValid");
                 db.OtherSpendings.Add(otherSpendings);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
 
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-            return View(otherSpendings);
+            return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml", otherSpendings);
+        }
+
+        public PartialViewResult _ModalCreateOthSpendingType()
+        {
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml");
+        }
+
+        // POST: OtherSpendings/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _ModalCreateOthSpendingType([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes otherSpendingType)
+        {
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine("IsValid");
+                db.OtherSpendingTypes.Add(otherSpendingType);
+                db.SaveChanges();
+                return null;
+            }
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml", otherSpendingType);
         }
 
         // GET: OtherSpendings/Edit/5
@@ -141,6 +170,15 @@ namespace Kiinteistosovellus.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [HttpPost]
+        public JsonResult GetList()
+        {
+
+            var itemlist = db.OtherSpendingTypes.ToList();
+            var itemList = itemlist.Select(item => new SelectListItem { Text = item.TypeName, Value = Convert.ToString(item.OtherSpendingTypeId) }).ToList();
+            return Json(new SelectList(itemList, "Value", "Text"));
+        }
 
         protected override void Dispose(bool disposing)
         {

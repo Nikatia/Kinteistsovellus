@@ -63,8 +63,21 @@
                                     <div class="col-md-10">
                                         @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
+                                        <input type="button" value="Lisää uusi" id="lisaaUusiHiddenField"/>
                                     </div>
                                 </div>
+
+                                <div class="form-group" id="hiddenFieldAddType" style="display:none">
+                                    <div class="card card-body">
+                                        <label>Nimi:
+                                            <input type="text" id="pseudoForm" onkeyup="paivitaOikeaKentta()" />
+                                        </label>
+                                        
+                                        <input type="button" value="Lisää" id="lisaaUusiType" />
+                                        
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group">
                                     Kuvaus
@@ -79,16 +92,142 @@
                         </div>
 
                     </div>
-                }
+                 }
+
+
 
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    <input type="submit" form="createForm" value="Lisätä" class="btn btn-primary" />
+                    <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
                     @Html.ActionLink("Takaisin", "Index")
                 </div>
+            </div>
+            <div id="divForPartialPseudo" style="display:none;">
+                
             </div>
 
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var indexUrl = '/OtherSpendings/_ModalCreate';
+    $(document).ready(function () {
+        var divForPartial = $("#divForPartialPseudo")
+        $.ajax({
+            url: "/OtherSpendings/_ModalCreateOthSpendingType",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
+        });
+    });
+
+    function paivitaOikeaKentta() {
+        var falseFormInput = $("#pseudoForm");
+        var realForm = $("#TypeName");
+        realForm.val(falseFormInput.val());
+    }
+
+    $("#lisaaUusiHiddenField").click(function () {
+        console.log("toimii");
+        if (document.getElementById("hiddenFieldAddType").style.display == "none") {
+            console.log("display none");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        } else {
+            console.log("display muu");
+            document.getElementById("hiddenFieldAddType").style.display = "none";
+            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        }
+        
+        
+    });
+
+    function submitModal() {
+        //console.log("toimiiko");
+        var form = new FormData(document.getElementById("createForm"));
+        //console.log(parent.document.getElementById("ModalPlansCreate"));
+        
+        var detailDivCreate = parent.document.getElementById("ModalOtherSpendingCreate");
+
+        //console.log(data);
+        $.ajax({
+            url: "/OtherSpendings/_ModalCreate",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: "POST",
+            data: form,
+            success: function (result) {
+                console.log(result);
+                if (result == "") {
+                    //console.log("null tuli");
+                    window.location.href = indexUrl;
+                } else {
+                    //console.log("nullia ei tullut");
+                    $(detailDivCreate).html("");
+                    $(detailDivCreate).replaceWith(result);
+                    $("#ModalOtherSpendingCreate").modal("show");
+                }
+
+            }
+        });
+    };
+
+    $("#lisaaUusiType").click(function () {
+        //console.log(document.getElementById("createTypeForm"));
+        var formCreateType = new FormData(document.getElementById("createTypeForm"));
+        $.ajax({
+            url: "/OtherSpendings/_ModalCreateOthSpendingType",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: "POST",
+            data: formCreateType,
+            success: function (result) {
+                console.log(result);
+                if (result == "") {
+                    updateDropdownList();
+                    $("#pseudoForm").val("");
+                    $("#TypeName").val("");
+                } else {
+                    console.log("epäonnistui");
+                    
+                }
+            }
+        });
+    });
+
+    function updateDropdownList() {
+        var url = "GetList";
+        $.ajax({
+            data: {},
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            url: url,
+            success: function (result) {
+                $("#OtherSpendingTypeID").empty();
+                //$("#OtherSpendingTypeID").append('<option value="">Select One</option>');
+                $.each(result, function (i, item) {
+                    $("#OtherSpendingTypeID").append('<option value="' + item.Value + '">' +
+                        item.Text + '</option>');
+                    // here we are adding option for States
+                });
+            },
+            error: function (ex) {
+                alertify.alert('We face some technical difficulties. Hello World');
+            }
+        });  
+    };
+
+
+</script>
