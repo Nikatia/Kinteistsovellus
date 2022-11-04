@@ -60,7 +60,7 @@ namespace Kiinteistosovellus.Controllers
                 Console.WriteLine("IsValid");
                 db.OtherSpendings.Add(otherSpendings);
                 db.SaveChanges();
-                return null;
+                return null; //palauttaa nullin, jotta ajax voi erotella onnistuneen lisäyksen epäonnistumisesta
             }
 
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
@@ -68,7 +68,7 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml", otherSpendings);
         }
 
-        public PartialViewResult _ModalCreateOthSpendingType()
+        public PartialViewResult _ModalCreateOthSpendingType()//vain sitä varten, että modaalin avautuessa ajax-pyynnöllä luodaan partial view
         {
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
@@ -83,7 +83,7 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public PartialViewResult _ModalCreateOthSpendingType([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes otherSpendingType)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)//On aina true jostain syystä PITÄÄ KORJATA!!!
             {
                 Console.WriteLine("IsValid");
                 db.OtherSpendingTypes.Add(otherSpendingType);
