@@ -37,13 +37,15 @@
 
                     </li>
                     <li class="nav-item">
-<<<<<<< HEAD
                         <a class="nav-link" href="/Plans/Index">Suunnitelmat</a>
                     </li>
-=======
->>>>>>> e07b090fdbf283985190507266bc17f8a1023dbc
+<<<<<<< HEAD
                         <a class="nav-link" href="/logins/index">Logins</a>
 
+=======
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Contractors/Index">Urakoitsijat</a>
+>>>>>>> 6711ac7 (Ensimmäinen urakoitsijoiden perusnäkymä)
                     </li>
                     @*<li class="nav-item dropdown">
             <a class="nav-link" href="#">About</a>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Kiinteistosovellus.ViewModels.PersonsContacts>
+
+@{
+    ViewBag.Title = "_Persons";
+}
+
+<p>
+    <a href="">Create Contact (inside can also create contact person)</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ContractorID)</th>
+            <th>@Html.DisplayNameFor(model => model.PersonID)</th>
+            <th>@Html.DisplayNameFor(model => model.ContactID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.LoginID)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ContractorID)</td>
+                <td>@Html.DisplayFor(modelItem => item.PersonID)</td>
+                <td>@Html.DisplayFor(modelItem => item.ContactID)</td>
+                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.LoginID)</td>
+                <td>
+                    <a href="" class="card-link" title="Muokkaa">Person edit</a>
+                    <a href="" class="card-link" title="Poistaa">Contact edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
