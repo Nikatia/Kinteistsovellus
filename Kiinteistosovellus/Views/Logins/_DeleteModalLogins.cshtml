@@ -1,0 +1,67 @@
+﻿@model Kiinteistosovellus.Models.Logins
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+
+
+<div class="modal fade" id="ModalLoginsDelete">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+            </div>
+            <div class="modal-body">
+
+                <h3>Oletko varma, että haluat poistaa tämän käyttäjän?</h3>
+                <div>
+
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UserName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UserPassword)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UserPassword)
+                        </dd>
+
+                    </dl>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                <div class="modal-footer" style="display:inline-block">
+
+                    <button type="submit" class="btn btn-primary">Poista</button>
+                    @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button> //Ei voi käyttää, koska div id vaihtuu*@
+                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
+                </div>
+                       
+                    }
+
+
+
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

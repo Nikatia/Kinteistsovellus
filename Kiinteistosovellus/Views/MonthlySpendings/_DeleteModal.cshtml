@@ -35,7 +35,7 @@
 
                         <dd>
                             @if (Model.DateBegin != null)
-                            {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
+                            {@Convert.ToDateTime(Model.DateEnd).ToString("dd/MM/yyyy")}
                         @*@Html.DisplayFor(model => model.DateEnd)*@
                         </dd>
 
@@ -103,10 +103,10 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    <div class="modal-footer" style="display:inline-block">
-                        <button type="submit" class="btn btn-primary">Poista</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
-                    </div>
+            <div class="modal-footer" style="display:inline-block">
+                <button type="submit" class="btn btn-primary">Poista</button>
+                @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
+            </div>
                 }
             </div>
         </div>
