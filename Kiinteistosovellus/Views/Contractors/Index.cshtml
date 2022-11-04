@@ -36,10 +36,9 @@
         <form>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-primary font-weight-bold" style="padding-left:22px; padding-right:22px"> ID </span>
+                    <span class="input-group-text bg-primary font-weight-bold" style="padding-left:28px; padding-right:29px"> ID </span>
                 </div>
                 <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Urakoitsija" disabled>
-                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Kuvaus" disabled>
                 <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Osoite" disabled>
                 <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Postinumero" disabled>
                 <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Postitoimipaikka" disabled>
@@ -52,28 +51,32 @@
         @foreach (var item in Model)
         {
             <div class="card">
-                
-                <a class="showOrderClass" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID">
-                    <form>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID</span>
-                            </div>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Description" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.PostCode" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.City" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.Country" disabled>
+                <form>
+                    <div class="input-group">
 
-                        </div>
-                    </form>
-                </a>
-                
+                        <a class="showOrderClass" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID ˅</span>
+                            </div>
+                        </a>
+
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.PostCode" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.City" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.Country" disabled>
+
+                    </div>
+                </form>
+
                 <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" data-bs-toggle="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.ContractorID">
                     <div class="px-2" style="text-align:right; padding-top:5px">
                         <a class="card-link getOrderId" data-orderid="@item.ContractorID">Muokkaa urakoitsija</a>
                         <a class="card-link delOrderId" data-orderid3="@item.ContractorID">Poistaa urakoitsija</a>
+                    </div>
+
+                    <div class="px-2">
+                        @item.Description
                     </div>
 
                     <div class="card-body">
