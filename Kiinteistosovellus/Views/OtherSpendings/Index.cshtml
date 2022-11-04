@@ -10,11 +10,9 @@
         /* Create Modal Window */
         $(function () {
             $(".creNewOtherSpending").click(function () {
-                console.log("Klikkasit uuden kulun luontipainiketta: ");
                 var url = "/OtherSpendings/_ModalCreate";
-                console.log(url);
-
                 var $detailDivCreate = $("#otherSpendingCreate");
+
                 $.get(url, function (data) {
                     $detailDivCreate.replaceWith(data);
                     $('#ModalOtherSpendingCreate').modal('show');
@@ -26,11 +24,9 @@
         $(function () {
             $(".getOtherSpendingId").click(function () {
                 let otherSpendingId = $(this).data("otherspendingid");
-                console.log("Klikkasit kulunumeroa: " + otherSpendingId);
                 var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
-                console.log(url);
-
                 var $detailDivEdit = $("#otherSpendingEdit");
+
                 $.get(url, function (data) {
                     $detailDivEdit.replaceWith(data);
                     $('#ModalotherSpendingEdit').modal('show');
@@ -42,11 +38,9 @@
         $(function () {
             $(".delOtherSpendingId").click(function () {
                 let otherSpendingId2 = $(this).data("otherspendingid2");
-                console.log("Klikkasit poistettavaa kulunumeroa: " + otherSpendingId2);
                 var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
-                console.log(url);
-
                 var $detailDivDelete = $("#otherSpendingDelete");
+
                 $.get(url, function (data) {
                     $detailDivDelete.replaceWith(data);
                     $('#ModalOtherSpendingDelete').modal('show');
@@ -57,9 +51,8 @@
         /*Automatic change from dots to comma*/
         function hintaChange() {
             var startString = document.getElementById("hinta").value;
-            console.log(startString);
             var endString = startString.replace(".", ",");
-            console.log(endString)
+
             document.getElementById("hinta").value = endString;
         }
 
@@ -118,7 +111,7 @@
             <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
             <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
             <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
-            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            <td style="word-break:break-word">@Html.DisplayFor(modelItem => item.Description)</td>
             <td>@Html.DisplayFor(modelItem => item.Price)</td>
             <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
 

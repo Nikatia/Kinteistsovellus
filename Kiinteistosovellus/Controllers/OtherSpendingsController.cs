@@ -24,6 +24,20 @@ namespace Kiinteistosovellus.Controllers
 
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
+
+
+        // GET: OtherSpendings/Create
+        public ActionResult Create()
+        {
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return View();
+        }
+
         public ActionResult _ModalCreate()
         {
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
@@ -32,7 +46,7 @@ namespace Kiinteistosovellus.Controllers
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return PartialView("_ModalCreate");
+            return PartialView();
         }
 
         // POST: OtherSpendings/Create
@@ -40,7 +54,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _ModalCreate([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
+        public PartialViewResult _ModalCreate([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
         {
 
             if (ModelState.IsValid)
@@ -48,17 +62,43 @@ namespace Kiinteistosovellus.Controllers
                 Console.WriteLine("IsValid");
                 db.OtherSpendings.Add(otherSpendings);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-            return View("Create", otherSpendings);
+            return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml", otherSpendings);
         }
 
+        public PartialViewResult _ModalCreateOthSpendingType()//vain sitä varten, että modaalin avautuessa ajax-pyynnöllä luodaan partial view
+        {
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
 
+            return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml");
+        }
+
+        // POST: OtherSpendings/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _ModalCreateOthSpendingType([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes otherSpendingType)
+        {
+            if (ModelState.IsValid)//On aina true jostain syystä PITÄÄ KORJATA!!!
+            {
+                Console.WriteLine("IsValid");
+                db.OtherSpendingTypes.Add(otherSpendingType);
+                db.SaveChanges();
+                return null;
+            }
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml", otherSpendingType);
+        }
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
         // GET: OtherSpendings/Edit/5
