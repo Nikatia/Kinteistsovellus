@@ -41,6 +41,10 @@ namespace Kiinteistosovellus.Controllers
         public PartialViewResult Create()
         {
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
+            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
+            slMonthOrOth.Add(new SelectListItem { Value="1", Text="Kuukausittainen meno"});
+            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
+            ViewBag.MonthlyOrOther = slMonthOrOth;
             return PartialView("/Views/Plans/_CreateModal.cshtml");
         }
 
