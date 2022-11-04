@@ -77,6 +77,20 @@ namespace Kiinteistosovellus.Controllers
             return View(logins);
         }
 
+        public ActionResult _EditModalLogins(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Logins logins = db.Logins.Find(id);
+            if (logins == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(logins);
+        }
+
         // POST: Logins/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

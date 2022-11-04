@@ -31,7 +31,7 @@
             </td>
             
             <td>
-                <button class="getOrderId" data-editlogin="@item.LoginID">Muokkaa</button>
+                <button class="getO" data-editlogin="@item.LoginID">Muokkaa</button>
 
                 <button class="getId" data-deletelogin="@item.LoginID">Poista</button>
             </td>
@@ -42,18 +42,19 @@
 </table>
 <div id="logModalCreate"></div>
 <div id="logModalDelete"></div>
+<div id="logModalEdit"></div>
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $(".getOrderId").click(function () {
-            let MSEditId = $(this).data("orderid");
+        $(".getO").click(function () {
+            let LogEditId = $(this).data("editlogin");
 
-            var url = "/MonthlySpendings/_EditModal/?id=" + LogEditId;
+            var url = "/Logins/_EditModalLogins/?id=" + LogEditId;
 
-            var $detailDivEdit = $("#Modal");
+            var $detailDivEdit = $("#logModalEdit");
             $.get(url, function (data) {
                 $detailDivEdit.replaceWith(data);
-                $("#ModalMSEdit").modal("show");
+                $("#ModalLoginsEdit").modal("show");
 
             });
 

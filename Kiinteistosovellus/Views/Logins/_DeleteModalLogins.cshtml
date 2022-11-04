@@ -43,16 +43,13 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="modal-footer" style="display:inline-block">
-                            @*<button type="submit" class="btn btn-primary" id="cr">Validate</button>*@
-                            <button type="submit"  class="btn btn-primary" >Poista</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
+                <div class="modal-footer" style="display:inline-block">
 
-                        </div>
-                        @*<div class="form-actions no-color">
-                <input type="submit" value="Poista" class="btn btn-primary" />
-                @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
-            </div>*@
+                    <button type="submit" class="btn btn-primary">Poista</button>
+                    @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button> //Ei voi käyttää, koska div id vaihtuu*@
+                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
+                </div>
+                       
                     }
 
 
