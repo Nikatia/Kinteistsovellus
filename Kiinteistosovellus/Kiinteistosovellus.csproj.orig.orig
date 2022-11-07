@@ -283,7 +283,6 @@
     <Content Include="Views\MonthlySpendings\_CreateModal.cshtml" />
     <Content Include="Views\MonthlySpendings\Create.cshtml" />
     <Content Include="Views\MonthlySpendings\Edit.cshtml" />
-   
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
@@ -293,18 +292,19 @@
     <Content Include="Views\Plans\Details.cshtml" />
     <Content Include="Views\Plans\Edit.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
-
-
+<<<<<<< HEAD
+=======
     <Content Include="Views\MonthlySpendings\Create.cshtml" />
-    <Content Include="Views\OtherSpendings\Create.cshtml" />
     <Content Include="Views\MonthlySpendings\Edit.cshtml" />
-
+>>>>>>> e07b090fdbf283985190507266bc17f8a1023dbc
     <Content Include="Views\Logins\Create.cshtml" />
     <Content Include="Views\Logins\Delete.cshtml" />
     <Content Include="Views\Logins\Details.cshtml" />
     <Content Include="Views\Logins\Edit.cshtml" />
     <Content Include="Views\Logins\Index.cshtml" />
->>>>>>> 2dd95b7 (script disabled/enable)
+    <Content Include="Views\Logins\_CreateModalLogins.cshtml" />
+    <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
+    <Content Include="Views\Logins\_EditModalLogins.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -292,6 +292,8 @@
     <Content Include="Views\Plans\Details.cshtml" />
     <Content Include="Views\Plans\Edit.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
+    <Content Include="Views\MonthlySpendings\Create.cshtml" />
+    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\Logins\Create.cshtml" />
     <Content Include="Views\Logins\Delete.cshtml" />
     <Content Include="Views\Logins\Details.cshtml" />
