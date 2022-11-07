@@ -142,16 +142,20 @@
     });
 
 
-        //$(document).ready(function () {
-        //    setTimeout(function () {
-        //       // localStorage.setItem('alerted', '');
-        //        var alerted = localStorage.getItem('alerted') || '';
-        //        if (alerted != 'yes') {
-        //            alert("Kiinnostavaa? Modalin 'Takaisin' -näppäimen ominaisuus 'data-bs-dismiss='modal'' sulkee modalin. RedirectToAction -komento lataa turhaan sivun uudelleen!" Tosin ei toimi muokkaa tai poisto -toiminnoissa, koska alkuperäinen div id korvattu datalla.);
-        //            localStorage.setItem('alerted', 'yes');
-        //        }
+        $(document).ready(function () {
+            setTimeout(function () {
+               // localStorage.setItem('alerted', '');
+                var alerted = localStorage.getItem('alerted') || '';
+                if (alerted != 'yes') {
+                    alert("Kiinnostavaa? Modalin 'Takaisin' -näppäimen ominaisuus 'data-bs-dismiss='modal'' sulkee modalin. RedirectToAction -komento lataa turhaan sivun uudelleen!");
+                    localStorage.setItem('alerted', 'yes');
+                }
 
-        //    }, 3000);
-        //});
+            }, 3000);
+        });
+<<<<<<< HEAD
+  
+=======
 
+>>>>>>> 62eea16 (muokkausta)
 </script>

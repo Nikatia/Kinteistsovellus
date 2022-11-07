@@ -107,7 +107,7 @@
                 </div>
             <div class="modal-footer" style="display:inline-block">
                 <button type="submit" class="btn btn-primary" form="editMSForm">Tallenna</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
+                @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
             </div>
         </div>
     </div>

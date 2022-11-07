@@ -1,0 +1,40 @@
+﻿@model Kiinteistosovellus.Models.Logins
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+<h3>Oletko varma, että haluat poistaa tämän?</h3>
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPassword)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit"  value="Poista" class="btn btn-primary" />
+    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
+</div>
+    }
+</div>
