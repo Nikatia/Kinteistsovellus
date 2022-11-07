@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.Contractors>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        /*-----FOR ACCORDION-COLLAPSE FUNCTIONALITY-----*/
+        $(function () {
+            $(".showOrderClass").click(function () {
+                let contractorId = $(this).data("contractorid");
+                var url = "/Contractors/_Persons/?ContractorID=" + contractorId;
+                $("#contractorDetails_" + contractorId).append(" <b>Ladataan tilauksen " + contractorId + " rivejä...</b>");
+                var $detailDiv = $("#contractorDetails_" + contractorId);
+                $.get(url, function (data) {
+                    $detailDiv.replaceWith(data);
+                });
+
+            });
+        });
+    </script>
+}
+
+<h2>Urakoitsijat</h2>
+
+<p>
+    <a class="card-link" role="button">Luo uusi</a><br />
+</p>
+
+
+<div class="container-fluid">
+    <div class="card-header">
+
+        <form>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-primary font-weight-bold" style="padding-left:28px; padding-right:29px"> ID </span>
+                </div>
+                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Urakoitsija" disabled>
+                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Osoite" disabled>
+                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Postinumero" disabled>
+                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Postitoimipaikka" disabled>
+                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Maa" disabled>
+            </div>
+        </form>
+
+    </div>
+    <div id="accordion">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <form>
+                    <div class="input-group">
+
+                        <a class="showOrderClass" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID ˅</span>
+                            </div>
+                        </a>
+
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.PostCode" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.City" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.Country" disabled>
+
+                    </div>
+                </form>
+
+                <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" data-bs-toggle="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.ContractorID">
+                    <div class="px-2" style="text-align:right; padding-top:5px">
+                        <a class="card-link getOrderId" data-orderid="@item.ContractorID">Muokkaa urakoitsija</a>
+                        <a class="card-link delOrderId" data-orderid3="@item.ContractorID">Poistaa urakoitsija</a>
+                    </div>
+
+                    <div class="px-2">
+                        @item.Description
+                    </div>
+
+                    <div class="card-body">
+                        <div id="contractorDetails_@item.ContractorID"></div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+
+</div>

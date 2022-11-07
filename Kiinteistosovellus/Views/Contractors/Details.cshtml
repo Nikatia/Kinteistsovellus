@@ -1,0 +1,58 @@
+﻿@model Kiinteistosovellus.Models.Contractors
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Contractors</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StreetAdress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StreetAdress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logins.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Logins.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Post.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Post.Country)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ContractorID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
