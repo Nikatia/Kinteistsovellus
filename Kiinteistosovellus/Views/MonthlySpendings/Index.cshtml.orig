@@ -1,0 +1,161 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.MonthlySpendings>
+
+
+
+<h2 style="margin-top:15px;margin-left:34%">Kuukausittaiset kulut</h2>
+<p>
+        <button type="button" id="CreateMS" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
+</p>
+
+<div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
+<div id="ModalPlaceDelete"></div>
+<div id="ModalPlaceCreate"></div>
+
+<table class="table">
+    <tr>
+        <th>
+            Aloituspvm
+
+        </th>
+        <th>
+            Päättymispvm
+        </th>
+        <th>
+            Kulutustyyppi
+        </th>
+        <th>
+            Mittayksikkö
+        </th>
+        <th>
+            Kokonaiskulutus
+        </th>
+        <th>
+            Yksikköhinta
+        </th>
+        <th>
+            Siirtomaksu
+        </th>
+        <th>
+            Kokonaishinta
+        </th>
+        <th>
+            Yrityksen nimi
+        </th>
+        <th>
+            Käyttäjän nimi
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.DateBegin != null)
+            {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
+        @*@Html.DisplayFor(modelItem => item.DateBegin)*@
+        </td>
+        <td>
+            @if (item.DateEnd != null)
+            {@Convert.ToDateTime(item.DateEnd).ToString("dd/MM/yyyy")}
+        @*@Html.DisplayFor(modelItem => item.DateEnd)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
+        </td>
+        <td>
+
+            @Html.DisplayFor(modelItem => item.AmountOfUnits)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PricePerUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransferPayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contractors.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Logins.UserName)
+        </td>
+
+        <td>
+            <button class="getOrderId" data-orderid="@item.MonthlySpendingID">Muokkaa</button>
+
+            <button class="getId" data-id="@item.MonthlySpendingID">Poista</button>
+        </td>
+    </tr>
+}
+
+</table>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".getOrderId").click(function () {
+             let MSEditId = $(this).data("orderid");
+
+            var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
+
+            var $detailDivEdit = $("#ModalPlaceEdit");
+            $.get(url, function (data) {
+               $detailDivEdit.replaceWith(data);
+                $("#ModalMSEdit").modal("show");
+
+            });
+
+        });
+    });
+
+    $(document).ready(function () {
+        $(".getId").click(function () {
+            let MSDeleteId = $(this).data("id");
+
+            var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
+
+            var $detailDivEdit = $("#ModalPlaceDelete");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSDelete").modal("show");
+
+            });
+
+        });
+    });
+    $(document).ready(function () {
+        $("#CreateMS").click(function () {
+            var url = "/MonthlySpendings/_CreateModal";
+
+            var $detailDivEdit = $("#ModalPlaceCreate");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSCreate").modal("show");
+
+            });
+        });
+    });
+
+
+        $(document).ready(function () {
+            setTimeout(function () {
+               // localStorage.setItem('alerted', '');
+                var alerted = localStorage.getItem('alerted') || '';
+                if (alerted != 'yes') {
+                    alert("Kiinnostavaa? Modalin 'Takaisin' -näppäimen ominaisuus 'data-bs-dismiss='modal'' sulkee modalin. RedirectToAction -komento lataa turhaan sivun uudelleen!");
+                    localStorage.setItem('alerted', 'yes');
+                }
+
+            }, 3000);
+        });
+<<<<<<< HEAD
+  
+=======
+
+>>>>>>> 62eea16 (muokkausta)
+</script>
