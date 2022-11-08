@@ -287,6 +287,8 @@
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalDelete.cshtml" />
+    <Content Include="Views\OtherSpendings\Edit.cshtml" />
+    <Content Include="Views\OtherSpendings\Create.cshtml" />
     <Content Include="Views\Plans\_CreateModal.cshtml" />
     <Content Include="Views\Plans\Delete.cshtml" />
     <Content Include="Views\Plans\Details.cshtml" />
