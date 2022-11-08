@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 
-                @using (Html.BeginForm("_ModalCreate", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
+                @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -52,25 +52,36 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    Kulutustyyppi
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
+                                        <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="hiddenFieldAddType" style="display:none">
+                                    Uusin tyypin nimi:
+                                    <div class="col-md-10 input-group">
+                                        <input type="text" maxlength="100" size="500" class="form-control" id="pseudoForm" onkeyup="paivitaOikeaKentta()" />
+                                    </div>
+                                    <div style="text-align: right; padding-right: 5px">
+                                        <a class="card-link" role="button" id="lisaaUusiType">Lisää</a>
+                                    </div>
+                                </div>
+
                                 @*Temporary solution for LoginID until Login system is done*@
                                 @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
 
                             </div>
 
                             <div class="col-sm-6">
-
-                                <div class="form-group">
-                                    Kulutustyyppi
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
                                     Kuvaus
-                                    <div>
-                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "6", @cols = "56" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
                                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -85,11 +96,135 @@
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    <input type="submit" form="createForm" value="Lisätä" class="btn btn-primary" />
+                    <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
                     @Html.ActionLink("Takaisin", "Index")
                 </div>
+            </div>
+            <div id="divForPartialPseudo" style="display:none;">
+
             </div>
 
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var indexUrl = '/OtherSpendings/Index'; //Indexin url-osoite, johon submitModal siirtyy onnistuneen lisäyksen jälkeen
+
+    //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
+    $(document).ready(function () {
+        var divForPartial = $("#divForPartialPseudo"); //Se kohta dokumentissa, minne partial view lisätään
+        $.ajax({
+            url: "/OtherSpendings/_ModalCreateOthSpendingType", //Haetaan haluttu controller-action
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get', //pitää spesifioida get, jos halutaan get-tyyppinen toiminto
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html(""); //kaiken varalta tyhjennetään ensin partial view kohta
+                $(divForPartial).html(result); //sitten se täytetään partialViewResultista saadulla partial viewillä
+            }
+        });
+    });
+
+    //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
+    function paivitaOikeaKentta() {
+        var falseFormInput = $("#pseudoForm");
+        var realForm = $("#TypeName");
+        realForm.val(falseFormInput.val());
+    }
+
+    //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
+    $("#lisaaUusiHiddenField").click(function () {
+        console.log("toimii");
+        if (document.getElementById("hiddenFieldAddType").style.display == "none") {
+            console.log("display none");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        } else {
+            console.log("display muu");
+            document.getElementById("hiddenFieldAddType").style.display = "none";
+            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        }
+
+
+    });
+
+    //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
+    function submitModal() {
+        var form = new FormData(document.getElementById("createForm"));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta
+        var detailDivCreate = parent.document.getElementById("ModalOtherSpendingCreate"); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan
+
+        $.ajax({
+            url: "/OtherSpendings/_ModalCreate",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST', //post pitää spesifioida tässä, jotta saadaan post-tyyppinen toiminto controllerissa
+            type: "POST",
+            data: form, //aikaisemmin mainittu formdata viedään ajax-pyynnöllä controllerille
+            success: function (result) {
+                console.log("Result:")
+                console.log(result);
+                if (result == "") { //Jos lisäys onnistui, controller palauttaa nullin
+                    window.location.href = indexUrl; //Onnistumisen jälkeen käyttäjä ohjataan indexiin, jossa päivittyneet tiedot
+                } else {//tallentaminen ei onnistunut, koska modelstate.isvalid ei ollut true
+                    $(detailDivCreate).html(""); //tyhjennetään vanha modaali (en tiedä, onko pakollista)
+                    $(detailDivCreate).replaceWith(result); //luodaan uusi modaali, jossa validate messaget
+                    $("#ModalOtherSpendingCreate").modal("show");//näytetään modaali
+                }
+
+            }
+        });
+    };
+
+    //luodaan uusi kulutyyppi
+    $("#lisaaUusiType").click(function () {
+        var formCreateType = new FormData(document.getElementById("createTypeForm"));//piilotetusta (display none) kulutyyppi-formista tehdään formdata muuttuja
+        $.ajax({
+            url: "/OtherSpendings/_ModalCreateOthSpendingType",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST', //jälleen post pitää olla
+            type: "POST",
+            data: formCreateType, //formdata viedään controlleriin
+            success: function (result) {
+                console.log(result);
+                if (result == "") {
+                    updateDropdownList(); //päivitetään dropdownlist, jossa kaikki kulutyypit
+                    $("#pseudoForm").val(""); //tyhjennetään oikea ja pseudo kenttä
+                    $("#TypeName").val("");
+                } else {//controllerilla vikaa, tähän ei pääse jostain syystä. Modelstate.isvalid on aina true, vaikka lähettäisi tyhjät tiedot
+                    console.log("epäonnistui");
+
+                }
+            }
+        });
+    });
+
+    //päivitetään dropdownlist (kopioitu netistä)
+    function updateDropdownList() {
+        var url = "GetList";
+        $.ajax({
+            data: {},
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            url: url,
+            success: function (result) {
+                $("#OtherSpendingTypeID").empty();
+                //$("#OtherSpendingTypeID").append('<option value="">Select One</option>');
+                $.each(result, function (i, item) {
+                    $("#OtherSpendingTypeID").append('<option value="' + item.Value + '">' +
+                        item.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alertify.alert('We face some technical difficulties. Hello World');
+            }
+        });
+    };
+
+
+</script>
