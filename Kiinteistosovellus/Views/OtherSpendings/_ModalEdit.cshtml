@@ -157,7 +157,7 @@
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
     function submitModal() {
         var form = new FormData(document.getElementById("editForm"));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta
-        var detailDivEdit = parent.document.getElementById("otherSpendingEdit"); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan
+        var detailDivEdit = parent.document.getElementById("ModalotherSpendingEdit"); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan
 
         $.ajax({
             url: "/OtherSpendings/_ModalEdit",
@@ -175,7 +175,7 @@
                 } else {//tallentaminen ei onnistunut, koska modelstate.isvalid ei ollut true
                     $(detailDivEdit).html(""); //tyhjennetään vanha modaali (en tiedä, onko pakollista)
                     $(detailDivEdit).replaceWith(result); //luodaan uusi modaali, jossa validate messaget
-                    $("#ModalOtherSpendingEdit").modal("show");//näytetään modaali
+                    $("#ModalotherSpendingEdit").modal("show");//näytetään modaali
                 }
 
             }
