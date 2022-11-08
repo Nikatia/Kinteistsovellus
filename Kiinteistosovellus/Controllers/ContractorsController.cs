@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
 
@@ -15,6 +16,9 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
+
+        // ----------------------------------------------- INDEX PART -----------------------------------------------
+
         // GET: Contractors
         public ActionResult Index()
         {
@@ -22,28 +26,49 @@ namespace Kiinteistosovellus.Controllers
             return View(contractors.ToList());
         }
 
-
-        // GET: Contractors/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult _Persons(int? contractorId)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contractors contractors = db.Contractors.Find(id);
-            if (contractors == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contractors);
+
+            var contactPersonList = from p in db.Persons
+                                    join cnt in db.Contacts on p.PersonID equals cnt.PersonID
+                                    join ctr in db.Contractors on p.ContractorID equals ctr.ContractorID
+                                    where p.ContractorID == contractorId
+                                    //orderby//
+                                    select new PersonsContacts
+                                    {
+                                        ContractorID = (int)p.ContractorID,
+                                        PersonID = p.PersonID,
+                                        ContactID = (int)cnt.ContactID,
+                                        FirstName = p.FirstName,
+                                        LastName = p.LastName,
+                                        Description = p.Description,
+                                        PhoneNumber = cnt.PhoneNumber,
+                                        Email = cnt.Email,
+                                        LoginID = cnt.LoginID,
+                                    };
+            ViewBag.ContractorId = contractorId;
+            return PartialView(contactPersonList.ToList());
+
         }
+
+
+        // ----------------------------------------------- CREATE PART -----------------------------------------------
 
         // GET: Contractors/Create
         public ActionResult Create()
         {
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "Country");
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
             return View();
+        }
+
+        public ActionResult _ModalCreate()
+        {
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+            return PartialView();
         }
 
         // POST: Contractors/Create
@@ -51,19 +76,23 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public PartialViewResult _ModalCreate([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
         {
             if (ModelState.IsValid)
             {
                 db.Contractors.Add(contractors);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
 
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", contractors.LoginID);
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "Country", contractors.PostID);
-            return View(contractors);
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
+            return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
         }
+
+
+        // ----------------------------------------------- EDIT PART -----------------------------------------------
 
         // GET: Contractors/Edit/5
         public ActionResult Edit(int? id)
@@ -100,6 +129,9 @@ namespace Kiinteistosovellus.Controllers
             return View(contractors);
         }
 
+
+        // ----------------------------------------------- DELETE PART -----------------------------------------------
+
         // GET: Contractors/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -126,6 +158,9 @@ namespace Kiinteistosovellus.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -135,29 +170,7 @@ namespace Kiinteistosovellus.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult _Persons(int? contractorId)
-        {
 
-            var contactPersonList = from p in db.Persons
-                                join cnt in db.Contacts on p.PersonID equals cnt.PersonID
-                                join ctr in db.Contractors on p.ContractorID equals ctr.ContractorID
-                                where p.ContractorID == contractorId
-                                //orderby//
-                                select new PersonsContacts
-                                {
-                                    ContractorID = (int)p.ContractorID,
-                                    PersonID = p.PersonID,
-                                    ContactID = (int)cnt.ContactID,
-                                    FirstName = p.FirstName,
-                                    LastName = p.LastName,
-                                    Description = p.Description,
-                                    PhoneNumber = cnt.PhoneNumber,
-                                    Email = cnt.Email,
-                                    LoginID = cnt.LoginID,
-                                };
-            ViewBag.ContractorId = contractorId;
-            return PartialView(contactPersonList.ToList());
 
-        }
     }
 }

@@ -20,15 +20,30 @@
 
             });
         });
+
+        /* Create Modal Window */
+        $(function () {
+            $(".creNewContractor").click(function () {
+                var url = "/Contractors/_ModalCreate";
+                var $detailDivCreate = $("#contractorCreate");
+
+                $.get(url, function (data) {
+                    $detailDivCreate.replaceWith(data);
+                    $('#ModalContractorsCreate').modal('show');
+                });
+            });
+        });
     </script>
 }
 
 <h2>Urakoitsijat</h2>
 
 <p>
-    <a class="card-link" role="button">Luo uusi</a><br />
+    <a class="card-link creNewContractor" role="button">Luo uusi</a><br />
 </p>
 
+@*Modal Containers*@
+<iframe id="contractorCreate" style="display:none"></iframe>
 
 <div class="container-fluid">
     <div class="card-header">

@@ -302,7 +302,6 @@
     <Content Include="Views\Logins\Edit.cshtml" />
     <Content Include="Views\Contractors\Create.cshtml" />
     <Content Include="Views\Contractors\Delete.cshtml" />
-    <Content Include="Views\Contractors\Details.cshtml" />
     <Content Include="Views\Contractors\Edit.cshtml" />
     <Content Include="Views\Contractors\Index.cshtml" />
     <Content Include="Views\Contractors\_Persons.cshtml" />
@@ -310,6 +309,7 @@
     <Content Include="Views\Logins\_CreateModalLogins.cshtml" />
     <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
     <Content Include="Views\Logins\_EditModalLogins.cshtml" />
+    <Content Include="Views\Contractors\_ModalCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
