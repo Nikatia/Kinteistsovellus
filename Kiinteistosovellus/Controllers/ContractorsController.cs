@@ -54,20 +54,70 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
+        //// GET: Contractors/Create
+        //public ActionResult Create()
+        //{
+        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+        //    ViewBag.LoginID = "1001";
+        //    ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+        //    return View();
+        //}
+
+        //public ActionResult _ModalCreate()
+        //{
+        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+        //    ViewBag.LoginID = "1001";
+        //    ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+        //    return PartialView();
+        //}
+
+        //// POST: Contractors/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public PartialViewResult _ModalCreate([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Contractors.Add(contractors);
+        //        db.SaveChanges();
+        //        return null;
+        //    }
+
+        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+        //    ViewBag.LoginID = "1001";
+        //    ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
+        //    return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
+        //}
+
+
+
+
+
+
+
+
+
+
         // GET: Contractors/Create
         public ActionResult Create()
         {
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+
             return View();
         }
 
         public ActionResult _ModalCreate()
         {
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
+
             return PartialView();
         }
 
@@ -78,8 +128,10 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public PartialViewResult _ModalCreate([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
         {
+
             if (ModelState.IsValid)
             {
+                Console.WriteLine("IsValid");
                 db.Contractors.Add(contractors);
                 db.SaveChanges();
                 return null;
@@ -87,10 +139,9 @@ namespace Kiinteistosovellus.Controllers
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
             return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
         }
-
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
 

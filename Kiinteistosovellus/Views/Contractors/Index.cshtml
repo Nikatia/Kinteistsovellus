@@ -7,20 +7,6 @@
 @section scripts {
     <script type="text/javascript">
 
-        /*-----FOR ACCORDION-COLLAPSE FUNCTIONALITY-----*/
-        $(function () {
-            $(".showOrderClass").click(function () {
-                let contractorId = $(this).data("contractorid");
-                var url = "/Contractors/_Persons/?ContractorID=" + contractorId;
-                $("#contractorDetails_" + contractorId).append(" <b>Ladataan tilauksen " + contractorId + " rivejä...</b>");
-                var $detailDiv = $("#contractorDetails_" + contractorId);
-                $.get(url, function (data) {
-                    $detailDiv.replaceWith(data);
-                });
-
-            });
-        });
-
         /* Create Modal Window */
         $(function () {
             $(".creNewContractor").click(function () {
@@ -29,7 +15,36 @@
 
                 $.get(url, function (data) {
                     $detailDivCreate.replaceWith(data);
-                    $('#ModalContractorsCreate').modal('show');
+                    $('#ModalContractorCreate').modal('show');
+                });
+            });
+        });
+
+        /*Edit Modal Window*/
+        $(function () {
+            $(".getOtherSpendingId").click(function () {
+                let otherSpendingId = $(this).data("otherspendingid");
+                var url = "/Contractors/_ModalEdit/?id=" + otherSpendingId;
+                var $detailDivEdit = $("#otherSpendingEdit");
+
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalotherSpendingEdit').modal('show');
+                });
+            });
+        });
+
+
+        /*Delete Modal Window*/
+        $(function () {
+            $(".delOtherSpendingId").click(function () {
+                let otherSpendingId2 = $(this).data("otherspendingid2");
+                var url = "/Contractors/_ModalDelete/?id=" + otherSpendingId2;
+                var $detailDivDelete = $("#otherSpendingDelete");
+
+                $.get(url, function (data) {
+                    $detailDivDelete.replaceWith(data);
+                    $('#ModalOtherSpendingDelete').modal('show');
                 });
             });
         });
@@ -43,7 +58,9 @@
 </p>
 
 @*Modal Containers*@
-<iframe id="contractorCreate" style="display:none"></iframe>
+<iframe id="contractorCreate" style="display:none;"></iframe>
+<iframe id="otherSpendingEdit" style="display:none;"></iframe>
+<iframe id="otherSpendingDelete" style="display:none;"></iframe>
 
 <div class="container-fluid">
     <div class="card-header">
