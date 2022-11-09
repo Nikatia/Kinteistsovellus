@@ -24,7 +24,7 @@
         @Html.LabelFor(model => model.DateBegin, "Aloituspäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.DateBegin,"", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -108,13 +108,13 @@
                 }
 
 
-            <div class="modal-footer" style="display:inline-block">
-                @*<input type="button" id="submitModal" value="Tallenna" class="btn btn-primary" />*@
-                <button type="submit" id="submitCreate" class="btn btn-primary">Tallenna</button>
-                @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>*@
-                @Html.ActionLink("Takaisin", "Index", "MonthlySpendings", new { @Class = "btn btn-secondary" })
+                <div class="modal-footer" style="display:inline-block">
+                    @*<input type="button" id="submitModal" value="Tallenna" class="btn btn-primary" />*@
+                    <button type="submit" id="submitCreate" class="btn btn-primary">Tallenna</button>
+                    @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>*@
+                    @Html.ActionLink("Takaisin", "Index", "MonthlySpendings", new { @Class = "btn btn-secondary" })
 
-            </div>
+                </div>
 
 
 
@@ -134,13 +134,12 @@
 
     var indexUrl = '/MonthlySpendings/Index';
     $("#submitModal").click(function () {
-        //console.log("toimiiko");
+
         var form = this.form;
-        //console.log(parent.document.getElementById("ModalPlansCreate"));
         var data = new FormData(form);
         var detailDivCreate = parent.document.getElementById("ModalMSCreate");
 
-        //console.log(data);
+
         $.ajax({
             url: "/MonthlySpendings/_CreateModal",
             cache: false,
@@ -150,12 +149,9 @@
             type: "POST",
             data: data,
             success: function (result) {
-                console.log(result);
                 if (result == "") {
-                    //console.log("null tuli");
                     window.location.href = indexUrl;
                 } else {
-                    //console.log("nullia ei tullut");
                     $(detailDivCreate).html("");
                     $(detailDivCreate).replaceWith(result);
                     $("#ModalMSCreate").modal("show");

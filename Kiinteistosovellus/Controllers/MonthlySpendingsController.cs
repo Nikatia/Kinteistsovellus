@@ -40,7 +40,7 @@ namespace Kiinteistosovellus.Controllers
 
       
 
-        public PartialViewResult _CreateModal()
+        public ActionResult _CreateModal()
         {
             ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
@@ -52,7 +52,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
+        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
         {
             ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
@@ -62,46 +62,15 @@ namespace Kiinteistosovellus.Controllers
             {
                 ViewBag.Error = 0;
                 db.MonthlySpendings.Add(monthlySpendings);
-              await  db.SaveChangesAsync();
+                db.SaveChanges();
                 return null;
-                //return RedirectToAction("Index");
+                
 
             }
             ViewBag.Error = 1;
             return PartialView("_CreateModal", monthlySpendings);
         }
 
-            //return View("Create", monthlySpendings);
-
-            //return PartialView("_CreateModal",monthlySpendings);
-        //    return RedirectToAction("Index");
-        //}
-        //// POST: MonthlySpendings/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
-        //{
-        //    ViewBag.LoginID = "1000";
-        //    ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-
-        //    ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
-        //    if (ModelState.IsValid)
-        //    {
-        //        ViewBag.Error = 0;
-        //        db.MonthlySpendings.Add(monthlySpendings);
-        //        db.SaveChanges();
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.Error = 1;
-
-        //    //return View("Create", monthlySpendings);
-
-        //    //return PartialView("_CreateModal",monthlySpendings);
-        //    return RedirectToAction("Index");
-        //}
 
         public ActionResult _EditModal(int? id)
         {
@@ -134,14 +103,15 @@ namespace Kiinteistosovellus.Controllers
             {
                 db.Entry(monthlySpendings).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
+                //  return RedirectToAction("Index");
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
             ViewBag.LoginID = "1000";
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
-            //return PartialView("_EditModal",monthlySpendings);
+           return PartialView("_EditModal",monthlySpendings);
            // return RedirectToAction("Index");
-           return View("Edit",monthlySpendings);
+           //return View("Edit",monthlySpendings);
         }
 
        
