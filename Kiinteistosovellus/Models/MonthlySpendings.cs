@@ -24,7 +24,7 @@ namespace Kiinteistosovellus.Models
         public Nullable<decimal> AmountOfUnits { get; set; }
         public Nullable<decimal> PricePerUnit { get; set; }
         public Nullable<decimal> TransferPayment { get; set; }
-       
+        [Required(ErrorMessage = "Anna kokonaishinta")]
         public decimal FullPrice { get; set; }
        
         public Nullable<int> ContractorID { get; set; }
