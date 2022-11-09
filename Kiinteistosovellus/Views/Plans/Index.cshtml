@@ -77,22 +77,17 @@
     //var submitButtonCreate;
     $(function () {
         $("#createNewPlanModal").click(function () {
-                            console.log("Klikkasit uuden kulun luontipainiketta: ");
-                            var url = "/Plans/Create";
-                            console.log(url);
+            //console.log("Klikkasit uuden kulun luontipainiketta: ");
+            //var url = "/Plans/Create";
+            //console.log(url);
 
-                            var $detailDivCreate = $("#plansCreate");
-            $.get(url, function (data) {
+            //var $detailDivCreate = $("#plansCreate");
+            //$.get(url, function (data) {
+            //    $detailDivCreate.replaceWith(data);
+            //    $('#ModalPlansCreate').modal('show');
 
-                $detailDivCreate.replaceWith(data);
-                $('#ModalPlansCreate').modal('show');
-
-                                //console.log($('#ModalPlansCreate'));
-                                //submitButtonCreate = $("#ModalPlansCreate");
-                                //console.log(submitButtonCreate);
-                            });
-                            //console.log($('#ModalPlansCreate'));
-                            //console.log(submitButtonCreate);
-                        });
+            //});
+            modalGet("Plans", "Create", null, "plansCreate", "ModalPlansCreate");
+        });
     });
 </script>
