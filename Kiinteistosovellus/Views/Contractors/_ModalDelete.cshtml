@@ -1,0 +1,67 @@
+﻿@model Kiinteistosovellus.Models.Contractors
+
+<div class="modal fade" id="ModalContractorDelete">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Poistaa urakoitsija</h3>
+            </div>
+
+            <div class="modal-body">
+                <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
+                <div>
+                    <hr />
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>Urakoitsija</dt>
+                                <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+                                <dt>Kuvaus</dt>
+                                <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+                                <dt>Osoite</dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.StreetAdress)<br />
+                                    @Html.DisplayFor(model => model.Post.PostCode) @Html.DisplayFor(model => model.Post.City) <br />
+                                    @Html.DisplayFor(model => model.Post.Country)
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                                <dl class="dl-horizontal">
+                                    <dt>Henkilöt</dt>
+                                    <dd>Soon.jpg</dd>
+                                </dl>
+                            </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-actions no-color">
+                            <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                            <a href="@Url.Action("Index", "Contractors")">Peruuta</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        /*-----HERE WILL COME SCRIPT TO LOAD PERSONS LIST-----*/
+      
+    </script>
+}
+
+

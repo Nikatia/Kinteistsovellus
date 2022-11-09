@@ -312,6 +312,8 @@
     <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
     <Content Include="Views\Logins\_EditModalLogins.cshtml" />
     <Content Include="Views\Contractors\_ModalCreate.cshtml" />
+    <Content Include="Views\Contractors\_ModalEdit.cshtml" />
+    <Content Include="Views\Contractors\_ModalDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

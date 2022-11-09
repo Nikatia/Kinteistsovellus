@@ -100,7 +100,7 @@ namespace Kiinteistosovellus.Controllers
 
 
 
-        // GET: Contractors/Create
+        //// GET: Contractors/Create
         public ActionResult Create()
         {
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
@@ -108,7 +108,7 @@ namespace Kiinteistosovellus.Controllers
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return View();
+            return PartialView();
         }
 
         public ActionResult _ModalCreate()
@@ -131,7 +131,6 @@ namespace Kiinteistosovellus.Controllers
 
             if (ModelState.IsValid)
             {
-                Console.WriteLine("IsValid");
                 db.Contractors.Add(contractors);
                 db.SaveChanges();
                 return null;
@@ -142,6 +141,8 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
             return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
         }
+
+
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
 
@@ -157,34 +158,12 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", contractors.LoginID);
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "Country", contractors.PostID);
-            return View(contractors);
+            ViewBag.LoginID = "1001";
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
+            return PartialView("_ModalEdit", contractors);
         }
 
-        // POST: Contractors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(contractors).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", contractors.LoginID);
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "Country", contractors.PostID);
-            return View(contractors);
-        }
-
-
-        // ----------------------------------------------- DELETE PART -----------------------------------------------
-
-        // GET: Contractors/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult _ModalEdit(int? id)
         {
             if (id == null)
             {
@@ -195,15 +174,65 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View(contractors);
+            ViewBag.LoginID = "1001";
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
+            return PartialView("_ModalEdit", contractors);
+        }
+
+        // POST: Contractors/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _ModalEdit([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(contractors).State = EntityState.Modified;
+                db.SaveChanges();
+                return null;
+            }
+            ViewBag.LoginID = "1001";
+            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
+            return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
+        }
+
+
+
+
+        // ----------------------------------------------- DELETE PART -----------------------------------------------
+
+        // GET: Contractors/Delete/5
+        public ActionResult _ModalDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Contractors contractors = db.Contractors.Find(id);
+            if (contractors == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ContractorID = id;
+            return PartialView("_ModalDelete", contractors);
         }
 
         // POST: Contractors/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("_ModalDelete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult _ModalDeleteConfirmed(int id)
         {
             Contractors contractors = db.Contractors.Find(id);
+            foreach (var item in db.OtherSpendings)
+            {
+                if (item.ContractorID == id)
+                {
+                    item.ContractorID = 1011;
+                }
+            }
+            db.Contacts.RemoveRange(db.Contacts.Where(c => c.ContractorID == id));
+            db.Persons.RemoveRange(db.Persons.Where(p => p.ContractorID == id));
             db.Contractors.Remove(contractors);
             db.SaveChanges();
             return RedirectToAction("Index");
