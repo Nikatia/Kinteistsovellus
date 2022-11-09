@@ -12,7 +12,7 @@
                 <h2>Luo uusi kuukausittainen kulu</h2>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("_CreateModal", "MonthlySpendings", FormMethod.Post, new { id = "createMSForm" }))
+                @using (Html.BeginForm(@*"_CreateModal", "MonthlySpendings", FormMethod.Post, new { id = "createMSForm" }*@))
                 {
                     @Html.AntiForgeryToken()
 
