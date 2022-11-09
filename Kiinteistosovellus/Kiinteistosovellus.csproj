@@ -254,6 +254,7 @@
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\chart.min.js" />
+    <Content Include="Scripts\custom\modalScriptAllViews.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.js" />
@@ -283,18 +284,13 @@
     <Content Include="Views\MonthlySpendings\_EditModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_DeleteModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_CreateModal.cshtml" />
-    <Content Include="Views\MonthlySpendings\Create.cshtml" />
-    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalDelete.cshtml" />
-    <Content Include="Views\OtherSpendings\Create.cshtml" />
-    <Content Include="Views\OtherSpendings\Edit.cshtml" />
     <Content Include="Views\Plans\_CreateModal.cshtml" />
-    <Content Include="Views\Plans\Delete.cshtml" />
-    <Content Include="Views\Plans\Details.cshtml" />
-    <Content Include="Views\Plans\Edit.cshtml" />
+    <Content Include="Views\Plans\_DeleteModal.cshtml" />
+    <Content Include="Views\Plans\_EditModal.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
     <Content Include="Views\Logins\Create.cshtml" />
     <Content Include="Views\Logins\Delete.cshtml" />
@@ -310,6 +306,7 @@
     <Content Include="Views\Logins\_CreateModalLogins.cshtml" />
     <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
     <Content Include="Views\Logins\_EditModalLogins.cshtml" />
+    <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
