@@ -8,67 +8,71 @@
             </div>
 
             <div class="modal-body">
-
-                @using (Html.BeginForm())
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
                 {
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DateBegin, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                        <div class="row">
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Nimi*", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Desciption, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Desciption, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                                <div class="form-group">
+                                    @Html.Label("Aloituspäivämäärä*", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label("Päätymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Kuvaus", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Desciption, new { htmlAttributes = new { @class = "form-control", @rows = "6", @cols = "56" } })
+                                        @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MonthlyOrOther, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.MonthlyOrOther, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "-- Valitse tästä --", new { htmlAttributes = new { @class = "form-control form-select" } })
-                                @Html.ValidationMessageFor(model => model.MonthlyOrOther, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                                <div class="form-group">
+                                    @Html.Label("Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.LoginID, "LoginID", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("LoginID", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.LoginID, "", new { @class = "text-danger" })
+                                @*<div class="form-group">
+                                    @Html.LabelFor(model => model.MonthlyOrOther, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.MonthlyOrOther, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "-- Valitse tästä --", new { htmlAttributes = new { @class = "form-control form-select" } })
+                                        @Html.ValidationMessageFor(model => model.MonthlyOrOther, "", new { @class = "text-danger" })
+                                    </div>
+                                </div> MITÄ HELKKARIA TÄLLE KÄVI???*@
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("LoginID", null, htmlAttributes: new { @class = "form-control", @Hidden = "true" })
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -78,50 +82,20 @@
                             </div>
                         </div>
                     </div>
-                  }
-            </div>
-
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <br />
-                    @Html.ActionLink("Takaisin", "Index")
+                 }
                 </div>
-            </div>
-        </div>
+                    <div class="modal-footer">
+                        <div class="form-actions no-color">
+                            <br />
+                            @Html.ActionLink("Takaisin", "Index")
+                        </div>
+                    </div>
+                </div>
     </div>
 </div>
 <script type="text/javascript">
-    var indexUrl = '/Plans/Index';
     $("#submitDataModal").click(function () {
-        //console.log("toimiiko");
-        var form = this.form;
-        //console.log(parent.document.getElementById("ModalPlansCreate"));
-        var data = new FormData(form);
-        var detailDivCreate = parent.document.getElementById("ModalPlansCreate");
-
-        //console.log(data);
-        $.ajax({
-            url: "/Plans/Create",
-            cache: false,
-            contentType: false,
-            processData: false,
-            method: 'POST',
-            type: "POST",
-            data: data,
-            success: function (result) {
-                console.log(result);
-                if (result == "") {
-                    //console.log("null tuli");
-                    window.location.href = indexUrl;
-                } else {
-                    //console.log("nullia ei tullut");
-                    $(detailDivCreate).html("");
-                    $(detailDivCreate).replaceWith(result);
-                    $("#ModalPlansCreate").modal("show");
-                }
-
-            }
-        });
+        submitModalPost("plans", "Create", "createForm", "ModalPlansCreate");
     });
 
 </script>

@@ -113,19 +113,7 @@
 
     ////Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
     $(document).ready(function () {
-        var divForPartial = $("#divForPartialPseudo"); //Se kohta dokumentissa, minne partial view lisätään
-        $.ajax({
-            url: "/OtherSpendings/_ModalCreateOthSpendingType", //Haetaan haluttu controller-action
-            cache: false,
-            contentType: false,
-            processData: false,
-            method: 'get', //pitää spesifioida get, jos halutaan get-tyyppinen toiminto
-            type: "get",
-            success: function (result) {
-                $(divForPartial).html(""); //kaiken varalta tyhjennetään ensin partial view kohta
-                $(divForPartial).html(result); //sitten se täytetään partialViewResultista saadulla partial viewillä
-            }
-        });
+        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
     });
 
     ////Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla

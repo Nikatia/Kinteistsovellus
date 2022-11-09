@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -46,7 +47,7 @@ namespace Kiinteistosovellus.Controllers
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return PartialView();
+            return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml");
         }
 
         // POST: OtherSpendings/Create
@@ -119,7 +120,7 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
  
-            return View();
+            return PartialView("/Views/OtherSpendings/_ModalEdit", otherSpendings);
         }
 
         public ActionResult _ModalEdit(int? id)
@@ -198,6 +199,15 @@ namespace Kiinteistosovellus.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [HttpPost]
+        public JsonResult GetList()
+        {
+
+            var itemlist = db.OtherSpendingTypes.ToList();
+            var itemList = itemlist.Select(item => new SelectListItem { Text = item.TypeName, Value = Convert.ToString(item.OtherSpendingTypeId) }).ToList();
+            return Json(new SelectList(itemList, "Value", "Text"));
+        }
 
 
 
