@@ -46,7 +46,6 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
             return PartialView("_CreateModal");
         }
-
         // POST: MonthlySpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,14 +55,14 @@ namespace Kiinteistosovellus.Controllers
         {
             ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-          
+
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             if (ModelState.IsValid)
             {
                 ViewBag.Error = 0;
                 db.MonthlySpendings.Add(monthlySpendings);
                 db.SaveChanges();
-               
+
                 return RedirectToAction("Index");
             }
             ViewBag.Error = 1;
@@ -73,8 +72,34 @@ namespace Kiinteistosovellus.Controllers
             //return PartialView("_CreateModal",monthlySpendings);
             return RedirectToAction("Index");
         }
-       
-            public ActionResult _EditModal(int? id)
+        //// POST: MonthlySpendings/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
+        //{
+        //    ViewBag.LoginID = "1000";
+        //    ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
+
+        //    ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
+        //    if (ModelState.IsValid)
+        //    {
+        //        ViewBag.Error = 0;
+        //        db.MonthlySpendings.Add(monthlySpendings);
+        //        db.SaveChanges();
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.Error = 1;
+
+        //    //return View("Create", monthlySpendings);
+
+        //    //return PartialView("_CreateModal",monthlySpendings);
+        //    return RedirectToAction("Index");
+        //}
+
+        public ActionResult _EditModal(int? id)
         {
            
             if (id == null)
