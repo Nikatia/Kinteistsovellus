@@ -65,29 +65,31 @@
                 @Html.DisplayFor(modelItem => item.Logins.UserName)
             </td>
             <td>
-                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.PlandID">Edit</a> |
-                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.PlandID">Delete</a>
+                <a class="card-link editPlanModal"  role="button" data-editid="@item.PlandID">Edit</a> |
+                <a class="card-link deletePlanModal"  role="button" data-deleteid="@item.PlandID">Delete</a>
             </td>
         </tr>
     }
 
 </table>
 <script type="text/javascript">
-    /* Create Modal Window */
-    //var submitButtonCreate;
     $(function () {
         $("#createNewPlanModal").click(function () {
-            //console.log("Klikkasit uuden kulun luontipainiketta: ");
-            //var url = "/Plans/Create";
-            //console.log(url);
-
-            //var $detailDivCreate = $("#plansCreate");
-            //$.get(url, function (data) {
-            //    $detailDivCreate.replaceWith(data);
-            //    $('#ModalPlansCreate').modal('show');
-
-            //});
             modalGet("Plans", "Create", null, "plansCreate", "ModalPlansCreate");
+        });
+    });
+
+    $(function () {
+        $(".editPlanModal").click(function () {
+            let editId = $(this).data("editid");
+            modalGet("Plans", "Edit", editId, "plansEdit", "ModalPlansEdit");
+        });
+    });
+
+    $(function () {
+        $(".deletePlanModal").click(function () {
+            let deleteId = $(this).data("deleteid");
+            modalGet("Plans", "Delete", deleteId, "plansDelete", "ModalPlansDelete");
         });
     });
 </script>

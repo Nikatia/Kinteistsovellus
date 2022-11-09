@@ -79,7 +79,7 @@ namespace Kiinteistosovellus.Controllers
                 return HttpNotFound();
             }
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
-            return View(plans);
+            return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }
 
         // POST: Plans/Edit/5
@@ -87,16 +87,16 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthlyOrOther,LoginID")] Plans plans)
+        public async Task<PartialViewResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthlyOrOther,LoginID")] Plans plans)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(plans).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return null;
             }
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
-            return View(plans);
+            return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }
 
         // GET: Plans/Delete/5
@@ -111,7 +111,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View(plans);
+            return PartialView("/Views/Plans/_DeleteModal.cshtml", plans);
         }
 
         // POST: Plans/Delete/5

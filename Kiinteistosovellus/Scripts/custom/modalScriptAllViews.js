@@ -25,16 +25,39 @@
     });
 };
 
-function modalGet(controller, actionresult, actionresultId, iframeId, modalId) {
-    var url = "/" + controller + "/" + actionresult + "";
+//function modalGet(controller, actionresult, actionresultId, iframeId, modalId) {
+//    var url = "/" + controller + "/" + actionresult;
 
+//    if (actionresultId != null) {
+//        url += "/?id=" + actionresultId;
+//    }
+
+//    var iframeForModal = $("#" + iframeId);
+//    $.get(url, function (data) {
+//        iframeForModal.replaceWith(data);
+//        $("#" + modalId).modal('show');
+//    });
+//};
+
+function modalGet(controller, actionresult, actionresultId, iframeId, modalId) {
+    var url = "/" + controller + "/" + actionresult;
+    console.log(actionresultId);
     if (actionresultId != null) {
         url += "/?id=" + actionresultId;
     }
 
     var iframeForModal = $("#" + iframeId);
-    $.get(url, function (data) {
-        iframeForModal.replaceWith(data);
-        $('#' + modalId).modal('show');
+
+    $.ajax({
+        url: url, //Haetaan haluttu controller-action
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'get', //pitää spesifioida get, jos halutaan get-tyyppinen toiminto
+        type: "get",
+        success: function (result) {
+            iframeForModal.replaceWith(result);
+            $("#" + modalId).modal('show');
+        }
     });
 };

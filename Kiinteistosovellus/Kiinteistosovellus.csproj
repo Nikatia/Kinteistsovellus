@@ -289,9 +289,8 @@
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalDelete.cshtml" />
     <Content Include="Views\Plans\_CreateModal.cshtml" />
-    <Content Include="Views\Plans\Delete.cshtml" />
-    <Content Include="Views\Plans\Details.cshtml" />
-    <Content Include="Views\Plans\Edit.cshtml" />
+    <Content Include="Views\Plans\_DeleteModal.cshtml" />
+    <Content Include="Views\Plans\_EditModal.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_PartialOthSpendType.cshtml" />
   </ItemGroup>

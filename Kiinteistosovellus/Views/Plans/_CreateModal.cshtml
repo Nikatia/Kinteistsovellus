@@ -94,37 +94,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var indexUrl = '/Plans/Index';
     $("#submitDataModal").click(function () {
-        ////console.log("toimiiko");
-        //var form = this.form;
-        ////console.log(parent.document.getElementById("ModalPlansCreate"));
-        //var data = new FormData(form);
-        //var detailDivCreate = parent.document.getElementById("ModalPlansCreate");
-
-        ////console.log(data);
-        //$.ajax({
-        //    url: "/Plans/Create",
-        //    cache: false,
-        //    contentType: false,
-        //    processData: false,
-        //    method: 'POST',
-        //    type: "POST",
-        //    data: data,
-        //    success: function (result) {
-        //        console.log(result);
-        //        if (result == "") {
-        //            //console.log("null tuli");
-        //            window.location.href = indexUrl;
-        //        } else {
-        //            //console.log("nullia ei tullut");
-        //            $(detailDivCreate).html("");
-        //            $(detailDivCreate).replaceWith(result);
-        //            $("#ModalPlansCreate").modal("show");
-        //        }
-
-        //    }
-        //});
         submitModalPost("plans", "Create", "createForm", "ModalPlansCreate");
     });
 
