@@ -22,7 +22,7 @@
                     @Html.HiddenFor(model => model.MonthlySpendingID)
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.DateBegin,"Aloituspäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.DateBegin, "Aloituspäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.TextBoxFor(model => model.DateBegin, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @type = "date", @class = "form-control" } })
 
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.DateEnd,"Päättymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.DateEnd, "Päättymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.TextBoxFor(model => model.DateEnd, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @type = "date", @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.AmountOfUnits,"Yksikkömäärä", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.AmountOfUnits, "Yksikkömäärä", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @{ Html.EnableClientValidation(false); }
                             @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
@@ -57,9 +57,9 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.PricePerUnit,"Yksikköhinta", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.PricePerUnit, "Yksikköhinta", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                      
+
                             @{ Html.EnableClientValidation(false); }
                             @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
                             @{ Html.EnableClientValidation(true); }
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.TransferPayment,"Siirtohinta", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.TransferPayment, "Siirtohinta", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @{ Html.EnableClientValidation(false); }
                             @Html.EditorFor(model => model.TransferPayment, new { htmlAttributes = new { @class = "form-control" } })
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FullPrice,"Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.FullPrice, "Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @{ Html.EnableClientValidation(false); }
                             @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
@@ -98,22 +98,67 @@
                     <div>
                         @Html.TextBoxFor(model => model.LoginID, "LoginID", htmlAttributes: new { @Value = ViewBag.LoginID, @hidden = "true", @class = "form-control" })
                     </div>
-                      
-
-
-
+                    <div class="form-group">
+                        <input type="button" id="submitModalMSEdit" style="display:none" value="Tallenna" class="btn btn-primary" />
                     </div>
+
+
+
+
+                </div>
                     }
                 </div>
             <div class="modal-footer" style="display:inline-block">
-                <button type="submit" class="btn btn-primary" form="editMSForm">Tallenna</button>
+                @*<button type="submit" class="btn btn-primary" form="editMSForm">Tallenna</button>*@
+                <button type="submit" id="submitEdit" class="btn btn-primary">Tallenna</button>
                 @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
             </div>
         </div>
     </div>
 </div>
     
+<script type="text/javascript">
+    $("#submitEdit").click(function () {
+        $("#submitModalMSEdit").click();
+    });
 
+
+
+
+    var indexUrl = '/MonthlySpendings/Index';
+    $("#submitModalMSEdit").click(function () {
+        //console.log("toimiiko");
+        var form = this.form;
+        //console.log(parent.document.getElementById("ModalPlansCreate"));
+        var data = new FormData(form);
+        var detailDivCreate = parent.document.getElementById("ModalMSEdit");
+
+        //console.log(data);
+        $.ajax({
+            url: "/MonthlySpendings/_EditModal",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: "POST",
+            data: data,
+            success: function (result) {
+                console.log(result);
+                if (result == "") {
+                    //console.log("null tuli");
+                    window.location.href = indexUrl;
+                } else {
+                    //console.log("nullia ei tullut");
+                    $(detailDivCreate).html("");
+                    $(detailDivCreate).replaceWith(result);
+                    $("#ModalMSEdit").modal("show");
+                }
+
+            }
+        });
+    });
+
+</script>
 
 
 
