@@ -52,37 +52,36 @@
                                     </div>
                                 </div>
 
-                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
-                            </div>
-
-                            <div class="col-sm-6">
-
                                 <div class="form-group">
                                     Kulutustyyppi
                                     <div class="col-md-10">
                                         @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
-                                        <input type="button" value="Lisää uusi" id="lisaaUusiHiddenField"/>
+                                        <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
+
                                     </div>
                                 </div>
 
                                 <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                    <div class="card card-body">
-                                        <label>Nimi:
-                                            <input type="text" id="pseudoForm" onkeyup="paivitaOikeaKentta()" />
-                                        </label>
-                                        
-                                        <input type="button" value="Lisää" id="lisaaUusiType" />
-                                        
+                                    Uusin tyypin nimi:
+                                    <div class="col-md-10 input-group">
+                                        <input type="text" maxlength="100" size="500" class="form-control" id="pseudoForm" onkeyup="paivitaOikeaKentta()" />
+                                    </div>
+                                    <div style="text-align: right; padding-right: 5px">
+                                        <a class="card-link" role="button" id="lisaaUusiType">Lisää</a>
                                     </div>
                                 </div>
 
+                                @*Temporary solution for LoginID until Login system is done*@
+                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
 
+                            </div>
+
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     Kuvaus
-                                    <div>
-                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "6", @cols = "56" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
                                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -104,7 +103,7 @@
                 </div>
             </div>
             <div id="divForPartialPseudo" style="display:none;">
-                
+
             </div>
 
         </div>
@@ -149,13 +148,13 @@
             document.getElementById("hiddenFieldAddType").style.display = "none";
             document.getElementById("lisaaUusiHiddenField").style.display = "block";
         }
-        
-        
+
+
     });
 
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
     function submitModal() {
-        var form = new FormData(document.getElementById("createForm"));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta   
+        var form = new FormData(document.getElementById("createForm"));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta
         var detailDivCreate = parent.document.getElementById("ModalOtherSpendingCreate"); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan
 
         $.ajax({
@@ -167,6 +166,7 @@
             type: "POST",
             data: form, //aikaisemmin mainittu formdata viedään ajax-pyynnöllä controllerille
             success: function (result) {
+                console.log("Result:")
                 console.log(result);
                 if (result == "") { //Jos lisäys onnistui, controller palauttaa nullin
                     window.location.href = indexUrl; //Onnistumisen jälkeen käyttäjä ohjataan indexiin, jossa päivittyneet tiedot
@@ -199,7 +199,7 @@
                     $("#TypeName").val("");
                 } else {//controllerilla vikaa, tähän ei pääse jostain syystä. Modelstate.isvalid on aina true, vaikka lähettäisi tyhjät tiedot
                     console.log("epäonnistui");
-                    
+
                 }
             }
         });
@@ -225,7 +225,7 @@
             error: function (ex) {
                 alertify.alert('We face some technical difficulties. Hello World');
             }
-        });  
+        });
     };
 
 

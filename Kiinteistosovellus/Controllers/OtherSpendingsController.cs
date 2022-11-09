@@ -23,6 +23,10 @@ namespace Kiinteistosovellus.Controllers
             return View(otherSpendings.ToList());
         }
 
+
+        // ----------------------------------------------- CREATE PART -----------------------------------------------
+
+
         // GET: OtherSpendings/Create
         public ActionResult Create()
         {
@@ -43,9 +47,8 @@ namespace Kiinteistosovellus.Controllers
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return PartialView(); ;
+            return PartialView();
         }
-
 
         // POST: OtherSpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -60,9 +63,11 @@ namespace Kiinteistosovellus.Controllers
                 Console.WriteLine("IsValid");
                 db.OtherSpendings.Add(otherSpendings);
                 db.SaveChanges();
-                return null; //palauttaa nullin, jotta ajax voi erotella onnistuneen lisäyksen epäonnistumisesta
+                return null;
             }
 
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
             return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml", otherSpendings);
@@ -96,8 +101,9 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml", otherSpendingType);
         }
 
+        // ----------------------------------------------- EDIT PART -----------------------------------------------
         // GET: OtherSpendings/Edit/5
-        public ActionResult _ModalEdit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -108,13 +114,33 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-            //decimal hinta = otherSpendings.Price;
-            
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+ 
+            return View();
+        }
+
+        public ActionResult _ModalEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OtherSpendings otherSpendings = db.OtherSpendings.Where(m => m.OtherSpendingsID == id).FirstOrDefault();
+            if (otherSpendings == null)
+            {
+                return HttpNotFound();
+            }
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+            ViewBag.OtherSpendingID = otherSpendings.OtherSpendingsID;
+
             return PartialView("_ModalEdit", otherSpendings);
         }
 
@@ -123,25 +149,28 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
+        public PartialViewResult _ModalEdit([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,LoginID")] OtherSpendings otherSpendings)
         {
             if (ModelState.IsValid)
             {
                 
                 db.Entry(otherSpendings).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-            ViewBag.DateBegin = otherSpendings.DateBegin;
-            ViewBag.DateEnd = otherSpendings.DateEnd;
+
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+            ViewBag.OtherSpendingID = otherSpendings.OtherSpendingsID;
 
-            return View("Edit", otherSpendings);
+            return PartialView("/Views/OtherSpendings/_ModalEdit.cshtml", otherSpendings);
         }
 
+
+
+        // ----------------------------------------------- DELETE PART -----------------------------------------------
         //GET: OtherSpendings/Delete/5
         public ActionResult _ModalDelete(int? id)
         {
@@ -155,8 +184,8 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView("_ModalDelete", otherSpendings);
-            
+
+            return PartialView("_ModalDelete", otherSpendings);   
         }
 
         // POST: OtherSpendings/Delete/5
@@ -179,6 +208,8 @@ namespace Kiinteistosovellus.Controllers
             var itemList = itemlist.Select(item => new SelectListItem { Text = item.TypeName, Value = Convert.ToString(item.OtherSpendingTypeId) }).ToList();
             return Json(new SelectList(itemList, "Value", "Text"));
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
