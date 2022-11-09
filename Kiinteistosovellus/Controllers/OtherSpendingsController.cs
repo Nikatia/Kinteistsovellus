@@ -47,7 +47,7 @@ namespace Kiinteistosovellus.Controllers
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return PartialView();
+            return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml");
         }
 
         // POST: OtherSpendings/Create
@@ -120,7 +120,7 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
             ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
  
-            return View();
+            return PartialView("/Views/OtherSpendings/_ModalEdit", otherSpendings);
         }
 
         public ActionResult _ModalEdit(int? id)
