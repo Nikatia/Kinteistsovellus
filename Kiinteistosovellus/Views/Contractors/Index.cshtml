@@ -7,9 +7,9 @@
 @section scripts {
     <script type="text/javascript">
 
-        /*-----FOR ACCORDION-COLLAPSE FUNCTIONALITY-----*/
+        /* Accordion-collapse list of Contact Persons */
         $(function () {
-            $(".showOrderClass").click(function () {
+            $(".showContractorContacts").click(function () {
                 let contractorId = $(this).data("contractorid");
                 var url = "/Contractors/_Persons/?ContractorID=" + contractorId;
                 $("#contractorDetails_" + contractorId).append(" <b>Ladataan tilauksen " + contractorId + " rivejä...</b>");
@@ -33,7 +33,7 @@
             });
         });
 
-        /*Edit Modal Window*/
+        /* Edit Modal Window */
         $(function () {
             $(".getContractorIdEdit").click(function () {
                 let contractorId = $(this).data("contractorid");
@@ -48,7 +48,7 @@
         });
 
 
-        /*Delete Modal Window*/
+        /* Delete Modal Window */
         $(function () {
             $(".getContractorIdDelete").click(function () {
                 let contractorId2 = $(this).data("contractorid2");
@@ -95,14 +95,15 @@
     </div>
     <div id="accordion">
         @foreach (var item in Model)
-        {
-            if (item.ContractorID != 1011)
+        {   
+            //ignoring empty contractor
+            if (item.ContractorID != 1004)
             {
                 <div class="card">
                     <form>
                         <div class="input-group">
 
-                            <a class="showOrderClass" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
+                            <a class="showContractorContacts" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID ˅</span>
                                 </div>
@@ -134,7 +135,7 @@
                 </div>
             }
 
-        }
+         }
 
     </div>
 

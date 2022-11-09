@@ -26,6 +26,7 @@ namespace Kiinteistosovellus.Controllers
             return View(contractors.ToList());
         }
 
+        //Partial view of persons, which belong to certain contractor
         public ActionResult _Persons(int? contractorId)
         {
 
@@ -53,51 +54,6 @@ namespace Kiinteistosovellus.Controllers
 
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
-
-        //// GET: Contractors/Create
-        //public ActionResult Create()
-        //{
-        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-        //    ViewBag.LoginID = "1001";
-        //    ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
-        //    return View();
-        //}
-
-        //public ActionResult _ModalCreate()
-        //{
-        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-        //    ViewBag.LoginID = "1001";
-        //    ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
-        //    return PartialView();
-        //}
-
-        //// POST: Contractors/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public PartialViewResult _ModalCreate([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Contractors.Add(contractors);
-        //        db.SaveChanges();
-        //        return null;
-        //    }
-
-        //    //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-        //    ViewBag.LoginID = "1001";
-        //    ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
-        //    return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
-        //}
-
-
-
-
-
-
-
-
 
 
         //// GET: Contractors/Create
@@ -202,6 +158,14 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- DELETE PART -----------------------------------------------
 
+        //Getting Persons list to show up in Modal Delete persons, which will be deleted together with contractor
+        public List<Persons> GetPersons()
+        {
+            List<Persons> persons = db.Persons.ToList();
+            return persons;
+        }
+
+
         // GET: Contractors/Delete/5
         public ActionResult _ModalDelete(int? id)
         {
@@ -210,6 +174,7 @@ namespace Kiinteistosovellus.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Contractors contractors = db.Contractors.Find(id);
+            ViewBag.Persons = GetPersons();
             if (contractors == null)
             {
                 return HttpNotFound();
@@ -224,20 +189,29 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _ModalDeleteConfirmed(int id)
         {
             Contractors contractors = db.Contractors.Find(id);
+
+            //changing ContractorID in Monthly and Other Spendings to empty one
             foreach (var item in db.OtherSpendings)
             {
                 if (item.ContractorID == id)
                 {
-                    item.ContractorID = 1011;
+                    item.ContractorID = 1004;
                 }
             }
+            foreach (var item in db.MonthlySpendings)
+            {
+                if (item.ContractorID == id)
+                {
+                    item.ContractorID = 1004;
+                }
+            }
+            //deleting contractor together with it's persons ans their contact informations
             db.Contacts.RemoveRange(db.Contacts.Where(c => c.ContractorID == id));
             db.Persons.RemoveRange(db.Persons.Where(p => p.ContractorID == id));
             db.Contractors.Remove(contractors);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
 
 
 

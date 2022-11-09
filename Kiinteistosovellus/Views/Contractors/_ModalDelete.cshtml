@@ -16,7 +16,7 @@
 
                         <div class="col-sm-6">
                             <dl class="dl-horizontal">
-                                <dt>Urakoitsija</dt>
+                                <dt>Urakoitsijan Nimi</dt>
                                 <dd>@Html.DisplayFor(model => model.Name)</dd>
 
                                 <dt>Kuvaus</dt>
@@ -32,11 +32,18 @@
                         </div>
 
                         <div class="col-sm-6">
-                                <dl class="dl-horizontal">
-                                    <dt>Henkilöt</dt>
-                                    <dd>Soon.jpg</dd>
-                                </dl>
-                            </div>
+                            Huom! Tämä toiminto poistaa myös urakoitsijan henkilöt ja heidän yhteystietonsa!<br /><br />
+                            <b>Henkilöt:</b>
+                            <ul>@*calling persons list from Controller's ViewBag*@
+                                @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
+                                {
+                                    if (person.ContractorID == ViewBag.ContractorID)
+                                    {
+                                        <li>@person.FirstName @person.LastName, @person.Description</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
 
                     </div>
 
@@ -55,13 +62,5 @@
         </div>
     </div>
 </div>
-
-@section scripts {
-    <script type="text/javascript">
-
-        /*-----HERE WILL COME SCRIPT TO LOAD PERSONS LIST-----*/
-      
-    </script>
-}
 
 
