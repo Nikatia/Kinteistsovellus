@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
@@ -46,7 +47,6 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
             return PartialView("_CreateModal");
         }
-
         // POST: MonthlySpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,25 +56,23 @@ namespace Kiinteistosovellus.Controllers
         {
             ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-          
+
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             if (ModelState.IsValid)
             {
                 ViewBag.Error = 0;
                 db.MonthlySpendings.Add(monthlySpendings);
                 db.SaveChanges();
-               
-                return RedirectToAction("Index");
+                return null;
+                
+
             }
             ViewBag.Error = 1;
-
-            //return View("Create", monthlySpendings);
-
-            //return PartialView("_CreateModal",monthlySpendings);
-            return RedirectToAction("Index");
+            return PartialView("_CreateModal", monthlySpendings);
         }
-       
-            public ActionResult _EditModal(int? id)
+
+
+        public ActionResult _EditModal(int? id)
         {
            
             if (id == null)
@@ -105,14 +103,15 @@ namespace Kiinteistosovellus.Controllers
             {
                 db.Entry(monthlySpendings).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
+                //  return RedirectToAction("Index");
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
             ViewBag.LoginID = "1000";
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
-            //return PartialView("_EditModal",monthlySpendings);
+           return PartialView("_EditModal",monthlySpendings);
            // return RedirectToAction("Index");
-           return View("Edit",monthlySpendings);
+           //return View("Edit",monthlySpendings);
         }
 
        
