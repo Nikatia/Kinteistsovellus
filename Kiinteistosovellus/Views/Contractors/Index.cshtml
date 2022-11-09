@@ -22,43 +22,24 @@
 
         /* Create Modal Window */
         $(function () {
-            $(".creNewContractor").click(function () {
-                var url = "/Contractors/_ModalCreate";
-                var $detailDivCreate = $("#contractorCreate");
-
-                $.get(url, function (data) {
-                    $detailDivCreate.replaceWith(data);
-                    $('#ModalContractorCreate').modal('show');
-                });
+            $("#creNewContractor").click(function () {
+                modalGet("Contractors", "Create", null, "contractorCreate", "ModalContractorCreate");
             });
-        });
+        });       
 
         /* Edit Modal Window */
         $(function () {
-            $(".getContractorIdEdit").click(function () {
-                let contractorId = $(this).data("contractorid");
-                var url = "/Contractors/_ModalEdit/?id=" + contractorId;
-                var $detailDivEdit = $("#contractorEdit");
-
-                $.get(url, function (data) {
-                    $detailDivEdit.replaceWith(data);
-                    $('#ModalContractorEdit').modal('show');
-                });
+            $(".getContractorEdit").click(function () {
+                let editId = $(this).data("editid");
+                modalGet("Contractors", "Edit", editId, "contractorEdit", "ModalContractorEdit");
             });
         });
 
-
         /* Delete Modal Window */
         $(function () {
-            $(".getContractorIdDelete").click(function () {
-                let contractorId2 = $(this).data("contractorid2");
-                var url = "/Contractors/_ModalDelete/?id=" + contractorId2;
-                var $detailDivDelete = $("#contractorDelete");
-
-                $.get(url, function (data) {
-                    $detailDivDelete.replaceWith(data);
-                    $('#ModalContractorDelete').modal('show');
-                });
+            $(".getContractorDelete").click(function () {
+                let deleteId = $(this).data("deleteid");
+                modalGet("Contractors", "Delete", deleteId, "contractorDelete", "ModalContractorDelete");
             });
         });
 
@@ -120,8 +101,8 @@
 
                     <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" data-bs-toggle="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.ContractorID">
                         <div class="px-2" style="text-align:right; padding-top:5px">
-                            <a class="card-link getContractorIdEdit" data-contractorid="@item.ContractorID">Muokkaa urakoitsija</a>
-                            <a class="card-link getContractorIdDelete" data-contractorid2="@item.ContractorID">Poistaa urakoitsija</a>
+                            <a class="card-link getContractorEdit" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
+                            <a class="card-link getContractorDelete" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a>
                         </div>
 
                         <div class="px-2">

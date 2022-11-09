@@ -57,24 +57,14 @@ namespace Kiinteistosovellus.Controllers
 
 
         //// GET: Contractors/Create
-        public ActionResult Create()
+        public PartialViewResult Create()
         {
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return PartialView();
-        }
-
-        public ActionResult _ModalCreate()
-        {
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
-
-            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-            ViewBag.LoginID = "1001";
-
-            return PartialView();
+            return PartialView("/Views/Contractors/_ModalCreate.cshtml");
         }
 
         // POST: Contractors/Create
@@ -82,7 +72,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _ModalCreate([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public PartialViewResult Create([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
         {
 
             if (ModelState.IsValid)
@@ -116,23 +106,7 @@ namespace Kiinteistosovellus.Controllers
             }
             ViewBag.LoginID = "1001";
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
-            return PartialView("_ModalEdit", contractors);
-        }
-
-        public ActionResult _ModalEdit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contractors contractors = db.Contractors.Find(id);
-            if (contractors == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
-            return PartialView("_ModalEdit", contractors);
+            return PartialView("/Views/Contractors/_ModalEdit", contractors);
         }
 
         // POST: Contractors/Edit/5
@@ -140,7 +114,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _ModalEdit([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public PartialViewResult Edit([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
         {
             if (ModelState.IsValid)
             {
