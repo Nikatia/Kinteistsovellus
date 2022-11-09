@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
@@ -54,9 +55,9 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
-
-        //// GET: Contractors/Create
-        public PartialViewResult Create()
+        //------------------------------------Contractors------------------------------------
+        // GET: Contractors/Create
+        public PartialViewResult CreateContractor()
         {
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
 
@@ -71,13 +72,13 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult Create([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public async Task<ActionResult> CreateContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
         {
 
             if (ModelState.IsValid)
             {
                 db.Contractors.Add(contractors);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return null;
             }
 
@@ -88,6 +89,70 @@ namespace Kiinteistosovellus.Controllers
         }
 
 
+        //------------------------------------Contacts------------------------------------
+        // GET: Contacts/Create
+        public PartialViewResult CreateContact()
+        {
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return PartialView("/Views/Contractors/_ModalCreateContact.cshtml");
+        }
+
+        // POST: Contractors/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateContact([Bind(Include = "<to fill>")] Contacts contacts)
+        {
+
+            if (ModelState.IsValid)
+            {
+                db.Contacts.Add(contacts);
+                await db.SaveChangesAsync();
+                return null;
+            }
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return PartialView("/Views/Contacts/_ModalCreateContact.cshtml", contacts);
+        }
+
+
+        //------------------------------------Persons------------------------------------
+        // GET: Contacts/Create
+        public PartialViewResult CreatePerson()
+        {
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return PartialView("/Views/Persons/_ModalCreatePerson.cshtml");
+        }
+
+        // POST: Contractors/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatePerson([Bind(Include = "<to fill>")] Persons persons)
+        {
+
+            if (ModelState.IsValid)
+            {
+                db.Persons.Add(persons);
+                await db.SaveChangesAsync();
+                return null;
+            }
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+
+            return PartialView("/Views/Persons/_ModalCreatePerson.cshtml", persons);
+        }
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
 
