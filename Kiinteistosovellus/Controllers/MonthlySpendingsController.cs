@@ -39,7 +39,7 @@ namespace Kiinteistosovellus.Controllers
 
       
 
-        public ActionResult _CreateModal()
+        public PartialViewResult _CreateModal()
         {
             ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
@@ -63,15 +63,18 @@ namespace Kiinteistosovellus.Controllers
                 db.MonthlySpendings.Add(monthlySpendings);
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return null;
             }
             ViewBag.Error = 1;
+            return PartialView("_CreateModal", monthlySpendings);
+        }
 
             //return View("Create", monthlySpendings);
 
             //return PartialView("_CreateModal",monthlySpendings);
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
         //// POST: MonthlySpendings/Create
         //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
         //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
