@@ -306,6 +306,7 @@
     <Content Include="Views\Logins\_CreateModalLogins.cshtml" />
     <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
     <Content Include="Views\Logins\_EditModalLogins.cshtml" />
+    <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
