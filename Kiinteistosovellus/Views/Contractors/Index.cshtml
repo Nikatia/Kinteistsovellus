@@ -7,11 +7,12 @@
 <h2>Urakoitsijat</h2>
 
 <p>
-    <a class="card-link" id="creNewContractor" role="button">Luo uusi</a><br />
+    <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a> | <a class="card-link" id="creNewContact" role="button">Uusi yhteystiedot</a>
 </p>
 
 @*Modal Containers*@
 <iframe id="contractorCreate" style="display:none;"></iframe>
+<iframe id="contactCreate" style="display:none;"></iframe>
 <iframe id="contractorEdit" style="display:none;"></iframe>
 <iframe id="contractorDelete" style="display:none;"></iframe>
 
@@ -64,6 +65,7 @@
                         </div>
 
                         <div class="px-2">
+                            @*<a class="card-link" id="creNewContact" role="button" data-createContactid="@item.ContractorID">Uusi yhteystiedot</a>*@
                             @item.Description
                         </div>
 
@@ -89,7 +91,7 @@
             $(".showContractorContacts").click(function () {
                 let contractorId = $(this).data("contractorid");
                 var url = "/Contractors/_Persons/?ContractorID=" + contractorId;
-                $("#contractorDetails_" + contractorId).append(" <b>Ladataan tilauksen " + contractorId + " rivejä...</b>");
+                $("#contractorDetails_" + contractorId).append(" <b>Ladataan contactin " + contractorId + " rivejä...</b>");
                 var $detailDiv = $("#contractorDetails_" + contractorId);
                 $.get(url, function (data) {
                     $detailDiv.replaceWith(data);
@@ -97,10 +99,31 @@
             });
         });
 
-        /* Create Modal Window */
+        /* Create Contractor Modal Window */
         $(function () {
             $("#creNewContractor").click(function () {
                 modalGet("Contractors", "CreateContractor", null, "contractorCreate", "ModalContractorCreate");
+            });
+        });
+
+        //$(function () {
+        //    $(".creNewContact").click(function () {
+        //        let createContactId = $(this).data("createContactid");
+        //        console.log(createContactId);
+        //        var url = "/Contractors/CreateContact/?id=" + createContactId;
+        //        var $detailDivCreate = $("#contactCreate");
+
+        //        $.get(url, function (data) {
+        //            $detailDivCreate.replaceWith(data);
+        //            $('#ModalContactCreate').modal('show');
+        //        });
+        //    });
+        //});
+
+        ///* Create Contact Modal Window */
+        $(function () {
+            $("#creNewContact").click(function () {
+                modalGet("Contractors", "CreateContact", null, "contactCreate", "ModalContactCreate");
             });
         });
 

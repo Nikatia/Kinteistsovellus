@@ -49,7 +49,6 @@ namespace Kiinteistosovellus.Controllers
                                     };
             ViewBag.ContractorId = contractorId;
             return PartialView(contactPersonList.ToList());
-
         }
 
 
@@ -90,13 +89,15 @@ namespace Kiinteistosovellus.Controllers
 
 
         //------------------------------------Contacts------------------------------------
+
         // GET: Contacts/Create
         public PartialViewResult CreateContact()
         {
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
             return PartialView("/Views/Contractors/_ModalCreateContact.cshtml");
         }
 
@@ -105,7 +106,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateContact([Bind(Include = "<to fill>")] Contacts contacts)
+        public async Task<ActionResult> CreateContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email,LoginID")] Contacts contacts)
         {
 
             if (ModelState.IsValid)
@@ -115,11 +116,15 @@ namespace Kiinteistosovellus.Controllers
                 return null;
             }
 
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contacts);
+            ViewBag.LoginID = "1001";
+            ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName", contacts);
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
-            return PartialView("/Views/Contacts/_ModalCreateContact.cshtml", contacts);
+            return PartialView("/Views/Contractors/_ModalCreateContact.cshtml", contacts);
         }
+
 
 
         //------------------------------------Persons------------------------------------

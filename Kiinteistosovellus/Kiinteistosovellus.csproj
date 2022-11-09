@@ -308,6 +308,7 @@
     <Content Include="Views\Contractors\_ModalEdit.cshtml" />
     <Content Include="Views\Contractors\_ModalDelete.cshtml" />
     <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
+    <Content Include="Views\Contractors\_ModalCreateContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -11,7 +11,8 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Persons
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,6 +24,9 @@ namespace Kiinteistosovellus.Models
         public int PersonID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName { get { return this.FirstName + " " + this.LastName; } }
         public int ContractorID { get; set; }
         public int LoginID { get; set; }
         public string Description { get; set; }
