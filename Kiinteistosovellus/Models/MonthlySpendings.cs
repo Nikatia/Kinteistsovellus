@@ -18,14 +18,14 @@ namespace Kiinteistosovellus.Models
         public int MonthlySpendingID { get; set; }
         [Required(ErrorMessage ="Anna p‰iv‰m‰‰r‰!")]
         public System.DateTime DateBegin { get; set; }
-        [Required(ErrorMessage = "Anna p‰iv‰m‰‰r‰!")]
+        
         public Nullable<System.DateTime> DateEnd { get; set; }
         public int SpendingTypeID { get; set; }
-        [Required(ErrorMessage = "Anna luku oikein!")]
+        
         public Nullable<decimal> AmountOfUnits { get; set; }
-        [Required(ErrorMessage = "Anna luku oikein!")]
+       
         public Nullable<decimal> PricePerUnit { get; set; }
-        [Required(ErrorMessage = "Anna luku oikein!")]
+        
         public Nullable<decimal> TransferPayment { get; set; }
         [Required(ErrorMessage = "Anna kokonaishinta!")]
         public decimal FullPrice { get; set; }
