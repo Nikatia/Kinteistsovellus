@@ -60,7 +60,7 @@
 
                     <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" data-bs-toggle="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.ContractorID">
                         <div class="px-2" style="text-align:right; padding-top:5px">
-                            <a class="card-link getContractorEdit" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
+                            <a class="card-link getContractorEdit" role="button" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
                             <a class="card-link getContractorDelete" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a>
                         </div>
 
@@ -110,7 +110,7 @@
         //    $(".creNewContact").click(function () {
         //        let createContactId = $(this).data("createContactid");
         //        console.log(createContactId);
-        //        var url = "/Contractors/CreateContact/?id=" + createContactId;
+        //        var url = "/Contractors/_ModalCreateContact/?ContractorID=" + createContactId;
         //        var $detailDivCreate = $("#contactCreate");
 
         //        $.get(url, function (data) {
@@ -120,18 +120,20 @@
         //    });
         //});
 
-        ///* Create Contact Modal Window */
+         //Create Contact Modal Window 
         $(function () {
-            $("#creNewContact").click(function () {
-                modalGet("Contractors", "CreateContact", null, "contactCreate", "ModalContactCreate");
+            $(".creNewContact").click(function () {
+                let createContactId = $(this).data("createContactid");
+                modalGet("Contractors", "CreateContact", createContactId, "contactCreate", "ModalContactCreate");
             });
         });
+
 
         /* Edit Modal Window */
         $(function () {
             $(".getContractorEdit").click(function () {
                 let editId = $(this).data("editid");
-                modalGet("Contractors", "Edit", editId, "contractorEdit", "ModalContractorEdit");
+                modalGet("Contractors", "EditContractor", editId, "contractorEdit", "ModalContractorEdit");
             });
         });
 

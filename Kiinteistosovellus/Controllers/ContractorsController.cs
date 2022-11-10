@@ -134,8 +134,8 @@ namespace Kiinteistosovellus.Controllers
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-
-            return PartialView("/Views/Persons/_ModalCreatePerson.cshtml");
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
         }
 
         // POST: Contractors/Create
@@ -143,7 +143,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePerson([Bind(Include = "<to fill>")] Persons persons)
+        public async Task<ActionResult> CreatePerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,LoginID,Description")] Persons persons)
         {
 
             if (ModelState.IsValid)
@@ -155,14 +155,14 @@ namespace Kiinteistosovellus.Controllers
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-
-            return PartialView("/Views/Persons/_ModalCreatePerson.cshtml", persons);
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", persons.ContractorID);
+            return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml", persons);
         }
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
 
         // GET: Contractors/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EditContractor(int? id)
         {
             if (id == null)
             {
@@ -183,7 +183,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult Edit([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
         {
             if (ModelState.IsValid)
             {
@@ -248,7 +248,7 @@ namespace Kiinteistosovellus.Controllers
                     item.ContractorID = 1004;
                 }
             }
-            //deleting contractor together with it's persons ans their contact informations
+            //deleting contractor together with it's persons and their contact informations
             db.Contacts.RemoveRange(db.Contacts.Where(c => c.ContractorID == id));
             db.Persons.RemoveRange(db.Persons.Where(p => p.ContractorID == id));
             db.Contractors.Remove(contractors);
