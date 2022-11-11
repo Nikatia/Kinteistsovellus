@@ -13,6 +13,7 @@ namespace Kiinteistosovellus.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+
     public partial class Contractors
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,6 +25,7 @@ namespace Kiinteistosovellus.Models
             this.Persons = new HashSet<Persons>();
         }
     
+
         public int ContractorID { get; set; }
         [Required(ErrorMessage = "Nimi vaaditaan")]
         public string Name { get; set; }

@@ -34,7 +34,7 @@
                         <div class="form-group">
                             Postinumero
                             <div class="col-md-10">
-                                @Html.DropDownList("PostID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.PostID, null, htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.PostID, "", new { @class = "text-danger" })
                             </div>
                         </div>
