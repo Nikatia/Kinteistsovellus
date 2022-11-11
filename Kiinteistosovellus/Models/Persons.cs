@@ -11,6 +11,7 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Persons
@@ -20,9 +21,10 @@ namespace Kiinteistosovellus.Models
         {
             this.Contacts = new HashSet<Contacts>();
         }
-    
         public int PersonID { get; set; }
+        [Required(ErrorMessage = "Etunimi vaaditaan")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Sukunimi vaaditaan")]
         public string LastName { get; set; }
 
         [NotMapped]

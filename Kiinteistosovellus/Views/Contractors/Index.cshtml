@@ -4,10 +4,27 @@
     ViewBag.Title = "Index";
 }
 
+@{
+    List<Kiinteistosovellus.ViewModels.AllContractorsData> groupedList = Model
+                    .GroupBy(l => l.ContractorID)
+                    .Select(i =>
+                        new Kiinteistosovellus.ViewModels.AllContractorsData()
+                        {
+                            ContractorID = i.Key,
+                            Name = i.First().Name,
+                            ContractorsDescription = i.First().ContractorsDescription,
+                            StreetAdress = i.First().StreetAdress,
+                            PostCode = i.First().PostCode,
+                            City = i.First().City,
+                            Country = i.First().Country
+                        }
+                    ).ToList();
+}
+
 <h2>Urakoitsijat</h2>
 
 <p>
-    <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a> | <a class="card-link" id="creNewContact" role="button">Uusi yhteystiedot</a>
+    <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a>
 </p>
 
 @*---Modal Containers---*@
@@ -44,92 +61,84 @@
         </form>
 
     </div>
-    <div id="accordion">
-        @{
-            List<Kiinteistosovellus.ViewModels.AllContractorsData> groupedList = Model
-                            .GroupBy(l => l.ContractorID)
-                            .Select(i =>
-                                new Kiinteistosovellus.ViewModels.AllContractorsData()
-                                {
-                                    ContractorID = i.Key,
-                                    Name = i.First().Name,
-                                    StreetAdress = i.First().StreetAdress,
-                                    PostCode = i.First().PostCode,
-                                    City = i.First().City,
-                                    Country = i.First().Country
-                                }
-                            ).ToList();
-        }
+    <div class="accordion" id="accordionExample">
         @foreach (var item in groupedList)
         {
             if (item.ContractorID != 1004)
             {
-                <div class="card">
-                    <form>
-                        <div class="input-group">
+                <div class="accordion-item">
+                    <div class="card-header input-group" id="heading_@item.ContractorID">
 
-                            <a class="showContractorContacts" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID ˅</span>
-                                </div>
-                            </a>
-
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.PostCode" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.City" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Country" disabled>
-
-                        </div>
-                    </form>
-
-                    <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" data-bs-toggle="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.ContractorID">
-                        <div class="px-2" style="text-align:right; padding-top:5px">
-                            <a class="card-link getContractorEdit" role="button" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
-                            <a class="card-link getContractorDelete" role="button" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a>
-                        </div>
-
-                        <div class="px-2">
-                            @*<a class="card-link" id="creNewContact" role="button" data-createContactid="@item.ContractorID">Uusi yhteystiedot</a>*@
-                            @item.ContractorsDescription
-                        </div>
-
-                        <div class="card-body">
-                            <div id="contractorDetails_@item.ContractorID">
-                                <table class="table">
-                                    <thead>
-                                        <tr id="tableHeads">
-                                            <th>Etunimi</th>
-                                            <th>Kuvaus</th>
-                                            <th>Puhelin numero</th>
-                                            <th>Sähköposti</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
-                                        {
-                                            <tr>
-                                                @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
-                                                {
-                                                    if (person.ContractorID == item.ContractorID && person.PersonID == contact.PersonID)
-                                                    {
-
-                                                        <td>@Html.DisplayFor(modelItem => person.FirstName)</td>
-                                                        <td>@Html.DisplayFor(modelItem => person.LastName)</td>
-                                                        <td>@Html.DisplayFor(modelItem => person.Description)</td>
-
-                                                        <td>@Html.DisplayFor(modelItem => contact.PhoneNumber)</td>
-                                                        <td>@Html.DisplayFor(modelItem => contact.Email)</td>
-                                                        
-                                                    }
-                                                }
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                        <a class="showContractorContacts" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collapse_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID ˅</span>
                             </div>
+                        </a>
+
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.PostCode" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.City" disabled>
+                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Country" disabled>
+
+                    </div>
+                    <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" aria-labelledby="heading_@item.ContractorID" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div style="word-break:break-word">
+                                        <b>Kuvaus:</b><br />
+                                        @item.ContractorsDescription
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div style="text-align:right">
+                                        <a class="card-link px-1 getContractorEdit" role="button" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
+                                        <a class="card-link px-1 getContractorDelete" role="button" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a><br />
+                                        <a class="card-link creNewContact" role="button" data-createcontactid="@item.ContractorID">Uusi yhteystiedot</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            
+
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Etunimi</th>
+                                        <th>Sukunimi</th>
+                                        <th>Kuvaus</th>
+                                        <th>Puhelin numero</th>
+                                        <th>Sähköposti</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
+                                    {
+                                        foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
+                                        {
+                                            if (person.ContractorID == item.ContractorID && person.PersonID == contact.PersonID)
+                                            {
+                                                <tr>
+                                                    <td>@person.FirstName</td>
+                                                    <td>@person.LastName</td>
+                                                    <td>@person.Description</td>
+                                                    <td>@contact.PhoneNumber</td>
+                                                    <td>@contact.Email</td>
+                                                    <td>
+                                                        <a class="card-link getHooman" role="button" data-hooman="@person.PersonID">Muokkaa henkilö</a> |
+                                                        <a class="card-link getContactEdit" role="button" data-editcontactid="@contact.ContactID">Muokkaa yhteystiedot</a> |
+                                                        <a class="card-link getHoman" role="button" data-homan="@person.PersonID">Poistaa henkilö</a> |
+                                                        <a class="card-link getContactDelete" role="button" data-delcontactid="@contact.ContactID">Poistaa yhteystiedot</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -138,57 +147,91 @@
     </div>
 </div>
 
+    @section scripts {
+        <script type="text/javascript">
 
-@section scripts {
-    <script type="text/javascript">
-
-        /*------Contractors Modals------*/
-        /* Create */
-        $(function () {
-            $("#creNewContractor").click(function () {
-                console.log("Otwieram Create new Concractor");
-                modalGet("Contractors", "CreateContractor", null, "contractorCreate", "ModalContractorCreate");
+            /*------Contractors Modals------*/
+            /* Create */
+            $(function () {
+                $("#creNewContractor").click(function () {
+                    modalGet("Contractors", "CreateContractor", null, "contractorCreate", "ModalContractorCreate");
+                });
             });
-        });
 
-        /* Edit */
-        $(function () {
-            $(".getContractorEdit").click(function () {
-                let editId = $(this).data("editid");
-                modalGet("Contractors", "EditContractor", editId, "contractorEdit", "ModalContractorEdit");
+            /* Edit */
+            $(function () {
+                $(".getContractorEdit").click(function () {
+                    let editId = $(this).data("editid");
+                    modalGet("Contractors", "EditContractor", editId, "contractorEdit", "ModalContractorEdit");
+                });
             });
-        });
 
-        /* Delete */
-        $(function () {
-            $(".getContractorDelete").click(function () {
-                let deleteId = $(this).data("deleteid");
-                modalGet("Contractors", "_ModalDelete", deleteId, "contractorDelete", "ModalContractorDelete");
+            /* Delete */
+            $(function () {
+                $(".getContractorDelete").click(function () {
+                    let deleteId = $(this).data("deleteid");
+                    modalGet("Contractors", "DeleteContractor", deleteId, "contractorDelete", "ModalContractorDelete");
+                });
             });
-        });
 
 
-        /*------Contractors Modals------*/
-        /* Create */
+            /*------Persons Modals------*/
+            /* Create */
 
 
-        /* Edit */
+            /* Edit */
+            $(document).on('click', '.getHooman', function () {
+                let leHooman = $(this).data("hooman");
+                console.log(leHooman);
+                modalGet("Contractors", "EditPerson", leHooman, "personEdit", "ModalPersonEdit");
+            });
+
+            /* Delete */
+            $(document).on('click', '.getHoman', function () {
+                let leHoman = $(this).data("homan");
+                console.log(leHoman);
+                modalGet("Contractors", "DeletePerson", leHoman, "personDelete", "ModalPersonDelete");
+            });
 
 
-        /* Delete */
+            /*------Contacts Modals------*/
+
+            /* Create */
+            $(document).on('click', '.creNewContact', function () {
+                let contractorId = $(this).data("createcontactid");
+                var url = "/Contractors/CreateContact/?ContractorID=" + contractorId;
+                console.log(url);
+
+                var iframeForModal = $("#contactCreate");
+
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'get',
+                    type: "get",
+                    success: function (result) {
+                        iframeForModal.replaceWith(result);
+                        $("#ModalContactCreate").modal('show');
+                    }
+                });
+            });
+
+            /* Edit */
+            $(document).on('click', '.getContactEdit', function () {
+                let editContactID = $(this).data("editcontactid");
+                modalGet("Contractors", "EditContact", editContactID, "contactEdit", "ModalContactEdit");
+
+            });
+
+            /* Delete */
+            $(document).on('click', '.getContactDelete', function () {
+                let leDelCont = $(this).data("delcontactid");
+                console.log(leDelCont);
+                modalGet("Contractors", "DeleteContact", leDelCont, "contactDelete", "ModalContactDelete");
+            });
 
 
-
-        /*------Contractors Modals------*/
-        /* Create */
-
-
-        /* Edit */
-
-
-        /* Delete */
-
-
-
-    </script>
-}
+        </script>
+    }

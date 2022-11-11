@@ -309,7 +309,10 @@
     <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
     <Content Include="Views\Contractors\_ModalCreateContact.cshtml" />
     <Content Include="Views\Contractors\_ModalCreatePerson.cshtml" />
-    <Content Include="Views\Contractors\_ModalPersonDelete.cshtml" />
+    <Content Include="Views\Contractors\_ModalEditPerson.cshtml" />
+    <Content Include="Views\Contractors\_ModalEditContact.cshtml" />
+    <Content Include="Views\Contractors\_ModalDeletePerson.cshtml" />
+    <Content Include="Views\Contractors\_ModalDeleteContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

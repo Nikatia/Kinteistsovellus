@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -93,16 +94,38 @@ namespace Kiinteistosovellus.Controllers
 
 
         //------------------------------------Contacts------------------------------------
+        public ActionResult _Persons(int? contractorId)
+        {
+            var contractorContactList = from p in db.Persons
+                                    join cnt in db.Contacts on p.PersonID equals cnt.PersonID
+                                    join ctr in db.Contractors on p.ContractorID equals ctr.ContractorID
+                                    where p.ContractorID == contractorId
+                                    //orderby//
+                                    select new AllContractorsData
+                                    {
+                                        ContractorID = (int)p.ContractorID,
+                                        PersonID = p.PersonID,
+                                        ContactID = (int)cnt.ContactID,
+                                        FirstName = p.FirstName,
+                                        LastName = p.LastName,
+                                        PhoneNumber = cnt.PhoneNumber,
+                                        Email = cnt.Email,
+                                        LoginID = cnt.LoginID,
+                                    };
+            ViewBag.ContractorId = contractorId;
+            return PartialView(contractorContactList);
+        }
 
         // GET: Contacts/Create
-        public PartialViewResult CreateContact()
+        public PartialViewResult CreateContact(int? contractorId)
         {
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.ContractorID = contractorId;
+            Contacts contacts = db.Contacts.First(n => n.ContractorID == contractorId);
             ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
-            return PartialView("/Views/Contractors/_ModalCreateContact.cshtml");
+            return PartialView("/Views/Contractors/_ModalCreateContact.cshtml", contacts);
         }
 
         // POST: Contractors/Create
@@ -120,7 +143,7 @@ namespace Kiinteistosovellus.Controllers
                 return null;
             }
 
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contacts);
+            ViewBag.ContractorID = contacts;
             ViewBag.LoginID = "1001";
             ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName", contacts);
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
@@ -166,8 +189,6 @@ namespace Kiinteistosovellus.Controllers
         // ----------------------------------------------- EDIT PART -----------------------------------------------
 
         //------------------------------------Contractors------------------------------------
-
-        // GET: Contractors/Edit/5
         public ActionResult EditContractor(int? id)
         {
             if (id == null)
@@ -184,9 +205,6 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 
-        // POST: Contractors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
@@ -202,13 +220,78 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 
+        //------------------------------------Persons------------------------------------
+        public ActionResult EditPerson(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Persons person = db.Persons.Find(id);
+            if (person == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LoginID = "1001";
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", person.ContractorID);
+            return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult EditPerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,LoginID,Description")] Persons person)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(person).State = EntityState.Modified;
+                db.SaveChanges();
+                return null;
+            }
+            ViewBag.LoginID = "1001";
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", person.ContractorID);
+            return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
+        }
+
+        //------------------------------------Contacts------------------------------------
+        public ActionResult EditContact(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Contacts contact = db.Contacts.Find(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LoginID = "1001";
+            ViewBag.PersonID = contact.PersonID;
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contact.ContractorID);
+            return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult EditContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email,LoginID")] Contacts contact)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
+                return null;
+            }
+            ViewBag.LoginID = "1001";
+            ViewBag.PersonID = contact.PersonID;
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contact.ContractorID);
+            return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);
+        }
 
         // ----------------------------------------------- DELETE PART -----------------------------------------------
 
 
-
+        //------------------------------------Contractors------------------------------------
         // GET: Contractors/Delete/5
-        public ActionResult _ModalDelete(int? id)
+        public ActionResult DeleteContractor(int? id)
         {
             if (id == null)
             {
@@ -225,9 +308,9 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // POST: Contractors/Delete/5
-        [HttpPost, ActionName("_ModalDelete")]
+        [HttpPost, ActionName("DeleteContractor")]
         [ValidateAntiForgeryToken]
-        public ActionResult _ModalDeleteConfirmed(int id)
+        public ActionResult DeleteContractorConfirmed(int id)
         {
             Contractors contractors = db.Contractors.Find(id);
 
@@ -254,8 +337,9 @@ namespace Kiinteistosovellus.Controllers
             return RedirectToAction("Index");
         }
 
+        //------------------------------------Persons------------------------------------
         // GET: Contractors/Delete/5
-        public ActionResult _ModalPersonDelete(int? id)
+        public ActionResult DeletePerson(int? id)
         {
             if (id == null)
             {
@@ -268,13 +352,13 @@ namespace Kiinteistosovellus.Controllers
                 return HttpNotFound();
             }
             ViewBag.PersonID = id;
-            return PartialView("_ModalPersonDelete", persons);
+            return PartialView("_ModalDeletePerson", persons);
         }
 
         // POST: Contractors/Delete/5
-        [HttpPost, ActionName("_ModalPersonDelete")]
+        [HttpPost, ActionName("DeletePerson")]
         [ValidateAntiForgeryToken]
-        public ActionResult _ModalPersonDeleteConfirmed(int id)
+        public ActionResult DeletePersonConfirmed(int id)
         {
             Persons persons = db.Persons.Find(id);
 
@@ -284,6 +368,34 @@ namespace Kiinteistosovellus.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        //------------------------------------Contacts------------------------------------
+        public ActionResult DeleteContact(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Contacts contact = db.Contacts.Find(id);
+            ViewBag.Persons = GetPersons();
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_ModalDeleteContact", contact);
+        }
+
+        // POST: Contractors/Delete/5
+        [HttpPost, ActionName("DeleteContact")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteContactConfirmed(int id)
+        {
+            Contacts contact = db.Contacts.Find(id);
+            db.Contacts.Remove(contact);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

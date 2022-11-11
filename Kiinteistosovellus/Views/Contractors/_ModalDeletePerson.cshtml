@@ -5,9 +5,8 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h3>Poistaa urakoitsija</h3>
+                <h3>Poistaa henkilö</h3>
             </div>
-            <iframe id="contractorDelete" style="display:none;"></iframe>
             <div class="modal-body">
                 <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
                 <div>
@@ -28,7 +27,7 @@
                         </div>
 
                         <div class="col-sm-6">
-                            Huom! Tämä toiminto poistaa myös henkilön yhteystiedot!<br /><br />
+                            <p class="text-danger">Huom! Tämä toiminto poistaa myös henkilön yhteystiedot!</p>
                             <b>Yhteystiedot:</b>
                             <ul>
                                 @*calling persons list from Controller's ViewBag*@
@@ -36,7 +35,14 @@
                                 {
                                     if (contact.PersonID == ViewBag.PersonID)
                                     {
-                                        <li>Puhelin: @contact.PhoneNumber, Sähköposti: @contact.Email</li>
+                                        if (contact.PhoneNumber != null)
+                                        {
+                                            <li>Puhelin: @contact.PhoneNumber,</li>
+                                        }
+                                        if (contact.Email != null)
+                                        {
+                                            <li> Sähköposti: @contact.Email</li>
+                                        }
                                     }
                                 }
                             </ul>
@@ -59,6 +65,7 @@
         </div>
     </div>
 </div>
+
 
 
 
