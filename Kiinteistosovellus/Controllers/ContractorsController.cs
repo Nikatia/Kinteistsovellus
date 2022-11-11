@@ -165,6 +165,8 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
 
+        //------------------------------------Contractors------------------------------------
+
         // GET: Contractors/Edit/5
         public ActionResult EditContractor(int? id)
         {
@@ -179,7 +181,7 @@ namespace Kiinteistosovellus.Controllers
             }
             ViewBag.LoginID = "1001";
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
-            return PartialView("/Views/Contractors/_ModalEdit", contractors);
+            return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 
         // POST: Contractors/Edit/5
@@ -199,8 +201,6 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
             return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
-
-
 
 
         // ----------------------------------------------- DELETE PART -----------------------------------------------

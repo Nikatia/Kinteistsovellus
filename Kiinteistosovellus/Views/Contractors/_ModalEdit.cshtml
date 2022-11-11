@@ -1,9 +1,8 @@
 ﻿@model Kiinteistosovellus.Models.Contractors
 
 <div class="modal fade" id="ModalContractorEdit">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h3>Muokkaa urakoitsija</h3>
             </div>
@@ -18,18 +17,10 @@
                         @Html.HiddenFor(model => model.ContractorID)
 
                         <div class="form-group">
-                            Urakoitsijan nimi
+                            Nimi
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Kuvaus
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -48,6 +39,14 @@
                                 @Html.ValidationMessageFor(model => model.PostID, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            Kuvaus
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
                         @*Temporary solution for LoginID until Login system is done*@
                         @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
@@ -59,11 +58,10 @@
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-default" />
+                    <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
                     @Html.ActionLink("Takaisin", "Index")
                 </div>
             </div>
-            <div id="divForPartialPseudo" style="display:none"></div>
         </div>
     </div>
 </div>
@@ -71,7 +69,7 @@
 <script type="text/javascript">
 
     $("#submitDataModal").click(function () {
-        submitModalPost("Contractors", "Edit", "editForm", "ModalContractorEdit");
+        submitModalPost("Contractors", "EditContractor", "editForm", "ModalContractorEdit");
     });
 
 </script>

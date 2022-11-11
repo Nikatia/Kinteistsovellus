@@ -10,15 +10,21 @@
     <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a> | <a class="card-link" id="creNewContact" role="button">Uusi yhteystiedot</a>
 </p>
 
-@*Modal Containers*@
+@*---Modal Containers---*@
+@*Contractors*@
 <iframe id="contractorCreate" style="display:none;"></iframe>
-<iframe id="contactCreate" style="display:none;"></iframe>
 <iframe id="contractorEdit" style="display:none;"></iframe>
 <iframe id="contractorDelete" style="display:none;"></iframe>
+
+@*Persons*@
+<iframe id="personCreate" style="display:none;"></iframe>
+<iframe id="personEdit" style="display:none;"></iframe>
 <iframe id="personDelete" style="display:none;"></iframe>
-<iframe id="modalPlaceDelete" style="display:none;"></iframe>
-<iframe id="modalPlaceDelete3" style="display:none;"></iframe>
-<iframe id="modalPlaceDelete4" style="display:none;"></iframe>
+
+@*Contacts*@
+<iframe id="contactCreate" style="display:none;"></iframe>
+<iframe id="contactEdit" style="display:none;"></iframe>
+<iframe id="contactDelete" style="display:none;"></iframe>
 
 
 <div class="container-fluid">
@@ -136,8 +142,8 @@
 @section scripts {
     <script type="text/javascript">
 
-
-        /* Create Contractor Modal Window */
+        /*------Contractors Modals------*/
+        /* Create */
         $(function () {
             $("#creNewContractor").click(function () {
                 console.log("Otwieram Create new Concractor");
@@ -145,35 +151,7 @@
             });
         });
 
-        //$(function () {
-        //    $(".creNewContact").click(function () {
-        //        let createContactId = $(this).data("createContactid");
-        //        console.log(createContactId);
-        //        var url = "/Contractors/_ModalCreateContact/?ContractorID=" + createContactId;
-        //        var $detailDivCreate = $("#contactCreate");
-
-        //        $.get(url, function (data) {
-        //            $detailDivCreate.replaceWith(data);
-        //            $('#ModalContactCreate').modal('show');
-        //        });
-        //    });
-        //});
-
-        //Create Contact Modal Window
-        $(function () {
-            $(".creNewContact").click(function () {
-                let createContactId = $(this).data("createContactid");
-                modalGet("Contractors", "CreateContact", createContactId, "contactCreate", "ModalContactCreate");
-            });
-        });
-
-        $(function () {
-            $("#ButtonInFirstParial").click(function () {
-                console.log("klinkięte");
-            });
-        });
-
-        /* Edit Modal Window */
+        /* Edit */
         $(function () {
             $(".getContractorEdit").click(function () {
                 let editId = $(this).data("editid");
@@ -181,7 +159,7 @@
             });
         });
 
-        /* Delete Modal Window */
+        /* Delete */
         $(function () {
             $(".getContractorDelete").click(function () {
                 let deleteId = $(this).data("deleteid");
@@ -189,23 +167,27 @@
             });
         });
 
-        /* Delete Person Modal Window */
-        $(document).ready(function () {
-            $("#getPersonDelete4").click(function () {
-                console.log("I clicked Person Delete 4");
-                let deletePersonId = $(this).data("deletePersonid");
-                console.log(deletePersonId);
-                var url = "/Contractors/_ModalPersonDelete/?id=" + deletePersonId;
 
-                var $detailDivEdit = $("#ModalPlaceDelete");
-                $.get(url, function (data) {
-                    $detailDivEdit.replaceWith(data);
-                    $("#ModalPersonDelete").modal("show");
+        /*------Contractors Modals------*/
+        /* Create */
 
-                });
 
-            });
-        });
+        /* Edit */
+
+
+        /* Delete */
+
+
+
+        /*------Contractors Modals------*/
+        /* Create */
+
+
+        /* Edit */
+
+
+        /* Delete */
+
 
 
     </script>
