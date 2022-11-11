@@ -93,7 +93,7 @@ namespace Kiinteistosovellus.Controllers
                 Console.WriteLine("IsValid");
                 db.OtherSpendingTypes.Add(otherSpendingType);
                 db.SaveChanges();
-                return null;
+                return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml"); //Tässä pitää palauttaa näkymä!!!
             }
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//

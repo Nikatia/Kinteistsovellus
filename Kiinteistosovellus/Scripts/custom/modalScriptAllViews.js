@@ -80,12 +80,11 @@ function partialViewSubmit(controller, actionresult, realFormDivId, formId, drop
         success: function (result) {
             //console.log("Result:")
             //console.log(result);
-            updateDropdownList(controller, "GetList", dropdownId);
-            if (result == "") { //Jos lisäys onnistui, controller palauttaa nullin
-            } else {//tallentaminen ei onnistunut, koska modelstate.isvalid ei ollut true
-                $(divForPartial).html(""); //tyhjennetään vanha modaali (en tiedä, onko pakollista)
-                $(divForPartial).html(result); //luodaan uusi modaali, jossa validate messaget
-            }
+            
+            updateDropdownList(controller, dropdownId);
+            $(divForPartial).html(""); 
+            $(divForPartial).html(result); 
+           
         }
     });
 };

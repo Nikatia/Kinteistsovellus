@@ -65,7 +65,8 @@
                                 <div class="form-group" id="hiddenFieldAddType" style="display:none">
                                     Uusin tyypin nimi:
                                     <div class="col-md-10 input-group">
-                                        <input type="text" maxlength="100" size="500" class="form-control" id="pseudoForm" onkeyup="paivitaOikeaKentta()" />
+                                        <input type="text" maxlength="100" size="500" class="form-control" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
+                                        <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                     </div>
                                     <div style="text-align: right; padding-right: 5px">
                                         <a class="card-link" role="button" id="lisaaUusiType">Lisää</a>
@@ -102,7 +103,7 @@
                     @Html.ActionLink("Takaisin", "Index")
                 </div>
             </div>
-            <div id="divForPartialPseudo" style="display:none;">
+            <div id="divForPartialPseudo" style="display:block;">
 
             </div>
 
@@ -119,7 +120,7 @@
 
     //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
     function paivitaOikeaKentta() {
-        var falseFormInput = $("#pseudoForm");
+        var falseFormInput = $("#fakeFormTypeName");
         var realForm = $("#TypeName");
         realForm.val(falseFormInput.val());
     }
@@ -146,9 +147,9 @@
     };
 
     //luodaan uusi kulutyyppi
-    $("#lisaaUusiType").click(function () {
+    $("#lisaaUusiType").click(async function () {
         partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
     });
-
+     
 
 </script>
