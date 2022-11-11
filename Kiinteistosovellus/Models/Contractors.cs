@@ -11,7 +11,8 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Contractors
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,9 +25,12 @@ namespace Kiinteistosovellus.Models
         }
     
         public int ContractorID { get; set; }
+        [Required(ErrorMessage = "Nimi vaaditaan")]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Required(ErrorMessage = "Osoite vaaditaan")]
         public string StreetAdress { get; set; }
+        [Required(ErrorMessage = "Postinumero vaaditaan")]
         public int PostID { get; set; }
         public int LoginID { get; set; }
     

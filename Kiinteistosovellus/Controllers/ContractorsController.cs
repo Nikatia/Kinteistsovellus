@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
 
@@ -16,41 +17,44 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
+        // ----------------------------------------------- GET LISTS -----------------------------------------------
 
-        // ----------------------------------------------- INDEX PART -----------------------------------------------
+        public List<Persons> GetPersons()
+        {
+            List<Persons> persons = db.Persons.ToList();
+            return persons;
+        }
+
+        public List<Contacts> GetContacts()
+        {
+            List<Contacts> contacts = db.Contacts.ToList();
+            return contacts;
+        }
+
+        // ----------------------------------------------- INDEX -----------------------------------------------
 
         // GET: Contractors
         public ActionResult Index()
         {
-            var contractors = db.Contractors.Include(c => c.Logins).Include(c => c.Post).Include(c => c.Persons).Include(c => c.Contacts);
-            return View(contractors.ToList());
+            ViewBag.Persons = GetPersons();
+            ViewBag.Contacts = GetContacts();
+
+            var wholeContractorsList = from ctr in db.Contractors
+                                       join pst in db.Post on ctr.PostID equals pst.PostID
+                                       select new AllContractorsData
+                                       {
+                                           ContractorID = (int)ctr.ContractorID,
+                                           Name = ctr.Name,
+                                           ContractorsDescription = ctr.Description,
+                                           StreetAdress = ctr.StreetAdress,
+                                           PostID = ctr.PostID,
+                                           PostCode = pst.PostCode,
+                                           City = pst.City,
+                                           Country = pst.Country,
+                                       };
+
+            return View(wholeContractorsList.ToList());
         }
-
-        //Partial view of persons, which belong to certain contractor
-        public ActionResult _Persons(int? contractorId)
-        {
-
-            var contactPersonList = from p in db.Persons
-                                    join cnt in db.Contacts on p.PersonID equals cnt.PersonID
-                                    join ctr in db.Contractors on p.ContractorID equals ctr.ContractorID
-                                    where p.ContractorID == contractorId
-                                    //orderby//
-                                    select new PersonsContacts
-                                    {
-                                        ContractorID = (int)p.ContractorID,
-                                        PersonID = p.PersonID,
-                                        ContactID = (int)cnt.ContactID,
-                                        FirstName = p.FirstName,
-                                        LastName = p.LastName,
-                                        Description = p.Description,
-                                        PhoneNumber = cnt.PhoneNumber,
-                                        Email = cnt.Email,
-                                        LoginID = cnt.LoginID,
-                                    };
-            ViewBag.ContractorId = contractorId;
-            return PartialView(contactPersonList.ToList());
-        }
-
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
@@ -201,12 +205,6 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- DELETE PART -----------------------------------------------
 
-        //Getting Persons list to show up in Modal Delete persons, which will be deleted together with contractor
-        public List<Persons> GetPersons()
-        {
-            List<Persons> persons = db.Persons.ToList();
-            return persons;
-        }
 
 
         // GET: Contractors/Delete/5
@@ -256,7 +254,36 @@ namespace Kiinteistosovellus.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Contractors/Delete/5
+        public ActionResult _ModalPersonDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Persons persons = db.Persons.Find(id);
+            ViewBag.Contacts = GetContacts();
+            if (persons == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PersonID = id;
+            return PartialView("_ModalPersonDelete", persons);
+        }
 
+        // POST: Contractors/Delete/5
+        [HttpPost, ActionName("_ModalPersonDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ModalPersonDeleteConfirmed(int id)
+        {
+            Persons persons = db.Persons.Find(id);
+
+            //deleting contractor together with it's persons and their contact informations
+            db.Contacts.RemoveRange(db.Contacts.Where(c => c.PersonID == id));
+            db.Persons.Remove(persons);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {

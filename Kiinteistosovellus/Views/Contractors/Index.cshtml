@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Kiinteistosovellus.Models.Contractors>
+﻿@model IEnumerable<Kiinteistosovellus.ViewModels.AllContractorsData>
 
 @{
     ViewBag.Title = "Index";
@@ -15,6 +15,11 @@
 <iframe id="contactCreate" style="display:none;"></iframe>
 <iframe id="contractorEdit" style="display:none;"></iframe>
 <iframe id="contractorDelete" style="display:none;"></iframe>
+<iframe id="personDelete" style="display:none;"></iframe>
+<iframe id="modalPlaceDelete" style="display:none;"></iframe>
+<iframe id="modalPlaceDelete3" style="display:none;"></iframe>
+<iframe id="modalPlaceDelete4" style="display:none;"></iframe>
+
 
 <div class="container-fluid">
     <div class="card-header">
@@ -34,9 +39,23 @@
 
     </div>
     <div id="accordion">
-        @foreach (var item in Model)
+        @{
+            List<Kiinteistosovellus.ViewModels.AllContractorsData> groupedList = Model
+                            .GroupBy(l => l.ContractorID)
+                            .Select(i =>
+                                new Kiinteistosovellus.ViewModels.AllContractorsData()
+                                {
+                                    ContractorID = i.Key,
+                                    Name = i.First().Name,
+                                    StreetAdress = i.First().StreetAdress,
+                                    PostCode = i.First().PostCode,
+                                    City = i.First().City,
+                                    Country = i.First().Country
+                                }
+                            ).ToList();
+        }
+        @foreach (var item in groupedList)
         {
-            //ignoring empty contractor
             if (item.ContractorID != 1004)
             {
                 <div class="card">
@@ -51,9 +70,9 @@
 
                             <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
                             <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.PostCode" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.City" disabled>
-                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Post.Country" disabled>
+                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.PostCode" disabled>
+                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.City" disabled>
+                            <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Country" disabled>
 
                         </div>
                     </form>
@@ -61,47 +80,67 @@
                     <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" data-bs-toggle="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.ContractorID">
                         <div class="px-2" style="text-align:right; padding-top:5px">
                             <a class="card-link getContractorEdit" role="button" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
-                            <a class="card-link getContractorDelete" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a>
+                            <a class="card-link getContractorDelete" role="button" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a>
                         </div>
 
                         <div class="px-2">
                             @*<a class="card-link" id="creNewContact" role="button" data-createContactid="@item.ContractorID">Uusi yhteystiedot</a>*@
-                            @item.Description
+                            @item.ContractorsDescription
                         </div>
 
                         <div class="card-body">
-                            <div id="contractorDetails_@item.ContractorID"></div>
+                            <div id="contractorDetails_@item.ContractorID">
+                                <table class="table">
+                                    <thead>
+                                        <tr id="tableHeads">
+                                            <th>Etunimi</th>
+                                            <th>Kuvaus</th>
+                                            <th>Puhelin numero</th>
+                                            <th>Sähköposti</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
+                                        {
+                                            <tr>
+                                                @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
+                                                {
+                                                    if (person.ContractorID == item.ContractorID && person.PersonID == contact.PersonID)
+                                                    {
+
+                                                        <td>@Html.DisplayFor(modelItem => person.FirstName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => person.LastName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => person.Description)</td>
+
+                                                        <td>@Html.DisplayFor(modelItem => contact.PhoneNumber)</td>
+                                                        <td>@Html.DisplayFor(modelItem => contact.Email)</td>
+                                                        
+                                                    }
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
-
         }
-
     </div>
-
-
 </div>
+
 
 @section scripts {
     <script type="text/javascript">
 
-        /* Accordion-collapse list of Contact Persons */
-        $(function () {
-            $(".showContractorContacts").click(function () {
-                let contractorId = $(this).data("contractorid");
-                var url = "/Contractors/_Persons/?ContractorID=" + contractorId;
-                $("#contractorDetails_" + contractorId).append(" <b>Ladataan contactin " + contractorId + " rivejä...</b>");
-                var $detailDiv = $("#contractorDetails_" + contractorId);
-                $.get(url, function (data) {
-                    $detailDiv.replaceWith(data);
-                });
-            });
-        });
 
         /* Create Contractor Modal Window */
         $(function () {
             $("#creNewContractor").click(function () {
+                console.log("Otwieram Create new Concractor");
                 modalGet("Contractors", "CreateContractor", null, "contractorCreate", "ModalContractorCreate");
             });
         });
@@ -120,7 +159,7 @@
         //    });
         //});
 
-         //Create Contact Modal Window 
+        //Create Contact Modal Window
         $(function () {
             $(".creNewContact").click(function () {
                 let createContactId = $(this).data("createContactid");
@@ -128,6 +167,11 @@
             });
         });
 
+        $(function () {
+            $("#ButtonInFirstParial").click(function () {
+                console.log("klinkięte");
+            });
+        });
 
         /* Edit Modal Window */
         $(function () {
@@ -141,9 +185,28 @@
         $(function () {
             $(".getContractorDelete").click(function () {
                 let deleteId = $(this).data("deleteid");
-                modalGet("Contractors", "Delete", deleteId, "contractorDelete", "ModalContractorDelete");
+                modalGet("Contractors", "_ModalDelete", deleteId, "contractorDelete", "ModalContractorDelete");
             });
         });
+
+        /* Delete Person Modal Window */
+        $(document).ready(function () {
+            $("#getPersonDelete4").click(function () {
+                console.log("I clicked Person Delete 4");
+                let deletePersonId = $(this).data("deletePersonid");
+                console.log(deletePersonId);
+                var url = "/Contractors/_ModalPersonDelete/?id=" + deletePersonId;
+
+                var $detailDivEdit = $("#ModalPlaceDelete");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalPersonDelete").modal("show");
+
+                });
+
+            });
+        });
+
 
     </script>
 }

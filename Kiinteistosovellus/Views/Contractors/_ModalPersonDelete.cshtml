@@ -1,0 +1,64 @@
+﻿@model Kiinteistosovellus.Models.Persons
+
+<div class="modal fade" id="ModalPersonDelete">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Poistaa urakoitsija</h3>
+            </div>
+            <iframe id="contractorDelete" style="display:none;"></iframe>
+            <div class="modal-body">
+                <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
+                <div>
+                    <hr />
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>Etunimi ja sukunimi</dt>
+                                <dd>@Html.DisplayFor(model => model.FullName)</dd>
+
+                                <dt>Kuvaus</dt>
+                                <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+                                <dt>Urakoitsija</dt>
+                                <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            Huom! Tämä toiminto poistaa myös henkilön yhteystiedot!<br /><br />
+                            <b>Yhteystiedot:</b>
+                            <ul>
+                                @*calling persons list from Controller's ViewBag*@
+                                @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
+                                {
+                                    if (contact.PersonID == ViewBag.PersonID)
+                                    {
+                                        <li>Puhelin: @contact.PhoneNumber, Sähköposti: @contact.Email</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                        <a href="@Url.Action("Index", "Contractors")">Peruuta</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
