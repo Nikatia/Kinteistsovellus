@@ -1,0 +1,121 @@
+﻿@model Kiinteistosovellus.Models.MonthlySpendingTypes
+
+
+
+
+
+<div class="modal fade" id="ModalMSEdit">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Muokkaa </h2>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("_editModal", "MonthlySpendings", FormMethod.Post, new { id = "editMSForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Kuukausittaiset kulutustyypit</h4>
+                        <hr />
+                        <div class="form-horizontal">
+
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.SpendingTypeID)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TypeName, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Unit, "Yksikkö", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+            @Html.LabelFor(model => model.LoginID, "LoginID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("LoginID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LoginID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                            @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>*@
+                        </div>
+                        <div class="form-group">
+                            <input type="button" id="submitModalMSEdit" style="display:none" value="Tallenna" class="btn btn-primary" />
+                        </div>
+
+
+
+
+                    </div>
+                }
+            </div>
+            <div class="modal-footer" style="display:inline-block">
+                @*<button type="submit" class="btn btn-primary" form="editMSForm">Tallenna</button>*@
+                <button type="submit" id="submitEdit" class="btn btn-primary">Tallenna</button>
+                @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#submitEdit").click(function () {
+        $("#submitModalMSEdit").click();
+    });
+
+
+
+
+    var indexUrl = '/MonthlySpendingTypes/Index';
+    $("#submitModalMSEdit").click(function () {
+        //console.log("toimiiko");
+        var form = this.form;
+        //console.log(parent.document.getElementById("ModalPlansCreate"));
+        var data = new FormData(form);
+        var detailDivCreate = parent.document.getElementById("ModalMSEdit");
+
+        //console.log(data);
+        $.ajax({
+            url: "/MonthlySpendingTypes/_EditModal",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: "POST",
+            data: data,
+            success: function (result) {
+                console.log(result);
+                if (result == "") {
+                    //console.log("null tuli");
+                    window.location.href = indexUrl;
+                } else {
+                    //console.log("nullia ei tullut");
+                    $(detailDivCreate).html("");
+                    $(detailDivCreate).replaceWith(result);
+                    $("#ModalMSEdit").modal("show");
+                }
+
+            }
+        });
+    });
+
+</script>
+
+
+
+

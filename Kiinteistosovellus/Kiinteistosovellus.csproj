@@ -130,6 +130,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginsController.cs" />
     <Compile Include="Controllers\MonthlySpendingsController.cs" />
+    <Compile Include="Controllers\MonthlySpendingTypesController.cs" />
     <Compile Include="Controllers\OtherSpendingsController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Global.asax.cs">
@@ -307,7 +308,21 @@
     <Content Include="Views\Logins\_CreateModalLogins.cshtml" />
     <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
     <Content Include="Views\Logins\_EditModalLogins.cshtml" />
+
     <Content Include="Views\OtherSpendings\_PartialOthSpendType.cshtml" />
+
+    <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
+
+    <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\Create.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\Delete.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\Details.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\Edit.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\Index.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\_CreateModal.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\_DeleteModal.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\_EditModal.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

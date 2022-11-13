@@ -1,0 +1,72 @@
+﻿@model Kiinteistosovellus.Models.MonthlySpendingTypes
+
+
+
+
+<div class="modal fade" id="ModalMSDelete">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <h3>Oletko varma, että haluat poistaa tämän?</h3>
+                <div>
+                    @*<h4>Kuukausittaiset kulutyypit</h4>*@
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Kulutustyyppi
+                           
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TypeName)
+                        </dd>
+
+                        <dt>
+                            Yksikkö
+                            
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Unit)
+                        </dd>
+
+                        @*<dt>
+                            @Html.DisplayNameFor(model => model.Logins.UserName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Logins.UserName)
+                        </dd>*@
+
+                    </dl>
+
+
+
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-footer" style="display:inline-block">
+                        <button type="submit" class="btn btn-primary">Poista</button>
+                        @Html.ActionLink("Takaisin", "Index", "Monthly_spendingTypes", new { @Class = "btn btn-secondary" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
