@@ -1,0 +1,122 @@
+﻿@model Kiinteistosovellus.Models.MonthlySpendings
+
+
+
+
+<div class="modal fade" id="ModalMSDelete">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+              
+            </div>
+            <div class="modal-body">
+
+
+              
+
+                <h3>Oletko varma, että haluat poistaa tämän?</h3>
+                <div>
+                    <h4>Kuukausittaiset kulut</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Aloituspäivämäärä
+                        </dt>
+
+                        <dd>
+                            @if (Model.DateBegin != null)
+                            {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
+                        @*@Html.DisplayFor(model => model.DateBegin)*@
+                        </dd>
+
+                        <dt>
+                            Päättymispäivämäärä
+                        </dt>
+
+                        <dd>
+                            @if (Model.DateBegin != null)
+                            {@Convert.ToDateTime(Model.DateEnd).ToString("dd/MM/yyyy")}
+                        @*@Html.DisplayFor(model => model.DateEnd)*@
+                        </dd>
+
+                        <dt>
+                            Yksikkömäärä
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.AmountOfUnits)
+                        </dd>
+
+                        <dt>
+                            Yksikköhinta
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.PricePerUnit)
+                        </dd>
+
+                        <dt>
+                            Siirtohinta
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TransferPayment)
+                        </dd>
+
+                        <dt>
+                            Kokonaishinta
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FullPrice)
+                        </dd>
+
+                        <dt>
+                            Yrityksen nimi
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Contractors.Name)
+                        </dd>
+
+                        <dt>
+                            Käyttäjän nimi
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Logins.UserName)
+                        </dd>
+
+                        <dt>
+                            Kulutustyyppi
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
+                        </dd>
+
+                    </dl>
+
+
+
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+            <div class="modal-footer" style="display:inline-block">
+                <button type="submit" class="btn btn-primary">Poista</button>
+                @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
+            </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

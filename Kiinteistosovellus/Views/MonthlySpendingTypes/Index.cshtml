@@ -58,10 +58,10 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $(".getOrderId").click(function () {
+        $(".getMSTOrderId").click(function () {
             let MSEditId = $(this).data("orderid");
 
-            var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
+            var url = "/MonthlySpendingTypes/_EditModal/?id=" + MSEditId;
 
             var $detailDivEdit = $("#ModalPlaceEdit");
             $.get(url, function (data) {
@@ -77,7 +77,7 @@
         $(".getId").click(function () {
             let MSDeleteId = $(this).data("id");
 
-            var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
+            var url = "/MonthlySpendingTypes/_DeleteModal/?id=" + MSDeleteId;
 
             var $detailDivEdit = $("#ModalPlaceDelete");
             $.get(url, function (data) {
@@ -90,7 +90,7 @@
     });
     $(document).ready(function () {
         $("#CreateMS").click(function () {
-            var url = "/MonthlySpendings/_CreateModal";
+            var url = "/MonthlySpendingTypes/_CreateModal";
 
             var $detailDivEdit = $("#ModalPlaceCreate");
             $.get(url, function (data) {

@@ -314,6 +314,9 @@
     <Content Include="Views\MonthlySpendingTypes\Details.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\Edit.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\Index.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\_CreateModal.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\_DeleteModal.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\_EditModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
