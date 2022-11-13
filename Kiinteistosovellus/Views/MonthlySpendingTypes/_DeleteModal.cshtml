@@ -1,4 +1,4 @@
-﻿@model Kiinteistosovellus.Models.MonthlySpendings
+﻿@model Kiinteistosovellus.Models.MonthlySpendingTypes
 
 
 
@@ -7,93 +7,43 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-              
+
             </div>
             <div class="modal-body">
 
 
-              
+
 
                 <h3>Oletko varma, että haluat poistaa tämän?</h3>
                 <div>
-                    <h4>Kuukausittaiset kulut</h4>
+                    @*<h4>Kuukausittaiset kulutyypit</h4>*@
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
-                            Aloituspäivämäärä
+                            Kulutustyyppi
+                           
                         </dt>
 
                         <dd>
-                            @if (Model.DateBegin != null)
-                            {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
-                        @*@Html.DisplayFor(model => model.DateBegin)*@
+                            @Html.DisplayFor(model => model.TypeName)
                         </dd>
 
                         <dt>
-                            Päättymispäivämäärä
+                            Yksikkö
+                            
                         </dt>
 
                         <dd>
-                            @if (Model.DateBegin != null)
-                            {@Convert.ToDateTime(Model.DateEnd).ToString("dd/MM/yyyy")}
-                        @*@Html.DisplayFor(model => model.DateEnd)*@
+                            @Html.DisplayFor(model => model.Unit)
                         </dd>
 
-                        <dt>
-                            Yksikkömäärä
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.AmountOfUnits)
-                        </dd>
-
-                        <dt>
-                            Yksikköhinta
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.PricePerUnit)
-                        </dd>
-
-                        <dt>
-                            Siirtohinta
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.TransferPayment)
-                        </dd>
-
-                        <dt>
-                            Kokonaishinta
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.FullPrice)
-                        </dd>
-
-                        <dt>
-                            Yrityksen nimi
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Contractors.Name)
-                        </dd>
-
-                        <dt>
-                            Käyttäjän nimi
+                        @*<dt>
+                            @Html.DisplayNameFor(model => model.Logins.UserName)
                         </dt>
 
                         <dd>
                             @Html.DisplayFor(model => model.Logins.UserName)
-                        </dd>
-
-                        <dt>
-                            Kulutustyyppi
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
-                        </dd>
+                        </dd>*@
 
                     </dl>
 
@@ -103,10 +53,10 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-            <div class="modal-footer" style="display:inline-block">
-                <button type="submit" class="btn btn-primary">Poista</button>
-                @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
-            </div>
+                    <div class="modal-footer" style="display:inline-block">
+                        <button type="submit" class="btn btn-primary">Poista</button>
+                        @Html.ActionLink("Takaisin", "Index", "Monthly_spendingTypes", new { @Class = "btn btn-secondary" })
+                    </div>
                 }
             </div>
         </div>

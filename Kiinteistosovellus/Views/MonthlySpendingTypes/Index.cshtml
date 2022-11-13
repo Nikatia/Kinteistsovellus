@@ -6,10 +6,10 @@
 
 
 
-<p>
-    @Html.ActionLink("Luo uusi", "Create", "", new { @class = "btn btn-secondary", @style = "margin-left:36%;margin-top:7px;font-size:18px" })
-</p>
 
+<p>
+    <button type="button" id="CreateMS" style="margin-top:15px;margin-left:35%;font-size:22px">Luo uusi</button>
+</p>
 <div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
 <div id="ModalPlaceDelete"></div>
 <div id="ModalPlaceCreate"></div>
@@ -74,7 +74,7 @@
     });
 
     $(document).ready(function () {
-        $(".getId").click(function () {
+        $(".getMSTId").click(function () {
             let MSDeleteId = $(this).data("id");
 
             var url = "/MonthlySpendingTypes/_DeleteModal/?id=" + MSDeleteId;
@@ -100,3 +100,4 @@
             });
         });
     });
+    </script>

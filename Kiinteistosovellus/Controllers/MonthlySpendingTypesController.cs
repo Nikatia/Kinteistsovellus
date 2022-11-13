@@ -37,10 +37,10 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // GET: MonthlySpendingTypes/Create
-        public ActionResult Create()
+        public ActionResult _CreateModal()
         {
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
-            return View();
+            return PartialView("_CreateModal");
         }
 
         // POST: MonthlySpendingTypes/Create
@@ -48,21 +48,22 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthlySpendingTypes)
+        public ActionResult _CreateModal([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthlySpendingTypes)
         {
             if (ModelState.IsValid)
             {
                 db.MonthlySpendingTypes.Add(monthlySpendingTypes);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
+                //return RedirectToAction("Index");
             }
 
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendingTypes.LoginID);
-            return View(monthlySpendingTypes);
+            return PartialView("_CreateModal",monthlySpendingTypes);
         }
 
         // GET: MonthlySpendingTypes/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult _EditModal(int? id)
         {
             if (id == null)
             {
@@ -74,7 +75,7 @@ namespace Kiinteistosovellus.Controllers
                 return HttpNotFound();
             }
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendingTypes.LoginID);
-            return View(monthlySpendingTypes);
+            return PartialView("_EditModal",monthlySpendingTypes);
         }
 
         // POST: MonthlySpendingTypes/Edit/5
@@ -82,20 +83,21 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthlySpendingTypes)
+        public ActionResult _EditModal([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthlySpendingTypes)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(monthlySpendingTypes).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
+                //return RedirectToAction("Index");
             }
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendingTypes.LoginID);
-            return View(monthlySpendingTypes);
+            return PartialView("_EditModal",monthlySpendingTypes);
         }
 
         // GET: MonthlySpendingTypes/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult _DeleteModal(int? id)
         {
             if (id == null)
             {
@@ -106,11 +108,11 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View(monthlySpendingTypes);
+            return PartialView("_DeleteModal",monthlySpendingTypes);
         }
 
         // POST: MonthlySpendingTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("_DeleteModal")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
