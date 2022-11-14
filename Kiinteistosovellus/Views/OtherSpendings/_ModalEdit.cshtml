@@ -15,7 +15,7 @@
 
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.OtherSpendingsID)
+                        @Html.TextBoxFor(model => model.OtherSpendingsID, new { @class = "form-control", @Hidden = "true" })
 
                         <div class="row">
 
@@ -97,11 +97,8 @@
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    @*<input type="button" onclick="submitModalEdit()" data-otherspendingid="@Model.OtherSpendingsID" value="Muokkaa" class="btn btn-primary" />*@
-                    @Html.ActionLink("Takaisin", "Index")
                     <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
-                    <a class="Test" data-testing="@ViewBag.OtherSpendingID">Test</a>
-                    <a href="#" class="getOtherSpendingIdDWA" data-otherspendingidDWA="bla">Muokkaa @ViewBag.OtherSpendingID</a>
+                    @Html.ActionLink("Takaisin", "Index")
                 </div> 
                 @*<button type="submit" class="btn btn-primary" form="editForm">Muokkaa</button>*@
             </div>

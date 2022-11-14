@@ -1,0 +1,69 @@
+﻿@model Kiinteistosovellus.Models.Persons
+
+<div class="modal fade" id="ModalPersonEdit">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Muokkaa henkilö</h3>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editPersonForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.PersonID)
+                        @Html.HiddenFor(model => model.ContractorID)
+
+                        <div class="form-group">
+                            Etunimi
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            Sukunimi
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            Kuvaus
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*Temporary solution for LoginID until Login system is done*@
+                        @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
+
+                    </div>
+
+                }
+
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
+                    @Html.ActionLink("Takaisin", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#submitDataModal").click(function () {
+        submitModalPost("Contractors", "EditPerson", "editPersonForm", "ModalPersonEdit");
+    });
+
+</script>
+

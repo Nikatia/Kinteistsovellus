@@ -1,0 +1,44 @@
+﻿@model Kiinteistosovellus.Models.Contacts
+
+<div class="modal fade" id="ModalContactDelete">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Poistaa yhteystiedot</h3>
+            </div>
+            <div class="modal-body">
+                <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
+                <div>
+                    <hr />
+                        <h4>@Html.DisplayFor(model => model.Persons.FullName)</h4>
+                        <div class="col-sm-12">
+                            <dl class="dl-horizontal">
+                                <dt>Puhelin numero</dt>
+                                <dd>@Html.DisplayFor(model => model.PhoneNumber)</dd>
+
+                                <dt>Sähköposti</dt>
+                                <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+                            </dl>
+                        </div>
+                        <p class="text-danger">Huom! Tämä toiminto poistaa vain näkyvät yhteystiedot!</p>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                        <a href="@Url.Action("Index", "Contractors")">Peruuta</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

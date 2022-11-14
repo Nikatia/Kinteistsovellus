@@ -129,7 +129,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            OtherSpendings otherSpendings = db.OtherSpendings.Where(m => m.OtherSpendingsID == id).FirstOrDefault();
+            OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
             if (otherSpendings == null)
             {
                 return HttpNotFound();
