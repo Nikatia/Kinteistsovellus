@@ -303,15 +303,10 @@
     <Content Include="Views\Logins\_CreateModalLogins.cshtml" />
     <Content Include="Views\Logins\_DeleteModalLogins.cshtml" />
     <Content Include="Views\Logins\_EditModalLogins.cshtml" />
-
     <Content Include="Views\OtherSpendings\_PartialOthSpendType.cshtml" />
-
     <Content Include="Views\Contractors\_ModalCreate.cshtml" />
     <Content Include="Views\Contractors\_ModalEdit.cshtml" />
     <Content Include="Views\Contractors\_ModalDelete.cshtml" />
-    <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
-
-    <Content Include="Views\OtherSpendings\PartialOthSpendType.cshtml" />
     <Content Include="Views\Contractors\_ModalCreateContact.cshtml" />
     <Content Include="Views\Contractors\_ModalCreatePerson.cshtml" />
     <Content Include="Views\Contractors\_ModalEditPerson.cshtml" />
@@ -326,7 +321,6 @@
     <Content Include="Views\MonthlySpendingTypes\_CreateModal.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\_DeleteModal.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\_EditModal.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
