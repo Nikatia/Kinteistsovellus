@@ -28,9 +28,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.Label("Aloituspäivämäärä*", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.Label("Aloituspäivämäärä*", htmlAttributes: new { @class = "control-label col-md-2"})
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
                                         @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -38,35 +38,25 @@
                                 <div class="form-group">
                                     @Html.Label("Päätymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
                                         @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    @Html.Label("Kuvaus", htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Desciption, new { htmlAttributes = new { @class = "form-control", @rows = "6", @cols = "56" } })
-                                        @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.Label("Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.Label("Kokonaishinta*", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
-                                @*<div class="form-group">
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.MonthlyOrOther, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.MonthlyOrOther, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "-- Valitse tästä --", new { htmlAttributes = new { @class = "form-control form-select" } })
+                                        @Html.DropDownListFor(model => model.MonthlyOrOther, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
                                         @Html.ValidationMessageFor(model => model.MonthlyOrOther, "", new { @class = "text-danger" })
                                     </div>
-                                </div> MITÄ HELKKARIA TÄLLE KÄVI???*@
+                                </div>
 
                                 <div class="form-group">
                                     <div class="col-md-10">
@@ -74,22 +64,27 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Kuvaus", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Desciption, new { @class = "form-control", @rows = "15", @maxlength = "1000" } )
+                                        @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="button" value="Create" id="submitDataModal" class="btn btn-default" />
+                                
                             </div>
                         </div>
                     </div>
                  }
                 </div>
-                    <div class="modal-footer">
-                        <div class="form-actions no-color">
-                            <br />
-                            @Html.ActionLink("Takaisin", "Index")
-                        </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Create" id="submitDataModal" class="btn btn-primary" />
+                        @Html.ActionLink("Takaisin", "Index")
                     </div>
+                </div>
                 </div>
     </div>
 </div>
@@ -97,5 +92,39 @@
     $("#submitDataModal").click(function () {
         submitModalPost("plans", "Create", "createForm", "ModalPlansCreate");
     });
+
+    const priceInputField = document.getElementById("Price");
+    priceInputField.type = "number";
+    priceInputField.min = 0;
+    priceInputField.pattern = "^\d*(\.,\d{0,2})?$";
+    priceInputField.step = ".01";
+    //priceInputField.addEventListener("change", isNumberKey, false);
+    priceInputField.addEventListener("keypress", isNumberKey, false);
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47) {
+            evt.preventDefault();
+            return false;
+        }
+
+        console.log(priceInputField.value.toString().replace('.', '').length);
+        if (priceInputField.value.toString().replace('.', '').length >= 7) {
+            console.log("yli seitsemän pitkä");
+            evt.preventDefault();
+            return false;
+        }
+        var decimalNumbersTotal = priceInputField.value.toString().split('.');
+        if (decimalNumbersTotal.length > 1){
+            if (decimalNumbersTotal[1].length >= 2) {
+                evt.preventDefault();
+                return false;
+            }
+        }
+        
+
+        return true;
+        
+    };
 
 </script>
