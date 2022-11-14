@@ -61,7 +61,10 @@ namespace Kiinteistosovellus.Controllers
                 await db.SaveChangesAsync();
                 return null ;
             }
-
+            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
+            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
+            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
+            ViewBag.MonthlyOrOther = slMonthOrOth;
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_CreateModal.cshtml", plans);
         }
