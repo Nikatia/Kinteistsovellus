@@ -110,3 +110,32 @@ function updateDropdownList(controller, dropdownId) {
         }
     });
 };
+
+function isNumberKey(evt, priceFieldId) {
+    var priceInputField = document.getElementById(priceFieldId);
+    //console.log(priceFieldId);
+
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47 || charCode == 46) {
+        evt.preventDefault();
+        return false;
+    }
+    if (charCode == 44 && priceInputField.value.toString() == "") {
+        evt.preventDefault();
+        return false;
+    }
+    //console.log(priceInputField.value.toString().replace(',', '').length);
+    if (priceInputField.value.toString().replace(',', '').length >= 7 || (priceInputField.value.toString().includes(',') && charCode == 44)) {
+        evt.preventDefault();
+        return false;
+    }
+    var decimalNumbersTotal = priceInputField.value.toString().split(',');
+    if (decimalNumbersTotal.length > 1) {
+        if (decimalNumbersTotal[1].length >= 2) {
+            evt.preventDefault();
+            return false;
+        }
+    }
+    return true;
+
+};

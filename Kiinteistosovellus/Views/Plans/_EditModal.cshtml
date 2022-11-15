@@ -92,37 +92,8 @@
         submitModalPost("Plans", "Edit", "editForm", "ModalPlansEdit");
     });
 
-    var priceInputField = document.getElementById("Price");
-    //priceInputField.type = "number";
-    //priceInputField.min = 0;
-    priceInputField.pattern = "^\d*(\.,\d{0,2})?$";
-    //priceInputField.step = ".01";
-    //priceInputField.addEventListener("change", isNumberKey, false);
-    priceInputField.addEventListener("keypress", isNumberKey, false);
-
-    function isNumberKey(evt) {
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47 || charCode == 46) {
-            evt.preventDefault();
-            return false;
-        }
-        if (charCode == 44 && priceInputField.value.toString()=="") {
-            evt.preventDefault();
-            return false;
-        }
-        console.log(priceInputField.value.toString().replace(',', '').length);
-        if (priceInputField.value.toString().replace(',', '').length >= 7 || (priceInputField.value.toString().includes(',') && charCode == 44)) {
-            evt.preventDefault();
-            return false;
-        }
-        var decimalNumbersTotal = priceInputField.value.toString().split(',');
-        if (decimalNumbersTotal.length > 1) {
-            if (decimalNumbersTotal[1].length >= 2) {
-                evt.preventDefault();
-                return false;
-            }
-        }
-        return true;
-
-    };
+    $("#Price").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "Price");
+    });
 </script>
