@@ -51,10 +51,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.MonthlyOrOther, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.MonthOrOtherID, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.MonthlyOrOther, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
-                                        @Html.ValidationMessageFor(model => model.MonthlyOrOther, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
+                                        @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -93,38 +93,9 @@
         submitModalPost("plans", "Create", "createForm", "ModalPlansCreate");
     });
 
-    var priceInputField = document.getElementById("Price");
-    //priceInputField.type = "number";
-    //priceInputField.min = 0;
-    priceInputField.pattern = "^\d*(\.,\d{0,2})?$";
-    //priceInputField.step = ".01";
-    //priceInputField.addEventListener("change", isNumberKey, false);
-    priceInputField.addEventListener("keypress", isNumberKey, false);
-
-    function isNumberKey(evt) {
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47 || charCode == 46) {
-            evt.preventDefault();
-            return false;
-        }
-        if (charCode == 44 && priceInputField.value.toString() == "") {
-            evt.preventDefault();
-            return false;
-        }
-        console.log(priceInputField.value.toString().replace(',', '').length);
-        if (priceInputField.value.toString().replace(',', '').length >= 7 || (priceInputField.value.toString().includes(',') && charCode == 44)) {
-            evt.preventDefault();
-            return false;
-        }
-        var decimalNumbersTotal = priceInputField.value.toString().split(',');
-        if (decimalNumbersTotal.length > 1) {
-            if (decimalNumbersTotal[1].length >= 2) {
-                evt.preventDefault();
-                return false;
-            }
-        }
-        return true;
-
-    };
+    $("#Price").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "Price");
+    });
 
 </script>

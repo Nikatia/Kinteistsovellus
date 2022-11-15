@@ -15,7 +15,7 @@
         <EntityTypeShape EntityType="KiinteistoDBModel.Persons" Width="1.5" PointX="8.25" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="KiinteistoDBModel.Plans" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KiinteistoDBModel.Post" Width="1.5" PointX="3.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KiinteistoDBModel.database_firewall_rules" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.database_firewall_rules" Width="2" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__Contra__6C190EBB" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__LoginI__70DDC3D8" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__Person__6FE99F9F" ManuallyRouted="false" />
@@ -32,6 +32,8 @@
         <AssociationConnector Association="KiinteistoDBModel.FK__Plans__LoginID__778AC167" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__MonthlySp__Spend__787EE5A0" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Other__797309D9" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.KuukausittainenVaiMuu" Width="1.5" PointX="3.375" PointY="0.875" />
+        <AssociationConnector Association="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

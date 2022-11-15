@@ -60,10 +60,10 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.MonthlyOrOther, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.MonthOrOtherID, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.MonthlyOrOther, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MonthlyOrOther, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
+                                @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

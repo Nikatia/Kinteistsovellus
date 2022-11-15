@@ -11,25 +11,17 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class MonthlySpendings
     {
         public int MonthlySpendingID { get; set; }
-        [Required(ErrorMessage ="Anna p‰iv‰m‰‰r‰!")]
         public System.DateTime DateBegin { get; set; }
-        
         public Nullable<System.DateTime> DateEnd { get; set; }
         public int SpendingTypeID { get; set; }
-        
         public Nullable<decimal> AmountOfUnits { get; set; }
-       
         public Nullable<decimal> PricePerUnit { get; set; }
-        
         public Nullable<decimal> TransferPayment { get; set; }
-        [Required(ErrorMessage = "Anna kokonaishinta!")]
         public decimal FullPrice { get; set; }
-       
         public Nullable<int> ContractorID { get; set; }
         public int LoginID { get; set; }
     

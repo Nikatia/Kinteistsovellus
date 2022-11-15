@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KiinteistoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KiinteistoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contacts">
           <Key>
             <PropertyRef Name="ContactID" />
@@ -26,6 +26,13 @@
           <Property Name="StreetAdress" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PostID" Type="int" Nullable="false" />
           <Property Name="LoginID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KuukausittainenVaiMuu">
+          <Key>
+            <PropertyRef Name="MonthOrOtherID" />
+          </Key>
+          <Property Name="MonthOrOtherID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MonthOrOtherName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Logins">
           <Key>
@@ -101,7 +108,7 @@
           <Property Name="DateEnd" Type="date" />
           <Property Name="Desciption" Type="nvarchar" MaxLength="1000" />
           <Property Name="Price" Type="numeric" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="MonthlyOrOther" Type="int" />
+          <Property Name="MonthOrOtherID" Type="int" />
           <Property Name="LoginID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Post">
@@ -109,9 +116,9 @@
             <PropertyRef Name="PostID" />
           </Key>
           <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PostCode" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -323,9 +330,22 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Plans__MonthOrOt__1332DBDC">
+          <End Role="KuukausittainenVaiMuu" Type="Self.KuukausittainenVaiMuu" Multiplicity="0..1" />
+          <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KuukausittainenVaiMuu">
+              <PropertyRef Name="MonthOrOtherID" />
+            </Principal>
+            <Dependent Role="Plans">
+              <PropertyRef Name="MonthOrOtherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="KiinteistoDBModelStoreContainer">
           <EntitySet Name="Contacts" EntityType="Self.Contacts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractors" EntityType="Self.Contractors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KuukausittainenVaiMuu" EntityType="Self.KuukausittainenVaiMuu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logins" EntityType="Self.Logins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MonthlySpendings" EntityType="Self.MonthlySpendings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MonthlySpendingTypes" EntityType="Self.MonthlySpendingTypes" Schema="dbo" store:Type="Tables" />
@@ -408,9 +428,12 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Logins" EntitySet="Logins" />
             <End Role="Plans" EntitySet="Plans" />
           </AssociationSet>
+          <AssociationSet Name="FK__Plans__MonthOrOt__1332DBDC" Association="Self.FK__Plans__MonthOrOt__1332DBDC">
+            <End Role="KuukausittainenVaiMuu" EntitySet="KuukausittainenVaiMuu" />
+            <End Role="Plans" EntitySet="Plans" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KiinteistoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -540,9 +563,10 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="DateEnd" Type="DateTime" Precision="0" />
           <Property Name="Desciption" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="MonthlyOrOther" Type="Int32" />
           <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Logins" Relationship="Self.FK__Plans__LoginID__778AC167" FromRole="Plans" ToRole="Logins" />
+          <Property Name="MonthOrOtherID" Type="Int32" />
+          <NavigationProperty Name="KuukausittainenVaiMuu" Relationship="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" FromRole="Plans" ToRole="KuukausittainenVaiMuu" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -838,7 +862,32 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
             <End Role="OtherSpendings" EntitySet="OtherSpendings" />
           </AssociationSet>
+          <EntitySet Name="KuukausittainenVaiMuu" EntityType="KiinteistoDBModel.KuukausittainenVaiMuu" />
+          <AssociationSet Name="FK__Plans__MonthOrOt__1332DBDC" Association="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC">
+            <End Role="KuukausittainenVaiMuu" EntitySet="KuukausittainenVaiMuu" />
+            <End Role="Plans" EntitySet="Plans" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="KuukausittainenVaiMuu">
+          <Key>
+            <PropertyRef Name="MonthOrOtherID" />
+          </Key>
+          <Property Name="MonthOrOtherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MonthOrOtherName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Plans" Relationship="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" FromRole="KuukausittainenVaiMuu" ToRole="Plans" />
+        </EntityType>
+        <Association Name="FK__Plans__MonthOrOt__1332DBDC">
+          <End Type="KiinteistoDBModel.KuukausittainenVaiMuu" Role="KuukausittainenVaiMuu" Multiplicity="0..1" />
+          <End Type="KiinteistoDBModel.Plans" Role="Plans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KuukausittainenVaiMuu">
+              <PropertyRef Name="MonthOrOtherID" />
+            </Principal>
+            <Dependent Role="Plans">
+              <PropertyRef Name="MonthOrOtherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -942,13 +991,13 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySetMapping Name="Plans">
             <EntityTypeMapping TypeName="KiinteistoDBModel.Plans">
               <MappingFragment StoreEntitySet="Plans">
+                <ScalarProperty Name="MonthOrOtherID" ColumnName="MonthOrOtherID" />
                 <ScalarProperty Name="PlandID" ColumnName="PlandID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
                 <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
                 <ScalarProperty Name="Desciption" ColumnName="Desciption" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="MonthlyOrOther" ColumnName="MonthlyOrOther" />
                 <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -972,6 +1021,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KuukausittainenVaiMuu">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.KuukausittainenVaiMuu">
+              <MappingFragment StoreEntitySet="KuukausittainenVaiMuu">
+                <ScalarProperty Name="MonthOrOtherName" ColumnName="MonthOrOtherName" />
+                <ScalarProperty Name="MonthOrOtherID" ColumnName="MonthOrOtherID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
