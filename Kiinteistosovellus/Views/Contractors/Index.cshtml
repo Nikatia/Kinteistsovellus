@@ -24,7 +24,7 @@
 <h2>Urakoitsijat</h2>
 
 <p>
-    <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a>
+    <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a> | <a class="card-link" id="creNewContact" role="button">Uusi yhteystiedot</a>
 </p>
 
 @*---Modal Containers---*@
@@ -95,7 +95,6 @@
                                     <div style="text-align:right">
                                         <a class="card-link px-1 getContractorEdit" role="button" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
                                         <a class="card-link px-1 getContractorDelete" role="button" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a><br />
-                                        <a class="card-link creNewContact" role="button" data-createcontactid="@item.ContractorID">Uusi yhteystiedot</a>
                                     </div>
                                 </div>
                             </div>
@@ -197,24 +196,9 @@
             /*------Contacts Modals------*/
 
             /* Create */
-            $(document).on('click', '.creNewContact', function () {
-                let contractorId = $(this).data("createcontactid");
-                var url = "/Contractors/CreateContact/?ContractorID=" + contractorId;
-                console.log(url);
-
-                var iframeForModal = $("#contactCreate");
-
-                $.ajax({
-                    url: url,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: 'get',
-                    type: "get",
-                    success: function (result) {
-                        iframeForModal.replaceWith(result);
-                        $("#ModalContactCreate").modal('show');
-                    }
+            $(function () {
+                $("#creNewContact").click(function () {
+                    modalGet("Contractors", "CreateContact", null, "contactCreate", "ModalContactCreate");
                 });
             });
 
