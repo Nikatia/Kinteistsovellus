@@ -111,8 +111,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    var indexUrl = '/OtherSpendings/Index'; //Indexin url-osoite, johon submitModal siirtyy onnistuneen lisäyksen jälkeen
-
     //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
     $(document).ready(function () {
         partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
