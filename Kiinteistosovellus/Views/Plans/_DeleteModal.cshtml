@@ -68,22 +68,16 @@
                         </dd>
 
                     </dl>
-
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-
-                        <div class="form-actions no-color">
-                            <input type="submit" value="Delete" class="btn btn-default" /> |
-                            @Html.ActionLink("Back to List", "Index")
-                        </div>
-                    }
             </div>
             <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <br />
-                    @Html.ActionLink("Takaisin", "Index")
-                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                        <a href="@Url.Action("Index", "Plans")">Peruuta</a>
+                    </div>
+                }
             </div>
         </div>
     </div>

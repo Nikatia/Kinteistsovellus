@@ -8,10 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using System.Globalization;
+using System.Threading;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class PlansController : Controller
+    public class PlansController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
