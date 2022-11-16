@@ -22,7 +22,7 @@ namespace Kiinteistosovellus.Models
             {
                 try
                 {
-                    actualValue = Convert.ToDecimal(valueResult.AttemptedValue, CultureInfo.GetCultureInfo("en-US"));
+                    actualValue = Convert.ToDecimal(valueResult.AttemptedValue, CultureInfo.GetCultureInfo("fi-FI"));
                 }
                 catch (FormatException e)
                 {

@@ -11,7 +11,8 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MonthlySpendingTypes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +22,11 @@ namespace Kiinteistosovellus.Models
         }
     
         public int SpendingTypeID { get; set; }
+
+        [Required(ErrorMessage = "Nimi vaaditaan")]
         public string TypeName { get; set; }
+
+        [Required(ErrorMessage = "Yksikkö vaaditaan")]
         public string Unit { get; set; }
         public Nullable<int> LoginID { get; set; }
     
