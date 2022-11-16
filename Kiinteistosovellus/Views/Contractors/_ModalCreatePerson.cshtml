@@ -1,5 +1,9 @@
 ﻿@model Kiinteistosovellus.Models.Persons
 
+@{
+    var message = ViewBag.SuccessMsg;
+}
+
 @using (Html.BeginForm("CreatePerson", "Contractors", FormMethod.Post, new { id = "createPersonForm" }))
 {
     @Html.AntiForgeryToken()
@@ -26,7 +30,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ContractorID, "ContractorID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control", @id = "ContractorsDropdown" })
                 @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger", @id = "realErrorContractorID" })
             </div>
         </div>
@@ -45,50 +49,40 @@
     </div>
 }
 
-<script>
-    $(document).ready(function () {
-        var realErrorFirstName = document.getElementById("realErrorFirstName"); 
+<script type="text/javascript">
+
+    var message = '@message';
+
+    if (message) {
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+        document.getElementById("hiddenFieldAddPerson").style.display = "none";
+        document.getElementById("pseudoFormFirstName").value = "";
+        document.getElementById("pseudoFormLastName").value = "";
+        document.getElementById("pseudoFormDescription").value = "";
+        document.getElementById("pseudoFormContractorID").value = "1004";
+        document.getElementById("successfullyAddedPerson").style.display = "inline-block";
+    }
+    else {
+        var realErrorFirstName = document.getElementById("realErrorFirstName");
         var fakeErrorFirstName = document.getElementById("fakeErrorFirstName");
 
         if (realErrorFirstName.innerText != "") {
-            fakeErrorFirstName.innerText = realErrorFirstName.innerText; 
+            fakeErrorFirstName.innerText = realErrorFirstName.innerText;
         } else {
-            fakeErrorFirstName.innerText = ""; 
-            document.getElementById("fakeFormFirstName").value = "";
+            fakeErrorFirstName.innerText = "";
+            document.getElementById("pseudoFormFirstName").value = "";
             document.getElementById("FirstName").value = "";
         }
 
-        var realErrorLastName = document.getElementById("realErrorLastName"); 
+        var realErrorLastName = document.getElementById("realErrorLastName");
         var fakeErrorLastName = document.getElementById("fakeErrorLastName");
 
         if (realErrorLastName.innerText != "") {
-            fakeErrorLastName.innerText = realErrorLastName.innerText; 
+            fakeErrorLastName.innerText = realErrorLastName.innerText;
         } else {
-            fakeErrorLastName.innerText = ""; 
-            document.getElementById("fakeFormLastName").value = "";
+            fakeErrorLastName.innerText = "";
+            document.getElementById("pseudoFormLastName").value = "";
             document.getElementById("LastName").value = "";
         }
-
-        var realErrorContractorID = document.getElementById("realErrorContractorID");
-        var fakeErrorContractorID = document.getElementById("fakeErrorContractorID");
-
-        if (realErrorContractorID.innerText != "") {
-            fakeErrorContractorID.innerText = realErrorContractorID.innerText; 
-        } else {
-            fakeErrorContractorID.innerText = ""; 
-            document.getElementById("urakoitsijoidenId").value = "";
-            document.getElementById("ContractorID").value = "";
-        }
-
-        var realErrorDescription = document.getElementById("realErrorDescription");
-        var fakeErrorDescription = document.getElementById("fakeErrorDescription");
-
-        if (realErrorDescription.innerText != "") {
-            fakeErrorDescription.innerText = realErrorDescription.innerText; 
-        } else {
-            fakeErrorDescription.innerText = "";
-            document.getElementById("fakeFormDescription").value = "";
-            document.getElementById("Description").value = "";
-        }
-    });
+    }
 </script>
