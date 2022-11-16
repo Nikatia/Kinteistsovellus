@@ -11,7 +11,8 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Post
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,14 @@ namespace Kiinteistosovellus.Models
         }
     
         public int PostID { get; set; }
+
+        [Required(ErrorMessage = "Maa vaaditaan")]
         public string Country { get; set; }
+
+        [Required(ErrorMessage = "Postinumero vaaditaan")]
         public string PostCode { get; set; }
+
+        [Required(ErrorMessage = "Kaupunki vaaditaan")]
         public string City { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MonthlyOrOther)
+            @Html.DisplayNameFor(model => model.MonthOrOtherID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Logins.UserName)
@@ -59,7 +59,17 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.Display("testi");
+                @if (item.MonthOrOtherID != null)
+                {
+                    if (item.MonthOrOtherID == 1)
+                    {
+                        <span>Kuukausittainen meno</span>
+                    }
+                    else if (item.MonthOrOtherID == 2)
+                    {
+                        <span>Muu meno</span>
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Logins.UserName)

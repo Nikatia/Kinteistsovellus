@@ -36,5 +36,6 @@ namespace Kiinteistosovellus.Models
         public virtual DbSet<Plans> Plans { get; set; }
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<KuukausittainenVaiMuu> KuukausittainenVaiMuu { get; set; }
     }
 }

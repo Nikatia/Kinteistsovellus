@@ -11,14 +11,21 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Contacts
     {
         public int ContactID { get; set; }
+
+        [Required(ErrorMessage = "Urakoitsija vaaditaan")]
         public int ContractorID { get; set; }
+
         public Nullable<int> PersonID { get; set; }
+
         public string PhoneNumber { get; set; }
+
         public string Email { get; set; }
+
         public int LoginID { get; set; }
     
         public virtual Contractors Contractors { get; set; }

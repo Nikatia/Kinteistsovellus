@@ -11,25 +11,19 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class OtherSpendingTypes
+    
+    public partial class KuukausittainenVaiMuu
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OtherSpendingTypes()
+        public KuukausittainenVaiMuu()
         {
-            this.OtherSpendings = new HashSet<OtherSpendings>();
+            this.Plans = new HashSet<Plans>();
         }
     
-        public int OtherSpendingTypeId { get; set; }
-
-        [Required(ErrorMessage = "Nimi vaaditaan")]
-        public string TypeName { get; set; }
-
-        public Nullable<int> LoginID { get; set; }
+        public int MonthOrOtherID { get; set; }
+        public string MonthOrOtherName { get; set; }
     
-        public virtual Logins Logins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OtherSpendings> OtherSpendings { get; set; }
+        public virtual ICollection<Plans> Plans { get; set; }
     }
 }

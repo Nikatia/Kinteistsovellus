@@ -12,7 +12,6 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Web.ModelBinding;
 
     public partial class MonthlySpendingTypes
     {
@@ -23,8 +22,11 @@ namespace Kiinteistosovellus.Models
         }
     
         public int SpendingTypeID { get; set; }
-        [Required(ErrorMessage="Anna tyypin nimi")]
+
+        [Required(ErrorMessage = "Nimi vaaditaan")]
         public string TypeName { get; set; }
+
+        [Required(ErrorMessage = "Yksikkö vaaditaan")]
         public string Unit { get; set; }
         public Nullable<int> LoginID { get; set; }
     

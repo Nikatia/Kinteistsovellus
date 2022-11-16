@@ -8,10 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using System.Globalization;
+using System.Threading;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class PlansController : Controller
+    public class PlansController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
@@ -61,7 +63,10 @@ namespace Kiinteistosovellus.Controllers
                 await db.SaveChangesAsync();
                 return null ;
             }
-
+            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
+            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
+            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
+            ViewBag.MonthlyOrOther = slMonthOrOth;
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_CreateModal.cshtml", plans);
         }
@@ -78,6 +83,24 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
+            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
+            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
+            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
+            SelectList realList = new SelectList(slMonthOrOth, "Value", "Text");
+            switch (plans.MonthOrOtherID)
+            {
+                case 1:
+                    
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
+
+            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
+            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
+            ViewBag.MonthlyOrOther = slMonthOrOth;
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }
@@ -95,6 +118,10 @@ namespace Kiinteistosovellus.Controllers
                 await db.SaveChangesAsync();
                 return null;
             }
+            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
+            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
+            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
+            ViewBag.MonthlyOrOther = slMonthOrOth;
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }

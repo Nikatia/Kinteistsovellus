@@ -12,7 +12,6 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Persons
     {
@@ -21,16 +20,20 @@ namespace Kiinteistosovellus.Models
         {
             this.Contacts = new HashSet<Contacts>();
         }
+    
         public int PersonID { get; set; }
+
         [Required(ErrorMessage = "Etunimi vaaditaan")]
         public string FirstName { get; set; }
+
         [Required(ErrorMessage = "Sukunimi vaaditaan")]
         public string LastName { get; set; }
 
-        [NotMapped]
-        public string FullName { get { return this.FirstName + " " + this.LastName; } }
+        [Required(ErrorMessage = "Urakoitsija vaaditaan")]
         public int ContractorID { get; set; }
+
         public int LoginID { get; set; }
+
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
