@@ -59,7 +59,6 @@
         document.getElementById("pseudoFormFirstName").value = "";
         document.getElementById("pseudoFormLastName").value = "";
         document.getElementById("pseudoFormDescription").value = "";
-        document.getElementById("pseudoFormContractorID").value = "1004";
         document.getElementById("successfullyAddedPerson").style.display = "inline-block";
     }
     else {
@@ -68,10 +67,6 @@
 
         if (realErrorFirstName.innerText != "") {
             fakeErrorFirstName.innerText = realErrorFirstName.innerText;
-        } else {
-            fakeErrorFirstName.innerText = "";
-            document.getElementById("pseudoFormFirstName").value = "";
-            document.getElementById("FirstName").value = "";
         }
 
         var realErrorLastName = document.getElementById("realErrorLastName");
@@ -79,10 +74,6 @@
 
         if (realErrorLastName.innerText != "") {
             fakeErrorLastName.innerText = realErrorLastName.innerText;
-        } else {
-            fakeErrorLastName.innerText = "";
-            document.getElementById("pseudoFormLastName").value = "";
-            document.getElementById("LastName").value = "";
         }
     }
 </script>

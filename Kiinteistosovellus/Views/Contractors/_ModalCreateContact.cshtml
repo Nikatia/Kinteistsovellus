@@ -39,7 +39,7 @@
                                 <div class="form-group">
                                     Puhelinumero
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
                                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -47,25 +47,29 @@
                                 <div class="form-group">
                                     Sähköposti
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 @*Temporary solution for LoginID until Login system is done*@
                                 @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
+                                <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
                             </div>
 
                             <div id="colDiv2">
 
                                 <div class="form-group" id="hiddenFieldAddPerson" style="display:none">
                                     <b>Uusi henkilö<br /></b>
-                                    Urakoitsija
+                                    Urakoitsija* 
                                     <div class="col-10 input-group">
                                         <select class="form-control" id="pseudoFormContractorID" onchange="paivitaUrakoitsijoidenKentta(this.value)">
                                             @foreach (Kiinteistosovellus.Models.Contractors contractor in ViewBag.Contractors)
                                             {
-                                                <option value="@contractor.ContractorID">@contractor.Name</option>
+                                                if (contractor.ContractorID != 1004)
+                                                {
+                                                    <option value="@contractor.ContractorID">@contractor.Name</option>
+                                                }
                                             }
                                         </select>
                                     </div>
@@ -106,14 +110,23 @@
                     <a href="/Contractors/Index" class="card-link" role="button">Takaisin</a>
                 </div>
             </div>
-            <div id="divForPartialPseudo" style="display:inline-block;"></div>
+            <div id="divForPartialPseudo" style="display:none;"></div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript">    
 
     $("#submitDataModal").click(function () {
-        submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
+        var telephone = $("#phone").val();
+        var email = $("#mail").val();
+        if (telephone == "" && email == "") {
+            document.getElementById("noContactInfo").style.display = "inline-block";
+        }
+        else {
+            submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
+            document.getElementById("noContactInfo").style.display = "none";
+            document.getElementById("contractorError").style.display = "none";
+        }
     });
 
     function paivitaEtunimiKentta() {
@@ -138,28 +151,22 @@
     }
 
     $("#lisaaUusiHiddenField").click(function () {
-        if (document.getElementById("hiddenFieldAddPerson").style.display == "none") {
-            console.log("display none");
-            partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
-            $("#modalWindow").addClass("modal-lg");
-            $("#rowDiv").addClass("row");
-            $("#colDiv1").addClass("col-sm-6");
-            $("#colDiv2").addClass("col-sm-6");
-            document.getElementById("hiddenFieldAddPerson").style.display = "inline-block";
-            document.getElementById("lisaaUusiHiddenField").style.display = "none";
-            document.getElementById("yhteystiedot").style.display = "inline-block";
-        }
+        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
+        $("#modalWindow").addClass("modal-lg");
+        $("#rowDiv").addClass("row");
+        $("#colDiv1").addClass("col-sm-6");
+        $("#colDiv2").addClass("col-sm-6");
+        document.getElementById("hiddenFieldAddPerson").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        document.getElementById("yhteystiedot").style.display = "inline-block";
     });
 
     $("#lisaaToinenHenkilo").click(function () {
-        if (document.getElementById("hiddenFieldAddPerson").style.display == "none") {
-            console.log("display none");
-            partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
-            document.getElementById("hiddenFieldAddPerson").style.display = "inline-block";
-            document.getElementById("lisaaUusiHiddenField").style.display = "none";
-            document.getElementById("successfullyAddedPerson").style.display = "none";
-            document.getElementById("yhteystiedot").style.display = "inline-block";
-        }
+        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
+        document.getElementById("hiddenFieldAddPerson").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        document.getElementById("successfullyAddedPerson").style.display = "none";
+        document.getElementById("yhteystiedot").style.display = "inline-block";
     });
 
     $("#lisaaUusiHenkilo").click(function () {
@@ -177,4 +184,8 @@
         $("#colDiv1").removeClass("col-sm-6");
         $("#colDiv2").removeClass("col-sm-6");
     });
+
+    $(function () {
+        $("#ContractorID option[value='1004']").remove();
+    })
 </script>
