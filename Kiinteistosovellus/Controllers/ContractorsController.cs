@@ -20,6 +20,12 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- GET LISTS -----------------------------------------------
 
+        public List<Contractors> GetContractors()
+        {
+            List<Contractors> contractors = db.Contractors.ToList();
+            return contractors;
+        }
+
         public List<Persons> GetPersons()
         {
             List<Persons> persons = db.Persons.ToList();
@@ -30,6 +36,15 @@ namespace Kiinteistosovellus.Controllers
         {
             List<Contacts> contacts = db.Contacts.ToList();
             return contacts;
+        }
+
+        [HttpPost]
+        public JsonResult GetList()
+        {
+
+            var itemlist = db.Persons.ToList();
+            var itemList = itemlist.Select(item => new SelectListItem { Text = item.FullName, Value = Convert.ToString(item.PersonID) }).ToList();
+            return Json(new SelectList(itemList, "Value", "Text"));
         }
 
         // ----------------------------------------------- INDEX -----------------------------------------------
@@ -94,38 +109,17 @@ namespace Kiinteistosovellus.Controllers
 
 
         //------------------------------------Contacts------------------------------------
-        public ActionResult _Persons(int? contractorId)
-        {
-            var contractorContactList = from p in db.Persons
-                                    join cnt in db.Contacts on p.PersonID equals cnt.PersonID
-                                    join ctr in db.Contractors on p.ContractorID equals ctr.ContractorID
-                                    where p.ContractorID == contractorId
-                                    //orderby//
-                                    select new AllContractorsData
-                                    {
-                                        ContractorID = (int)p.ContractorID,
-                                        PersonID = p.PersonID,
-                                        ContactID = (int)cnt.ContactID,
-                                        FirstName = p.FirstName,
-                                        LastName = p.LastName,
-                                        PhoneNumber = cnt.PhoneNumber,
-                                        Email = cnt.Email,
-                                        LoginID = cnt.LoginID,
-                                    };
-            ViewBag.ContractorId = contractorId;
-            return PartialView(contractorContactList);
-        }
 
         // GET: Contacts/Create
-        public PartialViewResult CreateContact(int? contractorId)
+        public PartialViewResult CreateContact()
         {
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.ContractorID = contractorId;
-            Contacts contacts = db.Contacts.First(n => n.ContractorID == contractorId);
             ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
-            return PartialView("/Views/Contractors/_ModalCreateContact.cshtml", contacts);
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.Contractors = GetContractors();
+            return PartialView("/Views/Contractors/_ModalCreateContact.cshtml");
         }
 
         // POST: Contractors/Create
@@ -133,19 +127,20 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email,LoginID")] Contacts contacts)
+        public PartialViewResult CreateContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email,LoginID")] Contacts contacts)
         {
 
             if (ModelState.IsValid)
             {
                 db.Contacts.Add(contacts);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return null;
             }
 
-            ViewBag.ContractorID = contacts;
+            ViewBag.Contractors = GetContractors();
             ViewBag.LoginID = "1001";
-            ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName", contacts);
+            ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "ContractorsPerson", contacts.PersonID);
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contacts.ContractorID);
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
 
@@ -162,6 +157,7 @@ namespace Kiinteistosovellus.Controllers
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.SuccessMsg = "";
             return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
         }
 
@@ -170,19 +166,21 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatePerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,LoginID,Description")] Persons persons)
+        public PartialViewResult CreatePerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,LoginID,Description")] Persons persons)
         {
-
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", persons.ContractorID);
+            ViewBag.SuccessMsg = "";
             if (ModelState.IsValid)
             {
                 db.Persons.Add(persons);
-                await db.SaveChangesAsync();
-                return null;
+                db.SaveChanges();
+                ViewBag.SuccessMsg = "successfully added";
+                return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
             }
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", persons.ContractorID);
+            ViewBag.SuccessMsg = "";
             return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml", persons);
         }
 

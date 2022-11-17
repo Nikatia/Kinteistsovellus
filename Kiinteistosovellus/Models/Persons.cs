@@ -12,6 +12,7 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Persons
     {
@@ -28,6 +29,9 @@ namespace Kiinteistosovellus.Models
 
         [Required(ErrorMessage = "Sukunimi vaaditaan")]
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName { get { return this.FirstName + " " + this.LastName; } }
 
         [Required(ErrorMessage = "Urakoitsija vaaditaan")]
         public int ContractorID { get; set; }

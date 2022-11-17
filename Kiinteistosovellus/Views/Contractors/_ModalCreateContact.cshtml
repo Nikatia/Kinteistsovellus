@@ -1,7 +1,7 @@
 ﻿@model Kiinteistosovellus.Models.Contacts
 
 <div class="modal fade" id="ModalContactCreate">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" id="modalWindow">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Luo uusi yhteystiedot</h3>
@@ -13,54 +13,93 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div id="rowDiv">
+                            <div id="colDiv1">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <h4>@Html.DisplayFor(model => model.Contractors.Name)</h4>
-                        @*<div class="form-group">
-                            Urakoitsija
-                            <div class="col-md-10">
-                                @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                <b id="yhteystiedot" style="display:none">Uusi yhteystiedot<br /></b>
+
+                                <div class="form-group">
+                                    Urakoitsija
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Henkilö
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("PersonID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.PersonID, "", new { @class = "text-danger" })
+                                        <div style="text-align:right; padding-right:110px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi henkilö</a></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Puhelinumero
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
+                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Sähköposti
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*Temporary solution for LoginID until Login system is done*@
+                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
+                                <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
                             </div>
-                        </div>*@
-                    
-                        <div class="form-group">
-                            Henkilö
-                            <div class="col-md-10">
-                                @Html.DropDownList("PersonID", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.PersonID, "", new { @class = "text-danger" })
+
+                            <div id="colDiv2">
+
+                                <div class="form-group" id="hiddenFieldAddPerson" style="display:none">
+                                    <b>Uusi henkilö<br /></b>
+                                    Urakoitsija* 
+                                    <div class="col-10 input-group">
+                                        <select class="form-control" id="pseudoFormContractorID" onchange="paivitaUrakoitsijoidenKentta(this.value)">
+                                            @foreach (Kiinteistosovellus.Models.Contractors contractor in ViewBag.Contractors)
+                                            {
+                                                if (contractor.ContractorID != 1004)
+                                                {
+                                                    <option value="@contractor.ContractorID">@contractor.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    Etunimi* <span class="field-validation-error text-danger" id="fakeErrorFirstName"></span>
+                                    <div class="col-md-10 input-group">
+                                        <input type="text" maxlength="100" size="500" class="form-control" id="pseudoFormFirstName" onkeyup="paivitaEtunimiKentta()" />
+                                    </div>
+                                    Sukunimi* <span class="field-validation-error text-danger" id="fakeErrorLastName"></span>
+                                    <div class="col-md-10 input-group">
+                                        <input type="text" maxlength="100" size="500" class="form-control" id="pseudoFormLastName" onkeyup="paivitaSukunimiKentta()" /><br />
+                                    </div>
+                                    Kuvaus: <span class="field-validation-error text-danger" id="fakeErrorDescription"></span>
+                                    <div class="col-md-10 input-group">
+                                        <input type="text" maxlength="100" size="500" class="form-control" id="pseudoFormDescription" onkeyup="paivitaKuvausKentta()" /><br />
+                                    </div>
+                                    <div style="text-align: right; padding-right: 5px">
+                                        <a class="card-link" role="button" id="lisaaUusiHenkilo">Lisää</a> | <a class="card-link closeAddPerson" role="button">Peruuta</a>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group" id="successfullyAddedPerson" style="display:none; padding:90px 40px">
+                                    <div class="text-success">Henkilö lisätty onnistuneesti</div>
+                                    <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenHenkilo">Lisää uusi henkilö</a> | <a class="card-link closeAddPerson" role="button">Peruuta</a></div>
+                                </div>
+
                             </div>
+                            
                         </div>
 
-                        <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                            Uusi henkilö:
-                            <div class="col-md-10 input-group">
-                                <input type="text" maxlength="100" size="500" class="form-control" id="pseudoForm" onkeyup="paivitaOikeaKentta()" />
-                            </div>
-                            <div style="text-align: right; padding-right: 5px">
-                                <a class="card-link" role="button" id="lisaaUusiHenkilo">Lisää</a>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Puhelinumero
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Sähköposti
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        @*Temporary solution for LoginID until Login system is done*@
-                        @Html.TextBoxFor(model => model.ContractorID, "ContractorID", new {@class = "form-control", @Value = ViewBag.ContractorID, @Hidden = "true" })
-                        @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
                     </div>
                 
                 }
@@ -75,37 +114,78 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript">    
 
     $("#submitDataModal").click(function () {
-        submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
-    });
-
-    $(document).ready(function () {
-        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
-    });
-
-    //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
-    function paivitaOikeaKentta() {
-        var falseFormInput = $("#pseudoForm");
-        var realForm = $("#TypeName");
-        realForm.val(falseFormInput.val());
-    }
-    //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
-    $("#lisaaUusiHiddenField").click(function () {
-        console.log("toimii");
-        if (document.getElementById("hiddenFieldAddType").style.display == "none") {
-            console.log("display none");
-            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-            document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        } else {
-            console.log("display muu");
-            document.getElementById("hiddenFieldAddType").style.display = "none";
-            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        var telephone = $("#phone").val();
+        var email = $("#mail").val();
+        if (telephone == "" && email == "") {
+            document.getElementById("noContactInfo").style.display = "inline-block";
+        }
+        else {
+            submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
+            document.getElementById("noContactInfo").style.display = "none";
+            document.getElementById("contractorError").style.display = "none";
         }
     });
 
-    $("#lisaaUusiType").click(function () {
+    function paivitaEtunimiKentta() {
+        var falseFormInput = $("#pseudoFormFirstName");
+        var realForm = $("#FirstName");
+        realForm.val(falseFormInput.val());
+    }
+    function paivitaSukunimiKentta() {
+        var falseFormInput = $("#pseudoFormLastName");
+        var realForm = $("#LastName");
+        realForm.val(falseFormInput.val());
+    }
+    function paivitaKuvausKentta() {
+        var falseFormInput = $("#pseudoFormDescription");
+        var realForm = $("#Description");
+        realForm.val(falseFormInput.val());
+    }
+    function paivitaUrakoitsijoidenKentta() {
+        var falseFormInput = $("#pseudoFormContractorID");
+        var realForm = $("#ContractorsDropdown");
+        realForm.val(falseFormInput.val());
+    }
+
+    $("#lisaaUusiHiddenField").click(function () {
+        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
+        $("#modalWindow").addClass("modal-lg");
+        $("#rowDiv").addClass("row");
+        $("#colDiv1").addClass("col-sm-6");
+        $("#colDiv2").addClass("col-sm-6");
+        document.getElementById("hiddenFieldAddPerson").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        document.getElementById("yhteystiedot").style.display = "inline-block";
+    });
+
+    $("#lisaaToinenHenkilo").click(function () {
+        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
+        document.getElementById("hiddenFieldAddPerson").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        document.getElementById("successfullyAddedPerson").style.display = "none";
+        document.getElementById("yhteystiedot").style.display = "inline-block";
+    });
+
+    $("#lisaaUusiHenkilo").click(function () {
         partialViewSubmit("Contractors", "CreatePerson", "divForPartialPseudo", "createPersonForm", "PersonID");
     });
+
+    $(".closeAddPerson").click(function () {
+        document.getElementById("hiddenFieldAddPerson").style.display = "none";
+        document.getElementById("yhteystiedot").style.display = "none";
+        document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+        document.getElementById("successfullyAddedPerson").style.display = "none";
+        $("#modalWindow").removeClass("modal-lg");
+        $("#rowDiv").removeClass("row");
+        $("#colDiv1").removeClass("col-sm-6");
+        $("#colDiv2").removeClass("col-sm-6");
+    });
+
+    $(function () {
+        $("#ContractorID option[value='1004']").remove();
+    })
 </script>
