@@ -86,20 +86,7 @@ namespace Kiinteistosovellus.Controllers
             List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
             slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
             slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
-            SelectList realList = new SelectList(slMonthOrOth, "Value", "Text");
-            switch (plans.MonthOrOtherID)
-            {
-                case 1:
-                    
-                    break;
-                case 2:
-                    break;
-                default:
-                    break;
-            }
 
-            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
-            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
             ViewBag.MonthlyOrOther = slMonthOrOth;
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_EditModal.cshtml", plans);

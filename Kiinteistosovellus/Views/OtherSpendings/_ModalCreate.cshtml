@@ -65,11 +65,12 @@
                                 <div class="form-group" id="hiddenFieldAddType" style="display:none">
                                     Uusin tyypin nimi:
                                     <div class="col-md-10 input-group">
-                                        <input type="text" maxlength="100" size="500" class="form-control" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
+                                        <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
                                         <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                     </div>
                                     <div style="text-align: right; padding-right: 5px">
                                         <a class="card-link" role="button" id="lisaaUusiType">Lisää</a>
+                                        <a class="card-link" role="button" id="peruuta">Lisää</a>
                                     </div>
                                 </div>
 
@@ -125,18 +126,17 @@
 
     //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
     $("#lisaaUusiHiddenField").click(function () {
-        console.log("toimii");
-        if (document.getElementById("hiddenFieldAddType").style.display == "none") {
-            console.log("display none");
-            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-            document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        } else {
-            console.log("display muu");
-            document.getElementById("hiddenFieldAddType").style.display = "none";
-            document.getElementById("lisaaUusiHiddenField").style.display = "block";
-        }
+        //console.log("toimii");
+        //console.log("display none");
+        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+    });
 
-
+    $("#peruuta").click(function () {
+        //console.log("toimii");
+        //console.log("display none");
+        document.getElementById("hiddenFieldAddType").style.display = "none";
+        document.getElementById("lisaaUusiHiddenField").style.display = "block";
     });
 
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
