@@ -12,7 +12,7 @@ using Kiinteistosovellus.Models;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class OtherSpendingsController : Controller
+    public class OtherSpendingsController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 

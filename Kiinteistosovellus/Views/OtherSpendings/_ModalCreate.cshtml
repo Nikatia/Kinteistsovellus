@@ -149,5 +149,8 @@
         partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
     });
      
-
+    $("#Price").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "Price");
+    });
 </script>
