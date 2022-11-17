@@ -1,0 +1,55 @@
+﻿@model Kiinteistosovellus.Models.MonthlySpendingTypes
+@{
+    var message = ViewBag.SuccessMsg;
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createTypeForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control tyhjennaKentta" } })
+            @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger", @id = "realErrorTypeName" }) @*Täytyy antaa id*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control tyhjennaKentta" } })
+            @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger", @id = "realErrorUnit" }) @*Täytyy antaa id*@
+        </div>
+    </div>
+    @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
+</div>
+}
+
+<script>
+    var message = '@message';
+
+    if (message) {
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+        document.getElementById("hiddenFieldAddType").style.display = "none";
+        document.getElementById("fakeFormTypeName").value = "";
+        document.getElementById("fakeFormUnit").value = "";
+        document.getElementById("successfullyAddedType").style.display = "inline-block";
+    }
+    else {
+        var realErrorTypeName = document.getElementById("realErrorTypeName"); //luodaan muuttuja oikealle errormessage-elementille
+        var fakeErrorTypeName = document.getElementById("fakeErrorTypeName");//luodaan muuttuja väärälle errormessage-elementille
+
+        if (realErrorTypeName.innerText != "") {
+            fakeErrorTypeName.innerText = realErrorTypeName.innerText; //Hos realErrorTypeName pitää sisällään jotain tekstiä eli errorin, errori lisätään myös feikki inputille
+        }
+
+        var realErrorUnit = document.getElementById("realErrorUnit"); //luodaan muuttuja oikealle errormessage-elementille
+        var fakeErrorUnit = document.getElementById("fakeErrorUnit");//luodaan muuttuja väärälle errormessage-elementille
+
+        if (realErrorUnit.innerText != "") {
+            fakeErrorUnit.innerText = realErrorUnit.innerText; //Hos realErrorTypeName pitää sisällään jotain tekstiä eli errorin, errori lisätään myös feikki inputille
+        }
+    }
+</script>
+
