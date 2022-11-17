@@ -1,7 +1,9 @@
 ﻿@model Kiinteistosovellus.Models.OtherSpendingTypes
+@{
+    var message = ViewBag.SuccessMsg;
+}
 
-
-@using (Html.BeginForm("_ModalCreateOthSpendingType", "OtherSpendings", FormMethod.Post, new { id = "createTypeForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createTypeForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -10,7 +12,7 @@
         <div class="form-group">
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control tyhjennaKentta" } })
-                @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger", @id="realErrorTypeName" }) @*Täytyy antaa id*@
+                @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger", @id = "realErrorTypeName" }) @*Täytyy antaa id*@
             </div>
         </div>
         @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
@@ -18,16 +20,20 @@
 }
 
 <script>
-    $(document).ready(function () {//Kun partial view-lautautuu, kenttiä päivitetään
+    var message = '@message';
+
+    if (message) {
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+        document.getElementById("hiddenFieldAddType").style.display = "none";
+        document.getElementById("fakeFormTypeName").value = "";
+        document.getElementById("successfullyAddedType").style.display = "inline-block";
+    }
+    else {
         var realErrorTypeName = document.getElementById("realErrorTypeName"); //luodaan muuttuja oikealle errormessage-elementille
         var fakeErrorTypeName = document.getElementById("fakeErrorTypeName");//luodaan muuttuja väärälle errormessage-elementille
 
         if (realErrorTypeName.innerText != "") {
             fakeErrorTypeName.innerText = realErrorTypeName.innerText; //Hos realErrorTypeName pitää sisällään jotain tekstiä eli errorin, errori lisätään myös feikki inputille
-        } else {
-            fakeErrorTypeName.innerText = ""; //Poistetaan manuaaluisesti feikki errormessage
-            document.getElementById("fakeFormTypeName").value = ""; //tyjennetään kumpikin kenttä
-            document.getElementById("TypeName").value = "";//tyjennetään kumpikin kenttä
         }
-    });
+    }
 </script>

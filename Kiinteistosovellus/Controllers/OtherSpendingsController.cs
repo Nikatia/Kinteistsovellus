@@ -77,7 +77,7 @@ namespace Kiinteistosovellus.Controllers
         {
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-
+            ViewBag.SuccessMsg = "";
             return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml");
         }
 
@@ -88,11 +88,14 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public PartialViewResult _ModalCreateOthSpendingType([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes otherSpendingType)
         {
+            ViewBag.SuccessMsg = "";
+
             if (ModelState.IsValid)//On aina true jostain syystä PITÄÄ KORJATA!!!
             {
                 Console.WriteLine("IsValid");
                 db.OtherSpendingTypes.Add(otherSpendingType);
                 db.SaveChanges();
+                ViewBag.SuccessMsg = "successfully added";
                 return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml"); //Tässä pitää palauttaa näkymä!!!
             }
 
