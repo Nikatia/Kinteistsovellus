@@ -24,7 +24,7 @@
 <h2>Urakoitsijat</h2>
 
 <p>
-    <a class="card-link" id="creNewContractor" role="button">Uusi Urakoitsija</a> | <a class="card-link" id="creNewContact" role="button">Uusi yhteystiedot</a>
+    &emsp;<a class="card-link" style="size" title="Uusi Urakoitsija" id="creNewContractor" role="button"><i class="fa-solid fa-users fa-2x"></i></a> &emsp; <a class="card-link" title="Uusi yhteystiedot" id="creNewContact" role="button"><i class="fa-solid fa-comment-medical fa-2x"></i></a>
 </p>
 
 @*---Modal Containers---*@
@@ -93,8 +93,8 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div style="text-align:right">
-                                        <a class="card-link px-1 getContractorEdit" role="button" data-editId="@item.ContractorID">Muokkaa urakoitsija</a>
-                                        <a class="card-link px-1 getContractorDelete" role="button" data-deleteid="@item.ContractorID">Poistaa urakoitsija</a><br />
+                                        <a class="card-link px-1 getContractorEdit" title="Muokkaa urakoitsija" role="button" data-editId="@item.ContractorID"><i class="fa-solid fa-users-gear fa-2x"></i></a>
+                                        <a class="card-link px-1 getContractorDelete" title="Poistaa urakoitsija" role="button" data-deleteid="@item.ContractorID"><i class="fa-solid fa-users-slash fa-2x"></i></a><br />
                                     </div>
                                 </div>
                             </div>
@@ -127,10 +127,10 @@
                                                     <td>@contact.PhoneNumber</td>
                                                     <td>@contact.Email</td>
                                                     <td>
-                                                        <a class="card-link getHooman" role="button" data-hooman="@person.PersonID">Muokkaa henkilö</a> |
-                                                        <a class="card-link getContactEdit" role="button" data-editcontactid="@contact.ContactID">Muokkaa yhteystiedot</a> |
-                                                        <a class="card-link getHoman" role="button" data-homan="@person.PersonID">Poistaa henkilö</a> |
-                                                        <a class="card-link getContactDelete" role="button" data-delcontactid="@contact.ContactID">Poistaa yhteystiedot</a>
+                                                        <a class="card-link getHooman" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><i class="fa-solid fa-user-gear"></i></a> 
+                                                        <a class="card-link getHoman" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><i class="fa-solid fa-user-large-slash"></i></a> &emsp;
+                                                        <a class="card-link getContactEdit" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><i class="fa-solid fa-comment-dots"></i></a> 
+                                                        <a class="card-link getContactDelete" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><i class="fa-solid fa-comment-slash"></i></a>
                                                     </td>
                                                 </tr>
                                             }
