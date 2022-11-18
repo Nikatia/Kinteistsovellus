@@ -46,7 +46,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    Sähköposti
+                                    Sähköposti <div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -89,7 +89,8 @@
     $("#submitDataModal").click(function () {
         var telephone = $("#phone").val();
         var email = $("#mail").val();
-        if (telephone == "" && email == "" || contractors.val() == "") {
+        var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (telephone == "" && email == "" || contractors.val() == "" || !email.match(mailformat)) {
             if (telephone != "" || email != "") {
                 document.getElementById("noContactInfo").style.display = "none";
             }
@@ -103,7 +104,16 @@
             else {
                 document.getElementById("noContractorInfo").style.display = "inline-block";
             }
+
+            if (!email.match(mailformat)) {
+                console.log("Invalid email address!");
+                document.getElementById("wrongEmail").style.display = "inline-block";
+            }
+            else {
+                document.getElementById("wrongEmail").style.display = "none";
+            }
         }
+        
         else {
             submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
             document.getElementById("noContactInfo").style.display = "none";
