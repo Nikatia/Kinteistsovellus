@@ -51,21 +51,22 @@
 
 <script type="text/javascript">
 
+    //Submit Person
     $("#lisaaUusiHenkilo").click(function () {
         partialViewSubmit("Contractors", "CreatePerson", "divForPartialPseudo", "createPersonForm", "PersonID");
     });
 
+    //message designates if model is valid
     var message = '@message';
-
+    //if model is valid, close PartialView, go to successful page and reset Contacts Contractors dropdown
     if (message) {
         document.getElementById("divForPartialPseudo").innerHTML = "";
         document.getElementById("successfullyAddedPerson").style.display = "inline-block";
         var contr2 = $("#ContractorID");
-        console.log(contr2.val());
         contr2.val("");
-        console.log(contr2.val());
     }
 
+    //Repopulate this PartialView's Contractors dropdown, so empty value is first and contractor 1004 is ignored
     var contractors = $('#ContractorsDropdown');
     contractors.empty();
     contractors.append($('<option></option>').val('').text(''));
@@ -77,6 +78,7 @@
         });
     });
 
+    //Make modal smaller and erase this PartialView from modal
     $(".closeAddPerson").click(function () {
         document.getElementById("yhteystiedot").style.display = "none";
         document.getElementById("lisaaUusiHiddenField").style.display = "block";
