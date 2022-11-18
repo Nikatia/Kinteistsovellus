@@ -42,6 +42,8 @@
 
         if (realErrorTypeName.innerText != "") {
             fakeErrorTypeName.innerText = realErrorTypeName.innerText; //Hos realErrorTypeName pitää sisällään jotain tekstiä eli errorin, errori lisätään myös feikki inputille
+        } else {
+            fakeErrorTypeName.innerText = "";
         }
 
         var realErrorUnit = document.getElementById("realErrorUnit"); //luodaan muuttuja oikealle errormessage-elementille
@@ -49,6 +51,8 @@
 
         if (realErrorUnit.innerText != "") {
             fakeErrorUnit.innerText = realErrorUnit.innerText; //Hos realErrorTypeName pitää sisällään jotain tekstiä eli errorin, errori lisätään myös feikki inputille
+        } else {
+            fakeErrorUnit.innerText = "";
         }
     }
 </script>
