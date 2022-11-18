@@ -150,10 +150,16 @@
     $("#lisaaUusiType").click(async function () {
         partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
     });
-     
+
 
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
     function submitModal() {
         submitModalPost("OtherSpendings", "_ModalCreate", "createForm", "ModalOtherSpendingCreate");
+    };
+
+    $("#Price").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "Price");
+    });
     };
 </script>

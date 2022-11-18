@@ -8,72 +8,83 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger", @id = "realErrorFirstName" })
-            </div>
+    <b id="yhteystiedot">Uusi henkilö<br /></b>
+
+    <div class="form-group">
+        Etunimi  @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger", @id = "realErrorLastName" })
-            </div>
+    <div class="form-group">
+        Sukunimi  @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractorID, "ContractorID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control", @id = "ContractorsDropdown" })
-                @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger", @id = "realErrorContractorID" })
-            </div>
+    <div class="form-group">
+        Urakoitsija  @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control", @id = "ContractorsDropdown" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger", @id = "realErrorDescription" })
-            </div>
+    <div class="form-group">
+        Kuvaus
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        @*Temporary solution for LoginID until Login system is done*@
-        @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
+    @*Temporary solution for LoginID until Login system is done*@
+    @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
 
+    <div style="text-align: right; padding-right: 90px; padding-top:10px">
+    <a class="btn" style="background-color: rgb(117, 167, 240); color:white" role="button" id="lisaaUusiHenkilo">Lisää henkilö</a> | <a class="card-link closeAddPerson" role="button">Sulje henkilön lisäys</a>
     </div>
 }
 
 <script type="text/javascript">
 
+    $("#lisaaUusiHenkilo").click(function () {
+        partialViewSubmit("Contractors", "CreatePerson", "divForPartialPseudo", "createPersonForm", "PersonID");
+    });
+
     var message = '@message';
 
     if (message) {
         document.getElementById("divForPartialPseudo").innerHTML = "";
-        document.getElementById("hiddenFieldAddPerson").style.display = "none";
-        document.getElementById("pseudoFormFirstName").value = "";
-        document.getElementById("pseudoFormLastName").value = "";
-        document.getElementById("pseudoFormDescription").value = "";
         document.getElementById("successfullyAddedPerson").style.display = "inline-block";
+        var contr2 = $("#ContractorID");
+        console.log(contr2.val());
+        contr2.val("");
+        console.log(contr2.val());
     }
-    else {
-        var realErrorFirstName = document.getElementById("realErrorFirstName");
-        var fakeErrorFirstName = document.getElementById("fakeErrorFirstName");
 
-        if (realErrorFirstName.innerText != "") {
-            fakeErrorFirstName.innerText = realErrorFirstName.innerText;
-        }
+    var contractors = $('#ContractorsDropdown');
+    contractors.empty();
+    contractors.append($('<option></option>').val('').text(''));
+    $.getJSON(contractorUrl, function (data) {
+        $.each(data, function (index, item) {
+            if (item.Value != 1004) {
+                contractors.append($('<option></option>').val(item.Value).text(item.Text));
+            }
+        });
+    });
 
-        var realErrorLastName = document.getElementById("realErrorLastName");
-        var fakeErrorLastName = document.getElementById("fakeErrorLastName");
-
-        if (realErrorLastName.innerText != "") {
-            fakeErrorLastName.innerText = realErrorLastName.innerText;
-        }
-    }
+    $(".closeAddPerson").click(function () {
+        document.getElementById("yhteystiedot").style.display = "none";
+        document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        document.getElementById("successfullyAddedPerson").style.display = "none";
+        $("#modalWindow").removeClass("modal-lg");
+        $("#rowDiv").removeClass("row");
+        $("#colDiv1").removeClass("col-sm-6");
+        $("#colDiv2").removeClass("col-sm-6");
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+    });
 </script>

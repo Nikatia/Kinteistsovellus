@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
 
@@ -110,9 +111,29 @@ namespace Kiinteistosovellus.Controllers
 
         //------------------------------------Contacts------------------------------------
 
+        [HttpGet]
+        public JsonResult FetchContractors()
+        {
+            var data = GetContractors().Select(c => new { Value = c.ContractorID, Text = c.Name });
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult FetchPersons(int ID)
+        {
+            var data = GetPersons().Where(c => c.ContractorID == ID).Select(p => new { Value = p.PersonID, Text = p.FullName });
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Contacts/Create
         public PartialViewResult CreateContact()
         {
+            List<Contractors> contractors = GetContractors();
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+
+            IEnumerable<Persons> persons = GetPersons().Where(p => p.PersonID == ViewBag.ContractorID.Value);
+            ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
+
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
