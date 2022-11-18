@@ -1,0 +1,130 @@
+﻿@model Kiinteistosovellus.Models.Posts
+
+
+
+
+
+
+<div class="modal fade" id="ModalMSCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Luo uusi kuukausittainen kulu</h2>
+            </div>
+            
+            <div class="modal-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMSForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Post</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PostCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        
+                    
+
+
+
+
+                    <div class="form-group">
+                        <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
+                    </div>
+                </div>
+        }
+
+
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                }
+
+
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" onclick="submitModal()" value="Lisää" class="btn btn-primary" />
+                        @Html.ActionLink("Takaisin", "Index")
+                    </div>
+                </div>
+                <div id="divForPartialPseudo" style="display:none;">
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function paivitaOikeaKenttaName() {
+        var falseFormInput = $("#fakeFormTypeName");
+        var realForm = $("#TypeName");
+        realForm.val(falseFormInput.val());
+    }
+    function paivitaOikeaKenttaUnit() {
+        var falseFormInput = $("#fakeFormUnit");
+        var realForm = $("#Unit");
+        realForm.val(falseFormInput.val());
+    }
+
+    //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
+    $("#lisaaUusiHiddenField").click(function () {
+        partialViewGet("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo");
+        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+    });
+
+    $("#lisaaToinenTyyppi").click(function () {
+        partialViewGet("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo");
+        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        document.getElementById("successfullyAddedType").style.display = "none";
+    });
+
+    $(".closeAddType").click(function () {
+        document.getElementById("hiddenFieldAddType").style.display = "none";
+        document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+        document.getElementById("successfullyAddedType").style.display = "none";
+    });
+
+
+    //luodaan uusi kulutyyppi
+    $("#lisaaUusiType").click(async function () {
+        partialViewSubmit("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo", "createTypeForm", "SpendingTypeID");
+    });
+
+
+    //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
+    function submitModal() {
+        submitModalPost("MonthlySpendings", "_CreateModal", "createMSForm", "ModalMSCreate");
+    };
+
+</script>
