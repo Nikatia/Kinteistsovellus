@@ -59,8 +59,10 @@
                             </div>
 
                             <div id="colDiv2">
+                                @*Opens PartialView for Persons*@
                                 <div id="divForPartialPseudo" style="display:none; width:100%;"></div>
 
+                                @*Opens if model is valid and database is being updated*@
                                 <div class="form-group" id="successfullyAddedPerson" style="display:none; padding:90px 40px">
                                     <div class="text-success">Henkilö lisätty onnistuneesti</div>
                                     <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenHenkilo">Lisää uusi henkilö</a> | <a class="card-link closeAddPerson" role="button">Peruuta</a></div>
@@ -83,6 +85,7 @@
 </div>
 <script type="text/javascript">
 
+    //Submiting Contact + validation
     $("#submitDataModal").click(function () {
         var telephone = $("#phone").val();
         var email = $("#mail").val();
@@ -108,6 +111,7 @@
         }
     });
 
+    //Opens Persons PartialView and widens modal window
     $("#lisaaUusiHiddenField").click(function () {
         partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
         $("#modalWindow").addClass("modal-lg");
@@ -119,6 +123,7 @@
         document.getElementById("yhteystiedot").style.display = "inline-block";
     });
 
+    //Opens Persons PartialView if user wants to add another Person after previous successful try
     $("#lisaaToinenHenkilo").click(function () {
         partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
         document.getElementById("lisaaUusiHiddenField").style.display = "none";
@@ -126,6 +131,7 @@
         document.getElementById("yhteystiedot").style.display = "inline-block";
     });
 
+    //Closes Persons PartialView and makes modal smaller again
     $(".closeAddPerson").click(function () {
         document.getElementById("yhteystiedot").style.display = "none";
         document.getElementById("lisaaUusiHiddenField").style.display = "block";
@@ -137,16 +143,18 @@
         $("#colDiv2").removeClass("col-sm-6");
     });
 
+    //Removes Contractor 1004 from dropdown list, as 1004 is deleted value
     $(function () {
         $("#ContractorID option[value='1004']").remove();
     })
 
-
+    //---Dropdowns part---
     var contractorUrl = '@Url.Action("FetchContractors")';
 	var personUrl = '@Url.Action("FetchPersons")';
     var persons1 = $('#lePerson');
     var contractors = $('#ContractorID');
 
+    //When Contractors dropdown changes value, empty Persons dropdown and populate it with empty value and Persons from given Contractor
 	$('#ContractorID').change(function() {
         persons1.empty();
         if ($(this).val() != "") {
@@ -162,6 +170,7 @@
         }
     })
 
+    //When modal is shown, empty Persons and Contractors dropdown, then populate Contractors dropdown with empty value and Contractorx except 1004.
     const myModalEl = document.getElementById('ModalContactCreate')
     myModalEl.addEventListener('shown.bs.modal', event => {
         persons1.empty();
