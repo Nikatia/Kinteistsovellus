@@ -38,7 +38,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    Puhelinumero
+                                    Puhelinumero<div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
                                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -46,7 +46,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    Sähköposti <div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
+                                    Sähköposti<div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -89,8 +89,9 @@
     $("#submitDataModal").click(function () {
         var telephone = $("#phone").val();
         var email = $("#mail").val();
-        var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (telephone == "" && email == "" || contractors.val() == "" || !email.match(mailformat)) {
+        var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
+        if (telephone == "" && email == "" || contractors.val() == "" || !email.match(mailFormat) || !telephone.match(phoneFormat)) {
             if (telephone != "" || email != "") {
                 document.getElementById("noContactInfo").style.display = "none";
             }
@@ -105,15 +106,22 @@
                 document.getElementById("noContractorInfo").style.display = "inline-block";
             }
 
-            if (!email.match(mailformat)) {
-                console.log("Invalid email address!");
+            if (!email.match(mailFormat) && email != "") {
                 document.getElementById("wrongEmail").style.display = "inline-block";
             }
             else {
                 document.getElementById("wrongEmail").style.display = "none";
             }
+
+            if (!telephone.match(phoneFormat) && telephone != "") {
+                console.log("Invalid phone number!");
+                document.getElementById("wrongPhone").style.display = "inline-block";
+            }
+            else {
+                console.log("Valid phone number!");
+                document.getElementById("wrongPhone").style.display = "none";
+            }
         }
-        
         else {
             submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
             document.getElementById("noContactInfo").style.display = "none";
