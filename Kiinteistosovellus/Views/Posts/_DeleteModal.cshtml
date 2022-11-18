@@ -1,4 +1,4 @@
-﻿@model Kiinteistosovellus.Models.Posts
+﻿@model Kiinteistosovellus.Models.Post
 
 
 
@@ -16,11 +16,11 @@
 
                 <h3>Oletko varma, että haluat poistaa tämän?</h3>
                 <div>
-                    <h4>Postinumerot</h4>
+                    @*<h4>Postinumerot</h4>*@
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
-                            @Html.DisplayNameFor(model => model.Country)
+                           Maa
                         </dt>
 
                         <dd>
@@ -28,7 +28,7 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.PostCode)
+                           Postinumero
                         </dt>
 
                         <dd>
@@ -36,7 +36,7 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.City)
+                            Kaupunki
                         </dt>
 
                         <dd>
@@ -53,7 +53,7 @@
                     @Html.AntiForgeryToken()
                     <div class="modal-footer" style="display:inline-block">
                         <button type="submit" class="btn btn-primary">Poista</button>
-                        @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
+                        @Html.ActionLink("Takaisin", "Index", "Posts", new { @Class = "btn btn-secondary" })
                     </div>
                 }
             </div>

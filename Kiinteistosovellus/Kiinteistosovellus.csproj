@@ -333,6 +333,9 @@
     <Content Include="Views\Posts\Details.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Posts\_CreateModal.cshtml" />
+    <Content Include="Views\Posts\_DeleteModal.cshtml" />
+    <Content Include="Views\Posts\_EditModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

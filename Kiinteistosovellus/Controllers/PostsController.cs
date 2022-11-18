@@ -36,9 +36,9 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // GET: Posts/Create
-        public ActionResult Create()
+        public ActionResult _CreateModal()
         {
-            return View();
+            return PartialView("_CreateModal");
         }
 
         // POST: Posts/Create
@@ -46,20 +46,20 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PostID,Country,PostCode,City")] Post post)
+        public ActionResult _CreateModal([Bind(Include = "PostID,Country,PostCode,City")] Post post)
         {
             if (ModelState.IsValid)
             {
                 db.Post.Add(post);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
 
-            return View(post);
+            return PartialView("_CreateModal",post);
         }
 
         // GET: Posts/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult _EditModal(int? id)
         {
             if (id == null)
             {
@@ -70,7 +70,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View(post);
+            return PartialView("_EditModal",post);
         }
 
         // POST: Posts/Edit/5
@@ -78,19 +78,19 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostID,Country,PostCode,City")] Post post)
+        public ActionResult _EditModal([Bind(Include = "PostID,Country,PostCode,City")] Post post)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
-            return View(post);
+            return PartialView("_EditModal",post);
         }
 
         // GET: Posts/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult _DeleteModal(int? id)
         {
             if (id == null)
             {
@@ -101,13 +101,13 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            return View(post);
+            return PartialView("_DeleteModal",post);
         }
 
         // POST: Posts/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("_DeleteModal")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult _DeleteModalConfirmed(int id)
         {
             Post post = db.Post.Find(id);
             db.Post.Remove(post);
