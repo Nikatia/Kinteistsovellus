@@ -1,0 +1,127 @@
+﻿@model Kiinteistosovellus.Models.Post
+
+
+
+
+
+
+<div class="modal fade" id="ModalMSCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Luo uusi postinumero</h2>
+            </div>
+            
+            <div class="modal-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMSForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @*<h4>Postinumerot</h4>*@
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Country,"Maa", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PostCode,"Postinumero", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.City,"Kaupunki", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        
+                    
+
+
+
+
+                    <div class="form-group">
+                        <input type="button" id="submitModalMSCreate" style="display:none" value="Tallenna" class="btn btn-primary" />
+                    </div>
+                </div>
+        }
+
+
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                }
+
+
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" id="submitCreate" value="Lisää" class="btn btn-primary" />
+                        @Html.ActionLink("Takaisin", "Index", "Posts", new { @Class = "btn btn-secondary" })
+                    </div>
+                </div>
+               
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+    $("#submitCreate").click(function () {
+        $("#submitModalMSCreate").click();
+    });
+
+
+
+
+    var indexUrl = '/Posts/Index';
+    $("#submitModalMSCreate").click(function () {
+        //console.log("toimiiko");
+        var form = this.form;
+        //console.log(parent.document.getElementById("ModalPlansCreate"));
+        var data = new FormData(form);
+        var detailDivCreate = parent.document.getElementById("ModalMSCreate");
+
+        //console.log(data);
+        $.ajax({
+            url: "/Posts/_CreateModal",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: "POST",
+            data: data,
+            success: function (result) {
+                console.log(result);
+                if (result == "") {
+                    //console.log("null tuli");
+                    window.location.href = indexUrl;
+                } else {
+                    //console.log("nullia ei tullut");
+                    $(detailDivCreate).html("");
+                    $(detailDivCreate).replaceWith(result);
+                    $("#ModalMSCreate").modal("show");
+                }
+
+            }
+        });
+    });
+
+</script>
