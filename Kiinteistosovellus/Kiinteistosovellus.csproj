@@ -133,6 +133,7 @@
     <Compile Include="Controllers\MonthlySpendingsController.cs" />
     <Compile Include="Controllers\MonthlySpendingTypesController.cs" />
     <Compile Include="Controllers\OtherSpendingsController.cs" />
+    <Compile Include="Controllers\OtherSpendingTypesController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -336,6 +337,10 @@
     <Content Include="Views\Posts\_CreateModal.cshtml" />
     <Content Include="Views\Posts\_DeleteModal.cshtml" />
     <Content Include="Views\Posts\_EditModal.cshtml" />
+    <Content Include="Views\OtherSpendingTypes\Index.cshtml" />
+    <Content Include="Views\OtherSpendingTypes\_CreateModal.cshtml" />
+    <Content Include="Views\OtherSpendingTypes\_EditModal.cshtml" />
+    <Content Include="Views\OtherSpendingTypes\_DeleteModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

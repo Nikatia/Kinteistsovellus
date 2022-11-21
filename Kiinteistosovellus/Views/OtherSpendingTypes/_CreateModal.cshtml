@@ -1,0 +1,50 @@
+﻿@model Kiinteistosovellus.Models.OtherSpendingTypes
+
+<div class="modal fade" id="ModalOthSpendTypeCreate">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create</h3>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <div class="form-group">
+                            @Html.Label("Tyypin nimi*", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.DropDownList("LoginID", null, htmlAttributes: new { @class = "form-control", @Hidden = "true" })
+                            </div>
+                        </div>
+                    </div>
+                 }
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Create" id="submitDataModal" class="btn btn-primary" />
+                        @Html.ActionLink("Takaisin", "Index")
+                    </div>
+                </div>
+                </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#submitDataModal").click(function () {
+        submitModalPost("OtherSpendingTypes", "Create", "createForm", "ModalOthSpendTypeCreate");
+    });
+
+</script>
