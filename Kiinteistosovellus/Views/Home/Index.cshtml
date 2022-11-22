@@ -4,10 +4,9 @@
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
     <div>
         <div class="row">
-            <div class="col-md-6"><canvas id="typeChart"></canvas></div>
+            <div class="col-md-6"><canvas style="width:100%;max-width:400px;max-height:400px" id="typeChart"></canvas></div>
             @*<div class="col-md-6"><canvas id="timeChart"></canvas></div>*@
         </div>
     </div>
@@ -25,24 +24,28 @@
             datasets: [{
                 label: ' euroa',
                 data: dataValues,
-                borderColor: ['rgba(5, 163, 23, 0.8)',
-                    'rgba(67, 245, 39, 0.8)'],
-                backgroundColor: ['rgba(5, 163, 23, 0.2)',
-                'rgba(67, 245, 39, 0.2)'],
+                borderColor: 'white',
+                backgroundColor: ['rgba(163, 199, 154, 1)',
+                    'rgba(109, 213, 93, 0.8)',
+                    'rgba(104, 168, 94, 0.8)',
+                    'rgba(183, 235, 170, 0.8)',
+                    'rgba(155, 223, 174, 0.8)',
+                    'rgba(154, 199, 171, 0.8)',
+                    'rgba(129, 227, 167, 0.8)',
+                    'rgba(124, 156, 117, 0.8)',
+                    'rgba(202, 247, 201, 0.8)'],
                 fill: true,
                 borderWidth: 1
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
             plugins: {
                 title: {
                     display: true,
                     text: 'Käytetyn rahan kokonaismäärä kulutyypin mukaan'
+                },
+                legend: {
+                    position: 'bottom'
                 }
             }
         }
