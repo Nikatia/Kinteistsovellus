@@ -1,10 +1,50 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <div>
+        <div class="row">
+            <div class="col-md-6"><canvas id="typeChart"></canvas></div>
+            @*<div class="col-md-6"><canvas id="timeChart"></canvas></div>*@
+        </div>
+    </div>
 </div>
+<script>
+    //FIRST CHART
+    let labelTexts = [@Html.Raw(ViewBag.Category)];
+    let dataValues = [@ViewBag.Price];
+    const ctx = document.getElementById('typeChart');
 
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labelTexts,
+            datasets: [{
+                label: ' euroa',
+                data: dataValues,
+                borderColor: ['rgba(5, 163, 23, 0.8)',
+                    'rgba(67, 245, 39, 0.8)'],
+                backgroundColor: ['rgba(5, 163, 23, 0.2)',
+                'rgba(67, 245, 39, 0.2)'],
+                fill: true,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Käytetyn rahan kokonaismäärä kulutyypin mukaan'
+                }
+            }
+        }
+    });
+</script>
