@@ -63,14 +63,18 @@
                                 </div>
 
                                 <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                    Uusin tyypin nimi:
+                                    Uusin tyypin nimi: <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                     <div class="col-md-10 input-group">
-                                        <input type="text" maxlength="100" size="500" class="form-control" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
-                                        <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                        <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
+
                                     </div>
                                     <div style="text-align: right; padding-right: 5px">
-                                        <a class="card-link" role="button" id="lisaaUusiType">Lisää</a>
+                                        <a class="card-link" role="button" id="lisaaUusiType">Lisää</a> | <a class="card-link closeAddType" role="button" id="peruuta">Peruuta</a>
                                     </div>
+                                </div>
+                                <div class="form-group" id="successfullyAddedType" style="display:none;">
+                                    <div class="text-success">Tyyppi lisätty onnistuneesti</div>
+                                    <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                 </div>
 
                                 @*Temporary solution for LoginID until Login system is done*@
@@ -112,9 +116,6 @@
 </div>
 <script type="text/javascript">
     //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
-    $(document).ready(function () {
-        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
-    });
 
     //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
     function paivitaOikeaKentta() {
@@ -125,32 +126,40 @@
 
     //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
     $("#lisaaUusiHiddenField").click(function () {
-        console.log("toimii");
-        if (document.getElementById("hiddenFieldAddType").style.display == "none") {
-            console.log("display none");
-            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-            document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        } else {
-            console.log("display muu");
-            document.getElementById("hiddenFieldAddType").style.display = "none";
-            document.getElementById("lisaaUusiHiddenField").style.display = "block";
-        }
-
-
+        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
+        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
     });
+
+    $("#lisaaToinenTyyppi").click(function () {
+        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
+        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+        document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        document.getElementById("successfullyAddedType").style.display = "none";
+    });
+
+    $(".closeAddType").click(function () {
+        document.getElementById("hiddenFieldAddType").style.display = "none";
+        document.getElementById("lisaaUusiHiddenField").style.display = "block";
+        document.getElementById("divForPartialPseudo").innerHTML = "";
+        document.getElementById("successfullyAddedType").style.display = "none";
+    });
+
+
+    //luodaan uusi kulutyyppi
+    $("#lisaaUusiType").click(async function () {
+        partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
+    });
+
 
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
     function submitModal() {
         submitModalPost("OtherSpendings", "_ModalCreate", "createForm", "ModalOtherSpendingCreate");
     };
 
-    //luodaan uusi kulutyyppi
-    $("#lisaaUusiType").click(async function () {
-        partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
-    });
-     
     $("#Price").keypress(function () {
         //console.log("toimii eventlistener");
         isNumberKey(event, "Price");
     });
+    };
 </script>

@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Muu kulu -tyypit</h2>
 
 <iframe id="plansCreate" style="display:none"></iframe>
 <iframe id="plansEdit" style="display:none"></iframe>
 <iframe id="plansDelete" style="display:none"></iframe>
 
 <p>
-    <a class="card-link" id="createNewPlanModal" role="button">Create new</a><br />
+    <a class="card-link" id="createNewPlanModal" role="button">Luo uusi</a><br />
 </p>
 <table class="table">
     <tr>
@@ -47,10 +47,10 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateBegin)
+                @Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateEnd)
+                @Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Desciption)
@@ -59,24 +59,14 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @if (item.MonthOrOtherID != null)
-                {
-                    if (item.MonthOrOtherID == 1)
-                    {
-                        <span>Kuukausittainen meno</span>
-                    }
-                    else if (item.MonthOrOtherID == 2)
-                    {
-                        <span>Muu meno</span>
-                    }
-                }
+                @Html.DisplayFor(modelItem => item.KuukausittainenVaiMuu.MonthOrOtherName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Logins.UserName)
             </td>
             <td>
-                <a class="card-link editPlanModal"  role="button" data-editid="@item.PlandID">Edit</a> |
-                <a class="card-link deletePlanModal"  role="button" data-deleteid="@item.PlandID">Delete</a>
+                <a class="card-link editPlanModal"  role="button" data-editid="@item.PlandID">Muokkaa</a> |
+                <a class="card-link deletePlanModal"  role="button" data-deleteid="@item.PlandID">Poista</a>
             </td>
         </tr>
     }

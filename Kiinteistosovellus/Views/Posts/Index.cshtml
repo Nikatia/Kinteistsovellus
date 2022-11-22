@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.Post>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<p>
+    <button type="button" id="CreateMS" style="margin-top:15px;margin-left:35%;font-size:22px">Luo uusi</button>
+</p>
+<div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
+<div id="ModalPlaceDelete"></div>
+<div id="ModalPlaceCreate"></div>
+
+<table class="table">
+    <tr>
+        <th>
+            Maa
+        </th>
+        <th>
+            Postinumero
+        </th>
+        <th>
+            Kaupunki
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                <button class="getOrderId" data-orderid="@item.PostID">Muokkaa</button>
+
+                <button class="getId" data-id="@item.PostID">Poista</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".getOrderId").click(function () {
+            let MSEditId = $(this).data("orderid");
+
+            var url = "/Posts/_EditModal/?id=" + MSEditId;
+
+            var $detailDivEdit = $("#ModalPlaceEdit");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSEdit").modal("show");
+
+            });
+
+        });
+    });
+
+    $(document).ready(function () {
+        $(".getId").click(function () {
+            let MSDeleteId = $(this).data("id");
+
+            var url = "/Posts/_DeleteModal/?id=" + MSDeleteId;
+
+            var $detailDivEdit = $("#ModalPlaceDelete");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSDelete").modal("show");
+
+            });
+
+        });
+    });
+    $(document).ready(function () {
+        $("#CreateMS").click(function () {
+            var url = "/Posts/_CreateModal";
+
+            var $detailDivEdit = $("#ModalPlaceCreate");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#ModalMSCreate").modal("show");
+
+            });
+        });
+    });
+
+
+
+</script>

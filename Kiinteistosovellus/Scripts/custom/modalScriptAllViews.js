@@ -1,4 +1,5 @@
 ﻿function submitModalPost(controller, actionResult, formId, modalId) {
+    console.log(formId);
     var indexUrl = '/' + controller + '/Index';
     var submittedForm = new FormData(document.getElementById(formId));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta
     var modalIdParent = parent.document.getElementById(modalId); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan

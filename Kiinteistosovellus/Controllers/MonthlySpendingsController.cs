@@ -45,7 +45,7 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.LoginID = "1000";
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
-            return PartialView("_CreateModal");
+            return PartialView("/Views/MonthlySpendings/_CreateModal.cshtml");
         }
         // POST: MonthlySpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -68,10 +68,39 @@ namespace Kiinteistosovellus.Controllers
 
             }
             ViewBag.Error = 1;
-            return PartialView("_CreateModal", monthlySpendings);
+            return PartialView("/Views/MonthlySpendings/_CreateModal.cshtml", monthlySpendings);
         }
 
+        public PartialViewResult _ModalCreateMonthSpendingType()//vain sitä varten, että modaalin avautuessa ajax-pyynnöllä luodaan partial view
+        {
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            ViewBag.SuccessMsg = "";
+            return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml");
+        }
 
+        // POST: OtherSpendings/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _ModalCreateMonthSpendingType([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthSpendingType)
+        {
+            ViewBag.SuccessMsg = "";
+
+            if (ModelState.IsValid)//On aina true jostain syystä PITÄÄ KORJATA!!!
+            {
+                Console.WriteLine("IsValid");
+                db.MonthlySpendingTypes.Add(monthSpendingType);
+                db.SaveChanges();
+                ViewBag.SuccessMsg = "successfully added";
+                return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml"); //Tässä pitää palauttaa näkymä!!!
+            }
+
+            //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
+            ViewBag.LoginID = "1001";
+            return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml", monthSpendingType);
+        }
         public ActionResult _EditModal(int? id)
         {
            
@@ -139,6 +168,15 @@ namespace Kiinteistosovellus.Controllers
             db.MonthlySpendings.Remove(monthlySpendings);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public JsonResult GetList()
+        {
+
+            var itemlist = db.MonthlySpendingTypes.ToList();
+            var itemList = itemlist.Select(item => new SelectListItem { Text = item.TypeName, Value = Convert.ToString(item.SpendingTypeID) }).ToList();
+            return Json(new SelectList(itemList, "Value", "Text"));
         }
 
         protected override void Dispose(bool disposing)
