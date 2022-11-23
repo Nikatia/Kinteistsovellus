@@ -131,6 +131,18 @@ warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChart' does not ha
           <Property Name="Price" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.ForOtherSpendingTypeCharts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ForOtherSpendingTypeCharts">
+          <Key>
+            <PropertyRef Name="DateBegin" />
+            <PropertyRef Name="OtherSpendingTypeId" />
+          </Key>
+          <Property Name="rowid" Type="bigint" />
+          <Property Name="DateBegin" Type="date" Nullable="false" />
+          <Property Name="DailySpendings" Type="numeric" Precision="38" Scale="2" />
+          <Property Name="OtherSpendingTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -370,6 +382,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [ForCategorySortChart].[Category] AS [Category], 
     [ForCategorySortChart].[Price] AS [Price]
     FROM [dbo].[ForCategorySortChart] AS [ForCategorySortChart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="Self.ForOtherSpendingTypeCharts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ForOtherSpendingTypeCharts].[rowid] AS [rowid], 
+    [ForOtherSpendingTypeCharts].[DateBegin] AS [DateBegin], 
+    [ForOtherSpendingTypeCharts].[DailySpendings] AS [DailySpendings], 
+    [ForOtherSpendingTypeCharts].[OtherSpendingTypeId] AS [OtherSpendingTypeId]
+    FROM [dbo].[ForOtherSpendingTypeCharts] AS [ForOtherSpendingTypeCharts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
             <DefiningQuery>SELECT 
@@ -885,6 +905,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Plans" EntitySet="Plans" />
           </AssociationSet>
           <EntitySet Name="ForCategorySortChart" EntityType="KiinteistoDBModel.ForCategorySortChart" />
+          <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -913,6 +934,16 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="ROW_NUM" Type="Int64" />
           <Property Name="Category" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="ForOtherSpendingTypeCharts">
+          <Key>
+            <PropertyRef Name="DateBegin" />
+            <PropertyRef Name="OtherSpendingTypeId" />
+          </Key>
+          <Property Name="rowid" Type="Int64" />
+          <Property Name="DateBegin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DailySpendings" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="OtherSpendingTypeId" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1064,6 +1095,16 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="ROW_NUM" ColumnName="ROW_NUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForOtherSpendingTypeCharts">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.ForOtherSpendingTypeCharts">
+              <MappingFragment StoreEntitySet="ForOtherSpendingTypeCharts">
+                <ScalarProperty Name="OtherSpendingTypeId" ColumnName="OtherSpendingTypeId" />
+                <ScalarProperty Name="DailySpendings" ColumnName="DailySpendings" />
+                <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
