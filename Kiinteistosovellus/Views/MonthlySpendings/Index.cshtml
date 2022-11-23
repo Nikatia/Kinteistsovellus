@@ -25,10 +25,10 @@
             Kulutustyyppi
         </th>
         <th>
-            Mittayksikkö
+            Käytetytyksiköt
         </th>
         <th>
-            Kokonaiskulutus
+            KäytetytMittayksiköt
         </th>
         <th>
             Yksikköhinta
@@ -66,11 +66,11 @@
                 @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
-            </td>
-            <td>
 
                 @Html.DisplayFor(modelItem => item.AmountOfUnits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PricePerUnit)

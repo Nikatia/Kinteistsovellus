@@ -1,17 +1,11 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendings
 
-
-
-
-
-
 <div class="modal fade" id="ModalMSCreate">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Luo uusi kuukausittainen kulu</h2>
             </div>
-            
             <div class="modal-body">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMSForm" }))
 {
@@ -72,7 +66,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AmountOfUnits, "Kokonaiskulutus", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.AmountOfUnits, "Käytetyt mittayksiköt", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @{ Html.EnableClientValidation(false); }
                                 @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })

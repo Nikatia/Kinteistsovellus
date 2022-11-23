@@ -47,7 +47,7 @@
                                 <div class="form-group">
                                     Hinta yhteensä
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "hinta", onchange = "hintaChange(this)" } })
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
                                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
         var falseFormInput = $("#fakeFormTypeName");
         var realForm = $("#TypeName");
         realForm.val(falseFormInput.val());
-    }
+    };
 
     //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
     $("#lisaaUusiHiddenField").click(function () {
@@ -158,8 +158,6 @@
     };
 
     $("#Price").keypress(function () {
-        //console.log("toimii eventlistener");
         isNumberKey(event, "Price");
     });
-    };
 </script>

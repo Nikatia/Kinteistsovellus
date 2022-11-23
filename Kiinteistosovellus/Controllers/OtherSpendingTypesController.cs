@@ -1,4 +1,5 @@
 ﻿using Kiinteistosovellus.Models;
+using Kiinteistosovellus.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,10 +22,48 @@ namespace Kiinteistosovellus.Controllers
             return View(await othSpendtype.ToListAsync());
         }
 
-        // GET: OtherSpendingTypes/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Chart(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OtherSpendingTypes otherSpendingTypes = db.OtherSpendingTypes.Find(id);
+            if (otherSpendingTypes == null)
+            {
+                return HttpNotFound();
+            }
+
+            //CHART 1
+            string dateList;
+            string priceList;
+            List<ForOtherSpendingTypeChartsClass> spendingList = new List<ForOtherSpendingTypeChartsClass>();
+
+            var spendingListData = from sld in db.ForOtherSpendingTypeCharts
+                                   select sld;
+            
+            foreach (ForOtherSpendingTypeCharts spending in spendingListData)
+            {
+                if (spending.OtherSpendingTypeId == id)
+                {
+                    
+                    ForOtherSpendingTypeChartsClass OneRow = new ForOtherSpendingTypeChartsClass();
+                    OneRow.DateBegin = spending.DateBegin.ToString("dd.MM.yyyy");
+                    OneRow.DailySpendings = (int)spending.DailySpendings;
+                    spendingList.Add(OneRow);
+                }
+            }
+
+            dateList = "'" + string.Join("','", spendingList.Select(n => n.DateBegin).ToList()) + "'";
+            priceList = string.Join(",", spendingList.Select(n => n.DailySpendings).ToList());
+
+            OtherSpendingTypes othSpendType = db.OtherSpendingTypes.Find(id);
+
+            ViewBag.TypeName = othSpendType.TypeName;
+            ViewBag.Dates = dateList;
+            ViewBag.Price = priceList;
+
+            return PartialView();
         }
 
         // GET: OtherSpendingTypes/Create

@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     Hinta yhteensä
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "hinta", onchange = "hintaChange(this)" } })
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
                                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -151,4 +151,8 @@
     function submitModal() {
         submitModalPost("OtherSpendings", "_ModalEdit", "editForm", "ModalOtherSpendingEdit");
     };
+
+    $("#Price").keypress(function () {
+        isNumberKey(event, "Price");
+    });
 </script>
