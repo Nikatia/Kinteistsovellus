@@ -22,7 +22,7 @@
                                 <div class="form-group">
                                     Urakoitsija
                                     <div class="col-md-10">
-                                        @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control"})
+                                        @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
                                         <div class="text-danger" id="noContractorInfo" style="display:none">Urakoitsija vaaditaan</div>
                                     </div>
@@ -31,7 +31,7 @@
                                 <div class="form-group">
                                     Henkilö
                                     <div class="col-md-10">
-                                        @Html.DropDownList("PersonID", null, htmlAttributes: new { @class = "form-control", id="lePerson"})
+                                        @Html.DropDownList("PersonID", null, htmlAttributes: new { @class = "form-control", id = "lePerson" })
                                         @Html.ValidationMessageFor(model => model.PersonID, "", new { @class = "text-danger" })
                                         <div style="text-align:right; padding-right:110px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi henkilö</a></div>
                                     </div>
@@ -91,7 +91,7 @@
         var email = $("#mail").val();
         var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
-        if (telephone == "" && email == "" || contractors.val() == "" || !email.match(mailFormat) || !telephone.match(phoneFormat)) {
+        if ((telephone == "" && email == "") || contractors.val() == "" || (!email.match(mailFormat) && email != "")  || (!telephone.match(phoneFormat) && telephone != "")) {
             if (telephone != "" || email != "") {
                 document.getElementById("noContactInfo").style.display = "none";
             }
@@ -107,6 +107,7 @@
             }
 
             if (!email.match(mailFormat) && email != "") {
+                console.log("email wrong")
                 document.getElementById("wrongEmail").style.display = "inline-block";
             }
             else {
@@ -114,6 +115,7 @@
             }
 
             if (!telephone.match(phoneFormat) && telephone != "") {
+                console.log("phone wrong")
                 document.getElementById("wrongPhone").style.display = "inline-block";
             }
             else {
