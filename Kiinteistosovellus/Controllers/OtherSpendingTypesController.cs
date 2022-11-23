@@ -41,14 +41,14 @@ namespace Kiinteistosovellus.Controllers
 
             var spendingListData = from sld in db.ForOtherSpendingTypeCharts
                                    select sld;
-
+            
             foreach (ForOtherSpendingTypeCharts spending in spendingListData)
             {
                 if (spending.OtherSpendingTypeId == id)
                 {
                     
                     ForOtherSpendingTypeChartsClass OneRow = new ForOtherSpendingTypeChartsClass();
-                    OneRow.DateBegin = spending.DateBegin;
+                    OneRow.DateBegin = spending.DateBegin.ToString("dd.MM.yyyy");
                     OneRow.DailySpendings = (int)spending.DailySpendings;
                     spendingList.Add(OneRow);
                 }
@@ -57,6 +57,9 @@ namespace Kiinteistosovellus.Controllers
             dateList = "'" + string.Join("','", spendingList.Select(n => n.DateBegin).ToList()) + "'";
             priceList = string.Join(",", spendingList.Select(n => n.DailySpendings).ToList());
 
+            OtherSpendingTypes othSpendType = db.OtherSpendingTypes.Find(id);
+
+            ViewBag.TypeName = othSpendType.TypeName;
             ViewBag.Dates = dateList;
             ViewBag.Price = priceList;
 
