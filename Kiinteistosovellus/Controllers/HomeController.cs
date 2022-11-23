@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 

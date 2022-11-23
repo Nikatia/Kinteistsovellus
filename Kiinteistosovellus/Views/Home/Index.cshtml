@@ -17,6 +17,9 @@
     let labelTexts = [@Html.Raw(ViewBag.Category)];
     let dataValues = [@ViewBag.Price];
     const ctx = document.getElementById('typeChart');
+    console.log(labelTexts);
+    console.log(dataValues);
+
 
     new Chart(ctx, {
         type: 'pie',
