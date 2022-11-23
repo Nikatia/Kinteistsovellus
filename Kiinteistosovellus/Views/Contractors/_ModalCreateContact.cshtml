@@ -114,11 +114,9 @@
             }
 
             if (!telephone.match(phoneFormat) && telephone != "") {
-                console.log("Invalid phone number!");
                 document.getElementById("wrongPhone").style.display = "inline-block";
             }
             else {
-                console.log("Valid phone number!");
                 document.getElementById("wrongPhone").style.display = "none";
             }
         }
