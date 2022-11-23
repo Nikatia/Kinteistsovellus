@@ -8,7 +8,7 @@
     <div>
         <div class="row">
             <div class="col-md-6"><canvas id="typeChart"></canvas></div>
-            @*<div class="col-md-6"><canvas id="timeChart"></canvas></div>*@
+            <div class="col-md-6"><canvas id="timeChart"></canvas></div>
         </div>
     </div>
 </div>
@@ -16,9 +16,13 @@
     //FIRST CHART
     let labelTexts = [@Html.Raw(ViewBag.Category)];
     let dataValues = [@ViewBag.Price];
+    let yearObjectValues = @ViewBag.Year;
+    let yearObjectMonths = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
     const ctx = document.getElementById('typeChart');
+    const timeChartDiv = document.getElementById('timeChart');
     console.log(labelTexts);
     console.log(dataValues);
+    console.log(yearObjectValues);
 
 
     new Chart(ctx, {
@@ -50,4 +54,36 @@
             }
         }
     });
+
+    new Chart(timeChartDiv, {
+        type: 'line',
+        data: {
+            labels: yearObjectMonths,
+            datasets: [{
+                label: ' euroa',
+                data: yearObjectValues,
+                borderColor: ['rgba(5, 163, 23, 0.8)',
+                    'rgba(67, 245, 39, 0.8)'],
+                backgroundColor: ['rgba(5, 163, 23, 0.2)',
+                    'rgba(67, 245, 39, 0.2)'],
+                fill: true,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Käytetty raha kuukausien mukaan'
+                }
+            }
+        }
+    });
+
+
 </script>
