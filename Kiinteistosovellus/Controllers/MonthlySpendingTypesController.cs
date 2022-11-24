@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using Kiinteistosovellus.ViewModels;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -19,6 +20,50 @@ namespace Kiinteistosovellus.Controllers
         {
             var monthlySpendingTypes = db.MonthlySpendingTypes.Include(m => m.Logins);
             return View(monthlySpendingTypes.ToList());
+        }
+
+        public ActionResult Chart(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            if (spendingTypes == null)
+            {
+                return HttpNotFound();
+            }
+
+            //CHART 1
+            string dateList;
+            string priceList;
+            List<ForMonthlySpendingsChartsClass> spendingList = new List<ForMonthlySpendingsChartsClass>();
+
+            var spendingListData = from sld in db.ForMonthlySpendingsCharts
+                                   select sld;
+
+            foreach (ForMonthlySpendingsCharts spending in spendingListData)
+            {
+                if (spending.SpendingTypeID == id)
+                {
+
+                    ForMonthlySpendingsChartsClass OneRow = new ForMonthlySpendingsChartsClass();
+                    OneRow.MonthYearDate = spending.MonthYearDate;
+                    OneRow.Price = (int)spending.Price;
+                    spendingList.Add(OneRow);
+                }
+            }
+
+            dateList = "'" + string.Join("','", spendingList.Select(n => n.MonthYearDate).ToList()) + "'";
+            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+
+            MonthlySpendingTypes spendType = db.MonthlySpendingTypes.Find(id);
+
+            ViewBag.TypeName = spendType.TypeName;
+            ViewBag.Dates = dateList;
+            ViewBag.Price = priceList;
+
+            return PartialView();
         }
 
         // GET: MonthlySpendingTypes/Details/5
