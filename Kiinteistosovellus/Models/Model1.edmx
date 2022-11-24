@@ -121,16 +121,6 @@
           <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ForCategorySortChart">
-          <Key>
-            <PropertyRef Name="Category" />
-          </Key>
-          <Property Name="ROW_NUM" Type="bigint" />
-          <Property Name="Category" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Price" Type="money" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChartWithYears' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ForCategorySortChartWithYears">
           <Key>
@@ -431,13 +421,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ForCategorySortChart" EntityType="Self.ForCategorySortChart" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ForCategorySortChart].[ROW_NUM] AS [ROW_NUM], 
-    [ForCategorySortChart].[Category] AS [Category], 
-    [ForCategorySortChart].[Price] AS [Price]
-    FROM [dbo].[ForCategorySortChart] AS [ForCategorySortChart]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="Self.ForCategorySortChartWithYears" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ForCategorySortChartWithYears].[ROW_NUM] AS [ROW_NUM], 
@@ -993,7 +976,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="KuukausittainenVaiMuu" EntitySet="KuukausittainenVaiMuu" />
             <End Role="Plans" EntitySet="Plans" />
           </AssociationSet>
-          <EntitySet Name="ForCategorySortChart" EntityType="KiinteistoDBModel.ForCategorySortChart" />
           <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" />
           <EntitySet Name="ForMonthlySpendingsCharts" EntityType="KiinteistoDBModel.ForMonthlySpendingsCharts" />
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="KiinteistoDBModel.ForCategorySortChartWithYears" />
@@ -1019,14 +1001,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ForCategorySortChart">
-          <Key>
-            <PropertyRef Name="Category" />
-          </Key>
-          <Property Name="ROW_NUM" Type="Int64" />
-          <Property Name="Category" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-        </EntityType>
         <EntityType Name="ForOtherSpendingTypeCharts">
           <Key>
             <PropertyRef Name="DateBegin" />
@@ -1227,15 +1201,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
               <MappingFragment StoreEntitySet="KuukausittainenVaiMuu">
                 <ScalarProperty Name="MonthOrOtherName" ColumnName="MonthOrOtherName" />
                 <ScalarProperty Name="MonthOrOtherID" ColumnName="MonthOrOtherID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ForCategorySortChart">
-            <EntityTypeMapping TypeName="KiinteistoDBModel.ForCategorySortChart">
-              <MappingFragment StoreEntitySet="ForCategorySortChart">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="ROW_NUM" ColumnName="ROW_NUM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

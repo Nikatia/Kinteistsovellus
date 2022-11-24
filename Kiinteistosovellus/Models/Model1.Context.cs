@@ -37,7 +37,6 @@ namespace Kiinteistosovellus.Models
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
         public virtual DbSet<KuukausittainenVaiMuu> KuukausittainenVaiMuu { get; set; }
-        public virtual DbSet<ForCategorySortChart> ForCategorySortChart { get; set; }
         public virtual DbSet<ForOtherSpendingTypeCharts> ForOtherSpendingTypeCharts { get; set; }
         public virtual DbSet<ForMonthlySpendingsCharts> ForMonthlySpendingsCharts { get; set; }
         public virtual DbSet<ForCategorySortChartWithYears> ForCategorySortChartWithYears { get; set; }
