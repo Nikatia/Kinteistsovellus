@@ -5,6 +5,7 @@
 <h2 style="margin-top:15px;margin-left:34%">Kuukausittaiset kulut</h2>
 <p>
     <button type="button" id="CreateMS" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
+    <input type="button" value="Näytä lisätiedot" id="DetailButton" class="btn-secondary">
 </p>
 
 <div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
@@ -25,15 +26,15 @@
             Kulutustyyppi
         </th>
         <th>
-            Käytetytyksiköt
+            Kokonaiskulutus
         </th>
         <th>
-            KäytetytMittayksiköt
+            Energian yksikkö
         </th>
-        <th>
+        <th class="details" style="display:none">
             Yksikköhinta
         </th>
-        <th>
+        <th class="details" style="display:none">
             Siirtomaksu
         </th>
         <th>
@@ -72,10 +73,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
             </td>
-            <td>
+            <td class="details" style="display:none">
                 @Html.DisplayFor(modelItem => item.PricePerUnit)
             </td>
-            <td>
+            <td class="details" style="display:none">
                 @Html.DisplayFor(modelItem => item.TransferPayment)
             </td>
             <td>
@@ -142,6 +143,25 @@
             });
         });
     });
+
+    //Details toggle button
+    $(document).ready(function () {
+
+        $("#DetailButton").click(function () {
+            $(".details").toggle();
+            if ($("#DetailButton").val() == "Näytä lisätiedot") {
+                $("#DetailButton").attr('value', "Piilota lisätiedot");
+            }
+            else {
+                $("#DetailButton").val("Näytä lisätiedot");
+            };
+        });
+    });
+
+
+
+
+
 
 
         //$(document).ready(function () {
