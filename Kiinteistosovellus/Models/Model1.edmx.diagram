@@ -36,6 +36,7 @@
         <AssociationConnector Association="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" />
         <EntityTypeShape EntityType="KiinteistoDBModel.ForCategorySortChart" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.ForMonthlySpendingsCharts" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

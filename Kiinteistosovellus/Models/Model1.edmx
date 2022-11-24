@@ -131,6 +131,18 @@ warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChart' does not ha
           <Property Name="Price" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.ForMonthlySpendingsCharts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ForMonthlySpendingsCharts">
+          <Key>
+            <PropertyRef Name="rowId" />
+            <PropertyRef Name="SpendingTypeID" />
+          </Key>
+          <Property Name="rowId" Type="bigint" Nullable="false" />
+          <Property Name="MonthYearDate" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Price" Type="numeric" Precision="38" Scale="2" />
+          <Property Name="SpendingTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForOtherSpendingTypeCharts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ForOtherSpendingTypeCharts">
           <Key>
@@ -382,6 +394,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [ForCategorySortChart].[Category] AS [Category], 
     [ForCategorySortChart].[Price] AS [Price]
     FROM [dbo].[ForCategorySortChart] AS [ForCategorySortChart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ForMonthlySpendingsCharts" EntityType="Self.ForMonthlySpendingsCharts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ForMonthlySpendingsCharts].[rowId] AS [rowId], 
+    [ForMonthlySpendingsCharts].[MonthYearDate] AS [MonthYearDate], 
+    [ForMonthlySpendingsCharts].[Price] AS [Price], 
+    [ForMonthlySpendingsCharts].[SpendingTypeID] AS [SpendingTypeID]
+    FROM [dbo].[ForMonthlySpendingsCharts] AS [ForMonthlySpendingsCharts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="Self.ForOtherSpendingTypeCharts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -906,6 +926,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           </AssociationSet>
           <EntitySet Name="ForCategorySortChart" EntityType="KiinteistoDBModel.ForCategorySortChart" />
           <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" />
+          <EntitySet Name="ForMonthlySpendingsCharts" EntityType="KiinteistoDBModel.ForMonthlySpendingsCharts" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -944,6 +965,16 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="DateBegin" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DailySpendings" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="OtherSpendingTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ForMonthlySpendingsCharts">
+          <Key>
+            <PropertyRef Name="rowId" />
+            <PropertyRef Name="SpendingTypeID" />
+          </Key>
+          <Property Name="rowId" Type="Int64" Nullable="false" />
+          <Property Name="MonthYearDate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="SpendingTypeID" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1105,6 +1136,16 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="DailySpendings" ColumnName="DailySpendings" />
                 <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
                 <ScalarProperty Name="rowid" ColumnName="rowid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForMonthlySpendingsCharts">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.ForMonthlySpendingsCharts">
+              <MappingFragment StoreEntitySet="ForMonthlySpendingsCharts">
+                <ScalarProperty Name="SpendingTypeID" ColumnName="SpendingTypeID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="MonthYearDate" ColumnName="MonthYearDate" />
+                <ScalarProperty Name="rowId" ColumnName="rowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
