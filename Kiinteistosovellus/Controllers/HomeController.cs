@@ -3,6 +3,7 @@ using Kiinteistosovellus.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,19 +15,29 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult Index()
         {
-            //Pie chartti
+            ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+            ViewBag.Years = GetYears();
+
+            return View();
+        }
+
+        public ActionResult PieChart(int? year)
+        {
             string typeList;
             string priceList;
-            List<ForCategorySortChartClass> spendingList = new List<ForCategorySortChartClass>();
+            List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
 
-            var spendingListData = from sld in db.ForCategorySortChart select sld;
+            var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
 
-            foreach (ForCategorySortChart spending in spendingListData)
+            foreach (ForCategorySortChartWithYears spending in spendingListData)
             {
-                ForCategorySortChartClass OneRow = new ForCategorySortChartClass();
-                OneRow.Category = spending.Category;
-                OneRow.Price = (int)spending.Price;
-                spendingList.Add(OneRow);
+                if (spending.SpendingYear == year)
+                {
+                    ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
+                    OneRow.Category = spending.Category;
+                    OneRow.Price = (int)spending.Price;
+                    spendingList.Add(OneRow);
+                }
             }
 
             typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
@@ -35,43 +46,14 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.Category = typeList;
             ViewBag.Price = priceList;
 
-
-            //Pie2 chartti
-            string type2List;
-            string price2List;
-            string yearList;
-            List<ForCategorySortChartWithYearsClass> spending2List = new List<ForCategorySortChartWithYearsClass>();
-
-            var spending2ListData = from sld in db.ForCategorySortChartWithYears select sld;
-
-            foreach (ForCategorySortChartWithYears spending in spending2ListData)
-            {
-                ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
-                OneRow.Category = spending.Category;
-                OneRow.Price = (int)spending.Price;
-                spending2List.Add(OneRow);
-            }
-
-            type2List = "'" + string.Join("','", spending2List.Select(n => n.Category).ToList()) + "'";
-            price2List = string.Join(",", spending2List.Select(n => n.Price).ToList());
-
-            ViewBag.Category2 = type2List;
-            ViewBag.Price2 = price2List;
-            return View();
+            return PartialView();
         }
 
-        public ActionResult About()
+        public List<MonthlyAndOtherSpendingsByMonth> GetYears()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
+            return years;
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

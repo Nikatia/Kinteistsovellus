@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Kiinteistosovellus.ViewModels.MonthlyAndOtherSpendingsByMonthClass
+@{
     ViewBag.Title = "Home Page";
 }
 <div class="jumbotron">
@@ -6,48 +7,54 @@
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <div>
         <div class="row">
-            <div class="col-md-6"><canvas style="width:100%;max-width:400px;max-height:400px" id="typeChart"></canvas></div>
-            @*<div class="col-md-6"><canvas id="timeChart"></canvas></div>*@
+            <div class="col-md-6">
+                <div id="chartContainer"></div>
+                <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
+            </div>
+            <div class="col-md-6">
+                
+                <canvas id="typeChart2"></canvas>
+            </div>
         </div>
     </div>
 </div>
 <script>
-    //FIRST CHART
-    let labelTexts = [@Html.Raw(ViewBag.Category)];
-    let dataValues = [@ViewBag.Price];
-    const ctx = document.getElementById('typeChart');
+    $(document).ready(function () {
+        var thisYear = new Date().getFullYear();
+        document.getElementById("Vuosi").value = thisYear;
+        var url = "/Home/PieChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
 
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labelTexts,
-            datasets: [{
-                label: ' euroa',
-                data: dataValues,
-                borderColor: 'white',
-                backgroundColor: ['rgba(163, 199, 154, 1)',
-                    'rgba(109, 213, 93, 0.8)',
-                    'rgba(104, 168, 94, 0.8)',
-                    'rgba(183, 235, 170, 0.8)',
-                    'rgba(155, 223, 174, 0.8)',
-                    'rgba(154, 199, 171, 0.8)',
-                    'rgba(129, 227, 167, 0.8)',
-                    'rgba(124, 156, 117, 0.8)',
-                    'rgba(202, 247, 201, 0.8)'],
-                fill: true,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Käytetyn rahan kokonaismäärä kulutyypin mukaan'
-                },
-                legend: {
-                    position: 'bottom'
-                }
+        $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
             }
-        }
+        });
     });
+    $('#Vuosi').change(function () {
+        var thisYear = $(this).val();
+        var url = "/Home/PieChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+
+        $.ajax({
+            url: url, 
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get', 
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html(""); 
+                $(divForPartial).html(result); 
+            }
+        });
+    });
+
 </script>

@@ -166,6 +166,38 @@ warning 6002: The table/view 'KiinteistoDB.dbo.ForOtherSpendingTypeCharts' does 
           <Property Name="OtherSpendingTypeId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyAndOtherSpendingsByMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonthlyAndOtherSpendingsByMonth">
+          <Key>
+            <PropertyRef Name="Tammikuu" />
+            <PropertyRef Name="Helmikuu" />
+            <PropertyRef Name="Maaliskuu" />
+            <PropertyRef Name="Huhtikuu" />
+            <PropertyRef Name="Toukokuu" />
+            <PropertyRef Name="Kesäkuu" />
+            <PropertyRef Name="Heinäkuu" />
+            <PropertyRef Name="Elokuu" />
+            <PropertyRef Name="Syyskuu" />
+            <PropertyRef Name="Lokakuu" />
+            <PropertyRef Name="Marraskuu" />
+            <PropertyRef Name="Joulukuu" />
+          </Key>
+          <Property Name="Rivi" Type="bigint" />
+          <Property Name="Vuosi" Type="int" />
+          <Property Name="Tammikuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Helmikuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Maaliskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Huhtikuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Toukokuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Kesäkuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Heinäkuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Elokuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Syyskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Lokakuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Marraskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Joulukuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -429,6 +461,24 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [ForOtherSpendingTypeCharts].[DailySpendings] AS [DailySpendings], 
     [ForOtherSpendingTypeCharts].[OtherSpendingTypeId] AS [OtherSpendingTypeId]
     FROM [dbo].[ForOtherSpendingTypeCharts] AS [ForOtherSpendingTypeCharts]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MonthlyAndOtherSpendingsByMonth" EntityType="Self.MonthlyAndOtherSpendingsByMonth" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonthlyAndOtherSpendingsByMonth].[Rivi] AS [Rivi], 
+    [MonthlyAndOtherSpendingsByMonth].[Vuosi] AS [Vuosi], 
+    [MonthlyAndOtherSpendingsByMonth].[Tammikuu] AS [Tammikuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Helmikuu] AS [Helmikuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Maaliskuu] AS [Maaliskuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Huhtikuu] AS [Huhtikuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Toukokuu] AS [Toukokuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Kesäkuu] AS [Kesäkuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Heinäkuu] AS [Heinäkuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Elokuu] AS [Elokuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Syyskuu] AS [Syyskuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Lokakuu] AS [Lokakuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Marraskuu] AS [Marraskuu], 
+    [MonthlyAndOtherSpendingsByMonth].[Joulukuu] AS [Joulukuu]
+    FROM [dbo].[MonthlyAndOtherSpendingsByMonth] AS [MonthlyAndOtherSpendingsByMonth]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
             <DefiningQuery>SELECT 
@@ -947,6 +997,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" />
           <EntitySet Name="ForMonthlySpendingsCharts" EntityType="KiinteistoDBModel.ForMonthlySpendingsCharts" />
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="KiinteistoDBModel.ForCategorySortChartWithYears" />
+          <EntitySet Name="MonthlyAndOtherSpendingsByMonth" EntityType="KiinteistoDBModel.MonthlyAndOtherSpendingsByMonth" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -1004,6 +1055,36 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Category" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="SpendingYear" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MonthlyAndOtherSpendingsByMonth">
+          <Key>
+            <PropertyRef Name="Tammikuu" />
+            <PropertyRef Name="Helmikuu" />
+            <PropertyRef Name="Maaliskuu" />
+            <PropertyRef Name="Huhtikuu" />
+            <PropertyRef Name="Toukokuu" />
+            <PropertyRef Name="Kesäkuu" />
+            <PropertyRef Name="Heinäkuu" />
+            <PropertyRef Name="Elokuu" />
+            <PropertyRef Name="Syyskuu" />
+            <PropertyRef Name="Lokakuu" />
+            <PropertyRef Name="Marraskuu" />
+            <PropertyRef Name="Joulukuu" />
+          </Key>
+          <Property Name="Rivi" Type="Int64" />
+          <Property Name="Vuosi" Type="Int32" />
+          <Property Name="Tammikuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Helmikuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Maaliskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Huhtikuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Toukokuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Kesäkuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Heinäkuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Elokuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Syyskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Lokakuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Marraskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Joulukuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1185,6 +1266,26 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="ROW_NUM" ColumnName="ROW_NUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthlyAndOtherSpendingsByMonth">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.MonthlyAndOtherSpendingsByMonth">
+              <MappingFragment StoreEntitySet="MonthlyAndOtherSpendingsByMonth">
+                <ScalarProperty Name="Joulukuu" ColumnName="Joulukuu" />
+                <ScalarProperty Name="Marraskuu" ColumnName="Marraskuu" />
+                <ScalarProperty Name="Lokakuu" ColumnName="Lokakuu" />
+                <ScalarProperty Name="Syyskuu" ColumnName="Syyskuu" />
+                <ScalarProperty Name="Elokuu" ColumnName="Elokuu" />
+                <ScalarProperty Name="Heinäkuu" ColumnName="Heinäkuu" />
+                <ScalarProperty Name="Kesäkuu" ColumnName="Kesäkuu" />
+                <ScalarProperty Name="Toukokuu" ColumnName="Toukokuu" />
+                <ScalarProperty Name="Huhtikuu" ColumnName="Huhtikuu" />
+                <ScalarProperty Name="Maaliskuu" ColumnName="Maaliskuu" />
+                <ScalarProperty Name="Helmikuu" ColumnName="Helmikuu" />
+                <ScalarProperty Name="Tammikuu" ColumnName="Tammikuu" />
+                <ScalarProperty Name="Vuosi" ColumnName="Vuosi" />
+                <ScalarProperty Name="Rivi" ColumnName="Rivi" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
