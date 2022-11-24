@@ -34,6 +34,29 @@ namespace Kiinteistosovellus.Controllers
 
             ViewBag.Category = typeList;
             ViewBag.Price = priceList;
+
+
+            //Pie2 chartti
+            string type2List;
+            string price2List;
+            string yearList;
+            List<ForCategorySortChartWithYearsClass> spending2List = new List<ForCategorySortChartWithYearsClass>();
+
+            var spending2ListData = from sld in db.ForCategorySortChartWithYears select sld;
+
+            foreach (ForCategorySortChartWithYears spending in spending2ListData)
+            {
+                ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
+                OneRow.Category = spending.Category;
+                OneRow.Price = (int)spending.Price;
+                spending2List.Add(OneRow);
+            }
+
+            type2List = "'" + string.Join("','", spending2List.Select(n => n.Category).ToList()) + "'";
+            price2List = string.Join(",", spending2List.Select(n => n.Price).ToList());
+
+            ViewBag.Category2 = type2List;
+            ViewBag.Price2 = price2List;
             return View();
         }
 
