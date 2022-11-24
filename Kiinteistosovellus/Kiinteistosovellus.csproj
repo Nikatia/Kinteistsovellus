@@ -152,6 +152,9 @@
     <Compile Include="Models\ForCategorySortChart.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ForCategorySortChartWithYears.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ForMonthlySpendingsCharts.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

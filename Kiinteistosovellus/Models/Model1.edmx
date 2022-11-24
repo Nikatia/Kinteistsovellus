@@ -131,6 +131,17 @@ warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChart' does not ha
           <Property Name="Price" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChartWithYears' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ForCategorySortChartWithYears">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="ROW_NUM" Type="bigint" />
+          <Property Name="Category" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="money" />
+          <Property Name="SpendingYear" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForMonthlySpendingsCharts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ForMonthlySpendingsCharts">
           <Key>
@@ -394,6 +405,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [ForCategorySortChart].[Category] AS [Category], 
     [ForCategorySortChart].[Price] AS [Price]
     FROM [dbo].[ForCategorySortChart] AS [ForCategorySortChart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ForCategorySortChartWithYears" EntityType="Self.ForCategorySortChartWithYears" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ForCategorySortChartWithYears].[ROW_NUM] AS [ROW_NUM], 
+    [ForCategorySortChartWithYears].[Category] AS [Category], 
+    [ForCategorySortChartWithYears].[Price] AS [Price], 
+    [ForCategorySortChartWithYears].[SpendingYear] AS [SpendingYear]
+    FROM [dbo].[ForCategorySortChartWithYears] AS [ForCategorySortChartWithYears]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ForMonthlySpendingsCharts" EntityType="Self.ForMonthlySpendingsCharts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -927,6 +946,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="ForCategorySortChart" EntityType="KiinteistoDBModel.ForCategorySortChart" />
           <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" />
           <EntitySet Name="ForMonthlySpendingsCharts" EntityType="KiinteistoDBModel.ForMonthlySpendingsCharts" />
+          <EntitySet Name="ForCategorySortChartWithYears" EntityType="KiinteistoDBModel.ForCategorySortChartWithYears" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -975,6 +995,15 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="MonthYearDate" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="SpendingTypeID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ForCategorySortChartWithYears">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="ROW_NUM" Type="Int64" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SpendingYear" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1146,6 +1175,16 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="MonthYearDate" ColumnName="MonthYearDate" />
                 <ScalarProperty Name="rowId" ColumnName="rowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForCategorySortChartWithYears">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.ForCategorySortChartWithYears">
+              <MappingFragment StoreEntitySet="ForCategorySortChartWithYears">
+                <ScalarProperty Name="SpendingYear" ColumnName="SpendingYear" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="ROW_NUM" ColumnName="ROW_NUM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
