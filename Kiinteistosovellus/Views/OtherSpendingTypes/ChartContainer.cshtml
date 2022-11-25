@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    @Html.ActionLink("Takaisin", "Index")
+                    <a href="/OtherSpendingTypes" type="button" class="btn btn-primary">Takaisin</a>
                 </div>
             </div>
         </div>
@@ -23,7 +23,6 @@
 <script>
     $(document).ready(function () {
         var thisYear = new Date().getFullYear();
-        console.log(thisYear);
         document.getElementById("Vuosi").value = thisYear;
         var url = "/OtherSpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
         var divForPartial = $("#chartOtherContainer");
@@ -44,7 +43,6 @@
     $('#Vuosi').change(function () {
         var thisYear = $(this).val();
         var url = "/OtherSpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
-        console.log(url);
         var divForPartial = $("#chartOtherContainer");
 
         $.ajax({

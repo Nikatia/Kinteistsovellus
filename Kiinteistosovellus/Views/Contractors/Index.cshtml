@@ -20,6 +20,21 @@
                 }
             ).ToList();
 }
+<style>
+
+    .panel-title::after {
+        content: "\f107";
+        color: #333;
+        top: 7px;
+        left: 0px;
+        position: absolute;
+        font-family: "FontAwesome"
+    }
+
+    .panel-title[aria-expanded="true"]::after {
+        content: "\f106";
+    }
+</style>
 
 <h2>Urakoitsijat</h2>
 
@@ -43,113 +58,10 @@
 <iframe id="contactEdit" style="display:none;"></iframe>
 <iframe id="contactDelete" style="display:none;"></iframe>
 
-
-@*<div class="container-fluid">
-    <div class="card-header">
-
-        <form>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text bg-primary font-weight-bold" style="padding-left:28px; padding-right:29px"> ID </span>
-                </div>
-                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Urakoitsija" disabled>
-                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Osoite" disabled>
-                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Postinumero" disabled>
-                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Postitoimipaikka" disabled>
-                <input type="text" class="form-control bg-primary font-weight-bold px-2" value="Maa" disabled>
-            </div>
-        </form>
-
-    </div>
-    <div class="accordion" id="accordionExample">
-        @foreach (var item in groupedList)
-        {
-            if (item.ContractorID != 1004)
-            {
-                <div class="accordion-item">
-                    <div class="card-header input-group" id="heading_@item.ContractorID">
-
-                        <a class="showContractorContacts" data-contractorid="@item.ContractorID" data-bs-toggle="collapse" href="#collaps_@item.ContractorID" aria-expanded="false" aria-controls="collapse_@item.ContractorID" style="color:white">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="background-color: rgba(55, 90, 127, 0.7); color: white ">@item.ContractorID ˅</span>
-                            </div>
-                        </a>
-
-                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Name" disabled>
-                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.StreetAdress" disabled>
-                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.PostCode" disabled>
-                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.City" disabled>
-                        <input type="text" class="form-control px-2" style="background-color: rgba(55, 90, 127, 0.5); color: white " value="@item.Country" disabled>
-
-                    </div>
-                    <div id="collaps_@item.ContractorID" class="accordion-collapse collapse" aria-labelledby="heading_@item.ContractorID" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <div style="word-break:break-word">
-                                        <b>Kuvaus:</b><br />
-                                        @item.ContractorsDescription
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div style="text-align:right">
-                                        <a class="card-link px-1 getContractorEdit" title="Muokkaa urakoitsija" role="button" data-editId="@item.ContractorID"><i class="fa-solid fa-users-gear fa-2x"></i></a>
-                                        <a class="card-link px-1 getContractorDelete" title="Poistaa urakoitsija" role="button" data-deleteid="@item.ContractorID"><i class="fa-solid fa-users-slash fa-2x"></i></a><br />
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            
-
-
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Etunimi</th>
-                                        <th>Sukunimi</th>
-                                        <th>Kuvaus</th>
-                                        <th>Puhelin numero</th>
-                                        <th>Sähköposti</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
-                                    {
-                                        foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
-                                        {
-                                            if (person.ContractorID == item.ContractorID && person.PersonID == contact.PersonID)
-                                            {
-                                                <tr>
-                                                    <td>@person.FirstName</td>
-                                                    <td>@person.LastName</td>
-                                                    <td>@person.Description</td>
-                                                    <td>@contact.PhoneNumber</td>
-                                                    <td>@contact.Email</td>
-                                                    <td>
-                                                        <a class="card-link getHooman" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><i class="fa-solid fa-user-gear"></i></a> 
-                                                        <a class="card-link getHoman" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><i class="fa-solid fa-user-large-slash"></i></a> &emsp;
-                                                        <a class="card-link getContactEdit" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><i class="fa-solid fa-comment-dots"></i></a> 
-                                                        <a class="card-link getContactDelete" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><i class="fa-solid fa-comment-slash"></i></a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</div>*@
-
 <div class="card" id="ContractorsList">
     <div class="card-header bg-primary" style="color:white">
         <div class="row">
-            <div class="col-1 px-3">ID</div>
+            <div class="col-1" style="padding-left:27px">ID</div>
             <div class="col-2" style="padding-left:2px">Urakoitsija</div>
             <div class="col-2" style="padding-left:2px">Osoite</div>
             <div class="col-2" style="padding-left:4px">Postinumero</div>
@@ -163,10 +75,10 @@
         {
             if (item.ContractorID != 1004)
             {
-                <div class="accordion-item" style="border-bottom: 1px solid rgba(117, 167, 240, 0.2)" id="item_@item.ContractorID">
+                <div class="accordion-item panel" style="border-bottom: 1px solid rgba(117, 167, 240, 0.2)" id="item_@item.ContractorID">
                     <div class="accordion-header" id="heading_@item.ContractorID">
-                        <div class="accordion-button collapsed row btn-secondary openContractor" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.ContractorID" data-contractorid="@item.ContractorID" aria-expanded="false" aria-controls="heading_@item.ContractorID">
-                            <div class="col-1 px-3">@item.ContractorID</div>
+                        <div class="accordion-button collapsed row openContractor panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.ContractorID" data-contractorid="@item.ContractorID" aria-expanded="false" aria-controls="heading_@item.ContractorID">
+                            <div class="col-1 px-4">@item.ContractorID</div>
                             <div class="col-2 px-1">@item.Name</div>
                             <div class="col-2 px-2">@item.StreetAdress</div>
                             <div class="col-2 px-3">@item.PostCode</div>

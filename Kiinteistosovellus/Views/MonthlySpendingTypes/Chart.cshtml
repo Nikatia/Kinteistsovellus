@@ -5,7 +5,6 @@
     $(document).ready(function () {
         var xValues = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
         let yValues = @ViewBag.Year;
-        console.log(yValues);
         new Chart("myChart", {
             type: "line",
             data: {
