@@ -34,12 +34,21 @@
     .panel-title[aria-expanded="true"]::after {
         content: "\f106";
     }
+
+    .ikonka {
+        filter: invert(36%) sepia(94%) saturate(3449%) hue-rotate(207deg) brightness(96%) contrast(106%)
+    }
+
+    .ikonka:hover {
+        filter: invert(23%) sepia(98%) saturate(1996%) hue-rotate(206deg) brightness(90%) contrast(95%)
+    }
+
 </style>
 
 <h2>Urakoitsijat</h2>
 
 <p>
-    &emsp;<a class="card-link" title="Uusi Urakoitsija" id="creNewContractor" role="button"><i class="fa-solid fa-users fa-2x"></i></a> &emsp; <a class="card-link" title="Uusi yhteystiedot" id="creNewContact" role="button"><i class="fa-solid fa-comment-medical fa-2x"></i></a>
+    &emsp;<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add.svg" height="30"></a> &emsp; <a class="card-link" title="Uusi yhteystiedot" id="creNewContact" role="button"><i class="fa-solid fa-comment-medical fa-2x"></i></a>
 </p>
 
 @*---Modal Containers---*@
