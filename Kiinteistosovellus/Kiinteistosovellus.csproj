@@ -355,6 +355,7 @@
     <Content Include="Views\OtherSpendingTypes\Chart.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\Chart.cshtml" />
     <Content Include="Views\Home\PieChart.cshtml" />
+    <Content Include="Views\MonthlySpendingTypes\ChartContainer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

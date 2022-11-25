@@ -23,23 +23,27 @@ namespace Kiinteistosovellus.Controllers
             return View(monthlySpendingTypes.ToList());
         }
 
-        public ActionResult Chart(int? id)
+        public ActionResult ChartContainer(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.TypeID = id;
+            return PartialView();
+        }
+
+        [Route("MonthlySpendingTypes/Chart/{id?}/{year?}")]
+        public ActionResult Chart(int id, int year)
+        {
             MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
             if (spendingTypes == null)
             {
                 return HttpNotFound();
             }
 
-            //CHART
-            int? thisYear = DateTime.Now.Year;
             var monthSpendData = from sld in db.MonthlyTypeSpendingsByMonth
-                                    where sld.Vuosi == thisYear && sld.Tyyppi == id
-                                    select sld;
+                                 where sld.Vuosi == year && sld.Tyyppi == id
+                                 select sld;
 
             var yearObject = monthSpendData.FirstOrDefault();
 
@@ -59,8 +63,7 @@ namespace Kiinteistosovellus.Controllers
 
             ViewBag.Year = JsonConvert.SerializeObject(yearValues);
 
-
-            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.ThisYear = year;
 
             return PartialView();
         }
