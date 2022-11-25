@@ -21,8 +21,8 @@
 
 <script>
     //CHART
-    var xValues = [@Html.Raw(ViewBag.Dates)];
-    let yValues = [@ViewBag.Price];
+    var xValues = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
+    let yValues = @ViewBag.Year;
     new Chart("myChart", {
         type: "line",
         data: {
@@ -45,4 +45,6 @@
             }
         }
     });
+
+    console.log(@ViewBag.Year);
 </script>
