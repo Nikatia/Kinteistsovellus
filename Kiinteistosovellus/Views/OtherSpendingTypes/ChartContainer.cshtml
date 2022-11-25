@@ -1,0 +1,64 @@
+﻿@model Kiinteistosovellus.Models.OtherTypeSpendingsByMonth
+
+<div class="modal fade" id="ModalOtherSpendTypeChart">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>@ViewBag.TypeName: Kaavio</h3>
+            </div>
+
+            <div class="modal-body">
+                <div id="chartOtherContainer"></div>
+                <div style="padding-left:33%">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Takaisin", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var thisYear = new Date().getFullYear();
+        console.log(thisYear);
+        document.getElementById("Vuosi").value = thisYear;
+        var url = "/OtherSpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
+        var divForPartial = $("#chartOtherContainer");
+
+        $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
+        });
+    });
+    $('#Vuosi').change(function () {
+        var thisYear = $(this).val();
+        var url = "/OtherSpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
+        console.log(url);
+        var divForPartial = $("#chartOtherContainer");
+
+        $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
+        });
+    });
+
+</script>
