@@ -108,7 +108,7 @@
         $(".chartMSTId").click(function () {
             let MSChartId = $(this).data("chartid");
 
-            var url = "/MonthlySpendingTypes/Chart/?id=" + MSChartId;
+            var url = "/MonthlySpendingTypes/ChartContainer/" + MSChartId;
 
             var $detailDivChart = $("#ModalPlaceChart");
             $.get(url, function (data) {

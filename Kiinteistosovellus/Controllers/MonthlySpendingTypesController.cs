@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
+using Newtonsoft.Json;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -22,46 +23,47 @@ namespace Kiinteistosovellus.Controllers
             return View(monthlySpendingTypes.ToList());
         }
 
-        public ActionResult Chart(int? id)
+        public ActionResult ChartContainer(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.TypeID = id;
+            return PartialView();
+        }
+
+        [Route("MonthlySpendingTypes/Chart/{id?}/{year?}")]
+        public ActionResult Chart(int id, int year)
+        {
             MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
             if (spendingTypes == null)
             {
                 return HttpNotFound();
             }
 
-            //CHART 1
-            string dateList;
-            string priceList;
-            List<ForMonthlySpendingsChartsClass> spendingList = new List<ForMonthlySpendingsChartsClass>();
+            var monthSpendData = from sld in db.MonthlyTypeSpendingsByMonth
+                                 where sld.Vuosi == year && sld.Tyyppi == id
+                                 select sld;
 
-            var spendingListData = from sld in db.ForMonthlySpendingsCharts
-                                   select sld;
+            var yearObject = monthSpendData.FirstOrDefault();
 
-            foreach (ForMonthlySpendingsCharts spending in spendingListData)
-            {
-                if (spending.SpendingTypeID == id)
-                {
+            decimal[] yearValues = new decimal[12];
+            yearValues[0] = yearObject.Tammikuu;
+            yearValues[1] = yearObject.Helmikuu;
+            yearValues[2] = yearObject.Maaliskuu;
+            yearValues[3] = yearObject.Huhtikuu;
+            yearValues[4] = yearObject.Toukokuu;
+            yearValues[5] = yearObject.Kesäkuu;
+            yearValues[6] = yearObject.Heinäkuu;
+            yearValues[7] = yearObject.Elokuu;
+            yearValues[8] = yearObject.Syyskuu;
+            yearValues[9] = yearObject.Lokakuu;
+            yearValues[10] = yearObject.Marraskuu;
+            yearValues[11] = yearObject.Joulukuu;
 
-                    ForMonthlySpendingsChartsClass OneRow = new ForMonthlySpendingsChartsClass();
-                    OneRow.MonthYearDate = spending.MonthYearDate;
-                    OneRow.Price = (int)spending.Price;
-                    spendingList.Add(OneRow);
-                }
-            }
+            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
 
-            dateList = "'" + string.Join("','", spendingList.Select(n => n.MonthYearDate).ToList()) + "'";
-            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
-
-            MonthlySpendingTypes spendType = db.MonthlySpendingTypes.Find(id);
-
-            ViewBag.TypeName = spendType.TypeName;
-            ViewBag.Dates = dateList;
-            ViewBag.Price = priceList;
+            ViewBag.ThisYear = year;
 
             return PartialView();
         }

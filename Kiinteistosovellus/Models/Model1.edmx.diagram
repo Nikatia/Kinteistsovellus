@@ -34,9 +34,10 @@
         <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Other__797309D9" ManuallyRouted="false" />
         <EntityTypeShape EntityType="KiinteistoDBModel.KuukausittainenVaiMuu" Width="1.5" PointX="3.375" PointY="0.875" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" />
-        <EntityTypeShape EntityType="KiinteistoDBModel.ForCategorySortChart" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" Width="1.5" PointX="3.375" PointY="3.75" />
-        <EntityTypeShape EntityType="KiinteistoDBModel.ForMonthlySpendingsCharts" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.ForOtherSpendingTypeCharts" Width="1.5" PointX="6.375" PointY="0.875" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.ForCategorySortChartWithYears" Width="1.5" PointX="8.25" PointY="0.875" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.MonthlyAndOtherSpendingsByMonth" Width="1.5" PointX="10" PointY="0.875" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonth" Width="1.5" PointX="11.875" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

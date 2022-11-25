@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Kiinteistosovellus.ViewModels
 {
-    public class ForMonthlySpendingsChartsClass
+    public class ForCategorySortChartWithYearsClass
     {
-        public string MonthYearDate { get; set; }
+        public string Category { get; set; }
         public Nullable<decimal> Price { get; set; }
-        public int SpendingTypeID { get; set; }
+        public Nullable<int> SpendingYear { get; set; }
     }
 }
