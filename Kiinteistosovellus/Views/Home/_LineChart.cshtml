@@ -1,13 +1,13 @@
 ﻿
 
-<canvas @*style="width:100%;max-width:400px;max-height:400px"*@ id="typeChartLine"></canvas>
+<canvas style="width:100%;max-width:400px;max-height:400px" id="typeChartLine"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         console.log("menee tähän asti");
                //CHART
-        let labelTextsLine = @ViewBag.Months;
+        let labelTextsLine = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
         let dataValuesLine = @ViewBag.Year;
         console.log(labelTextsLine);
         console.log(dataValuesLine);
