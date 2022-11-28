@@ -92,7 +92,7 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.Year = JsonConvert.SerializeObject(yearValues);
             ViewBag.Months = JsonConvert.SerializeObject(months);
 
-            return PartialView();
+            return PartialView("/Views/Home/_LineChart.cshtml");
         }
 
         public List<MonthlyAndOtherSpendingsByMonth> GetYears()
