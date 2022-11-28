@@ -12,8 +12,8 @@
                 <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
             </div>
             <div class="col-md-6">
-                
-                <canvas id="typeChart2"></canvas>
+                <div id="chartContainerLine"></div>
+                <div style="padding-left:60px">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control"@*, @id="VuosiLine"*@ })</div>
             </div>
         </div>
     </div>
@@ -22,8 +22,13 @@
     $(document).ready(function () {
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;
+        document.getElementById("VuosiLine").value = thisYear;
+
         var url = "/Home/PieChart/?year=" + thisYear;
+        var urlLine = "/Home/_LineChart/?year=" + thisYear;
+
         var divForPartial = $("#chartContainer");
+        var divForPartialLine = $("#chartContainerLine");
 
         $.ajax({
             url: url,
@@ -37,7 +42,21 @@
                 $(divForPartial).html(result);
             }
         });
+
+        $.ajax({
+            url: urlLine,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialLine).html("");
+                $(divForPartialLine).html(result);
+            }
+        });
     });
+
     $('#Vuosi').change(function () {
         var thisYear = $(this).val();
         var url = "/Home/PieChart/?year=" + thisYear;
@@ -53,6 +72,25 @@
             success: function (result) {
                 $(divForPartial).html(""); 
                 $(divForPartial).html(result); 
+            }
+        });
+    });
+
+    $('#VuosiLine').change(function () {
+        var thisYear = $(this).val();
+        var urlLine = "/Home/_LineChart/?year=" + thisYear;
+        var divForPartialLine = $("#chartContainerLine");
+
+        $.ajax({
+            url: urlLine,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialLine).html("");
+                $(divForPartialLine).html(result);
             }
         });
     });
