@@ -170,6 +170,8 @@
         });
     });
 
+
+    //On page load showes chart's partials with data for current year
     $(document).ready(async function () {
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;
@@ -202,6 +204,8 @@
             }
         });
     });
+
+    //On year's dropdown change showes chart's partials with data for selected year
     $('#Vuosi').change(async function () {
         var thisYear = $(this).val();
         var url = "/MonthlySpendings/Chart/?year=" + thisYear;
