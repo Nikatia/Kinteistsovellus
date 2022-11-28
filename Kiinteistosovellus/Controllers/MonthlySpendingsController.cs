@@ -76,30 +76,28 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult BarChart(int year)
         {
-            decimal spendings;
-            string priceList;
             string typeList;
-            List<YearlyMonthlySpendingsByType> spendingList = new List<YearlyMonthlySpendingsByType>();
-            var monthSpendData = from sld in db.MonthlyTypeSpendingsByMonth
-                                 where sld.Vuosi == year
-                                 select sld;
+            string priceList;
+            List<ForMonthlyCategorySortChartClass> spendingList = new List<ForMonthlyCategorySortChartClass>();
 
-            foreach (MonthlyTypeSpendingsByMonth spending in monthSpendData)
+            var spendingListData = from sld in db.ForMonthlyCategorySortChart where sld.SpendingYear == year select sld;
+
+            foreach (ForMonthlyCategorySortChart spending in spendingListData)
             {
-                if (spending.Vuosi == year)
+                if (spending.SpendingYear == year)
                 {
-                    YearlyMonthlySpendingsByType OneRow = new YearlyMonthlySpendingsByType();
-                    OneRow.Tyyppi = spending.Tyyppi;
-                    spendings = spending.Tammikuu + spending.Helmikuu + spending.Maaliskuu + spending.Huhtikuu + spending.Toukokuu + spending.Kesäkuu + spending.Heinäkuu + spending.Elokuu + spending.Syyskuu + spending.Lokakuu + spending.Marraskuu + spending.Joulukuu;
-                    OneRow.HintaYhteensa = spendings;
+                    ForMonthlyCategorySortChartClass OneRow = new ForMonthlyCategorySortChartClass();
+                    OneRow.Category = spending.Category;
+                    OneRow.Price = (int)spending.Price;
+                    spendingList.Add(OneRow);
                 }
             }
-            typeList = "'" + string.Join("','", spendingList.Select(n => n.Tyyppi).ToList()) + "'";
-            priceList = string.Join(",", spendingList.Select(n => n.HintaYhteensa).ToList());
 
-            ViewBag.Type = typeList;
+            typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
+            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+
+            ViewBag.Category = typeList;
             ViewBag.Price = priceList;
-            ViewBag.ThisYear = year;
 
             return PartialView();
         }

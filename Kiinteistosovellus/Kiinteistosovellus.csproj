@@ -152,6 +152,12 @@
     <Compile Include="Models\ForCategorySortChartWithYears.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ForMonthlyCategorySortChart.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForOthersCategorySortChart.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ForOtherSpendingTypeCharts.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -209,9 +215,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AllContractorsData.cs" />
     <Compile Include="ViewModels\ForCategorySortChartWithYearsClass.cs" />
+    <Compile Include="ViewModels\ForMonthlyCategorySortChartClass.cs" />
     <Compile Include="ViewModels\ForOtherSpendingTypeChartsClass.cs" />
     <Compile Include="ViewModels\MonthlyAndOtherSpendingsByMonthClass.cs" />
-    <Compile Include="ViewModels\YearlyMonthlySpendingsByType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
