@@ -14,13 +14,11 @@
         <EntityTypeShape EntityType="KiinteistoDBModel.OtherSpendingTypes" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KiinteistoDBModel.Persons" Width="1.5" PointX="8.25" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="KiinteistoDBModel.Plans" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KiinteistoDBModel.Post" Width="1.5" PointX="3.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KiinteistoDBModel.database_firewall_rules" Width="2" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__Contra__6C190EBB" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__LoginI__70DDC3D8" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contacts__Person__6FE99F9F" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Contracto__Login__0D7A0286" ManuallyRouted="false" />
-        <AssociationConnector Association="KiinteistoDBModel.FK__Contracto__PostI__0C85DE4D" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__MonthlySp__Contr__6D0D32F4" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__OtherSpen__Contr__6E01572D" ManuallyRouted="false" />
         <AssociationConnector Association="KiinteistoDBModel.FK__Persons__Contrac__6EF57B66" ManuallyRouted="false" />

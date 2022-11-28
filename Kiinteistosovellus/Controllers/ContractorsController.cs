@@ -57,17 +57,15 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.Contacts = GetContacts();
 
             var wholeContractorsList = from ctr in db.Contractors
-                                       join pst in db.Post on ctr.PostID equals pst.PostID
                                        select new AllContractorsData
                                        {
                                            ContractorID = (int)ctr.ContractorID,
                                            Name = ctr.Name,
                                            ContractorsDescription = ctr.Description,
                                            StreetAdress = ctr.StreetAdress,
-                                           PostID = ctr.PostID,
-                                           PostCode = pst.PostCode,
-                                           City = pst.City,
-                                           Country = pst.Country,
+                                           PostCode = ctr.PostCode,
+                                           City = ctr.City,
+                                           Country = ctr.Country,
                                        };
 
             return View(wholeContractorsList.ToList());
@@ -79,7 +77,6 @@ namespace Kiinteistosovellus.Controllers
         // GET: Contractors/Create
         public PartialViewResult CreateContractor()
         {
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
@@ -104,7 +101,6 @@ namespace Kiinteistosovellus.Controllers
 
             //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
             ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode");
             return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
         }
 
@@ -220,7 +216,6 @@ namespace Kiinteistosovellus.Controllers
                 return HttpNotFound();
             }
             ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
             return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 
@@ -235,7 +230,6 @@ namespace Kiinteistosovellus.Controllers
                 return null;
             }
             ViewBag.LoginID = "1001";
-            ViewBag.PostID = new SelectList(db.Post, "PostID", "PostCode", contractors.PostID);
             return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 

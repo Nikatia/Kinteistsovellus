@@ -12,7 +12,7 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Contractors
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -33,16 +33,17 @@ namespace Kiinteistosovellus.Models
 
         [Required(ErrorMessage = "Osoite vaaditaan")]
         public string StreetAdress { get; set; }
-
-        [Required(ErrorMessage = "Postinumero vaaditaan")]
-        public int PostID { get; set; }
-
         public int LoginID { get; set; }
+        [Required(ErrorMessage = "Postinumero vaaditaan")]
+        public string PostCode { get; set; }
+        [Required(ErrorMessage = "Kaupunki vaaditaan")]
+        public string City { get; set; }
+        [Required(ErrorMessage = "Maa vaaditaan")]
+        public string Country { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacts> Contacts { get; set; }
         public virtual Logins Logins { get; set; }
-        public virtual Post Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlySpendings> MonthlySpendings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

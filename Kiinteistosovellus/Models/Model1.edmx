@@ -24,8 +24,10 @@
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
           <Property Name="StreetAdress" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="PostID" Type="int" Nullable="false" />
           <Property Name="LoginID" Type="int" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -110,15 +112,6 @@
           <Property Name="Price" Type="numeric" Precision="7" Scale="2" Nullable="false" />
           <Property Name="MonthOrOtherID" Type="int" />
           <Property Name="LoginID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="PostID" />
-          </Key>
-          <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PostCode" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChartWithYears' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -331,18 +324,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contracto__PostI__0C85DE4D">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
-          <End Role="Contractors" Type="Self.Contractors" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="PostID" />
-            </Principal>
-            <Dependent Role="Contractors">
-              <PropertyRef Name="PostID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__MonthlySp__Contr__6D0D32F4">
           <End Role="Contractors" Type="Self.Contractors" Multiplicity="0..1" />
           <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
@@ -498,7 +479,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="OtherSpendingTypes" EntityType="Self.OtherSpendingTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="Self.ForCategorySortChartWithYears" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ForCategorySortChartWithYears].[ROW_NUM] AS [ROW_NUM], 
@@ -613,10 +593,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Logins" EntitySet="Logins" />
             <End Role="Contractors" EntitySet="Contractors" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contracto__PostI__0C85DE4D" Association="Self.FK__Contracto__PostI__0C85DE4D">
-            <End Role="Post" EntitySet="Post" />
-            <End Role="Contractors" EntitySet="Contractors" />
-          </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
@@ -692,14 +668,15 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="StreetAdress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostID" Type="Int32" Nullable="false" />
           <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contacts" Relationship="Self.FK__Contacts__Contra__6C190EBB" FromRole="Contractors" ToRole="Contacts" />
           <NavigationProperty Name="Logins" Relationship="Self.FK__Contracto__Login__0D7A0286" FromRole="Contractors" ToRole="Logins" />
-          <NavigationProperty Name="Post" Relationship="Self.FK__Contracto__PostI__0C85DE4D" FromRole="Contractors" ToRole="Post" />
           <NavigationProperty Name="MonthlySpendings" Relationship="Self.FK__MonthlySp__Contr__6D0D32F4" FromRole="Contractors" ToRole="MonthlySpendings" />
           <NavigationProperty Name="OtherSpendings" Relationship="Self.FK__OtherSpen__Contr__6E01572D" FromRole="Contractors" ToRole="OtherSpendings" />
           <NavigationProperty Name="Persons" Relationship="Self.FK__Persons__Contrac__6EF57B66" FromRole="Contractors" ToRole="Persons" />
+          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Logins">
           <Key>
@@ -801,16 +778,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="MonthOrOtherID" Type="Int32" />
           <NavigationProperty Name="KuukausittainenVaiMuu" Relationship="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" FromRole="Plans" ToRole="KuukausittainenVaiMuu" />
         </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="PostID" />
-          </Key>
-          <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Contractors" Relationship="Self.FK__Contracto__PostI__0C85DE4D" FromRole="Post" ToRole="Contractors" />
-        </EntityType>
         <EntityType Name="database_firewall_rules">
           <Key>
             <PropertyRef Name="id" />
@@ -872,18 +839,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Contractors">
               <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contracto__PostI__0C85DE4D">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
-          <End Role="Contractors" Type="Self.Contractors" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="PostID" />
-            </Principal>
-            <Dependent Role="Contractors">
-              <PropertyRef Name="PostID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1029,7 +984,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="OtherSpendingTypes" EntityType="Self.OtherSpendingTypes" />
           <EntitySet Name="Persons" EntityType="Self.Persons" />
           <EntitySet Name="Plans" EntityType="Self.Plans" />
-          <EntitySet Name="Post" EntityType="Self.Post" />
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
           <AssociationSet Name="FK__Contacts__Contra__6C190EBB" Association="Self.FK__Contacts__Contra__6C190EBB">
             <End Role="Contractors" EntitySet="Contractors" />
@@ -1045,10 +999,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           </AssociationSet>
           <AssociationSet Name="FK__Contracto__Login__0D7A0286" Association="Self.FK__Contracto__Login__0D7A0286">
             <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contractors" EntitySet="Contractors" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contracto__PostI__0C85DE4D" Association="Self.FK__Contracto__PostI__0C85DE4D">
-            <End Role="Post" EntitySet="Post" />
             <End Role="Contractors" EntitySet="Contractors" />
           </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
@@ -1280,11 +1230,13 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySetMapping Name="Contractors">
             <EntityTypeMapping TypeName="KiinteistoDBModel.Contractors">
               <MappingFragment StoreEntitySet="Contractors">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="ContractorID" ColumnName="ContractorID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StreetAdress" ColumnName="StreetAdress" />
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1370,16 +1322,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Desciption" ColumnName="Desciption" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="LoginID" ColumnName="LoginID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Post">
-            <EntityTypeMapping TypeName="KiinteistoDBModel.Post">
-              <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
