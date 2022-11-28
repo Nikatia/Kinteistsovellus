@@ -12,10 +12,11 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ForCategorySortChart
+    public partial class ForCategorySortChartWithYears
     {
         public Nullable<long> ROW_NUM { get; set; }
         public string Category { get; set; }
         public Nullable<decimal> Price { get; set; }
+        public Nullable<int> SpendingYear { get; set; }
     }
 }

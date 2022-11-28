@@ -5,11 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Suunnitelmat</h2>
+<h2>Muut kulutustyypit</h2>
 
 <iframe id="othSpendTypeCreate" style="display:none"></iframe>
 <iframe id="othSpendTypeEdit" style="display:none"></iframe>
 <iframe id="othSpendTypeDelete" style="display:none"></iframe>
+<iframe id="othSpendTypeChart" style="display:none"></iframe>
 
 <p>
     <a class="card-link" id="createNewOthSpendTypeModal" role="button">Luo uusi</a><br />
@@ -29,6 +30,7 @@
                 @Html.DisplayFor(modelItem => item.TypeName)
             </td>
             <td>
+                <a class="card-link chartOthSpendTypeModal" role="button" data-chartid="@item.OtherSpendingTypeId">Kaavio</a> |
                 <a class="card-link editOthSpendTypeModal" role="button" data-editid="@item.OtherSpendingTypeId">Muokkaa</a> |
                 <a class="card-link deleteOthSpendTypeModal" role="button" data-deleteid="@item.OtherSpendingTypeId">Poista</a>
             </td>
@@ -54,6 +56,13 @@
         $(".deleteOthSpendTypeModal").click(function () {
             let deleteId = $(this).data("deleteid");
             modalGet("OtherSpendingTypes", "Delete", deleteId, "othSpendTypeDelete", "ModalOthSpendTypeDelete");
+        });
+    });
+
+    $(function () {
+        $(".chartOthSpendTypeModal").click(function () {
+            let chartId = $(this).data("chartid");
+            modalGet("OtherSpendingTypes", "Chart", chartId, "othSpendTypeChart", "ModalOthSpendTypeChart");
         });
     });
 </script>

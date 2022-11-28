@@ -1,0 +1,48 @@
+﻿@model Kiinteistosovellus.Models.OtherSpendingTypes
+
+<div class="modal fade" id="ModalOthSpendTypeChart">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>@ViewBag.TypeName: Kaavio</h3>
+            </div>
+
+            <div class="modal-body">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    @Html.ActionLink("Takaisin", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //CHART
+    var xValues = [@Html.Raw(ViewBag.Dates)];
+    let yValues = [@ViewBag.Price];
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: yValues,
+                borderColor: 'rgba(5, 163, 23, 0.8)',
+                backgroundColor: 'rgba(5, 163, 23, 0.2)',
+                label: " euro",
+                fill: false
+            }]
+        },
+        options: {
+            legend: { display: false },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Rahaa kului ajan mittaan muihin kuluihin'
+                }
+            }
+        }
+    });
+</script>

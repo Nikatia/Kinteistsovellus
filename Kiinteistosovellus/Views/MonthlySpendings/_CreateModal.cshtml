@@ -1,17 +1,11 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendings
 
-
-
-
-
-
 <div class="modal fade" id="ModalMSCreate">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Luo uusi kuukausittainen kulu</h2>
             </div>
-            
             <div class="modal-body">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMSForm" }))
 {
@@ -72,7 +66,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.AmountOfUnits, "Kokonaiskulutus", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.AmountOfUnits, "Käytetyt mittayksiköt", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @{ Html.EnableClientValidation(false); }
                                 @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
@@ -104,9 +98,9 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.FullPrice, "Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @{ Html.EnableClientValidation(false); }
+                                @*@{ Html.EnableClientValidation(false); }*@
                                 @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
-                                @{ Html.EnableClientValidation(true); }
+                                @*@{ Html.EnableClientValidation(true); }*@
                                 @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -197,5 +191,30 @@
     function submitModal() {
         submitModalPost("MonthlySpendings", "_CreateModal", "createMSForm", "ModalMSCreate");
     };
+
+
+    //Kokonaishinnan merkkien tarkastelu
+    $("#FullPrice").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "FullPrice");
+    });
+
+    //Siirtohinnan merkkien tarkastelu
+    $("#TransferPayment").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "TransferPayment");
+    });
+
+    //Yksikköhinnan merkkien tarkastelu
+    $("#PricePerUnit").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "PricePerUnit");
+    });
+
+    //Kokokaiskulutuksen merkkien tarkastelu
+    $("#AmountOfUnits").keypress(function () {
+        //console.log("toimii eventlistener");
+        isNumberKey(event, "AmountOfUnits");
+    });
 
 </script>

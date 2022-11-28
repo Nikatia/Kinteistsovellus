@@ -115,8 +115,10 @@ function updateDropdownList(controller, dropdownId) {
 function isNumberKey(evt, priceFieldId) {
     var priceInputField = document.getElementById(priceFieldId);
     //console.log(priceFieldId);
-
+    //console.log(getCaretPosition(priceInputField));
+    var caretPosition = getCaretPosition(priceInputField);
     var charCode = (evt.which) ? evt.which : evt.keyCode;
+
     if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47 || charCode == 46) {
         evt.preventDefault();
         return false;
@@ -132,11 +134,41 @@ function isNumberKey(evt, priceFieldId) {
     }
     var decimalNumbersTotal = priceInputField.value.toString().split(',');
     if (decimalNumbersTotal.length > 1) {
-        if (decimalNumbersTotal[1].length >= 2) {
+        switch (true) {
+            case (decimalNumbersTotal[1].length >= 2 && (caretPosition > decimalNumbersTotal[0].length)):
+                evt.preventDefault();
+                return false;
+
+            case (decimalNumbersTotal[0].length >= 5 && (caretPosition <= decimalNumbersTotal[0].length)):
+                evt.preventDefault();
+                return false;           
+
+            default:
+                return true;
+        }
+    }
+    else {
+        if (priceInputField.value.toString().length >= 5 && charCode != 44) {
             evt.preventDefault();
             return false;
         }
-    }
+    }  
     return true;
-
 };
+
+function getCaretPosition(ctrl) {
+    // IE < 9 Support 
+    if (document.selection) {
+        ctrl.focus();
+        var range = document.selection.createRange();
+        var rangelen = range.text.length;
+        range.moveStart('character', -ctrl.value.length);
+        var start = range.text.length - rangelen;
+        return start;
+    } // IE >=9 and other browsers
+    else if (ctrl.selectionStart || ctrl.selectionStart == '0') {
+        return ctrl.selectionStart;
+    } else {
+        return 0;
+    }
+}

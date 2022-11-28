@@ -1,0 +1,61 @@
+﻿
+
+<canvas style="width:100%;max-width:400px;max-height:400px" id="typeChart"></canvas>
+
+@*<script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function(){
+               //CHART
+        let labelTexts = [@Html.Raw(ViewBag.Category)];
+        let dataValues = [@ViewBag.Price];
+        console.log(labelTexts);
+        console.log(dataValues);
+        const ctx = document.getElementById('typeChart');
+
+        var kaavio = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labelTexts,
+                datasets: [{
+                    label: ' euroa',
+                    data: dataValues,
+                    borderColor: 'white',
+                    backgroundColor: ['rgba(163, 199, 154, 1)',
+                        'rgba(109, 213, 93, 0.8)',
+                        'rgba(104, 168, 94, 0.8)',
+                        'rgba(183, 235, 170, 0.8)',
+                        'rgba(155, 223, 174, 0.8)',
+                        'rgba(154, 199, 171, 0.8)',
+                        'rgba(129, 227, 167, 0.8)',
+                        'rgba(124, 156, 117, 0.8)',
+                        'rgba(202, 247, 201, 0.8)'],
+                    fill: true,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Käytetyn rahan kokonaismäärä kulutyypin mukaan',
+                        font: {
+                            size: 15,
+                            family: "sans-serif"
+                        }
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 15,
+                                family: "sans-serif",
+                                style: "normal"
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+</script>

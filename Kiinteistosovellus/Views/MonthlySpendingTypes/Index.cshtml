@@ -13,6 +13,7 @@
 <div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
 <div id="ModalPlaceDelete"></div>
 <div id="ModalPlaceCreate"></div>
+<div id="ModalPlaceChart"></div>
 
 <table class="table">
     <tr>
@@ -47,6 +48,8 @@
             <!--@Html.ActionLink("Poista", "Delete", new { id = item.SpendingTypeID })
             </td>-->
             <td>
+                <button class="chartMSTId" data-chartid="@item.SpendingTypeID">Kaavio</button>
+
                 <button class="getMSTOrderId" data-orderid="@item.SpendingTypeID">Muokkaa</button>
 
                 <button class="getMSTId" data-id="@item.SpendingTypeID">Poista</button>
@@ -98,6 +101,22 @@
                 $("#ModalMSCreate").modal("show");
 
             });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".chartMSTId").click(function () {
+            let MSChartId = $(this).data("chartid");
+
+            var url = "/MonthlySpendingTypes/ChartContainer/" + MSChartId;
+
+            var $detailDivChart = $("#ModalPlaceChart");
+            $.get(url, function (data) {
+                $detailDivChart.replaceWith(data);
+                $("#ModalMonthSpendTypeChart").modal("show");
+
+            });
+
         });
     });
     </script>

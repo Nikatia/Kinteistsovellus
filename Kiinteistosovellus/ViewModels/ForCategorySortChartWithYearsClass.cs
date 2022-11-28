@@ -5,9 +5,10 @@ using System.Web;
 
 namespace Kiinteistosovellus.ViewModels
 {
-    public class ForCategorySortChartClass
+    public class ForCategorySortChartWithYearsClass
     {
         public string Category { get; set; }
         public Nullable<decimal> Price { get; set; }
+        public Nullable<int> SpendingYear { get; set; }
     }
 }

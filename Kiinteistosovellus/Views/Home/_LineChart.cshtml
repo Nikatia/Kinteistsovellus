@@ -1,0 +1,47 @@
+﻿
+
+<canvas style="width:100%;max-width:400px;max-height:400px" id="typeChartLine"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log("menee tähän asti");
+               //CHART
+        let labelTextsLine = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
+        let dataValuesLine = @ViewBag.Year;
+        console.log(labelTextsLine);
+        console.log(dataValuesLine);
+        const ctxLine = document.getElementById('typeChartLine');
+
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: labelTextsLine,
+                datasets: [{
+                    label: ' euroa',
+                    data: dataValuesLine,
+                    borderColor: ['rgba(5, 163, 23, 0.8)',
+                        'rgba(67, 245, 39, 0.8)'],
+                    backgroundColor: ['rgba(5, 163, 23, 0.2)',
+                        'rgba(67, 245, 39, 0.2)'],
+                    fill: true,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Käytetty raha kuukausien mukaan'
+                    }
+                }
+            }
+        });
+    });
+
+</script>

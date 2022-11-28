@@ -11,7 +11,7 @@ using Kiinteistosovellus.Models;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class MonthlySpendingsController : Controller
+    public class MonthlySpendingsController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
      

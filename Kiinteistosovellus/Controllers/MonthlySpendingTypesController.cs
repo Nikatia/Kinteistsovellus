@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using Kiinteistosovellus.ViewModels;
+using Newtonsoft.Json;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -19,6 +21,51 @@ namespace Kiinteistosovellus.Controllers
         {
             var monthlySpendingTypes = db.MonthlySpendingTypes.Include(m => m.Logins);
             return View(monthlySpendingTypes.ToList());
+        }
+
+        public ActionResult ChartContainer(int? id)
+        {
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.TypeID = id;
+            return PartialView();
+        }
+
+        [Route("MonthlySpendingTypes/Chart/{id?}/{year?}")]
+        public ActionResult Chart(int id, int year)
+        {
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            if (spendingTypes == null)
+            {
+                return HttpNotFound();
+            }
+
+            var monthSpendData = from sld in db.MonthlyTypeSpendingsByMonth
+                                 where sld.Vuosi == year && sld.Tyyppi == id
+                                 select sld;
+
+            var yearObject = monthSpendData.FirstOrDefault();
+
+            decimal[] yearValues = new decimal[12];
+            yearValues[0] = yearObject.Tammikuu;
+            yearValues[1] = yearObject.Helmikuu;
+            yearValues[2] = yearObject.Maaliskuu;
+            yearValues[3] = yearObject.Huhtikuu;
+            yearValues[4] = yearObject.Toukokuu;
+            yearValues[5] = yearObject.Kesäkuu;
+            yearValues[6] = yearObject.Heinäkuu;
+            yearValues[7] = yearObject.Elokuu;
+            yearValues[8] = yearObject.Syyskuu;
+            yearValues[9] = yearObject.Lokakuu;
+            yearValues[10] = yearObject.Marraskuu;
+            yearValues[11] = yearObject.Joulukuu;
+
+            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+
+            ViewBag.ThisYear = year;
+
+            return PartialView();
         }
 
         // GET: MonthlySpendingTypes/Details/5

@@ -14,18 +14,18 @@
                     <hr />
                     <div class="row">
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <dl class="dl-horizontal">
-                                <dt>Päivämäärä / Alkupäivämäärä @*Alkupvm*@</dt>
+                                <dt>Alkupäivämäärä</dt>
                                 <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
 
-                                <dt>Loppupäivämäärä @*Loppupvm*@</dt>
+                                <dt>Loppupäivämäärä</dt>
                                 <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
 
                                 <dt>Hinta yhteensä</dt>
                                 <dd>@Html.DisplayFor(model => model.Price)</dd>
 
-                                <dt>Nimi @*Urakoitsija*@</dt>
+                                <dt>Urakoitsija</dt>
                                 <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
 
                                 <dt>Kulutustyyppi</dt>
@@ -33,7 +33,7 @@
                             </dl>
                         </div>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <dl class="dl-horizontal">
                                 <dt>Kuvaus</dt>
                                 <dd>@Html.DisplayFor(model => model.Description)</dd>

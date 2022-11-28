@@ -1,36 +1,45 @@
 ﻿using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-
-
 namespace Kiinteistosovellus.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
         public ActionResult Index()
         {
-            //Pie chartti
+            ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+            ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+            ViewBag.Years = GetYears();
+
+            return View();
+        }
+
+        public ActionResult PieChart(int? year)
+        {
             string typeList;
             string priceList;
-            List<ForCategorySortChartClass> spendingList = new List<ForCategorySortChartClass>();
+            List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
 
-            var spendingListData = from sld in db.ForCategorySortChart select sld;
+            var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
 
-            foreach (ForCategorySortChart spending in spendingListData)
+            foreach (ForCategorySortChartWithYears spending in spendingListData)
             {
-                ForCategorySortChartClass OneRow = new ForCategorySortChartClass();
-                OneRow.Category = spending.Category;
-                OneRow.Price = (int)spending.Price;
-                spendingList.Add(OneRow);
+                if (spending.SpendingYear == year)
+                {
+                    ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
+                    OneRow.Category = spending.Category;
+                    OneRow.Price = (int)spending.Price;
+                    spendingList.Add(OneRow);
+                }
             }
 
             typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
@@ -39,35 +48,18 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.Category = typeList;
             ViewBag.Price = priceList;
 
+            return PartialView();
+        }
 
-            //line chart
+        public ActionResult _LineChart(int? year)
+        {
+            int? thisYear = year;
 
-
-            //List<MonthlyAndOtherSpendingsByMonthClass> monthOthSpendList = new List<MonthlyAndOtherSpendingsByMonthClass>();
-            int? thisYear = DateTime.Now.Year;
             var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
-                                        where sld.Vuosi == thisYear
-                                        select sld;
+                                    where sld.Vuosi == thisYear
+                                    select sld;
 
             var yearObject = monthOthSpendData.FirstOrDefault();
-
-            //foreach (MonthlyAndOtherSpendingsByMonth year in monthOthSpendData)
-            //{
-            //    MonthlyAndOtherSpendingsByMonthClass OneRow = new MonthlyAndOtherSpendingsByMonthClass();
-            //    OneRow.Tammikuu = year.Tammikuu;
-            //    OneRow.Helmikuu = year.Helmikuu;
-            //    OneRow.Maaliskuu = year.Maaliskuu;
-            //    OneRow.Huhtikuu = year.Huhtikuu;
-            //    OneRow.Toukokuu = year.Toukokuu;
-            //    OneRow.Kesäkuu = year.Kesäkuu;
-            //    OneRow.Heinäkuu = year.Heinäkuu;
-            //    OneRow.Elokuu = year.Elokuu;
-            //    OneRow.Syyskuu = year.Syyskuu;
-            //    OneRow.Lokakuu = year.Lokakuu;
-            //    OneRow.Marraskuu = year.Marraskuu;
-            //    OneRow.Joulukuu = year.Joulukuu;
-            //    monthOthSpendList.Add(OneRow);
-            //}
 
             decimal[] yearValues = new decimal[12];
             yearValues[0] = yearObject.Tammikuu;
@@ -83,24 +75,31 @@ namespace Kiinteistosovellus.Controllers
             yearValues[10] = yearObject.Marraskuu;
             yearValues[11] = yearObject.Joulukuu;
 
+            string[] months = new string[12];
+            months[0] = "Tammikuu";
+            months[1] = "Helmikuu";
+            months[2] = "Maaliskuu";
+            months[3] = "Huthikuu";
+            months[4] = "Toukokuu";
+            months[5] = "Kesäkuu";
+            months[6] = "Heinäkuu";
+            months[7] = "Elokuu";
+            months[8] = "Syyskuu";
+            months[9] = "Lokakuu";
+            months[10] = "Marraskuu";
+            months[11] = "Joulukuu";
+
             ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+            ViewBag.Months = JsonConvert.SerializeObject(months);
 
-
-            return View();
+            return PartialView("/Views/Home/_LineChart.cshtml");
         }
 
-        public ActionResult About()
+        public List<MonthlyAndOtherSpendingsByMonth> GetYears()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
+            return years;
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
