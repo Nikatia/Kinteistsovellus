@@ -89,7 +89,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public async Task<ActionResult> CreateContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,LoginID, PostCode, City, Country")] Contractors contractors)
         {
 
             if (ModelState.IsValid)
@@ -221,7 +221,7 @@ namespace Kiinteistosovellus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,PostID,LoginID")] Contractors contractors)
+        public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,LoginID, PostCode, City, Country")] Contractors contractors)
         {
             if (ModelState.IsValid)
             {
