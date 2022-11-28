@@ -192,4 +192,20 @@
         submitModalPost("MonthlySpendings", "_CreateModal", "createMSForm", "ModalMSCreate");
     };
 
+    //Removes Contractor 1004 from dropdown list, as 1004 is deleted value
+    $(function () {
+        var contractors = $('#ContractorID');
+        var contractorUrl = '/Contractors/FetchContractors';
+        console.log(contractorUrl);
+        contractors.empty();
+        contractors.append($('<option></option>').val('').text(''));
+        $.getJSON(contractorUrl, function (data) {
+            $.each(data, function (index, item) {
+                if (item.Value != 1004) {
+                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
+                }
+            });
+        });
+    })
+
 </script>
