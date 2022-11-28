@@ -1,5 +1,6 @@
 ﻿using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,28 +53,44 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _LineChart(int? year)
         {
-            string typeList;
-            string priceList;
-            List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
+            int? thisYear = year;
 
-            var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
+            var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
+                                    where sld.Vuosi == thisYear
+                                    select sld;
 
-            foreach (ForCategorySortChartWithYears spending in spendingListData)
-            {
-                if (spending.SpendingYear == year)
-                {
-                    ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
-                    OneRow.Category = spending.Category;
-                    OneRow.Price = (int)spending.Price;
-                    spendingList.Add(OneRow);
-                }
-            }
+            var yearObject = monthOthSpendData.FirstOrDefault();
 
-            typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
-            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+            decimal[] yearValues = new decimal[12];
+            yearValues[0] = yearObject.Tammikuu;
+            yearValues[1] = yearObject.Helmikuu;
+            yearValues[2] = yearObject.Maaliskuu;
+            yearValues[3] = yearObject.Huhtikuu;
+            yearValues[4] = yearObject.Toukokuu;
+            yearValues[5] = yearObject.Kesäkuu;
+            yearValues[6] = yearObject.Heinäkuu;
+            yearValues[7] = yearObject.Elokuu;
+            yearValues[8] = yearObject.Syyskuu;
+            yearValues[9] = yearObject.Lokakuu;
+            yearValues[10] = yearObject.Marraskuu;
+            yearValues[11] = yearObject.Joulukuu;
 
-            ViewBag.Category = typeList;
-            ViewBag.Price = priceList;
+            string[] months = new string[12];
+            months[0] = "Tammikuu";
+            months[1] = "Helmikuu";
+            months[2] = "Maaliskuu";
+            months[3] = "Huthikuu";
+            months[4] = "Toukokuu";
+            months[5] = "Kesäkuu";
+            months[6] = "Heinäkuu";
+            months[7] = "Elokuu";
+            months[8] = "Syyskuu";
+            months[9] = "Lokakuu";
+            months[10] = "Marraskuu";
+            months[11] = "Joulukuu";
+
+            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+            ViewBag.Months = JsonConvert.SerializeObject(months);
 
             return PartialView();
         }

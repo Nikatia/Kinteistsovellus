@@ -1,19 +1,19 @@
 ﻿
 
-<canvas style="width:100%;max-width:400px;max-height:400px" id="typeChart"></canvas>
+<canvas style="width:100%;max-width:400px;max-height:400px" id="typeChartLine"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
                //CHART
-        let labelTexts = [@Html.Raw(ViewBag.Category)];
-        let dataValues = [@ViewBag.Price];
+        let labelTexts = @ViewBag.Months;
+        let dataValues = @ViewBag.Year;
         console.log(labelTexts);
         console.log(dataValues);
-        const ctx = document.getElementById('typeChart');
+        const ctx = document.getElementById('typeChartLine');
 
         var kaavio = new Chart(ctx, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: labelTexts,
                 datasets: [{
