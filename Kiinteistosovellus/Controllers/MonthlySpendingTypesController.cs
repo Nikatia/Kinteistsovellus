@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class MonthlySpendingTypesController : Controller
+    public class MonthlySpendingTypesController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 

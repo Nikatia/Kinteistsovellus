@@ -10,7 +10,7 @@ using Kiinteistosovellus.Models;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class LoginsController : Controller
+    public class LoginsController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 

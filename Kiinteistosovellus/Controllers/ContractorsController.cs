@@ -15,7 +15,7 @@ using Kiinteistosovellus.ViewModels;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class ContractorsController : Controller
+    public class ContractorsController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
