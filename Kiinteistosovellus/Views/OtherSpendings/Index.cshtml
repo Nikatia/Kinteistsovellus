@@ -49,11 +49,55 @@
             });
         });
 
+        $(document).ready(async function () {
+            var thisYear = new Date().getFullYear();
+            document.getElementById("Vuosi").value = thisYear;
+            var url = "/OtherSpendings/Chart/?year=" + thisYear;
+            var divForPartial = $("#chartContainer");
+
+            await $.ajax({
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial).html("");
+                    $(divForPartial).html(result);
+                }
+            });
+
+        });
+
+        $('#Vuosi').change(async function () {
+            var thisYear = $(this).val();
+            var url = "/OtherSpendings/Chart/?year=" + thisYear;
+            var divForPartial = $("#chartContainer");
+
+            await $.ajax({
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial).html("");
+                    $(divForPartial).html(result);
+                }
+            });
+        });
+
     </script>
 }
 
-<h2>Muut kulut</h2>
 
+<h2>Muut kulut</h2>
+<br />
+<div style="height: 338px" id="chartContainer"></div>
+<br />
+<div style="margin-left:40%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
 <p>
     <a class="card-link creNewOtherSpending" role="button">Luo uusi</a><br />
 </p>
