@@ -3,176 +3,260 @@
 
 
 <h2 style="margin-top:15px;margin-left:34%">Kuukausittaiset kulut</h2>
-<p>
-    <button type="button" id="CreateMS" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
-    <input type="button" value="Näytä lisätiedot" id="DetailButton" class="btn-secondary">
-</p>
 
-<div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
-<div id="ModalPlaceDelete"></div>
-<div id="ModalPlaceCreate"></div>
+<div class="row">
+    <div class="col-6">
+        <div id="chartContainer"></div>
+    </div>
+    <div class="col-6">
+        <div id="chart2Container"></div>
+    </div>
+</div>
+<div style="margin-left:34%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
+
+    <p>
+        <button type="button" id="CreateMS" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
+        <input type="button" value="Näytä lisätiedot" id="DetailButton" class="btn-secondary">
+    </p>
+
+    <div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
+    <div id="ModalPlaceDelete"></div>
+    <div id="ModalPlaceCreate"></div>
 
 
-<table class="table">
-    <tr>
-        <th>
-            Aloituspvm
-
-        </th>
-        <th>
-            Päättymispvm
-        </th>
-        <th>
-            Kulutustyyppi
-        </th>
-        <th>
-            Kokonaiskulutus
-        </th>
-        @*<th>
-            Energian yksikkö
-        </th>*@
-        <th class="details" style="display:none">
-            Yksikköhinta
-        </th>
-        <th class="details" style="display:none">
-            Siirtomaksu
-        </th>
-        <th>
-            Kokonaishinta
-        </th>
-        <th>
-            Yrityksen nimi
-        </th>
-        <th>
-            Käyttäjän nimi
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @if (item.DateBegin != null)
-                {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
-            @*@Html.DisplayFor(modelItem => item.DateBegin)*@
-            </td>
-            <td>
-                @if (item.DateEnd != null)
-                {@Convert.ToDateTime(item.DateEnd).ToString("dd/MM/yyyy")}
-            @*@Html.DisplayFor(modelItem => item.DateEnd)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AmountOfUnits) @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
-            </td>*@
-            <td class="details" style="display:none">
-                @Html.DisplayFor(modelItem => item.PricePerUnit)
-            </td>
-            <td class="details" style="display:none">
-                @Html.DisplayFor(modelItem => item.TransferPayment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contractors.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Logins.UserName)
-            </td>
+            <th>
+                Aloituspvm
 
-            <td>
-                <button class="getOrderId" data-orderid="@item.MonthlySpendingID">Muokkaa</button>
+            </th>
+            <th>
+                Päättymispvm
+            </th>
+            <th>
+                Kulutustyyppi
+            </th>
+            <th>
+                Kokonaiskulutus
+            </th>
+            @*<th>
+                    Energian yksikkö
+                </th>*@
+            <th class="details" style="display:none">
+                Yksikköhinta
+            </th>
+            <th class="details" style="display:none">
+                Siirtomaksu
+            </th>
+            <th>
+                Kokonaishinta
+            </th>
+            <th>
+                Yrityksen nimi
+            </th>
+            <th>
+                Käyttäjän nimi
+            </th>
 
-                <button class="getId" data-id="@item.MonthlySpendingID">Poista</button>
-            </td>
+            <th></th>
         </tr>
-    }
 
-</table>
-<script type="text/javascript">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.DateBegin != null)
+                    {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
+                @*@Html.DisplayFor(modelItem => item.DateBegin)*@
+                </td>
+                <td>
+                    @if (item.DateEnd != null)
+                    {@Convert.ToDateTime(item.DateEnd).ToString("dd/MM/yyyy")}
+                @*@Html.DisplayFor(modelItem => item.DateEnd)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountOfUnits) @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
+                    </td>*@
+                <td class="details" style="display:none">
+                    @Html.DisplayFor(modelItem => item.PricePerUnit)
+                </td>
+                <td class="details" style="display:none">
+                    @Html.DisplayFor(modelItem => item.TransferPayment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contractors.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logins.UserName)
+                </td>
 
-    $(document).ready(function () {
-        $(".getOrderId").click(function () {
-            let MSEditId = $(this).data("orderid");
+                <td>
+                    <button class="getOrderId" data-orderid="@item.MonthlySpendingID">Muokkaa</button>
 
-            var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
+                    <button class="getId" data-id="@item.MonthlySpendingID">Poista</button>
+                </td>
+            </tr>
+        }
 
-            var $detailDivEdit = $("#ModalPlaceEdit");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalMSEdit").modal("show");
+    </table>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".getOrderId").click(function () {
+                let MSEditId = $(this).data("orderid");
+
+                var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
+
+                var $detailDivEdit = $("#ModalPlaceEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalMSEdit").modal("show");
+
+                });
 
             });
-
         });
-    });
 
-    $(document).ready(function () {
-        $(".getId").click(function () {
-            let MSDeleteId = $(this).data("id");
+        $(document).ready(function () {
+            $(".getId").click(function () {
+                let MSDeleteId = $(this).data("id");
 
-            var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
+                var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
 
-            var $detailDivEdit = $("#ModalPlaceDelete");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalMSDelete").modal("show");
+                var $detailDivEdit = $("#ModalPlaceDelete");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalMSDelete").modal("show");
 
-            });
-
-        });
-    });
-    $(document).ready(function () {
-        $("#CreateMS").click(function () {
-            var url = "/MonthlySpendings/_CreateModal";
-
-            var $detailDivEdit = $("#ModalPlaceCreate");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalMSCreate").modal("show");
+                });
 
             });
         });
-    });
+        $(document).ready(function () {
+            $("#CreateMS").click(function () {
+                var url = "/MonthlySpendings/_CreateModal";
 
-    //Details toggle button
-    $(document).ready(function () {
+                var $detailDivEdit = $("#ModalPlaceCreate");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalMSCreate").modal("show");
 
-        $("#DetailButton").click(function () {
-            $(".details").toggle();
-            if ($("#DetailButton").val() == "Näytä lisätiedot") {
-                $("#DetailButton").attr('value', "Piilota lisätiedot");
-            }
-            else {
-                $("#DetailButton").val("Näytä lisätiedot");
-            };
+                });
+            });
         });
-    });
+
+        //Details toggle button
+        $(document).ready(function () {
+
+            $("#DetailButton").click(function () {
+                $(".details").toggle();
+                if ($("#DetailButton").val() == "Näytä lisätiedot") {
+                    $("#DetailButton").attr('value', "Piilota lisätiedot");
+                }
+                else {
+                    $("#DetailButton").val("Näytä lisätiedot");
+                };
+            });
+        });
+
+        $(document).ready(function () {
+            var thisYear = new Date().getFullYear();
+            document.getElementById("Vuosi").value = thisYear;
+            var url = "/MonthlySpendings/Chart/?year=" + thisYear;
+            var divForPartial = $("#chartContainer");
+
+            $.ajax({
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial).html("");
+                    $(divForPartial).html(result);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            var thisYear = new Date().getFullYear();
+            var url2 = "/MonthlySpendings/BarChart/?year=" + thisYear;
+            var divForPartial2 = $("#chart2Container");
+
+            $.ajax({
+                url: url2,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial2).html("");
+                    $(divForPartial2).html(result);
+                }
+            });
+        });
+        $('#Vuosi').change(function () {
+            var thisYear = $(this).val();
+            var url = "/MonthlySpendings/Chart/?year=" + thisYear;
+            var divForPartial = $("#chartContainer");
+
+            $.ajax({
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial).html("");
+                    $(divForPartial).html(result);
+                }
+            });
+        });
+        $('#Vuosi').change(function () {
+            var thisYear = $(this).val();
+            var url2 = "/MonthlySpendings/BarChart/?year=" + thisYear;
+            var divForPartial2 = $("#chart2Container");
+
+            $.ajax({
+                url: url2,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial2).html("");
+                    $(divForPartial2).html(result);
+                }
+            });
+        });
 
 
 
 
 
+            //$(document).ready(function () {
+            //    setTimeout(function () {
+            //       // localStorage.setItem('alerted', '');
+            //        var alerted = localStorage.getItem('alerted') || '';
+            //        if (alerted != 'yes') {
+            //            alert("Kiinnostavaa? Modalin 'Takaisin' -näppäimen ominaisuus 'data-bs-dismiss='modal'' sulkee modalin. RedirectToAction -komento lataa turhaan sivun uudelleen!" Tosin ei toimi muokkaa tai poisto -toiminnoissa, koska alkuperäinen div id korvattu datalla.);
+            //            localStorage.setItem('alerted', 'yes');
+            //        }
 
+            //    }, 3000);
+            //});
 
-        //$(document).ready(function () {
-        //    setTimeout(function () {
-        //       // localStorage.setItem('alerted', '');
-        //        var alerted = localStorage.getItem('alerted') || '';
-        //        if (alerted != 'yes') {
-        //            alert("Kiinnostavaa? Modalin 'Takaisin' -näppäimen ominaisuus 'data-bs-dismiss='modal'' sulkee modalin. RedirectToAction -komento lataa turhaan sivun uudelleen!" Tosin ei toimi muokkaa tai poisto -toiminnoissa, koska alkuperäinen div id korvattu datalla.);
-        //            localStorage.setItem('alerted', 'yes');
-        //        }
-
-        //    }, 3000);
-        //});
-
-</script>
+    </script>
