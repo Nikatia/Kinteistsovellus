@@ -41,5 +41,8 @@ namespace Kiinteistosovellus.Models
         public virtual DbSet<ForCategorySortChartWithYears> ForCategorySortChartWithYears { get; set; }
         public virtual DbSet<MonthlyAndOtherSpendingsByMonth> MonthlyAndOtherSpendingsByMonth { get; set; }
         public virtual DbSet<MonthlyTypeSpendingsByMonth> MonthlyTypeSpendingsByMonth { get; set; }
+        public virtual DbSet<OtherTypeSpendingsByMonth> OtherTypeSpendingsByMonth { get; set; }
+        public virtual DbSet<ForMonthlyCategorySortChart> ForMonthlyCategorySortChart { get; set; }
+        public virtual DbSet<ForOthersCategorySortChart> ForOthersCategorySortChart { get; set; }
     }
 }

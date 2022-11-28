@@ -1,6 +1,6 @@
-﻿@model Kiinteistosovellus.Models.MonthlyTypeSpendingsByMonth
+﻿@model Kiinteistosovellus.Models.OtherTypeSpendingsByMonth
 
-<div class="modal fade" id="ModalMonthSpendTypeChart">
+<div class="modal fade" id="ModalOtherSpendTypeChart">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,12 +8,12 @@
             </div>
 
             <div class="modal-body">
-                <div id="chartMonthContainer"></div>
+                <div id="chartOtherContainer"></div>
                 <div style="padding-left:33%">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    <a href="/MonthlySpendingTypes" type="button" class="btn btn-primary">Takaisin</a>
+                    <a href="/OtherSpendingTypes" type="button" class="btn btn-primary">Takaisin</a>
                 </div>
             </div>
         </div>
@@ -24,8 +24,8 @@
     $(document).ready(function () {
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;
-        var url = "/MonthlySpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
-        var divForPartial = $("#chartMonthContainer");
+        var url = "/OtherSpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
+        var divForPartial = $("#chartOtherContainer");
 
         $.ajax({
             url: url,
@@ -42,8 +42,8 @@
     });
     $('#Vuosi').change(function () {
         var thisYear = $(this).val();
-        var url = "/MonthlySpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
-        var divForPartial = $("#chartMonthContainer");
+        var url = "/OtherSpendingTypes/Chart/" + @ViewBag.TypeID + "/" + thisYear;
+        var divForPartial = $("#chartOtherContainer");
 
         $.ajax({
             url: url,

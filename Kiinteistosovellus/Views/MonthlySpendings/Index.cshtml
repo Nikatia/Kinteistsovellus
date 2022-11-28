@@ -2,9 +2,22 @@
 
 
 
-<h2 style="margin-top:15px;margin-left:34%">Kuukausittaiset kulut</h2>
+<h2>Kuukausittaiset kulut</h2>
+<br />
+<div style="height: 338px" id="chartContainer"></div>
+@*<div class="row">
+    <div class="col-6">
+        <div style="height: 338px" id="chartContainer"></div>
+    </div>
+    <div class="col-6">
+        <div id="chartContainerBar"></div>
+    </div>
+</div>*@
+<br />
+<div style="margin-left:40%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
+
 <p>
-    <button type="button" id="CreateMS" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
+    <button type="button" id="CreateMS" style="font-size:22px">Luo uusi</button>
     <input type="button" value="Näytä lisätiedot" id="DetailButton" class="btn-secondary">
 </p>
 
@@ -29,7 +42,7 @@
             Kokonaiskulutus
         </th>
         <th>
-            Energian yksikkö
+                Energian yksikkö
         </th>
         <th class="details" style="display:none">
             Yksikköhinta
@@ -159,6 +172,74 @@
     });
 
 
+    //On page load showes chart's partials with data for current year
+    $(document).ready(async function () {
+        var thisYear = new Date().getFullYear();
+        document.getElementById("Vuosi").value = thisYear;
+        var url = "/MonthlySpendings/Chart/?year=" + thisYear;
+        var urlBar = "/MonthlySpendings/BarChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+        var divForPartialBar = $("#chartContainerBar");
+        await $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
+        });
+        await $.ajax({
+            url: urlBar,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialBar).html("");
+                $(divForPartialBar).html(result);
+            }
+        });
+    });
+
+    //On year's dropdown change showes chart's partials with data for selected year
+    $('#Vuosi').change(async function () {
+        var thisYear = $(this).val();
+        var url = "/MonthlySpendings/Chart/?year=" + thisYear;
+        var urlBar = "/MonthlySpendings/BarChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+        var divForPartialBar = $("#chartContainerBar");
+
+        await $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
+        });
+
+        await $.ajax({
+            url: urlBar,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialBar).html("");
+                $(divForPartialBar).html(result);
+            }
+        });
+    });
 
 
 
