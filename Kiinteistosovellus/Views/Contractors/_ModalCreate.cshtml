@@ -1,7 +1,7 @@
 ﻿@model Kiinteistosovellus.Models.Contractors
 
 <div class="modal fade" id="ModalContractorCreate">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Luo uusi urakoitsija</h3>
@@ -15,41 +15,61 @@
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            Nimi
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    Nimi
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Osoite
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.StreetAdress, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Postinumero
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Postitoimipaikka
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    Maa
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    Kuvaus
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "10", @maxlength = "300" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*Temporary solution for LoginID until Login system is done*@
+                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            Osoite
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.StreetAdress, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Postinumero
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.PostID, null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.PostID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Kuvaus
-                            <div class="col-md-10">
-                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "6", @maxlength = "300" })
-                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        @*Temporary solution for LoginID until Login system is done*@
-                        @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-                        
                     </div>
                 }
             </div>
