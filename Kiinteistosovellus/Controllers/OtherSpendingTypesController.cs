@@ -1,5 +1,6 @@
 ﻿using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -22,46 +23,47 @@ namespace Kiinteistosovellus.Controllers
             return View(await othSpendtype.ToListAsync());
         }
 
-        public ActionResult Chart(int? id)
+        public ActionResult ChartContainer(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            OtherSpendingTypes otherSpendingTypes = db.OtherSpendingTypes.Find(id);
-            if (otherSpendingTypes == null)
+            OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.OtherTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.TypeID = id;
+            return PartialView();
+        }
+
+        [Route("OtherSpendingTypes/Chart/{id?}/{year?}")]
+        public ActionResult Chart(int id, int year)
+        {
+            OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
+            if (spendingTypes == null)
             {
                 return HttpNotFound();
             }
 
-            //CHART 1
-            string dateList;
-            string priceList;
-            List<ForOtherSpendingTypeChartsClass> spendingList = new List<ForOtherSpendingTypeChartsClass>();
+            var monthSpendData = from sld in db.OtherTypeSpendingsByMonth
+                                 where sld.Vuosi == year && sld.Tyyppi == id
+                                 select sld;
 
-            var spendingListData = from sld in db.ForOtherSpendingTypeCharts
-                                   select sld;
-            
-            foreach (ForOtherSpendingTypeCharts spending in spendingListData)
-            {
-                if (spending.OtherSpendingTypeId == id)
-                {
-                    
-                    ForOtherSpendingTypeChartsClass OneRow = new ForOtherSpendingTypeChartsClass();
-                    OneRow.DateBegin = spending.DateBegin.ToString("dd.MM.yyyy");
-                    OneRow.DailySpendings = (int)spending.DailySpendings;
-                    spendingList.Add(OneRow);
-                }
-            }
+            var yearObject = monthSpendData.FirstOrDefault();
 
-            dateList = "'" + string.Join("','", spendingList.Select(n => n.DateBegin).ToList()) + "'";
-            priceList = string.Join(",", spendingList.Select(n => n.DailySpendings).ToList());
+            decimal[] yearValues = new decimal[12];
+            yearValues[0] = yearObject.Tammikuu;
+            yearValues[1] = yearObject.Helmikuu;
+            yearValues[2] = yearObject.Maaliskuu;
+            yearValues[3] = yearObject.Huhtikuu;
+            yearValues[4] = yearObject.Toukokuu;
+            yearValues[5] = yearObject.Kesäkuu;
+            yearValues[6] = yearObject.Heinäkuu;
+            yearValues[7] = yearObject.Elokuu;
+            yearValues[8] = yearObject.Syyskuu;
+            yearValues[9] = yearObject.Lokakuu;
+            yearValues[10] = yearObject.Marraskuu;
+            yearValues[11] = yearObject.Joulukuu;
 
-            OtherSpendingTypes othSpendType = db.OtherSpendingTypes.Find(id);
+            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
 
-            ViewBag.TypeName = othSpendType.TypeName;
-            ViewBag.Dates = dateList;
-            ViewBag.Price = priceList;
+            ViewBag.ThisYear = year;
 
             return PartialView();
         }

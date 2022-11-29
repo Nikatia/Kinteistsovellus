@@ -13,16 +13,28 @@
                     data: yValues,
                     borderColor: 'rgba(5, 163, 23, 0.8)',
                     backgroundColor: 'rgba(5, 163, 23, 0.2)',
+                    borderWidth: 2,
+                    borderRadius: 5,
                     label: " euro",
-                    fill: false
+                    fill: false,
+                    tension: 0.3
                 }]
             },
             options: {
-                legend: { display: false },
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Kuukausittain käytetty raha ajan mittaan'
+                        text: 'Kuukausikuluihin käytetty raha ajan mittaan'
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'rectRounded',
+                            pointStyleWidth: 70,
+                        }
                     }
                 }
             }

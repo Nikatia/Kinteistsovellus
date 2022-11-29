@@ -24,8 +24,10 @@
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
           <Property Name="StreetAdress" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="PostID" Type="int" Nullable="false" />
           <Property Name="LoginID" Type="int" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -111,18 +113,31 @@
           <Property Name="MonthOrOtherID" Type="int" />
           <Property Name="LoginID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="PostID" />
-          </Key>
-          <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PostCode" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
-        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChartWithYears' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ForCategorySortChartWithYears">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="ROW_NUM" Type="bigint" />
+          <Property Name="Category" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="money" />
+          <Property Name="SpendingYear" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.ForMonthlyCategorySortChart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ForMonthlyCategorySortChart">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="ROW_NUM" Type="bigint" />
+          <Property Name="Category" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="money" />
+          <Property Name="SpendingYear" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.ForOthersCategorySortChart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ForOthersCategorySortChart">
           <Key>
             <PropertyRef Name="Category" />
           </Key>
@@ -178,6 +193,40 @@ warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyAndOtherSpendingsByMonth' 
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyTypeSpendingsByMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MonthlyTypeSpendingsByMonth">
+          <Key>
+            <PropertyRef Name="Tammikuu" />
+            <PropertyRef Name="Helmikuu" />
+            <PropertyRef Name="Maaliskuu" />
+            <PropertyRef Name="Huhtikuu" />
+            <PropertyRef Name="Toukokuu" />
+            <PropertyRef Name="Kesäkuu" />
+            <PropertyRef Name="Heinäkuu" />
+            <PropertyRef Name="Elokuu" />
+            <PropertyRef Name="Syyskuu" />
+            <PropertyRef Name="Lokakuu" />
+            <PropertyRef Name="Marraskuu" />
+            <PropertyRef Name="Joulukuu" />
+            <PropertyRef Name="Tyyppi" />
+          </Key>
+          <Property Name="Rivi" Type="bigint" />
+          <Property Name="Vuosi" Type="int" />
+          <Property Name="Tammikuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Helmikuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Maaliskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Huhtikuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Toukokuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Kesäkuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Heinäkuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Elokuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Syyskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Lokakuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Marraskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Joulukuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="Tyyppi" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.OtherTypeSpendingsByMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OtherTypeSpendingsByMonth">
           <Key>
             <PropertyRef Name="Tammikuu" />
             <PropertyRef Name="Helmikuu" />
@@ -272,18 +321,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Contractors">
               <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contracto__PostI__0C85DE4D">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
-          <End Role="Contractors" Type="Self.Contractors" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="PostID" />
-            </Principal>
-            <Dependent Role="Contractors">
-              <PropertyRef Name="PostID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -442,7 +479,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="OtherSpendingTypes" EntityType="Self.OtherSpendingTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="Self.ForCategorySortChartWithYears" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ForCategorySortChartWithYears].[ROW_NUM] AS [ROW_NUM], 
@@ -450,6 +486,22 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [ForCategorySortChartWithYears].[Price] AS [Price], 
     [ForCategorySortChartWithYears].[SpendingYear] AS [SpendingYear]
     FROM [dbo].[ForCategorySortChartWithYears] AS [ForCategorySortChartWithYears]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ForMonthlyCategorySortChart" EntityType="Self.ForMonthlyCategorySortChart" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ForMonthlyCategorySortChart].[ROW_NUM] AS [ROW_NUM], 
+    [ForMonthlyCategorySortChart].[Category] AS [Category], 
+    [ForMonthlyCategorySortChart].[Price] AS [Price], 
+    [ForMonthlyCategorySortChart].[SpendingYear] AS [SpendingYear]
+    FROM [dbo].[ForMonthlyCategorySortChart] AS [ForMonthlyCategorySortChart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ForOthersCategorySortChart" EntityType="Self.ForOthersCategorySortChart" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ForOthersCategorySortChart].[ROW_NUM] AS [ROW_NUM], 
+    [ForOthersCategorySortChart].[Category] AS [Category], 
+    [ForOthersCategorySortChart].[Price] AS [Price], 
+    [ForOthersCategorySortChart].[SpendingYear] AS [SpendingYear]
+    FROM [dbo].[ForOthersCategorySortChart] AS [ForOthersCategorySortChart]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ForOtherSpendingTypeCharts" EntityType="Self.ForOtherSpendingTypeCharts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -496,6 +548,25 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [MonthlyTypeSpendingsByMonth].[Tyyppi] AS [Tyyppi]
     FROM [dbo].[MonthlyTypeSpendingsByMonth] AS [MonthlyTypeSpendingsByMonth]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="OtherTypeSpendingsByMonth" EntityType="Self.OtherTypeSpendingsByMonth" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OtherTypeSpendingsByMonth].[Rivi] AS [Rivi], 
+    [OtherTypeSpendingsByMonth].[Vuosi] AS [Vuosi], 
+    [OtherTypeSpendingsByMonth].[Tammikuu] AS [Tammikuu], 
+    [OtherTypeSpendingsByMonth].[Helmikuu] AS [Helmikuu], 
+    [OtherTypeSpendingsByMonth].[Maaliskuu] AS [Maaliskuu], 
+    [OtherTypeSpendingsByMonth].[Huhtikuu] AS [Huhtikuu], 
+    [OtherTypeSpendingsByMonth].[Toukokuu] AS [Toukokuu], 
+    [OtherTypeSpendingsByMonth].[Kesäkuu] AS [Kesäkuu], 
+    [OtherTypeSpendingsByMonth].[Heinäkuu] AS [Heinäkuu], 
+    [OtherTypeSpendingsByMonth].[Elokuu] AS [Elokuu], 
+    [OtherTypeSpendingsByMonth].[Syyskuu] AS [Syyskuu], 
+    [OtherTypeSpendingsByMonth].[Lokakuu] AS [Lokakuu], 
+    [OtherTypeSpendingsByMonth].[Marraskuu] AS [Marraskuu], 
+    [OtherTypeSpendingsByMonth].[Joulukuu] AS [Joulukuu], 
+    [OtherTypeSpendingsByMonth].[Tyyppi] AS [Tyyppi]
+    FROM [dbo].[OtherTypeSpendingsByMonth] AS [OtherTypeSpendingsByMonth]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
             <DefiningQuery>SELECT 
     [database_firewall_rules].[id] AS [id], 
@@ -520,10 +591,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           </AssociationSet>
           <AssociationSet Name="FK__Contracto__Login__0D7A0286" Association="Self.FK__Contracto__Login__0D7A0286">
             <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contractors" EntitySet="Contractors" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contracto__PostI__0C85DE4D" Association="Self.FK__Contracto__PostI__0C85DE4D">
-            <End Role="Post" EntitySet="Post" />
             <End Role="Contractors" EntitySet="Contractors" />
           </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
@@ -601,14 +668,15 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="StreetAdress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostID" Type="Int32" Nullable="false" />
           <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contacts" Relationship="Self.FK__Contacts__Contra__6C190EBB" FromRole="Contractors" ToRole="Contacts" />
           <NavigationProperty Name="Logins" Relationship="Self.FK__Contracto__Login__0D7A0286" FromRole="Contractors" ToRole="Logins" />
-          <NavigationProperty Name="Post" Relationship="Self.FK__Contracto__PostI__0C85DE4D" FromRole="Contractors" ToRole="Post" />
           <NavigationProperty Name="MonthlySpendings" Relationship="Self.FK__MonthlySp__Contr__6D0D32F4" FromRole="Contractors" ToRole="MonthlySpendings" />
           <NavigationProperty Name="OtherSpendings" Relationship="Self.FK__OtherSpen__Contr__6E01572D" FromRole="Contractors" ToRole="OtherSpendings" />
           <NavigationProperty Name="Persons" Relationship="Self.FK__Persons__Contrac__6EF57B66" FromRole="Contractors" ToRole="Persons" />
+          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Logins">
           <Key>
@@ -710,16 +778,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="MonthOrOtherID" Type="Int32" />
           <NavigationProperty Name="KuukausittainenVaiMuu" Relationship="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" FromRole="Plans" ToRole="KuukausittainenVaiMuu" />
         </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="PostID" />
-          </Key>
-          <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PostCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Contractors" Relationship="Self.FK__Contracto__PostI__0C85DE4D" FromRole="Post" ToRole="Contractors" />
-        </EntityType>
         <EntityType Name="database_firewall_rules">
           <Key>
             <PropertyRef Name="id" />
@@ -781,18 +839,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Contractors">
               <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contracto__PostI__0C85DE4D">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
-          <End Role="Contractors" Type="Self.Contractors" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="PostID" />
-            </Principal>
-            <Dependent Role="Contractors">
-              <PropertyRef Name="PostID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -938,7 +984,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="OtherSpendingTypes" EntityType="Self.OtherSpendingTypes" />
           <EntitySet Name="Persons" EntityType="Self.Persons" />
           <EntitySet Name="Plans" EntityType="Self.Plans" />
-          <EntitySet Name="Post" EntityType="Self.Post" />
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
           <AssociationSet Name="FK__Contacts__Contra__6C190EBB" Association="Self.FK__Contacts__Contra__6C190EBB">
             <End Role="Contractors" EntitySet="Contractors" />
@@ -954,10 +999,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           </AssociationSet>
           <AssociationSet Name="FK__Contracto__Login__0D7A0286" Association="Self.FK__Contracto__Login__0D7A0286">
             <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contractors" EntitySet="Contractors" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contracto__PostI__0C85DE4D" Association="Self.FK__Contracto__PostI__0C85DE4D">
-            <End Role="Post" EntitySet="Post" />
             <End Role="Contractors" EntitySet="Contractors" />
           </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
@@ -1013,6 +1054,9 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="KiinteistoDBModel.ForCategorySortChartWithYears" />
           <EntitySet Name="MonthlyAndOtherSpendingsByMonth" EntityType="KiinteistoDBModel.MonthlyAndOtherSpendingsByMonth" />
           <EntitySet Name="MonthlyTypeSpendingsByMonth" EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonth" />
+          <EntitySet Name="OtherTypeSpendingsByMonth" EntityType="KiinteistoDBModel.OtherTypeSpendingsByMonth" />
+          <EntitySet Name="ForMonthlyCategorySortChart" EntityType="KiinteistoDBModel.ForMonthlyCategorySortChart" />
+          <EntitySet Name="ForOthersCategorySortChart" EntityType="KiinteistoDBModel.ForOthersCategorySortChart" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -1115,6 +1159,56 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Joulukuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
           <Property Name="Tyyppi" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="OtherTypeSpendingsByMonth">
+          <Key>
+            <PropertyRef Name="Tammikuu" />
+            <PropertyRef Name="Helmikuu" />
+            <PropertyRef Name="Maaliskuu" />
+            <PropertyRef Name="Huhtikuu" />
+            <PropertyRef Name="Toukokuu" />
+            <PropertyRef Name="Kesäkuu" />
+            <PropertyRef Name="Heinäkuu" />
+            <PropertyRef Name="Elokuu" />
+            <PropertyRef Name="Syyskuu" />
+            <PropertyRef Name="Lokakuu" />
+            <PropertyRef Name="Marraskuu" />
+            <PropertyRef Name="Joulukuu" />
+            <PropertyRef Name="Tyyppi" />
+          </Key>
+          <Property Name="Rivi" Type="Int64" />
+          <Property Name="Vuosi" Type="Int32" />
+          <Property Name="Tammikuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Helmikuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Maaliskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Huhtikuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Toukokuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Kesäkuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Heinäkuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Elokuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Syyskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Lokakuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Marraskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Joulukuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
+          <Property Name="Tyyppi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ForMonthlyCategorySortChart">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="ROW_NUM" Type="Int64" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SpendingYear" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ForOthersCategorySortChart">
+          <Key>
+            <PropertyRef Name="Category" />
+          </Key>
+          <Property Name="ROW_NUM" Type="Int64" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SpendingYear" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1136,11 +1230,13 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySetMapping Name="Contractors">
             <EntityTypeMapping TypeName="KiinteistoDBModel.Contractors">
               <MappingFragment StoreEntitySet="Contractors">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="ContractorID" ColumnName="ContractorID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StreetAdress" ColumnName="StreetAdress" />
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1229,16 +1325,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Post">
-            <EntityTypeMapping TypeName="KiinteistoDBModel.Post">
-              <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="database_firewall_rules">
             <EntityTypeMapping TypeName="KiinteistoDBModel.database_firewall_rules">
               <MappingFragment StoreEntitySet="database_firewall_rules">
@@ -1317,6 +1403,47 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Tammikuu" ColumnName="Tammikuu" />
                 <ScalarProperty Name="Vuosi" ColumnName="Vuosi" />
                 <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OtherTypeSpendingsByMonth">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.OtherTypeSpendingsByMonth">
+              <MappingFragment StoreEntitySet="OtherTypeSpendingsByMonth">
+                <ScalarProperty Name="Tyyppi" ColumnName="Tyyppi" />
+                <ScalarProperty Name="Joulukuu" ColumnName="Joulukuu" />
+                <ScalarProperty Name="Marraskuu" ColumnName="Marraskuu" />
+                <ScalarProperty Name="Lokakuu" ColumnName="Lokakuu" />
+                <ScalarProperty Name="Syyskuu" ColumnName="Syyskuu" />
+                <ScalarProperty Name="Elokuu" ColumnName="Elokuu" />
+                <ScalarProperty Name="Heinäkuu" ColumnName="Heinäkuu" />
+                <ScalarProperty Name="Kesäkuu" ColumnName="Kesäkuu" />
+                <ScalarProperty Name="Toukokuu" ColumnName="Toukokuu" />
+                <ScalarProperty Name="Huhtikuu" ColumnName="Huhtikuu" />
+                <ScalarProperty Name="Maaliskuu" ColumnName="Maaliskuu" />
+                <ScalarProperty Name="Helmikuu" ColumnName="Helmikuu" />
+                <ScalarProperty Name="Tammikuu" ColumnName="Tammikuu" />
+                <ScalarProperty Name="Vuosi" ColumnName="Vuosi" />
+                <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForMonthlyCategorySortChart">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.ForMonthlyCategorySortChart">
+              <MappingFragment StoreEntitySet="ForMonthlyCategorySortChart">
+                <ScalarProperty Name="SpendingYear" ColumnName="SpendingYear" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="ROW_NUM" ColumnName="ROW_NUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForOthersCategorySortChart">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.ForOthersCategorySortChart">
+              <MappingFragment StoreEntitySet="ForOthersCategorySortChart">
+                <ScalarProperty Name="SpendingYear" ColumnName="SpendingYear" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="ROW_NUM" ColumnName="ROW_NUM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

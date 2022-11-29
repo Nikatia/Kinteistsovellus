@@ -9,6 +9,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -20,7 +22,54 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Index()
         {
             var otherSpendings = db.OtherSpendings.Include(o => o.Contractors).Include(o => o.Logins).Include(o => o.OtherSpendingTypes);
+            var distinctYearList = db.OtherTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
+            ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
             return View(otherSpendings.ToList());
+        }
+
+        public ActionResult Chart(int year)
+        {
+            decimal tammikuu = 0, helmikuu = 0, maaliskuu = 0, huhtikuu = 0, toukokuu = 0, kesäkuu = 0, heinäkuu = 0, elokuu = 0, syyskuu = 0, lokakuu = 0, marraskuu = 0, joulukuu = 0;
+            var othSpendData = from sld in db.OtherTypeSpendingsByMonth
+                                 where sld.Vuosi == year
+                                 select sld;
+
+            foreach (var m in othSpendData)
+            {
+                if (m.Vuosi == year)
+                {
+                    tammikuu = tammikuu + m.Tammikuu;
+                    helmikuu = helmikuu + m.Helmikuu;
+                    maaliskuu = maaliskuu + m.Maaliskuu;
+                    huhtikuu = huhtikuu + m.Huhtikuu;
+                    toukokuu = toukokuu + m.Toukokuu;
+                    kesäkuu = kesäkuu + m.Kesäkuu;
+                    heinäkuu = heinäkuu + m.Heinäkuu;
+                    elokuu = elokuu + m.Elokuu;
+                    syyskuu = syyskuu + m.Syyskuu;
+                    lokakuu = lokakuu + m.Lokakuu;
+                    marraskuu = marraskuu + m.Marraskuu;
+                    joulukuu = joulukuu + m.Joulukuu;
+                }
+            }
+            decimal[] yearValues = new decimal[12];
+            yearValues[0] = tammikuu;
+            yearValues[1] = helmikuu;
+            yearValues[2] = maaliskuu;
+            yearValues[3] = huhtikuu;
+            yearValues[4] = toukokuu;
+            yearValues[5] = kesäkuu;
+            yearValues[6] = heinäkuu;
+            yearValues[7] = elokuu;
+            yearValues[8] = syyskuu;
+            yearValues[9] = lokakuu;
+            yearValues[10] = marraskuu;
+            yearValues[11] = joulukuu;
+
+            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+            ViewBag.ThisYear = year;
+
+            return PartialView();
         }
 
 

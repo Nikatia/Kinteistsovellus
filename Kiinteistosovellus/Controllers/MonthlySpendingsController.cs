@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -8,6 +9,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using Kiinteistosovellus.ViewModels;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -20,7 +24,82 @@ namespace Kiinteistosovellus.Controllers
         {
             ViewBag.Error = 0;
             var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.Logins).Include(m => m.MonthlySpendingTypes);
+            var distinctYearList = db.MonthlyTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
+            ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
             return View(monthlySpendings.ToList());
+        }
+
+        public ActionResult Chart(int year)
+        {
+            decimal tammikuu = 0, helmikuu = 0, maaliskuu = 0, huhtikuu = 0, toukokuu = 0, kesäkuu = 0, heinäkuu = 0, elokuu = 0, syyskuu = 0, lokakuu = 0, marraskuu = 0, joulukuu = 0;
+            var monthSpendData = from sld in db.MonthlyTypeSpendingsByMonth
+                                 where sld.Vuosi == year
+                                 select sld;
+
+            foreach(var m in monthSpendData)
+            {
+                if (m.Vuosi == year)
+                {
+                    tammikuu = tammikuu + m.Tammikuu;
+                    helmikuu = helmikuu + m.Helmikuu;
+                    maaliskuu = maaliskuu + m.Maaliskuu;
+                    huhtikuu = huhtikuu + m.Huhtikuu;
+                    toukokuu = toukokuu + m.Toukokuu;
+                    kesäkuu = kesäkuu + m.Kesäkuu;
+                    heinäkuu = heinäkuu + m.Heinäkuu;
+                    elokuu = elokuu + m.Elokuu;
+                    syyskuu = syyskuu + m.Syyskuu;
+                    lokakuu = lokakuu + m.Lokakuu;
+                    marraskuu = marraskuu + m.Marraskuu;
+                    joulukuu = joulukuu + m.Joulukuu;
+                }
+            }
+            decimal[] yearValues = new decimal[12];
+            yearValues[0] = tammikuu;
+            yearValues[1] = helmikuu;
+            yearValues[2] = maaliskuu;
+            yearValues[3] = huhtikuu;
+            yearValues[4] = toukokuu;
+            yearValues[5] = kesäkuu;
+            yearValues[6] = heinäkuu;
+            yearValues[7] = elokuu;
+            yearValues[8] = syyskuu;
+            yearValues[9] = lokakuu;
+            yearValues[10] = marraskuu;
+            yearValues[11] = joulukuu;
+
+            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+            ViewBag.ThisYear = year;
+
+            return PartialView();
+        }
+
+        public ActionResult BarChart(int year)
+        {
+            string typeList;
+            string priceList;
+            List<ForMonthlyCategorySortChartClass> spendingList = new List<ForMonthlyCategorySortChartClass>();
+
+            var spendingListData = from sld in db.ForMonthlyCategorySortChart where sld.SpendingYear == year select sld;
+
+            foreach (ForMonthlyCategorySortChart spending in spendingListData)
+            {
+                if (spending.SpendingYear == year)
+                {
+                    ForMonthlyCategorySortChartClass OneRow = new ForMonthlyCategorySortChartClass();
+                    OneRow.Category = spending.Category;
+                    OneRow.Price = (int)spending.Price;
+                    spendingList.Add(OneRow);
+                }
+            }
+
+            typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
+            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+
+            ViewBag.Category = typeList;
+            ViewBag.Price = priceList;
+
+            return PartialView();
         }
 
         // GET: MonthlySpendings/Details/5
