@@ -193,7 +193,7 @@ namespace Kiinteistosovellus.Controllers
                 return HttpNotFound();
             }
             ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-            ViewBag.LoginID = "1000";
+            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendings.LoginID);
             ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
             return PartialView("_EditModal",monthlySpendings);
 

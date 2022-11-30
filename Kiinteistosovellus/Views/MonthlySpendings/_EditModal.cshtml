@@ -15,121 +15,122 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        <h4>Kuukausittaiset kulut</h4>
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-horizontal">
+                    <h4>Kuukausittaiset kulut</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.MonthlySpendingID)
 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DateBegin, "Aloituspäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DateEnd, "Päättymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SpendingTypeID, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("SpendingTypeID", null, new { @class = "form-control form-select" })
-                                        @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
-                                        <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                    Tyypin nimi: <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
-                                    <div class="col-md-10 input-group">
-                                        <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKenttaName()" />
-
-                                    </div>
-                                    Yksikkönimi: <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
-                                    <div class="col-md-10 input-group">
-                                        <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormUnit" onkeyup="paivitaOikeaKenttaUnit()" />
-
-                                    </div>
-                                    <div style="text-align: right; padding-right: 5px">
-                                        <a class="card-link" role="button" id="lisaaUusiType">Lisää</a> | <a class="card-link closeAddType" role="button" id="peruuta">Peruuta</a>
-                                    </div>
-                                </div>
-                                <div class="form-group" id="successfullyAddedType" style="display:none;">
-                                    <div class="text-success">Tyyppi lisätty onnistuneesti</div>
-                                    <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DateBegin, "Aloituspäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.AmountOfUnits, "Käytetyt mittayksiköt", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @{ Html.EnableClientValidation(false); }
-                                        @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
-                                        @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
-                                    </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DateEnd, "Päättymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.PricePerUnit, "Yksikköhinta", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @{ Html.EnableClientValidation(false); }
-                                        @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
-                                        @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
-                                    </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SpendingTypeID, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("SpendingTypeID", null, new { @class = "form-control form-select" })
+                                    @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
+                                    <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TransferPayment, "Siirtomaksu", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @{ Html.EnableClientValidation(false); }
-                                        @Html.EditorFor(model => model.TransferPayment, new { htmlAttributes = new { @class = "form-control" } })
-                                        @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                            <div class="form-group" id="hiddenFieldAddType" style="display:none">
+                                Tyypin nimi: <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                <div class="col-md-10 input-group">
+                                    <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKenttaName()" />
 
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.FullPrice, "Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @{ Html.EnableClientValidation(false); }
-                                        @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
-                                        @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
-                                    </div>
                                 </div>
+                                Yksikkönimi: <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
+                                <div class="col-md-10 input-group">
+                                    <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormUnit" onkeyup="paivitaOikeaKenttaUnit()" />
 
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ContractorID, "Yrityksen nimi", htmlAttributes: new { @class = "control-label col-md-5" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
-                                        @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
-                                    </div>
                                 </div>
-
-                                <div>
-                                    @Html.TextBoxFor(model => model.LoginID, "LoginID", htmlAttributes: new { @Value = ViewBag.LoginID, @Hidden = "true", @class = "form-control" })
+                                <div style="text-align: right; padding-right: 5px">
+                                    <a class="card-link" role="button" id="lisaaUusiType">Lisää</a> | <a class="card-link closeAddType" role="button" id="peruuta">Peruuta</a>
                                 </div>
+                            </div>
+                            <div class="form-group" id="successfullyAddedType" style="display:none;">
+                                <div class="text-success">Tyyppi lisätty onnistuneesti</div>
+                                <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                             </div>
                         </div>
 
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AmountOfUnits, "Käytetyt mittayksiköt", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @{ Html.EnableClientValidation(false); }
+                                    @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
+                                    @{ Html.EnableClientValidation(true); }
+                                    @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PricePerUnit, "Yksikköhinta", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @{ Html.EnableClientValidation(false); }
+                                    @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                    @{ Html.EnableClientValidation(true); }
+                                    @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TransferPayment, "Siirtomaksu", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @{ Html.EnableClientValidation(false); }
+                                    @Html.EditorFor(model => model.TransferPayment, new { htmlAttributes = new { @class = "form-control" } })
+                                    @{ Html.EnableClientValidation(true); }
+                                    @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FullPrice, "Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @{ Html.EnableClientValidation(false); }
+                                    @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                    @{ Html.EnableClientValidation(true); }
+                                    @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContractorID, "Yrityksen nimi", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
+                                    @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div>
+                                @Html.DropDownList("LoginID", null, htmlAttributes: new { @Hidden = "hidden", @class = "form-control" })
+                            </div>
                         </div>
                     </div>
+
+
+
+
+                    <div class="form-group">
+                        <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
+                    </div>
+                </div>
                 }
 
 
