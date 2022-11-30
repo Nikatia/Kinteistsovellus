@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Kiinteistosovellus.Models;
 using System.Globalization;
 using System.Threading;
+using System.Drawing;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -43,10 +44,7 @@ namespace Kiinteistosovellus.Controllers
         public PartialViewResult Create()
         {
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
-            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
-            slMonthOrOth.Add(new SelectListItem { Value="1", Text="Kuukausittainen meno"});
-            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
-            ViewBag.MonthlyOrOther = slMonthOrOth;
+            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName");
             return PartialView("/Views/Plans/_CreateModal.cshtml");
         }
 
@@ -55,7 +53,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthlyOrOther,LoginID")] Plans plans)
+        public async Task<ActionResult> Create([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID,LoginID")] Plans plans)
         {
             if (ModelState.IsValid)
             {
@@ -63,10 +61,7 @@ namespace Kiinteistosovellus.Controllers
                 await db.SaveChangesAsync();
                 return null ;
             }
-            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
-            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
-            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
-            ViewBag.MonthlyOrOther = slMonthOrOth;
+            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_CreateModal.cshtml", plans);
         }
@@ -83,11 +78,8 @@ namespace Kiinteistosovellus.Controllers
             {
                 return HttpNotFound();
             }
-            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
-            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
-            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
 
-            ViewBag.MonthlyOrOther = slMonthOrOth;
+            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID); 
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }
@@ -97,7 +89,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthlyOrOther,LoginID")] Plans plans)
+        public async Task<PartialViewResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID,LoginID")] Plans plans)
         {
             if (ModelState.IsValid)
             {
@@ -105,10 +97,7 @@ namespace Kiinteistosovellus.Controllers
                 await db.SaveChangesAsync();
                 return null;
             }
-            List<SelectListItem> slMonthOrOth = new List<SelectListItem>();
-            slMonthOrOth.Add(new SelectListItem { Value = "1", Text = "Kuukausittainen meno" });
-            slMonthOrOth.Add(new SelectListItem { Value = "2", Text = "Muu meno" });
-            ViewBag.MonthlyOrOther = slMonthOrOth;
+            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
             ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
             return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }
