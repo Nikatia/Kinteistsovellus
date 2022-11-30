@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Muu kulu -tyypit</h2>
+<h2>Suunnitellut menot</h2>
 
 <iframe id="plansCreate" style="display:none"></iframe>
 <iframe id="plansEdit" style="display:none"></iframe>
@@ -17,26 +17,24 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Nimi
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateBegin)
+            Aloituspäivämäärä
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateEnd)
+            Päättymispäivämäärä
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Desciption)
+            Kuvaus
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Hinta
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MonthOrOtherID)
+            Kuukausittainen vai muu
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Logins.UserName)
-        </th>
+
         <th></th>
     </tr>
 
@@ -61,9 +59,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.KuukausittainenVaiMuu.MonthOrOtherName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Logins.UserName)
-            </td>
+
             <td>
                 <a class="card-link editPlanModal"  role="button" data-editid="@item.PlandID">Muokkaa</a> |
                 <a class="card-link deletePlanModal"  role="button" data-deleteid="@item.PlandID">Poista</a>
