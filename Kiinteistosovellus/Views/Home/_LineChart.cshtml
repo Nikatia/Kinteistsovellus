@@ -1,6 +1,6 @@
 ﻿
 
-<canvas style="width:100%;" id="typeChartLine"></canvas>@*max-width:400px;max-height:400px*@
+<canvas id="typeChartLine"></canvas>@*max-width:400px;max-height:400px*@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
 <script type="text/javascript">
@@ -25,14 +25,21 @@
                     borderWidth: 2,
                     borderRadius: 5,
                     label: " euro",
-                    fill: false
+                    fill: false,
+                    tension: 0.3
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Käytetty raha tyyppien mukaan'
+                        text: 'Käytetty raha tyyppien mukaan',
+                        font: {
+                            size: 15,
+                            family: "sans-serif"
+                        }
                     },
                     legend: {
                         display: true,
