@@ -12,53 +12,39 @@
                 <h2>Luo uusi kuukausittainen kulutustyyppi</h2>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm(@*"_CreateModal", "MonthlySpendings", FormMethod.Post,*@ new { id = "createMSForm" }))
-{
-@Html.AntiForgeryToken()
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createMSForm" }))
+                {
+                    @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
+                    <div class="form-horizontal">
     
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.TypeName, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TypeName, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Unit, "Yksikkö", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.LoginID, "LoginID", htmlAttributes: new { @Hidden = "hidden", @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("LoginID", null, htmlAttributes: new { @Hidden = "hidden", @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.LoginID, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Unit, "Yksikkö", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>           
+                        @Html.DropDownList("LoginID", null, htmlAttributes: new { @Hidden = "hidden", @class = "form-control" })
 
     
-</div>
-<div class="form-group">
-    <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
-</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
+                    </div>
 
 
-}
-
-
-
-                @section Scripts {
-                    @Scripts.Render("~/bundles/jqueryval")
                 }
-
 
                 <div class="modal-footer" style="display:inline-block">
                     @*<input type="button" id="submitModal" value="Tallenna" class="btn btn-primary" />*@
@@ -68,8 +54,6 @@
 
                 </div>
 
-
-
             </div>
         </div>
     </div>
@@ -78,40 +62,7 @@
 
 
     <script type="text/javascript">
-        $("#submitCreate").click(function () {
-            $("#submitModal").click();
-        });
-
-
-
-
-        var indexUrl = '/MonthlySpendingTypes/Index';
-        $("#submitModal").click(function () {
-
-            var form = this.form;
-            var data = new FormData(form);
-            var detailDivCreate = parent.document.getElementById("ModalMSCreate");
-
-
-            $.ajax({
-                url: "/MonthlySpendingTypes/_CreateModal",
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'POST',
-                type: "POST",
-                data: data,
-                success: function (result) {
-                    if (result == "") {
-                        window.location.href = indexUrl;
-                    } else {
-                        $(detailDivCreate).html("");
-                        $(detailDivCreate).replaceWith(result);
-                        $("#ModalMSCreate").modal("show");
-                    }
-
-                }
-            });
-        });
-
+        $("#submitCreate").click(function submitModal() {
+            submitModalPost("MonthlySpendingTypes", "_CreateModal", "createMSForm", "ModalMSCreate");
+        })   
     </script>
