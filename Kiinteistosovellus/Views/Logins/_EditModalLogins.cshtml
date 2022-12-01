@@ -21,38 +21,38 @@
                 {
                     @Html.AntiForgeryToken()
 
-                <div class="form-horizontal">
-                    @*<h4>Käyttäjät</h4>*@
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.LoginID)
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.UserName, "Käyttäjänimi", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "usern", @class = "form-control", @maxlength = "15" } })
-                            <label id="userlabe" style="color:red">&nbsp; &nbsp;Kirjoita käyttäjänimi!</label>
-                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    <div class="form-horizontal">
+                        @*<h4>Käyttäjät</h4>*@
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.LoginID)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, "Käyttäjänimi", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "usern", @class = "form-control", @maxlength = "15" } })
+                                <label id="userlabe" style="color:red">&nbsp; &nbsp;Kirjoita käyttäjänimi!</label>
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
 
-                    <div style="clear:both" , class="form-group">
-                        @Html.LabelFor(model => model.UserPassword, "Salasana", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "passw", @class = "form-control", @maxlength = "15" } })
-                            <label id="passlabe" style="color:red">&nbsp; &nbsp;Kirjoita salasana!</label>
-                            @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                        <div style="clear:both" , class="form-group">
+                            @Html.LabelFor(model => model.UserPassword, "Salasana", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "passw", @class = "form-control", @maxlength = "15" } })
+                                <label id="passlabe" style="color:red">&nbsp; &nbsp;Kirjoita salasana!</label>
+                                @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                            </div>
                         </div>
+                        <br />
+                        @*<div style="clear:both" class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" id="loginCreateButton" value="Tallenna" class="btn btn-primary" />
+                                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
+                                </div>
+
+                            </div>*@
+
                     </div>
-                    <br />
-                    @*<div style="clear:both" class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" id="loginCreateButton" value="Tallenna" class="btn btn-primary" />
-                @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
-            </div>
-
-        </div>*@
-
-                </div>
                 }
 
 
@@ -65,6 +65,7 @@
                 <div class="modal-footer" style="display:inline-block">
                     @*<button type="submit" class="btn btn-primary" id="cr">Validate</button>*@
                     <button type="submit" id="loginModb" class="btn btn-primary" form="editLoginsForm">Tallenna</button>
+                    <button type="button" onclick="jepajuus()" id="nappi" class="btn btn-primary">Tallenna</button>
                     @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
 
                 </div>
@@ -74,8 +75,10 @@
 </div>
 <script>
     $(document).ready(function () {
-        $("#loginModb").prop('disabled', true);
-
+        //  $("#loginModb").prop('disabled', true);
+        $("#loginModb").hide();
+        $("#userlabe").hide();
+        $("#passlabe").hide();
     });
 
     function jepsie() {
@@ -90,7 +93,22 @@
             $("#loginModb").prop('disabled', false);
 
         }
-        if (usernameValue == null || usernameValue == ""){
+        if ( usernameValue == "") {
+            $("#userlabe").show();
+        } else {
+            $("#userlabe").hide();
+        }
+
+        if ( passwordValue == "") {
+            $("#passlabe").show();
+        } else {
+            $("#passlabe").hide();
+        }
+    };
+    function jepajuus() {
+        var usernameValue = $("#usern").val();
+        var passwordValue = $("#passw").val();
+        if (usernameValue == null || usernameValue == "") {
             $("#userlabe").show();
         } else {
             $("#userlabe").hide();
@@ -101,10 +119,14 @@
         } else {
             $("#passlabe").hide();
         }
-    };
+        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "") {
+            $("#loginModb").click();
+        }
+    }
 </script>
-@*//.prop('disabled', true);
-    // .hide() .show()*@
+
+
+
 
 
 

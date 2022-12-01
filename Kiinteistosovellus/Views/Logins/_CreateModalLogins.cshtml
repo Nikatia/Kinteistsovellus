@@ -24,7 +24,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.UserName, "Käyttäjänimi", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsi()", @id = "use", @class = "form-control", @maxlength="15" } })
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @style = "float:left", @oninput = "jepajuuser()", @id = "use", @class = "form-control", @maxlength = "15" } })
                                 <label id="userlab" style="color:red">&nbsp; &nbsp;Kirjoita käyttäjänimi!</label>
                                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                             </div>
@@ -33,7 +33,7 @@
                         <div style="clear:both" , class="form-group">
                             @Html.LabelFor(model => model.UserPassword, "Salasana", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsi()", @id = "pas", @class = "form-control" , @maxlength = "15" } })
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepajupass()", @id = "pas", @class = "form-control", @maxlength = "15" } })
                                 <label id="passlab" style="color:red">&nbsp; &nbsp;Kirjoita salasana!</label>
                                 @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
                             </div>
@@ -58,9 +58,9 @@
 
                 <br />
                 <div class="modal-footer" style="display:inline-block">
-                    @*<button type="submit" class="btn btn-primary" id="cr">Validate</button>*@
                     <button type="submit" id="LogModButton" class="btn btn-primary" form="createLoginsForm">Tallenna</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button>
+                    <button type="button" onclick="jepajuuser(); jepajupass(); tallenna()" id="nappi" class="btn btn-primary">Tallenna</button>
+                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
 
                 </div>
             </div>
@@ -69,14 +69,16 @@
 </div>
 <script>
     $(document).ready(function () {
+        $("#LogModButton").hide();
         $("#LogModButton").prop('disabled', true);
-
+        $("#userlab").hide();
+        $("#passlab").hide();
     });
 
-    function jepsi() {
+   
+    function jepajuuser() {
         var usernameValue = $("#use").val();
         var passwordValue = $("#pas").val();
-        // alert(usernameValue);
         if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "") {
             $("#LogModButton").prop('disabled', true);
 
@@ -85,19 +87,39 @@
             $("#LogModButton").prop('disabled', false);
 
         }
-        if (usernameValue == null || usernameValue == ""){
+        if (usernameValue == "") {
             $("#userlab").show();
         } else {
             $("#userlab").hide();
         }
 
-        if (passwordValue == null || passwordValue == "") {
+    }
+    function jepajupass() {
+        var usernameValue = $("#use").val();
+        var passwordValue = $("#pas").val();
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "") {
+            $("#LogModButton").prop('disabled', true);
+
+
+        } else {
+            $("#LogModButton").prop('disabled', false);
+
+        }
+        if (passwordValue == "") {
             $("#passlab").show();
         } else {
             $("#passlab").hide();
         }
-    };
+    }
+    function tallenna() {
+        var usernameValue = $("#use").val();
+        var passwordValue = $("#pas").val();
+        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "") {
+            $("#LogModButton").click();
+        }
+
+    }
+
 </script>
-@*//.prop('disabled', true);
-    // .hide() .show()*@
+
 
