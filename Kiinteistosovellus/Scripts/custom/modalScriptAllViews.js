@@ -144,9 +144,12 @@ function isNumberKey(evt, priceFieldId) {
     }
 
     if (decimalNumbersTotal.length > 1) {
-        if (decimalNumbersTotal[1].length >= 2) {
-            evt.preventDefault();
-            return false;
+        if (decimalNumbersTotal[1].length < 2 && decimalNumbersTotal[0].length < 5) {
+            if (decimalNumbersTotal[1].length > 2) {
+                evt.preventDefault();
+                return false;
+            }
+            return true;
         }
     }
     return true;
