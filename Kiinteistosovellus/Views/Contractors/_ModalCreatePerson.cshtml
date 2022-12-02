@@ -60,10 +60,23 @@
     var message = '@message';
     //if model is valid, close PartialView, go to successful page and reset Contacts Contractors dropdown
     if (message) {
+        console.log(contractors.val());
+        var personUrl = '@Url.Action("FetchPersons")';
+        var persons = $('#lePerson');
+        var contractor = $('#ContractorID');
+        persons.empty();
+        persons.append($('<option></option>').val('').text(''));
+        $.getJSON(personUrl, { ID: contractor.val() }, function (data) {
+            if (!data) {
+                persons.empty();
+            }
+            persons.append($('<option></option>').val('').text(''));
+            $.each(data, function (index, item) {
+                persons.append($('<option></option>').val(item.Value).text(item.Text));
+            });
+        });
         document.getElementById("divForPartialPseudo").innerHTML = "";
         document.getElementById("successfullyAddedPerson").style.display = "inline-block";
-        var contr2 = $("#ContractorID");
-        contr2.val("");
     }
 
     //Repopulate this PartialView's Contractors dropdown, so empty value is first and contractor 1004 is ignored
