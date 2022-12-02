@@ -115,10 +115,11 @@ function updateDropdownList(controller, dropdownId) {
 function isNumberKey(evt, priceFieldId) {
     var priceInputField = document.getElementById(priceFieldId);
     var decimalNumbersTotal = priceInputField.value.toString().split(',');
+    var strLength = priceInputField.value.toString().length;
     //Tarkistaa, onko merkkijonossa pilkkua
     var match = priceInputField.value.toString().match(",");
     var charCode = (evt.which) ? evt.which : evt.keyCode;
-
+    //estää muut kuin numerot ja pilkun
     if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47 || charCode == 46) {
         evt.preventDefault();
         return false;
@@ -128,32 +129,40 @@ function isNumberKey(evt, priceFieldId) {
         evt.preventDefault();
         return false;
     }
-
+    //numeroita ei saa olla enempää kuin 7 ja jos on pilkku, estää sen.
     if (priceInputField.value.toString().replace(',', '').length > 7 || (priceInputField.value.toString().includes(',') && charCode == 44)) {
         evt.preventDefault();
         return false;
     }
-    //Tämä ehtolause on lisätty
-    if (priceInputField.value.toString().length == 5) {
-        if (match == "," && (charCode > 47 && charCode < 58 && decimalNumbersTotal[1].length < 2)) {
-            return true
-        } else if (charCode != 44) {
-            evt.preventDefault();
-            return false
-        }
-    }
 
-    if (decimalNumbersTotal.length > 1) {
-        if (decimalNumbersTotal[1].length < 2 && decimalNumbersTotal[0].length < 5) {
-            if (decimalNumbersTotal[1].length > 2) {
-                evt.preventDefault();
-                return false;
-            }
-            return true;
+    //if (decimalNumbersTotal[1].length > 2) {
+    //    evt.preventDefault();
+    //    return false;
+    //}
+
+    if (decimalNumbersTotal[0].length == 5 && charCode != 44) {
+        if (strLength > 5 && strLength < 8) {
+            return true
+        } else {
+            evt.preventDefault();
+            return false;
         }
+        
+       
     }
-    return true;
+  
+       return true;
 };
+  ////Tämä ehtolause on lisätty
+    //if (priceInputField.value.toString().length == 5) {
+    //    if (match == "," && (charCode > 47 && charCode < 58 && decimalNumbersTotal[1].length < 2)) {
+    //        return true
+
+    //    } else if (charCode != 44) {
+    //        evt.preventDefault();
+    //        return false
+    //    }
+    //}
 
 
 //function isNumberKey(evt, priceFieldId) {

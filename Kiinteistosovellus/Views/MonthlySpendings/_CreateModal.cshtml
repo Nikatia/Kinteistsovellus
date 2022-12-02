@@ -191,7 +191,7 @@
     function submitModal() {
         submitModalPost("MonthlySpendings", "_CreateModal", "createMSForm", "ModalMSCreate");
     };
-    
+    //Estää vasemman nuolen käytön
     //$("#FullPrice, #TransferPayment, #PricePerUnit, #AmountOfUnits").keydown(function (e) {
     //    var key = e.charCode || e.keyCode
     //    if (key == 37) {
@@ -199,31 +199,37 @@
     //    }
 
     // });
+    var tempStr = "";
+    var input = $("#FullPrice");
+    $("#FullPrice").keydown(function () {
+        
+        tempStr = input.val().toString();
+    })
+
     $("#FullPrice").keyup(function () {
         var decimalNumbersTotal = $("#FullPrice").val().toString().split(",");
-        if (decimalNumbersTotal[0].length > 5) {
-            var input = $("#FullPrice");
-            var tempStr = input.val().toString().substring(0, 5);
+        if (decimalNumbersTotal[0].length > 5 || decimalNumbersTotal[1].length >2) {
+            
             input.val("");
             input.val(tempStr);
         }
-        if (decimalNumbersTotal[1].length > 2) {
-            var input = $("#FullPrice");
-            var tempStr = input.val().toString().substring(0,8);
-            input.val(tempStr);
-        };
-        if (decimalNumbersTotal[1].length == 0 && $("#FullPrice").val().toString().length > 5) {
-            if ($("#FullPrice").val().toString().indexOf(",") != -1) {
+        //if (decimalNumbersTotal[1].length > 2) {
+        //    var input = $("#FullPrice");
+        //    var tempStr = input.val().toString().substring(0,8);
+        //    input.val(tempStr);
+        //};
+        //if (decimalNumbersTotal[1].length == 0 && $("#FullPrice").val().toString().length > 5) {
+        //    if ($("#FullPrice").val().toString().indexOf(",") != -1) {
                
                 
-            } else {
-                var input = $("#FullPrice");
-                alert("moi");
-                var tempStr = input.val().toString().substring(0, 5);
-                input.val("");
-                input.val(tempStr);
-            };
-        };
+        //    } else {
+        //        var input = $("#FullPrice");
+        //        alert("moi");
+        //        var tempStr = input.val().toString().substring(0, 5);
+        //        input.val("");
+        //        input.val(tempStr);
+        //    };
+       // };
     });
 
 
