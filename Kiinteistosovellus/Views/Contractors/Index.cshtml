@@ -48,7 +48,7 @@
 <h2>Urakoitsijat</h2>
 
 <p>
-    &emsp;<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add.svg" height="30"></a> &emsp; <a class="card-link" title="Uusi yhteystiedot" id="creNewContact" role="button"><i class="fa-solid fa-comment-medical fa-2x"></i></a>
+    &emsp;<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add.svg" height="30"></a> &emsp; <a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-medical-solid.svg" height="30"></a>
 </p>
 
 @*---Modal Containers---*@
@@ -149,10 +149,10 @@
                                                 <td>@contact.PhoneNumber</td>
                                                 <td>@contact.Email</td>
                                                 <td>
-                                                    <a class="card-link getHooman" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><i class="fa-solid fa-user-gear"></i></a>
-                                                    <a class="card-link getHoman" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><i class="fa-solid fa-user-large-slash"></i></a> &emsp;
-                                                    <a class="card-link getContactEdit" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><i class="fa-solid fa-comment-dots"></i></a>
-                                                    <a class="card-link getContactDelete" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><i class="fa-solid fa-comment-slash"></i></a>
+                                                    <a class="card-link getHooman ikonka" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><img src="/Icons/user-gear-solid.svg" height="18"></a>
+                                                    <a class="card-link getHoman ikonka" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/user-large-slash-solid.svg" height="18"></a> &emsp;
+                                                    <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-gear-solid.svg" height="18"></a>
+                                                    <a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-slash-solid.svg" height="18"></a>
                                                 </td>
                                             </tr>
                                         }
