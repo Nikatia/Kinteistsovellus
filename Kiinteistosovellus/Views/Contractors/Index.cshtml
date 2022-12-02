@@ -111,15 +111,18 @@
                             </div>
                             <div class="col-sm-4">
                                 <b>Yleinen yhteystiedot:</b>
-                                <ul>
+                                <table width="80%">
                                     @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
                                     {
                                         if (contact.PersonID == null && contact.ContractorID == item.ContractorID)
                                         {
-                                            <li>@contact.PhoneNumber @contact.Email</li>
+                                            <tr>
+                                                <td>@contact.PhoneNumber @contact.Email</td>
+                                                <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-gear-solid.svg" height="18"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-slash-solid.svg" height="18"></a></td>
+                                            </tr>
                                         }
                                     }
-                                </ul>
+                                </table>
                             </div>
                         </div>
                         <br />
