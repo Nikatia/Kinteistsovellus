@@ -191,81 +191,61 @@
     function submitModal() {
         submitModalPost("MonthlySpendings", "_CreateModal", "createMSForm", "ModalMSCreate");
     };
-    //Estää vasemman nuolen käytön
-    //$("#FullPrice, #TransferPayment, #PricePerUnit, #AmountOfUnits").keydown(function (e) {
-    //    var key = e.charCode || e.keyCode
-    //    if (key == 37) {
-    //        e.preventDefault();
-    //    }
 
-    // });
-    var tempStr = "";
-    var input = $("#FullPrice");
-    $("#FullPrice").keydown(function () {
-        
-        tempStr = input.val().toString();
-    })
+    //var tempStrF = "";
+    //var inputF = $("#FullPrice");
+    //$("#FullPrice").keydown(function () {
 
-    $("#FullPrice").keyup(function () {
-        var decimalNumbersTotal = $("#FullPrice").val().toString().split(",");
-        if (decimalNumbersTotal[0].length > 5 || decimalNumbersTotal[1].length >2) {
-            
-            input.val("");
-            input.val(tempStr);
-        }
-        //if (decimalNumbersTotal[1].length > 2) {
-        //    var input = $("#FullPrice");
-        //    var tempStr = input.val().toString().substring(0,8);
-        //    input.val(tempStr);
-        //};
-        //if (decimalNumbersTotal[1].length == 0 && $("#FullPrice").val().toString().length > 5) {
-        //    if ($("#FullPrice").val().toString().indexOf(",") != -1) {
-               
-                
-        //    } else {
-        //        var input = $("#FullPrice");
-        //        alert("moi");
-        //        var tempStr = input.val().toString().substring(0, 5);
-        //        input.val("");
-        //        input.val(tempStr);
-        //    };
-       // };
-    });
-
-
-    //$("#FullPrice").mouseup(function () {
-    //    var input = $("#FullPrice");
-    //    input.focus();
-    //    var tempStr = input.val();
-    //    input.val("");
-    //    input.val(tempStr);
-
-
+    //    tempStrF = inputF.val().toString();
     //});
 
-    $("#TransferPayment").mousedown(function (e) {
-        var length = $("#TransferPayment").val().toString().length;
-        if (length != 0) {
-            $("#TransferPayment").off("click");
-            e.preventDefault();
-        };
+    //$("#FullPrice").keyup(function () {
+    //    var decimalNumbersTotal = $("#FullPrice").val().toString().split(",");
+    //    if (decimalNumbersTotal[0].length > 5 || decimalNumbersTotal[1].length > 2) {
+    //        inputF.val("");
+    //        inputF.val(tempStrF);
+    //    }
+    //});
+
+   
+
+    $("#FullPrice").keydown(function () {
+        validateKeyDown(event, "FullPrice");
+
+    });
+    $("#FullPrice").keyup(function () {
+        validateKeyUp(event, "FullPrice");
+
     });
 
-    $("#PricePerUnit").mousedown(function (e) {
-        var length = $("#PricePerUnit").val().toString().length;
-        if (length != 0) {
-            $("#PricePerUnit").off("click");
-            e.preventDefault();
-        };
+    $("#TransferPayment").keydown(function () {
+        validateKeyDown(event, "TransferPayment");
+
+    });
+    $("#TransferPayment").keyup(function () {
+        validateKeyUp(event, "TransferPayment");
+
     });
 
-    $("#AmountOfUnits").mousedown(function (e) {
-        var length = $("#AmountOfUnits").val().toString().length;
-        if (length != 0) {
-            $("#AmountOfUnits").off("click");
-            e.preventDefault();
-        };
-    })
+    $("#PricePerUnit").keydown(function () {
+        validateKeyDown(event, "PricePerUnit");
+
+    });
+    $("#PricePerUnit").keyup(function () {
+        validateKeyUp(event, "PricePerUnit");
+
+    });
+
+    $("#AmountOfUnits").keydown(function () {
+        validateKeyDown(event, "AmountOfUnits");
+
+    });
+    $("#AmountOfUnits").keyup(function () {
+        validateKeyUp(event, "AmountOfUnits");
+
+    });
+
+
     //Kokonaishinnan merkkien tarkastelu
     $("#FullPrice").keypress(function () {
         //console.log("toimii eventlistener");
