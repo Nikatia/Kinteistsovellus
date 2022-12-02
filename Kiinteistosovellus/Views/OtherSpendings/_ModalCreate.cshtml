@@ -160,7 +160,14 @@
     $("#Price").keypress(function () {
         isNumberKey(event, "Price");
     });
+    $("#Price").keydown(function () {
+        validateKeyDown(event, "Price");
 
+    });
+    $("#Price").keyup(function () {
+        validateKeyUp(event, "Price");
+
+    });
     //Removes Contractor 1004 from dropdown list, as 1004 is deleted value
     $(function () {
         var contractors = $('#ContractorID');

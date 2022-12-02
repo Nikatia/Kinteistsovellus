@@ -155,4 +155,12 @@
     $("#Price").keypress(function () {
         isNumberKey(event, "Price");
     });
+    $("#Price").keydown(function () {
+        validateKeyDown(event, "Price");
+
+    });
+    $("#Price").keyup(function () {
+        validateKeyUp(event, "Price");
+
+    });
 </script>
