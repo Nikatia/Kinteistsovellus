@@ -117,12 +117,13 @@ function isNumberKey(evt, priceFieldId) {
     var decimalNumbersTotal = priceInputField.value.toString().split(',');
     var strLength = priceInputField.value.toString().length;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
+    tempStr = priceInputField.value.toString();
+    if (evt.repeat) { evt.preventDefault(); }; //Estää saman näppäimen tuplaklikit
     //estää muut kuin numerot ja pilkun
     if (charCode > 31 && (charCode < 44 || charCode > 57) || charCode == 45 || charCode == 47 || charCode == 46) {
         evt.preventDefault();
         return false;
     }
-
     if (charCode == 44 && priceInputField.value.toString() == "") {
         evt.preventDefault();
         return false;
@@ -132,7 +133,6 @@ function isNumberKey(evt, priceFieldId) {
         evt.preventDefault();
         return false;
     }
-
     if (decimalNumbersTotal[0].length == 5 && charCode != 44) {
         if (strLength > 5 && strLength < 8) {
             return true
@@ -140,27 +140,33 @@ function isNumberKey(evt, priceFieldId) {
             evt.preventDefault();
             return false;
         }
-
     }
-
     return true;
 };
 
 var tempStr = "";
-function validateKeyDown(evt, priceFieldId) {
-    var input = document.getElementById(priceFieldId);
-    tempStr = input.value.toString();
-
-};
-
 function validateKeyUp(evt, priceFieldId) {
     var input = document.getElementById(priceFieldId);
     var decimalNumbersTotal = input.value.toString().split(",");
-    if (decimalNumbersTotal[0].length > 5 || decimalNumbersTotal[1].length > 2) {
+
+    if (decimalNumbersTotal[0].length > 5) {
+        input.value = "";
+        input.value = tempStr;
+
+    }
+    if (decimalNumbersTotal[0].length > 5 && decimalNumbersTotal[1].length < 2) {
+        tempStr = decimalNumbersTotal[0].substring(0, 5) + "," + decimalNumbersTotal[1].substring(0, 2);
         input.value = "";
         input.value = tempStr;
     }
+
+    if (decimalNumbersTotal[1].length > 2) {
+        input.value = "";
+        tempStr = decimalNumbersTotal[0].substring(0, 5) + "," + decimalNumbersTotal[1].substring(0, 2);
+        input.value = tempStr;
+    }
 };
+
 
 
 //function isNumberKey(evt, priceFieldId) {
