@@ -96,7 +96,7 @@
 
                         </div>
                     </div>
-                    
+
                 }
 
             </div>
@@ -104,7 +104,7 @@
                 <div class="form-actions no-color">
                     <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
                     @Html.ActionLink("Takaisin", "Index")
-                </div> 
+                </div>
                 @*<button type="submit" class="btn btn-primary" form="editForm">Muokkaa</button>*@
             </div>
             <div id="divForPartialPseudo" style="display:none"></div>
@@ -155,12 +155,7 @@
     $("#Price").keypress(function () {
         isNumberKey(event, "Price");
     });
-    $("#Price").keydown(function () {
-        validateKeyDown(event, "Price");
-
-    });
     $("#Price").keyup(function () {
         validateKeyUp(event, "Price");
-
     });
 </script>
