@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Suunnitellun meno muokkaus</h3>
+                <h3>Suunnitellun menon muokkaus</h3>
             </div>
 
             <div class="modal-body">
@@ -12,64 +12,67 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.PlandID)
+                    <div class="row">
 
-                        <div class="form-group">
-                            Nimi*
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.Label("Nimi*", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Aloituspäivämäärä*", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Päätymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Kokonaishinta*", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Kuukausittainen vai muu", htmlAttributes: new { @class = "control-label col-md-8" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
+                                    @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.DropDownList("LoginID", null, htmlAttributes: new { @class = "form-control", @Hidden = "true" })
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            Aloituspäivämäärä
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
-                                @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.Label("Kuvaus", htmlAttributes: new { @class = "control-label col-md-5" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Desciption, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                    @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
+                                </div>
                             </div>
+
+
                         </div>
-
-                        <div class="form-group">
-                            Päättymispäivämäärä
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
-
-                                @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Kuvaus
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Desciption, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Hinta
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            Kuukausittainen vai muu
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
-                                @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        @Html.DropDownList("LoginID", null, htmlAttributes: new { @Hidden = "hidden", @class = "form-control" })
-
                     </div>
-                }
+            }
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
