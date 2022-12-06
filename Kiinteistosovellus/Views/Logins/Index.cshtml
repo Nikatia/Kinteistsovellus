@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<Kiinteistosovellus.Models.Logins>
 
-@*@{
-        ViewBag.Title = "Index";
-    }*@
+@{
+        ViewBag.Title = "Käyttäjät";
+    }
+<br />
+<h2>Käyttäjät</h2>
+<a class="card-link ikonka" title="Uusi Käyttäjä" id="CreateLoginsButton" role="button"><img src="/Icons/square-add.svg" height="45"></a>
+<br />
 
-<br />
-<button type="button" id="CreateLoginsButton" style="margin-top:15px;margin-left:44%;font-size:22px">Luo uusi</button>
-@*<a href="/logins/create" class="btn btn-secondary" style="margin-top:15px;margin-left:33%;font-size:22px">Luo uusi</a>*@
-<br />
-<br />
 <table class="table">
     <tr>
         <th>
@@ -31,13 +30,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserPassword)
             </td>
-            
+
             <td>
                 <button class="getO" data-editlogin="@item.LoginID">Muokkaa</button>
 
                 <button class="getId" data-deletelogin="@item.LoginID">Poista</button>
             </td>
-            
+
         </tr>
     }
 

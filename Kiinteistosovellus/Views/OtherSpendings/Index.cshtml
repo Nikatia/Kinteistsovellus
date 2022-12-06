@@ -121,7 +121,7 @@
     </script>
 }
 
-
+<br />
 <h2>Muut kulut</h2>
 <br />
 <div class="row">
@@ -134,9 +134,7 @@
 </div>
 <br />
 <div style="margin-left:40%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
-<p>
-    <a class="card-link creNewOtherSpending" role="button">Luo uusi</a><br />
-</p>
+<a class="card-link ikonka creNewOtherSpending" title="Uusi Kulutus" role="button"><img src="/Icons/square-add.svg" height="45"></a>
 
 @*Modal Containers*@
 <iframe id="otherSpendingCreate" style="display:none;"></iframe>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Kiinteistosovellus.ViewModels.AllContractorsData>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Urakoitsijat";
 }
 
 @{
@@ -35,21 +35,13 @@
         content: "\f106";
     }
 
-    .ikonka {
-        filter: invert(36%) sepia(94%) saturate(3449%) hue-rotate(207deg) brightness(96%) contrast(106%)
-    }
-
-    .ikonka:hover {
-        filter: invert(23%) sepia(98%) saturate(1996%) hue-rotate(206deg) brightness(90%) contrast(95%)
-    }
-
 </style>
-
+<br />
 <h2>Urakoitsijat</h2>
 
-<p>
-    &emsp;<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>  <a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>
-</p>
+
+<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>  <a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>
+
 
 @*---Modal Containers---*@
 @*Contractors*@

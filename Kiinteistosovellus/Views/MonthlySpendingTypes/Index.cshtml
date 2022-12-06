@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<Kiinteistosovellus.Models.MonthlySpendingTypes>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kuukausittaiset kulutyypit";
 }
 
+ 
+<br />
+<h2>Kuukausittaiset kulutyypit</h2>
+<a class="card-link ikonka" title="Uusi Käyttäjä" id="CreateMS" role="button"><img src="/Icons/square-add.svg" height="45"></a>
+<br />
 
-
-
-<p>
-    <button type="button" id="CreateMS" style="margin-top:15px;margin-left:35%;font-size:22px">Luo uusi</button>
-</p>
 <div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
 <div id="ModalPlaceDelete"></div>
 <div id="ModalPlaceCreate"></div>
@@ -115,4 +115,4 @@
             });
         });
     });
-    </script>
+</script>
