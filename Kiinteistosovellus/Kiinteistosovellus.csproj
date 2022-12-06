@@ -212,6 +212,7 @@
     <Compile Include="ViewModels\AllContractorsData.cs" />
     <Compile Include="ViewModels\ForCategorySortChartWithYearsClass.cs" />
     <Compile Include="ViewModels\ForMonthlyCategorySortChartClass.cs" />
+    <Compile Include="ViewModels\ForOthersCategorySortChartClass.cs" />
     <Compile Include="ViewModels\ForOtherSpendingTypeChartsClass.cs" />
     <Compile Include="ViewModels\MonthlyAndOtherSpendingsByMonthClass.cs" />
   </ItemGroup>
@@ -358,6 +359,7 @@
     <Content Include="Views\MonthlySpendings\Chart.cshtml" />
     <Content Include="Views\MonthlySpendings\BarChart.cshtml" />
     <Content Include="Views\OtherSpendings\Chart.cshtml" />
+    <Content Include="Views\OtherSpendings\BarChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

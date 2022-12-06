@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
+using Kiinteistosovellus.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 
@@ -68,6 +69,34 @@ namespace Kiinteistosovellus.Controllers
 
             ViewBag.Year = JsonConvert.SerializeObject(yearValues);
             ViewBag.ThisYear = year;
+
+            return PartialView();
+        }
+
+        public ActionResult BarChart(int year)
+        {
+            string typeList;
+            string priceList;
+            List<ForOthersCategorySortChartClass> spendingList = new List<ForOthersCategorySortChartClass>();
+
+            var spendingListData = from sld in db.ForOthersCategorySortChart where sld.SpendingYear == year select sld;
+
+            foreach (ForOthersCategorySortChart spending in spendingListData)
+            {
+                if (spending.SpendingYear == year)
+                {
+                    ForOthersCategorySortChartClass OneRow = new ForOthersCategorySortChartClass();
+                    OneRow.Category = spending.Category;
+                    OneRow.Price = (int)spending.Price;
+                    spendingList.Add(OneRow);
+                }
+            }
+
+            typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
+            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+
+            ViewBag.Category = typeList;
+            ViewBag.Price = priceList;
 
             return PartialView();
         }
