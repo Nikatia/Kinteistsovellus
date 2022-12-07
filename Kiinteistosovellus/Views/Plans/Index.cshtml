@@ -69,6 +69,13 @@
 
 </table>
 <script type="text/javascript">
+
+    $(function () {
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').removeClass('active');
+        $('#othersClicked').addClass('active');
+    });
+
     $(function () {
         $("#createNewPlanModal").click(function () {
             modalGet("Plans", "Create", null, "plansCreate", "ModalPlansCreate");

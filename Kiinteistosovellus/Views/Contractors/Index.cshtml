@@ -24,7 +24,7 @@
 
     .panel-title::after {
         content: "\f107";
-        color: #333;
+        color: #5a5a5a;
         top: 7px;
         left: 0px;
         position: absolute;
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </div><br />
-                <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" style="background-color: rgba(117, 167, 240, 0.1); padding: 10px; border: 2px solid rgba(117, 167, 240, 0.1); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.ContractorID" data-bs-parent="#ContractorsList">
+                <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" style="background-color: rgba(201, 242, 231, 0.1); padding: 10px; border: 2px solid rgba(120, 194, 173, 0.1); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.ContractorID" data-bs-parent="#ContractorsList">
                     <div class="accordion-body">
                         <div class="row">
                             <div class="col-sm-8">
@@ -164,6 +164,12 @@
 
 @section scripts {
     <script type="text/javascript">
+
+        $(function () {
+            $('#homeClicked').removeClass('active');
+            $('#spendingsClicked').removeClass('active');
+            $('#othersClicked').addClass('active');
+        });
 
         /*------Contractors Modals------*/
         /* Create */

@@ -18,10 +18,10 @@
 
 
                         <div class="form-group">
-                            @Html.Label("Tyypin nimi*", htmlAttributes: new { @class = "control-label col-md-2" })
+                            Tyypin nimi* @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-secondary" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
+                                
                             </div>
                         </div>
 

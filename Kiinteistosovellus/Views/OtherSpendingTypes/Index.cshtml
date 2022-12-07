@@ -38,6 +38,13 @@
 
 </table>
 <script type="text/javascript">
+
+    $(function () {
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').removeClass('active');
+        $('#othersClicked').addClass('active');
+    });
+
     $(function () {
         $("#createNewOthSpendTypeModal").click(function () {
             modalGet("OtherSpendingTypes", "Create", null, "othSpendTypeCreate", "ModalOthSpendTypeCreate");

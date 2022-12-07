@@ -59,6 +59,12 @@
 </table>
 <script type="text/javascript">
 
+    $(function () {
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').removeClass('active');
+        $('#othersClicked').addClass('active');
+    });
+
     $(document).ready(function () {
         $(".getMSTOrderId").click(function () {
             let MSEditId = $(this).data("orderid");

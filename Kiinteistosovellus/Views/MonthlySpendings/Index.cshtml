@@ -106,6 +106,12 @@
 </table>
 <script type="text/javascript">
 
+    $(function () {
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').addClass('active');
+        $('#othersClicked').removeClass('active');
+    });
+
     $(document).ready(function () {
         $(".getOrderId").click(function () {
             let MSEditId = $(this).data("orderid");

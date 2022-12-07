@@ -1,10 +1,10 @@
 ﻿
 .ikonka {
-    filter: invert(36%) sepia(94%) saturate(3449%) hue-rotate(207deg) brightness(96%) contrast(106%)
+    filter: invert(84%) sepia(19%) saturate(630%) hue-rotate(111deg) brightness(83%) contrast(88%)
 }
 
 .ikonka:hover {
-    filter: invert(23%) sepia(98%) saturate(1996%) hue-rotate(206deg) brightness(90%) contrast(95%)
+    filter: invert(64%) sepia(23%) saturate(516%) hue-rotate(112deg) brightness(83%) contrast(90%)
 }
 
 td.centeredTds {

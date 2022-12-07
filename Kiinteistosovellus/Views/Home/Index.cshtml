@@ -19,6 +19,13 @@
     </div>
 </div>
 <script>
+
+    $(function () {
+        $('#homeClicked').addClass('active');
+        $('#spendingsClicked').removeClass('active');
+        $('#othersClicked').removeClass('active');
+    });
+
     $(document).ready(async function () {
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;

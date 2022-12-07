@@ -57,6 +57,12 @@
 @section scripts {
     <script type="text/javascript">
 
+        $(function () {
+            $('#homeClicked').removeClass('active');
+            $('#spendingsClicked').addClass('active');
+            $('#othersClicked').removeClass('active');
+        });
+
         /* Create Modal Window */
         $(function () {
             $(".creNewOtherSpending").click(function () {

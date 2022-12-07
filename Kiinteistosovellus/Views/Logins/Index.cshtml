@@ -45,6 +45,12 @@
 <div id="logModalEdit"></div>
 <script type="text/javascript">
 
+    $(function () {
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').removeClass('active');
+        $('#othersClicked').addClass('active');
+    });
+
     $(document).ready(function () {
         $(".getO").click(function () {
             let LogEditId = $(this).data("editlogin");
