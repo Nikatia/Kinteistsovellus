@@ -5,12 +5,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        console.log("menee tähän asti");
-               //CHART
         let labelTextsLine = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
         let dataValuesLine = @ViewBag.Year;
-        console.log(labelTextsLine);
-        console.log(dataValuesLine);
         const ctxLine = document.getElementById('typeChartLine');
 
         new Chart(ctxLine, {
@@ -20,8 +16,8 @@
                 datasets: [{
                     label: ' euroa',
                     data: dataValuesLine,
-                    borderColor: 'rgba(5, 163, 23, 0.8)',
-                    backgroundColor: 'rgba(5, 163, 23, 0.2)',
+                    borderColor: 'rgba(120, 194, 173)',
+                    backgroundColor: 'rgba(120, 194, 173, 0.2)',
                     borderWidth: 2,
                     borderRadius: 5,
                     label: " euro",

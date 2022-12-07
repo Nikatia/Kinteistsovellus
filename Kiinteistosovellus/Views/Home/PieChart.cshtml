@@ -11,7 +11,7 @@
         console.log(labelTexts);
         console.log(dataValues);
         const ctx = document.getElementById('typeChart');
-
+        
         var kaavio = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -20,15 +20,19 @@
                     label: ' euroa',
                     data: dataValues,
                     borderColor: 'white',
-                    backgroundColor: ['rgba(163, 199, 154, 1)',
-                        'rgba(109, 213, 93, 0.8)',
-                        'rgba(104, 168, 94, 0.8)',
-                        'rgba(183, 235, 170, 0.8)',
-                        'rgba(155, 223, 174, 0.8)',
-                        'rgba(154, 199, 171, 0.8)',
-                        'rgba(129, 227, 167, 0.8)',
-                        'rgba(124, 156, 117, 0.8)',
-                        'rgba(202, 247, 201, 0.8)'],
+                    backgroundColor: ['rgba(120, 194, 173, 1)',
+                        'rgba(120, 194, 173, 0.8)',
+                        'rgba(120, 194, 173, 0.6)',
+                        'rgba(120, 194, 173, 0.4)',
+                        'rgba(120, 194, 173, 0.2)',
+                        'rgba(96, 155, 138, 0.8)',
+                        'rgba(96, 155, 138, 0.6)',
+                        'rgba(96, 155, 138, 0.4)',
+                        'rgba(96, 155, 138, 0.2)',
+                        'rgba(84, 135, 120, 0.8)',
+                        'rgba(84, 135, 120, 0.6)',
+                        'rgba(84, 135, 120, 0.4)',
+                        'rgba(84, 135, 120, 0.2)',],
                     fill: true,
                     borderWidth: 1
                 }]
