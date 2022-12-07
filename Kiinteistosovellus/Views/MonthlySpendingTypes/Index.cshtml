@@ -33,26 +33,21 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.TypeName)
             </td>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.Unit)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Logins.UserName)
-                </td>*@
-            <!--<td>
-                @Html.ActionLink("Muokkaa", "Edit", new { id = item.SpendingTypeID }) |-->
-            @*@Html.ActionLink("Details", "Details", new { id=item.SpendingTypeID }) |*@
-            <!--@Html.ActionLink("Poista", "Delete", new { id = item.SpendingTypeID })
-            </td>-->
-            <td>
-                <button class="chartMSTId" data-chartid="@item.SpendingTypeID">Kaavio</button>
+            <td class="centeredTds">
+                <a class="card-link ikonka getMSTOrderId" title="Muokkaa Kulutustyyppi" data-orderid="@item.SpendingTypeID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+                <a class="card-link ikonka getMSTId" title="Poista Kulutustyyppi" data-id="@item.SpendingTypeID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                <a class="card-link ikonka chartMSTId" title="Näytä kaavio" data-chartid="@item.SpendingTypeID" role="button"><img src="/Icons/square-chart.svg" height="30"></a>
+                @if (item.Unit != null)
+                {
+                    <a class="card-link ikonka HERE_PUT_CHARTS_CLASS" title="Näytä kaavio" data-yksikkochartid="@item.SpendingTypeID" role="button"><img src="/Icons/square-chart-yksikko.svg" height="30"></a>
+                }
 
-                <button class="getMSTOrderId" data-orderid="@item.SpendingTypeID">Muokkaa</button>
-
-                <button class="getMSTId" data-id="@item.SpendingTypeID">Poista</button>
             </td>
         </tr>
     }

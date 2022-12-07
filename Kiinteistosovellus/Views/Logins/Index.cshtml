@@ -24,17 +24,16 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.UserPassword)
             </td>
 
-            <td>
-                <button class="getO" data-editlogin="@item.LoginID">Muokkaa</button>
-
-                <button class="getId" data-deletelogin="@item.LoginID">Poista</button>
+            <td class="centeredTds">
+                <a class="card-link ikonka getO" title="Muokkaa Käyttäjä" data-editlogin="@item.LoginID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+                <a class="card-link ikonka getId" title="Poista Käyttäjä" data-deletelogin="@item.LoginID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
             </td>
 
         </tr>

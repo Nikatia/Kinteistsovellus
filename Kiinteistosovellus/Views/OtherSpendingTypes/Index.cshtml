@@ -25,13 +25,13 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.TypeName)
             </td>
-            <td>
-                <a class="card-link chartOthSpendTypeModal" role="button" data-chartid="@item.OtherSpendingTypeId">Kaavio</a> |
-                <a class="card-link editOthSpendTypeModal" role="button" data-editid="@item.OtherSpendingTypeId">Muokkaa</a> |
-                <a class="card-link deleteOthSpendTypeModal" role="button" data-deleteid="@item.OtherSpendingTypeId">Poista</a>
+            <td class="centeredTds">
+                <a class="card-link ikonka editOthSpendTypeModal" title="Muokkaa Kulutustyyppi" data-editid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+                <a class="card-link ikonka deleteOthSpendTypeModal" title="Poista Kulutustyyppi" data-deleteid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                <a class="card-link ikonka chartOthSpendTypeModal" title="Näytä kaavio" data-chartid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-chart.svg" height="30"></a>
             </td>
         </tr>
     }

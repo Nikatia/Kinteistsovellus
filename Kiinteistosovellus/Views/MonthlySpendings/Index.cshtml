@@ -62,44 +62,43 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="centeredTds">
                 @if (item.DateBegin != null)
                 {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
             @*@Html.DisplayFor(modelItem => item.DateBegin)*@
             </td>
-            <td>
+            <td class="centeredTds">
                 @if (item.DateEnd != null)
                 {@Convert.ToDateTime(item.DateEnd).ToString("dd/MM/yyyy")}
             @*@Html.DisplayFor(modelItem => item.DateEnd)*@
             </td>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
             </td>
-            <td>
+            <td class="centeredTds">
 
                 @Html.DisplayFor(modelItem => item.AmountOfUnits)
             </td>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
             </td>
-            <td class="details" style="display:none;font-weight: bold;">
+            <td class="details centeredTds" style="display:none;font-weight: bold;">
                 @Html.DisplayFor(modelItem => item.PricePerUnit)
             </td>
-            <td class="details" style="display: none; font-weight: bold;">
+            <td class="details centeredTds" style="display: none; font-weight: bold;">
                 @Html.DisplayFor(modelItem => item.TransferPayment)
             </td>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.FullPrice)
             </td>
-            <td>
+            <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.Contractors.Name)
             </td>
             
 
-            <td>
-                <button class="getOrderId" data-orderid="@item.MonthlySpendingID">Muokkaa</button>
-
-                <button class="getId" data-id="@item.MonthlySpendingID">Poista</button>
+            <td class="centeredTds">
+                <a class="card-link ikonka getOrderId" title="Muokkaa Kulu" data-orderid="@item.MonthlySpendingID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+                <a class="card-link ikonka getId" title="Poista Kulu" data-id="@item.MonthlySpendingID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
             </td>
         </tr>
     }

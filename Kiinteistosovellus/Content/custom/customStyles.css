@@ -6,3 +6,7 @@
 .ikonka:hover {
     filter: invert(23%) sepia(98%) saturate(1996%) hue-rotate(206deg) brightness(90%) contrast(95%)
 }
+
+td.centeredTds {
+    vertical-align: middle;
+}

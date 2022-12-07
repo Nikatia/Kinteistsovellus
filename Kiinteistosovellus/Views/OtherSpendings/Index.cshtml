@@ -4,6 +4,56 @@
     ViewBag.Title = "Index";
 }
 
+<br />
+<h2>Muut kulut</h2>
+<br />
+<div class="row">
+    <div class="col-6">
+        <div style="height: 338px" id="chartContainer"></div>
+    </div>
+    <div class="col-6">
+        <div id="chartContainerBar"></div>
+    </div>
+</div>
+<br />
+<div style="margin-left:40%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
+<a class="card-link ikonka creNewOtherSpending" title="Uusi Kulutus" role="button"><img src="/Icons/square-add.svg" height="45"></a>
+
+@*Modal Containers*@
+<iframe id="otherSpendingCreate" style="display:none;"></iframe>
+<iframe id="otherSpendingEdit" style="display:none;"></iframe>
+<iframe id="otherSpendingDelete" style="display:none;"></iframe>
+
+
+<table class="table">
+    <tr>
+        <th>Aloituspvm</th>
+        <th>Päättymispvm</th>
+        <th>Kulutustyyppi</th>
+        <th style="width:45%">Kuvaus</th>
+        <th>Hinta</th>
+        <th>Urakoitsija</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+            <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+            <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
+            <td style="word-break:break-word">@Html.DisplayFor(modelItem => item.Description)</td>
+            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+            <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
+            <td>
+                <a class="card-link ikonka getOtherSpendingId" title="Muokkaa Kulu" data-otherspendingid="@item.OtherSpendingsID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+                <a class="card-link ikonka delOtherSpendingId" title="Poista Kulu" data-otherspendingid2="@item.OtherSpendingsID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+            </td>
+        </tr>
+    }
+
+</table>
+
 @section scripts {
     <script type="text/javascript">
 
@@ -120,72 +170,3 @@
 
     </script>
 }
-
-<br />
-<h2>Muut kulut</h2>
-<br />
-<div class="row">
-    <div class="col-6">
-        <div style="height: 338px" id="chartContainer"></div>
-    </div>
-    <div class="col-6">
-        <div id="chartContainerBar"></div>
-    </div>
-</div>
-<br />
-<div style="margin-left:40%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
-<a class="card-link ikonka creNewOtherSpending" title="Uusi Kulutus" role="button"><img src="/Icons/square-add.svg" height="45"></a>
-
-@*Modal Containers*@
-<iframe id="otherSpendingCreate" style="display:none;"></iframe>
-<iframe id="otherSpendingEdit" style="display:none;"></iframe>
-<iframe id="otherSpendingDelete" style="display:none;"></iframe>
-
-
-<table class="table">
-    <tr>
-        @*---NAMES FROM TIETOHAKEMISTO---*@
-        @*<th>Päivämäärä / Alkupäivämäärä</th>
-            <th>Loppupäivämäärä</th>
-            <th>Kulutustyyppi</th>
-            <th>Kuvaus</th>
-            <th>Hinta yhteensä</th>
-            <th>Nimi</th>*@
-
-        @*---IN MY OPINION BETTER VERSION---*@
-        @*<th>Alkupäivämäärä</th>
-            <th>Loppupäivämäärä</th>
-            <th>Kulutustyyppi</th>
-            <th style="width:40%">Kuvaus</th>
-            <th>Hinta</th>
-            <th>Urakoitsija</th>*@
-
-        @*---IN MY OPINION THE BEST VERSION---*@
-        <th>Aloituspvm</th>
-        <th>Päättymispvm</th>
-        <th>Kulutustyyppi</th>
-        <th style="width:45%">Kuvaus</th>
-        <th>Hinta</th>
-        <th>Urakoitsija</th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
-            <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
-            <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
-            <td style="word-break:break-word">@Html.DisplayFor(modelItem => item.Description)</td>
-            <td>@Html.DisplayFor(modelItem => item.Price)</td>
-            <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
-
-            <td>
-                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Muokkaa</a> |
-                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Poista</a>
-            </td>
-        </tr>
-    }
-
-</table>
