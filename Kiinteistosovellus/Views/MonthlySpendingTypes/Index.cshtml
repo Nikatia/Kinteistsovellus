@@ -45,7 +45,11 @@
                 <a class="card-link ikonka chartMSTId" title="Näytä kaavio" data-chartid="@item.SpendingTypeID" role="button"><img src="/Icons/square-chart.svg" height="30"></a>
                 @if (item.Unit != null)
                 {
-                    <a class="card-link ikonka HERE_PUT_CHARTS_CLASS" title="Näytä kaavio" data-yksikkochartid="@item.SpendingTypeID" role="button"><img src="/Icons/square-chart-yksikko.svg" height="30"></a>
+                    <a class="card-link ikonka chartMSCId" title="Näytä yksikön kulutuskaavio" data-chartid2="@item.SpendingTypeID" role="button"><img src="/Icons/square-chart-yksikko.svg" height="30"></a>
+                }
+                else
+                {
+                    <img src="/Icons/square-chart-yksikko.svg" class="noUnits" height="30">
                 }
 
             </td>
@@ -107,6 +111,17 @@
             $.get(url, function (data) {
                 $detailDivChart.replaceWith(data);
                 $("#ModalMonthSpendTypeChart").modal("show");
+            });
+        });
+    });
+    $(document).ready(function () {
+        $(".chartMSCId").click(function () {
+            let MSChartId = $(this).data("chartid2");
+            var url = "/MonthlySpendingTypes/ChartContainerUnits/" + MSChartId;
+            var $detailDivChart = $("#ModalPlaceChart");
+            $.get(url, function (data) {
+                $detailDivChart.replaceWith(data);
+                $("#ModalMonthSpendTypeChartUnits").modal("show");
             });
         });
     });

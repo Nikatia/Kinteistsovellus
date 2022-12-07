@@ -10,3 +10,7 @@
 td.centeredTds {
     vertical-align: middle;
 }
+
+.noUnits {
+    filter: invert(75%) sepia(0%) saturate(0%) hue-rotate(228deg) brightness(88%) contrast(89%)
+}
