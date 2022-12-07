@@ -1,25 +1,23 @@
 ﻿@model IEnumerable<Kiinteistosovellus.Models.MonthlySpendings>
 
-
-
+@{
+    ViewBag.Title = "Kuukausittaiset kulut";
+}
+<br />
 <h2>Kuukausittaiset kulut</h2>
 <br />
-<div style="height: 338px" id="chartContainer"></div>
-@*<div class="row">
+<div class="row">
     <div class="col-6">
         <div style="height: 338px" id="chartContainer"></div>
     </div>
     <div class="col-6">
         <div id="chartContainerBar"></div>
     </div>
-</div>*@
+</div>
 <br />
 <div style="margin-left:40%">@Html.DropDownList("Vuosi", (IEnumerable<SelectListItem>)ViewBag.Vuosi, null, new { @class = "form-control" })</div>
 
-<p>
-    <button type="button" id="CreateMS" style="font-size:22px">Luo uusi</button>
-    <input type="button" value="Näytä lisätiedot" id="DetailButton" class="btn-secondary">
-</p>
+<a class="card-link ikonka" title="Uusi Kuukausittainen kulu" id="CreateMS" role="button"><img src="/Icons/square-add.svg" height="45"></a>&emsp;<a class="card-link ikonka" title="Näytä lisätiedot" id="DetailButton" role="button"><img src="/Icons/square-more-info.svg" id="moreInfo" height="45"></a>
 
 <div id="ModalPlaceEdit"></div> @*//Tähän tulee modaalit*@
 <div id="ModalPlaceDelete"></div>
@@ -158,11 +156,13 @@
 
         $("#DetailButton").click(function () {
             $(".details").toggle();
-            if ($("#DetailButton").val() == "Näytä lisätiedot") {
-                $("#DetailButton").attr('value', "Piilota lisätiedot");
+            if ($("#DetailButton").attr('title') == "Näytä lisätiedot") {
+                $("#DetailButton").attr('title', "Piilota lisätiedot");
+                $("#moreInfo").attr("src", "/Icons/square-no-more-info.svg");
             }
             else {
-                $("#DetailButton").val("Näytä lisätiedot");
+                $("#DetailButton").attr('title', "Näytä lisätiedot");
+                $("#moreInfo").attr("src", "/Icons/square-more-info.svg")
             };
         });
     });

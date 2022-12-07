@@ -1,0 +1,40 @@
+﻿<canvas id="myBarChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
+<script>
+    $(document).ready(function () {
+        var xValues = [@Html.Raw(@ViewBag.Category)];
+        let yValues = [@ViewBag.Price];
+        new Chart("myBarChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: yValues,
+                    borderColor: 'rgba(5, 163, 23, 0.8)',
+                    backgroundColor: 'rgba(5, 163, 23, 0.2)',
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    label: " euro",
+                    fill: false
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Käytetty raha tyyppien mukaan'
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'rectRounded',
+                            pointStyleWidth: 70
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

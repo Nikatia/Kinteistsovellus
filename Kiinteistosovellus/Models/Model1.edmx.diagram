@@ -39,6 +39,7 @@
         <EntityTypeShape EntityType="KiinteistoDBModel.OtherTypeSpendingsByMonth" Width="1.5" PointX="13.625" PointY="0.875" />
         <EntityTypeShape EntityType="KiinteistoDBModel.ForMonthlyCategorySortChart" Width="1.5" PointX="6.25" PointY="2.875" />
         <EntityTypeShape EntityType="KiinteistoDBModel.ForOthersCategorySortChart" Width="1.5" PointX="8.25" PointY="2.875" />
+        <EntityTypeShape EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonthUnitsChart" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

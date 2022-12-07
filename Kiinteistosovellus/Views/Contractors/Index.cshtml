@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Kiinteistosovellus.ViewModels.AllContractorsData>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Urakoitsijat";
 }
 
 @{
@@ -35,21 +35,13 @@
         content: "\f106";
     }
 
-    .ikonka {
-        filter: invert(36%) sepia(94%) saturate(3449%) hue-rotate(207deg) brightness(96%) contrast(106%)
-    }
-
-    .ikonka:hover {
-        filter: invert(23%) sepia(98%) saturate(1996%) hue-rotate(206deg) brightness(90%) contrast(95%)
-    }
-
 </style>
-
+<br />
 <h2>Urakoitsijat</h2>
 
-<p>
-    &emsp;<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add.svg" height="30"></a> &emsp; <a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-medical-solid.svg" height="30"></a>
-</p>
+
+<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>  <a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>
+
 
 @*---Modal Containers---*@
 @*Contractors*@
@@ -94,8 +86,8 @@
                             <div class="col-2 px-3">@item.City</div>
                             <div class="col-2 px-4">@item.Country</div>
                             <div class="col-1 px-0">
-                                <a class="card-link getContractorEdit" style="font-size:25px" data-editid="@item.ContractorID" title="Muokkaa urakoitsija" role="button"><i class="fa-solid fa-users-gear"></i></a>
-                                <a class="card-link getContractorDelete" style="font-size:25px" data-deleteid="@item.ContractorID" title="Poistaa urakoitsija" role="button"><i class="fa-solid fa-users-slash"></i></a>
+                                <a class="card-link getContractorEdit ikonka" style="font-size: 25px;" data-editid="@item.ContractorID" title="Muokkaa urakoitsija" role="button"><img src="/Icons/contractors-edit-square.svg" style="margin-top:auto; margin-bottom:auto" height="40"></a>
+                                <a class="card-link getContractorDelete ikonka" style="font-size:25px" data-deleteid="@item.ContractorID" title="Poistaa urakoitsija" role="button"><img src="/Icons/contractors-delete-square.svg" style="margin-top:auto; margin-bottom:auto" height="40"></a>
                             </div>
                         </div>
                     </div>
@@ -118,7 +110,7 @@
                                         {
                                             <tr>
                                                 <td>@contact.PhoneNumber @contact.Email</td>
-                                                <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-gear-solid.svg" height="18"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-slash-solid.svg" height="18"></a></td>
+                                                <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a></td>
                                             </tr>
                                         }
                                     }
@@ -152,10 +144,8 @@
                                                 <td>@contact.PhoneNumber</td>
                                                 <td>@contact.Email</td>
                                                 <td>
-                                                    <a class="card-link getHooman ikonka" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><img src="/Icons/user-gear-solid.svg" height="18"></a>
-                                                    <a class="card-link getHoman ikonka" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/user-large-slash-solid.svg" height="18"></a> &emsp;
-                                                    <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-gear-solid.svg" height="18"></a>
-                                                    <a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-slash-solid.svg" height="18"></a>
+                                                    <a class="card-link getHooman ikonka" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><img src="/Icons/person-delete-square.svg" height="30"></a>  <a class="card-link getHoman ikonka" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/person-delete2-square.svg" height="30"></a> &emsp;
+                                                    <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a>  <a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a>
                                                 </td>
                                             </tr>
                                         }
