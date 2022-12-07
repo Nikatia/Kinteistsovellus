@@ -26,7 +26,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult ChartContainerUnits(int? id)
         {
             MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
-            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonthUnitsChart.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonthUnitsChart.Where(i => i.Tyyppi == id),"Vuosi", "Vuodet");
             ViewBag.TypeName = spendingTypes.TypeName;
 
             ViewBag.TypeID = id;
