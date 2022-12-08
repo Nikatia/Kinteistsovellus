@@ -4,123 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-@section scripts {
-    <script type="text/javascript">
-
-        /* Create Modal Window */
-        $(function () {
-            $(".creNewOtherSpending").click(function () {
-                var url = "/OtherSpendings/_ModalCreate";
-                var $detailDivCreate = $("#otherSpendingCreate");
-
-                $.get(url, function (data) {
-                    $detailDivCreate.replaceWith(data);
-                    $('#ModalOtherSpendingCreate').modal('show');
-                });
-            });
-        });
-
-        /*Edit Modal Window*/
-        $(function () {
-            $(".getOtherSpendingId").click(function () {
-                let otherSpendingId = $(this).data("otherspendingid");
-                var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
-                var $detailDivEdit = $("#otherSpendingEdit");
-
-                $.get(url, function (data) {
-                    $detailDivEdit.replaceWith(data);
-                    $('#ModalotherSpendingEdit').modal('show');
-                });
-            });
-        });
-
-
-        /*Delete Modal Window*/
-        $(function () {
-            $(".delOtherSpendingId").click(function () {
-                let otherSpendingId2 = $(this).data("otherspendingid2");
-                var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
-                var $detailDivDelete = $("#otherSpendingDelete");
-
-                $.get(url, function (data) {
-                    $detailDivDelete.replaceWith(data);
-                    $('#ModalOtherSpendingDelete').modal('show');
-                });
-            });
-        });
-
-        //On page load showes chart's partials with data for current year
-        $(document).ready(async function () {
-            var thisYear = new Date().getFullYear();
-            document.getElementById("Vuosi").value = thisYear;
-            var url = "/OtherSpendings/Chart/?year=" + thisYear;
-            var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
-            var divForPartial = $("#chartContainer");
-            var divForPartialBar = $("#chartContainerBar");
-
-            await $.ajax({
-                url: url,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'get',
-                type: "get",
-                success: function (result) {
-                    $(divForPartial).html("");
-                    $(divForPartial).html(result);
-                }
-            });
-            await $.ajax({
-                url: urlBar,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'get',
-                type: "get",
-                success: function (result) {
-                    $(divForPartialBar).html("");
-                    $(divForPartialBar).html(result);
-                }
-            });
-        });
-
-        //On year's dropdown change showes chart's partials with data for selected year
-        $('#Vuosi').change(async function () {
-            var thisYear = $(this).val();
-            var url = "/OtherSpendings/Chart/?year=" + thisYear;
-            var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
-            var divForPartial = $("#chartContainer");
-            var divForPartialBar = $("#chartContainerBar");
-
-            await $.ajax({
-                url: url,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'get',
-                type: "get",
-                success: function (result) {
-                    $(divForPartial).html("");
-                    $(divForPartial).html(result);
-                }
-            });
-            await $.ajax({
-                url: urlBar,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'get',
-                type: "get",
-                success: function (result) {
-                    $(divForPartialBar).html("");
-                    $(divForPartialBar).html(result);
-                }
-            });
-        });
-
-    </script>
-}
-
 <br />
 <h2>Muut kulut</h2>
 <br />
@@ -227,70 +110,179 @@
         event.stopPropagation();
         if ($(this).hasClass("active")) {
             $(this).removeClass("active");
-            filterTable("");
         } else {
             $(this).addClass("active");
-            filterTable($(this).html());
-        }       
+        }
+        filterTable("hidingField", "dropdownMenuButton1");
     });
 
-    function filterTable(value) {
-        console.log(value);
 
-        //etsi kaikki rivit taulukosta, jossa filtering-class
-        var rows = $(".filtering"),
-            rowsLength = rows.length;
-        console.log(rowsLength);
+    $(function () {
+        $(".creNewOtherSpending").click(function () {
+            var url = "/OtherSpendings/_ModalCreate";
+            var $detailDivCreate = $("#otherSpendingCreate");
 
-        var activateThis = $(".activate-this");
-        var activeSelect = [];
-        for (var i = 0; i < activateThis.length; i++) {
-            //console.log(activateThis[i].hasClass("active"));
-            if ($(activateThis[i]).hasClass("active")) {
-                activeSelect.push(activateThis[i].innerText);
+            $.get(url, function (data) {
+                $detailDivCreate.replaceWith(data);
+                $('#ModalOtherSpendingCreate').modal('show');
+            });
+        });
+    });
+
+    /*Edit Modal Window*/
+    $(function () {
+        $(".getOtherSpendingId").click(function () {
+            let otherSpendingId = $(this).data("otherspendingid");
+            var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
+            var $detailDivEdit = $("#otherSpendingEdit");
+
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $('#ModalotherSpendingEdit').modal('show');
+            });
+        });
+    });
+
+
+    /*Delete Modal Window*/
+    $(function () {
+        $(".delOtherSpendingId").click(function () {
+            let otherSpendingId2 = $(this).data("otherspendingid2");
+            var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
+            var $detailDivDelete = $("#otherSpendingDelete");
+
+            $.get(url, function (data) {
+                $detailDivDelete.replaceWith(data);
+                $('#ModalOtherSpendingDelete').modal('show');
+            });
+        });
+    });
+
+    //On page load showes chart's partials with data for current year
+    $(document).ready(async function () {
+        var thisYear = new Date().getFullYear();
+        document.getElementById("Vuosi").value = thisYear;
+        var url = "/OtherSpendings/Chart/?year=" + thisYear;
+        var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+        var divForPartialBar = $("#chartContainerBar");
+
+        await $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
             }
-        }
-        console.log(activeSelect);
-
-        var spans = $(".spans");
-        if (activeSelect.length == 0) {
-            $("#hidingField").removeClass("d-none");
-        } else {
-            $("#hidingField").addClass("d-none");
-        }
-
-        for (var i = 0; i < spans.length; i++) {
-            spans[i].remove();
-        }
-        
-        for (var i = 0; i < activeSelect.length; i++) {
-            $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
-        }
-        
-
-        for (var i = 0; i < rowsLength; ++i) {
-
-            if (activeSelect.length == 0) {
-                for (var k = 0; k < rowsLength; k++) {
-                    $(rows[k]).removeClass("d-none");
-                }
-                return;
-            } else {
-                $(rows[i]).addClass("d-none");
-            } 
-
-            var tds = rows[i].getElementsByTagName('td'),
-                tdsLength = tds.length;
-
-            console.log(tds);
-            for (var tdsCounter = 0; tdsCounter < tdsLength; ++tdsCounter) {
-                for (var k = 0; k < activeSelect.length; k++) {
-                    if (tds[tdsCounter].innerText.indexOf(activeSelect[k]) > -1) {
-                        $(rows[i]).removeClass("d-none");
-                    }
-                }
+        });
+        await $.ajax({
+            url: urlBar,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialBar).html("");
+                $(divForPartialBar).html(result);
             }
-        }
+        });
+    });
+
+    //On year's dropdown change showes chart's partials with data for selected year
+    $('#Vuosi').change(async function () {
+        var thisYear = $(this).val();
+        var url = "/OtherSpendings/Chart/?year=" + thisYear;
+        var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+        var divForPartialBar = $("#chartContainerBar");
+
+        await $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
+        });
+        await $.ajax({
+            url: urlBar,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialBar).html("");
+                $(divForPartialBar).html(result);
+            }
+        });
+    });
+    //function filterTable(value) {
+    //    console.log(value);
+
+    //    //etsi kaikki rivit taulukosta, jossa filtering-class
+    //    var rows = $(".filtering"),
+    //        rowsLength = rows.length;
+    //    console.log(rowsLength);
+
+    //    var activateThis = $(".activate-this");
+    //    var activeSelect = [];
+    //    for (var i = 0; i < activateThis.length; i++) {
+    //        //console.log(activateThis[i].hasClass("active"));
+    //        if ($(activateThis[i]).hasClass("active")) {
+    //            activeSelect.push(activateThis[i].innerText);
+    //        }
+    //    }
+    //    console.log(activeSelect);
+
+    //    var spans = $(".spans");
+    //    if (activeSelect.length == 0) {
+    //        $("#hidingField").removeClass("d-none");
+    //    } else {
+    //        $("#hidingField").addClass("d-none");
+    //    }
+
+    //    for (var i = 0; i < spans.length; i++) {
+    //        spans[i].remove();
+    //    }
+        
+    //    for (var i = 0; i < activeSelect.length; i++) {
+    //        $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+    //    }
+        
+
+    //    for (var i = 0; i < rowsLength; ++i) {
+
+    //        if (activeSelect.length == 0) {
+    //            for (var k = 0; k < rowsLength; k++) {
+    //                $(rows[k]).removeClass("d-none");
+    //            }
+    //            return;
+    //        } else {
+    //            $(rows[i]).addClass("d-none");
+    //        } 
+
+    //        var tds = rows[i].getElementsByTagName('td'),
+    //            tdsLength = tds.length;
+
+    //        console.log(tds);
+    //        for (var tdsCounter = 0; tdsCounter < tdsLength; ++tdsCounter) {
+    //            for (var k = 0; k < activeSelect.length; k++) {
+    //                if (tds[tdsCounter].innerText.indexOf(activeSelect[k]) > -1) {
+    //                    $(rows[i]).removeClass("d-none");
+    //                }
+    //            }
+    //        }
+    //    }
 
         //if (value == '') {//Jos valinta deaktivoidaan, kaikista poistetaan class d-none ja lisätään d-block eli tuodaan näkyviin
         //    for (var i = 0; i < rowsLength; ++i) {
@@ -311,5 +303,5 @@
         //        }
         //    }
         //}
-    }
+    //}
 </script>
