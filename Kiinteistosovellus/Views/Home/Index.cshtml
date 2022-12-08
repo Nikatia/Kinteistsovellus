@@ -13,12 +13,13 @@
             </div>
             <div class="col-md-6">
                 <div style="height: 398px" id="chartContainerLine"></div>
-                <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control"})</div>
+                <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
             </div>
         </div>
     </div>
 </div>
 <script>
+
     $(document).ready(async function () {
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;
@@ -63,15 +64,15 @@
         var divForPartial = $("#chartContainer");
 
         $.ajax({
-            url: url, 
+            url: url,
             cache: false,
             contentType: false,
             processData: false,
-            method: 'get', 
+            method: 'get',
             type: "get",
             success: function (result) {
-                $(divForPartial).html(""); 
-                $(divForPartial).html(result); 
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
             }
         });
     });

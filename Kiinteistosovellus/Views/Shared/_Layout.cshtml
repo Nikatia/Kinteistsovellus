@@ -30,35 +30,53 @@
                             Pääsivu
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Kulut
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/monthlyspendings/index">Kuukausittaiset</a></li>
-                            <li><a class="dropdown-item" href="/otherspendings/index">Muut</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Muita toimintoja
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/Plans/Index">Suunnitelmat</a></li>
-                            <li><a class="dropdown-item" href="/Contractors/Index">Urakoitsijat</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/monthlyspendingTypes/index">Kuukausittaiset kulutyypit</a></li>
-                            <li><a class="dropdown-item" href="/OtherSpendingTypes/Index">Muut kulutyypit</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logins/index">Käyttäjät</a></li>
-                        </ul>
-                    </li>
+                    @if (Session["UserName"] != null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Kulut
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/monthlyspendings/index">Kuukausittaiset</a></li>
+                                <li><a class="dropdown-item" href="/otherspendings/index">Muut</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Muita toimintoja
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/Plans/Index">Suunnitelmat</a></li>
+                                <li><a class="dropdown-item" href="/Contractors/Index">Urakoitsijat</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/monthlyspendingTypes/index">Kuukausittaiset kulutyypit</a></li>
+                                <li><a class="dropdown-item" href="/OtherSpendingTypes/Index">Muut kulutyypit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logins/index">Käyttäjät</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    @if (Session["UserName"] != null)
+                    {
+                        <li class="">
+                            <a style="font-size:18px;color:aquamarine" class="nav-link" id="logout" href="/Home/Logout">Logout</a>
+                        </li>
+                    }
+                    @if (Session["UserName"] == null)
+                    {
+                        <li class="">
+                            <a style="font-size:18px;color:aquamarine" class="nav-link  " id="login" href="#">Login</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
+        <div id="LoginModal"></div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Kiinteistösovellus Scrum Tiimi</p>
@@ -72,3 +90,18 @@
 
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $("#login").click(function () {
+            var url = "/Home/LoginModal"
+            var $detailDivEdit = $("#LoginModal");
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $("#myModal").modal("show");
+
+            });
+
+        });
+    });
+</script>

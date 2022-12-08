@@ -101,5 +101,53 @@ namespace Kiinteistosovellus.Controllers
             return years;
         }
 
+        [HttpPost]
+        public ActionResult Authorize(Logins LoginModel)
+        {
+            
+            //Haetaan käyttäjän/Loginin tiedot annetuilla tunnustiedoilla tietokannasta LINQ kyselyllä
+            var LoggedUser = db.Logins.SingleOrDefault(x => x.UserName == LoginModel.UserName && x.UserPassword == LoginModel.UserPassword);
+
+            //if (LoggedUser.Username == "Brad")
+            //{
+            //    ViewBag.LoginMessage = "Successfull login";
+
+            //    ViewBag.LoggedStatus = "Brad";
+            //    Session["UserName"] = LoggedUser.Username;
+
+            //    return RedirectToAction("Index", "home"); //Tässä määri
+            //}
+
+            if (LoggedUser != null)
+            {
+                ViewBag.LoginMessage = "Successfull login";
+
+                ViewBag.LoggedStatus = Session["UserName"];
+                Session["UserName"] = LoggedUser.UserName;
+                ViewBag.LoginError = 0;
+                return RedirectToAction("Index", "home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa ----> Home/Index
+            }
+            else
+            {
+                ViewBag.LoginError = 1;
+                ViewBag.LoginMessage = "Login unsuccessfull";
+                ViewBag.LoggedStatus = "Out";
+                LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana";
+                return View("LoginModal", LoginModel);
+            }
+        }
+
+        public ActionResult LoginModal()
+        {
+           
+            return PartialView("LoginModal");
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            ViewBag.LoggedStatus = "Out";
+            return RedirectToAction("Index", "Home"); //Uloskirjautumisen jälkeen pääsivulle
+        }
     }
 }
