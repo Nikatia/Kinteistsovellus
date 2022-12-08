@@ -53,11 +53,10 @@
                                 @Html.DisplayFor(model => model.LoginErrorMessage)
 
                             </label>
-                            @*<div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Login" class="btn btn-outline-dark" />
-                                    </div>
-                                </div>*@
+                            <div class="form-group">
+                                <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
+                            </div>
+
                         </div>
 
                     }
@@ -67,9 +66,9 @@
 
 
                     <div style="text-align:left">
-                        <input type="submit" value="Login" class="btn btn-primary" form="loginForm" />
+                        @*<input type="submit" value="Login" class="btn btn-primary" form="loginForm" />*@
 
-
+                        <button type="submit" id="submitCreate" class="btn btn-primary">Login</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Back</button>
 
                     </div>
@@ -84,6 +83,44 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $("#submitCreate").click(function () {
+        $("#submitModal").click();
+    });
+
+
+
+
+    var indexUrl = '/Home/Index';
+    $("#submitModal").click(function () {
+
+        var form = this.form;
+        var data = new FormData(form);
+        var detailDivCreate = parent.document.getElementById("myModal");
+
+
+        $.ajax({
+            url: "/Home/Authorize",
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: "POST",
+            data: data,
+            success: function (result) {
+                if (result == "") {
+                    window.location.href = indexUrl;
+                } else {
+                    $(detailDivCreate).html("");
+                    $(detailDivCreate).replaceWith(result);
+                    $("#myModal").modal("show");
+                }
+
+            }
+        });
+    });
+
+</script>
 
 
 
