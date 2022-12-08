@@ -1,10 +1,10 @@
 ﻿
 .ikonka {
-    filter: invert(84%) sepia(19%) saturate(630%) hue-rotate(111deg) brightness(83%) contrast(88%)
+    filter: invert(59%) sepia(23%) saturate(974%) hue-rotate(52deg) brightness(98%) contrast(88%)
 }
 
 .ikonka:hover {
-    filter: invert(64%) sepia(23%) saturate(516%) hue-rotate(112deg) brightness(83%) contrast(90%)
+    filter: invert(56%) sepia(11%) saturate(2012%) hue-rotate(53deg) brightness(88%) contrast(89%)
 }
 
 td.centeredTds {
@@ -12,5 +12,5 @@ td.centeredTds {
 }
 
 .noUnits {
-    filter: invert(75%) sepia(0%) saturate(0%) hue-rotate(228deg) brightness(88%) contrast(89%)
+    filter: invert(86%) sepia(14%) saturate(532%) hue-rotate(53deg) brightness(85%) contrast(86%)
 }

@@ -26,7 +26,7 @@ namespace Kiinteistosovellus
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrapMinty.css",
+                      "~/Content/bootstrapCustomized.css",
                       "~/Content/site.css",
                       "~/Content/custom/customStyles.css"));
         }
