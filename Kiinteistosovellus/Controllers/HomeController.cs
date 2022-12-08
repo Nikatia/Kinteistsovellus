@@ -14,6 +14,11 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
+        public ActionResult IndexNotLogged()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
