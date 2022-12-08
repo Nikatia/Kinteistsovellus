@@ -34,7 +34,9 @@ namespace Kiinteistosovellus.Models
 
         [Required(ErrorMessage = "Salasana vaaditaan")]
         public string UserPassword { get; set; }
-    
+
+        public string LoginErrorMessage { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacts> Contacts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
