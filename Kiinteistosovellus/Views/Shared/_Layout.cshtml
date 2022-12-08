@@ -61,13 +61,13 @@
                     @if (Session["UserName"] != null)
                     {
                         <li class="">
-                            <a style="font-size:18px;color:aquamarine" class="nav-link" id="logout" href="/Home/Logout">Logout</a>
+                            <a style="font-size:18px;color:aquamarine" class="nav-link" id="logout" href="/Home/Logout">Kirjaudu ulos</a>
                         </li>
                     }
                     @if (Session["UserName"] == null)
                     {
                         <li class="">
-                            <a style="font-size:18px;color:aquamarine" class="nav-link  " id="login" href="#">Login</a>
+                            <a style="font-size:18px;color:aquamarine" class="nav-link  " id="login" href="#">Kirjaudu sisään</a>
                         </li>
                     }
                 </ul>
