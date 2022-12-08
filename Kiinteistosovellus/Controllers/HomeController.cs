@@ -16,44 +16,53 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
-            ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
-            ViewBag.Years = GetYears();
+            if(Session["UserName"] != null){
+                ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+                ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+                ViewBag.Years = GetYears();
 
-            return View();
+                return View();
+            }
+            else { return View(); }
         }
 
         public ActionResult PieChart(int? year)
         {
-            string typeList;
-            string priceList;
-            List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
-
-            var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
-
-            foreach (ForCategorySortChartWithYears spending in spendingListData)
+            if (Session["UserName"] != null)
             {
-                if (spending.SpendingYear == year)
+                string typeList;
+                string priceList;
+                List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
+
+                var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
+
+                foreach (ForCategorySortChartWithYears spending in spendingListData)
                 {
-                    ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
-                    OneRow.Category = spending.Category;
-                    OneRow.Price = (int)spending.Price;
-                    spendingList.Add(OneRow);
+                    if (spending.SpendingYear == year)
+                    {
+                        ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
+                        OneRow.Category = spending.Category;
+                        OneRow.Price = (int)spending.Price;
+                        spendingList.Add(OneRow);
+                    }
                 }
+
+                typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
+                priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+
+                ViewBag.Category = typeList;
+                ViewBag.Price = priceList;
+
+                return PartialView();
             }
-
-            typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
-            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
-
-            ViewBag.Category = typeList;
-            ViewBag.Price = priceList;
-
-            return PartialView();
+            else { return View(); }
         }
 
         public ActionResult _LineChart(int? year)
         {
-            int? thisYear = year;
+            if (Session["UserName"] != null)
+            {
+                int? thisYear = year;
 
             var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
                                     where sld.Vuosi == thisYear
@@ -93,12 +102,15 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.Months = JsonConvert.SerializeObject(months);
 
             return PartialView("/Views/Home/_LineChart.cshtml");
+            }
+            else { return View(); }
         }
 
         public List<MonthlyAndOtherSpendingsByMonth> GetYears()
         {
             List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
             return years;
+
         }
 
         [HttpPost]
