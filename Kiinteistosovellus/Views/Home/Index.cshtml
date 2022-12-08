@@ -5,23 +5,26 @@
 
 }
 <div class="jumbotron">
-    <br />
-    <p class="lead">Kirjaudu sisään käyttääksesi Kiinteistösovellus -ohjelmaa.</p>
-    <div>
-        @if (Session["UserName"] != null)
-        {
-            <div class="row">
-                <div class="col-md-6">
-                    <div id="chartContainer"></div>
-                    <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
-                </div>
-                <div class="col-md-6">
-                    <div style="height: 398px" id="chartContainerLine"></div>
-                    <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
-                </div>
-            </div>}
+    @if (Session["UserName"] == null)
+    {
+        <br />
+        <p class="lead">Kirjaudu sisään käyttääksesi Kiinteistösovellus -ohjelmaa.</p>
+    }
+        <div>
+            @if (Session["UserName"] != null)
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="chartContainer"></div>
+                        <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="height: 398px" id="chartContainerLine"></div>
+                        <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
+                    </div>
+                </div>}
+        </div>
     </div>
-</div>
 <script>
 
 
