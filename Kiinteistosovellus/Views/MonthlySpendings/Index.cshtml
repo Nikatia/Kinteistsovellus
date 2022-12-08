@@ -25,7 +25,7 @@
 
 
 <table class="table">
-    <tr>
+    <tr class="card-header bg-primary" style="color:white">
         <th>
             Aloituspvm
 
@@ -61,7 +61,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="card-body">
             <td>
                 @if (item.DateBegin != null)
                 {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
