@@ -306,6 +306,16 @@ warning 6002: The table/view 'KiinteistoDB.dbo.OtherTypeSpendingsByMonth' does n
           <Property Name="Tyyppi" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.SpendingMonths' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SpendingMonths">
+          <Key>
+            <PropertyRef Name="Rivi" />
+          </Key>
+          <Property Name="Rivi" Type="bigint" Nullable="false" />
+          <Property Name="MonthOfSpending" Type="int" />
+          <Property Name="YearOfSpending" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -1038,6 +1048,13 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [OtherTypeSpendingsByMonth].[Tyyppi] AS [Tyyppi]
     FROM [dbo].[OtherTypeSpendingsByMonth] AS [OtherTypeSpendingsByMonth]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="SpendingMonths" EntityType="Self.SpendingMonths" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SpendingMonths].[Rivi] AS [Rivi], 
+    [SpendingMonths].[MonthOfSpending] AS [MonthOfSpending], 
+    [SpendingMonths].[YearOfSpending] AS [YearOfSpending]
+    FROM [dbo].[SpendingMonths] AS [SpendingMonths]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
             <DefiningQuery>SELECT 
     [database_firewall_rules].[id] AS [id], 
@@ -1662,6 +1679,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="ForOthersCategorySortChart" EntityType="KiinteistoDBModel.ForOthersCategorySortChart" />
           <EntitySet Name="MonthlyTypeSpendingsByMonthUnitsChart" EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonthUnitsChart" />
           <EntitySet Name="MonthlySummary" EntityType="KiinteistoDBModel.MonthlySummary" />
+          <EntitySet Name="SpendingMonths" EntityType="KiinteistoDBModel.SpendingMonths" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -1856,6 +1874,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="YearOfSpending" Type="Int32" />
           <Property Name="Kokonaishinta" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SpendingMonths">
+          <Key>
+            <PropertyRef Name="Rivi" />
+          </Key>
+          <Property Name="Rivi" Type="Int64" Nullable="false" />
+          <Property Name="MonthOfSpending" Type="Int32" />
+          <Property Name="YearOfSpending" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2121,6 +2147,15 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
               <MappingFragment StoreEntitySet="MonthlySummary">
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="Kokonaishinta" ColumnName="Kokonaishinta" />
+                <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
+                <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
+                <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpendingMonths">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.SpendingMonths">
+              <MappingFragment StoreEntitySet="SpendingMonths">
                 <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
                 <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
                 <ScalarProperty Name="Rivi" ColumnName="Rivi" />
