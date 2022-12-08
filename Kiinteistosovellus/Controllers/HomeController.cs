@@ -104,19 +104,9 @@ namespace Kiinteistosovellus.Controllers
         [HttpPost]
         public ActionResult Authorize(Logins LoginModel)
         {
-            
+
             //Haetaan käyttäjän/Loginin tiedot annetuilla tunnustiedoilla tietokannasta LINQ kyselyllä
             var LoggedUser = db.Logins.SingleOrDefault(x => x.UserName == LoginModel.UserName && x.UserPassword == LoginModel.UserPassword);
-
-            //if (LoggedUser.Username == "Brad")
-            //{
-            //    ViewBag.LoginMessage = "Successfull login";
-
-            //    ViewBag.LoggedStatus = "Brad";
-            //    Session["UserName"] = LoggedUser.Username;
-
-            //    return RedirectToAction("Index", "home"); //Tässä määri
-            //}
 
             if (LoggedUser != null)
             {
@@ -124,9 +114,8 @@ namespace Kiinteistosovellus.Controllers
 
                 ViewBag.LoggedStatus = Session["UserName"];
                 Session["UserName"] = LoggedUser.UserName;
-                ViewBag.LoginError = 0;
                 return null;
-                // return RedirectToAction("Index", "Home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa ----> Home/Index
+
             }
             else
             {
@@ -134,14 +123,13 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.LoginMessage = "Login unsuccessfull";
                 ViewBag.LoggedStatus = "Out";
                 LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana";
-                
-                return PartialView("LoginModal",LoginModel);
+                return PartialView("LoginModal", LoginModel);
             }
         }
 
         public ActionResult LoginModal()
         {
-           
+
             return PartialView("LoginModal");
         }
 
