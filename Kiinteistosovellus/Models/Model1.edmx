@@ -191,6 +191,19 @@ warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyAndOtherSpendingsByMonth' 
           <Property Name="Joulukuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.MonthlySummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonthlySummary">
+          <Key>
+            <PropertyRef Name="Kokonaishinta" />
+            <PropertyRef Name="TypeName" />
+          </Key>
+          <Property Name="Rivi" Type="bigint" />
+          <Property Name="MonthOfSpending" Type="int" />
+          <Property Name="YearOfSpending" Type="int" />
+          <Property Name="Kokonaishinta" Type="numeric" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyTypeSpendingsByMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MonthlyTypeSpendingsByMonth">
           <Key>
@@ -959,6 +972,15 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [MonthlyAndOtherSpendingsByMonth].[Joulukuu] AS [Joulukuu]
     FROM [dbo].[MonthlyAndOtherSpendingsByMonth] AS [MonthlyAndOtherSpendingsByMonth]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="MonthlySummary" EntityType="Self.MonthlySummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonthlySummary].[Rivi] AS [Rivi], 
+    [MonthlySummary].[MonthOfSpending] AS [MonthOfSpending], 
+    [MonthlySummary].[YearOfSpending] AS [YearOfSpending], 
+    [MonthlySummary].[Kokonaishinta] AS [Kokonaishinta], 
+    [MonthlySummary].[TypeName] AS [TypeName]
+    FROM [dbo].[MonthlySummary] AS [MonthlySummary]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="MonthlyTypeSpendingsByMonth" EntityType="Self.MonthlyTypeSpendingsByMonth" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [MonthlyTypeSpendingsByMonth].[Rivi] AS [Rivi], 
@@ -1639,6 +1661,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="ForMonthlyCategorySortChart" EntityType="KiinteistoDBModel.ForMonthlyCategorySortChart" />
           <EntitySet Name="ForOthersCategorySortChart" EntityType="KiinteistoDBModel.ForOthersCategorySortChart" />
           <EntitySet Name="MonthlyTypeSpendingsByMonthUnitsChart" EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonthUnitsChart" />
+          <EntitySet Name="MonthlySummary" EntityType="KiinteistoDBModel.MonthlySummary" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -1822,6 +1845,17 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Marraskuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
           <Property Name="Joulukuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
           <Property Name="Tyyppi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MonthlySummary">
+          <Key>
+            <PropertyRef Name="Kokonaishinta" />
+            <PropertyRef Name="TypeName" />
+          </Key>
+          <Property Name="Rivi" Type="Int64" />
+          <Property Name="MonthOfSpending" Type="Int32" />
+          <Property Name="YearOfSpending" Type="Int32" />
+          <Property Name="Kokonaishinta" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2078,6 +2112,17 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Helmikuu" ColumnName="Helmikuu" />
                 <ScalarProperty Name="Tammikuu" ColumnName="Tammikuu" />
                 <ScalarProperty Name="Vuosi" ColumnName="Vuosi" />
+                <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthlySummary">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.MonthlySummary">
+              <MappingFragment StoreEntitySet="MonthlySummary">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Kokonaishinta" ColumnName="Kokonaishinta" />
+                <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
+                <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
                 <ScalarProperty Name="Rivi" ColumnName="Rivi" />
               </MappingFragment>
             </EntityTypeMapping>

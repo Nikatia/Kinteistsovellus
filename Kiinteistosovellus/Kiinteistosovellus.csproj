@@ -190,6 +190,9 @@
     <Compile Include="Models\MonthlySpendingTypes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MonthlySummary.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MonthlyTypeSpendingsByMonth.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
