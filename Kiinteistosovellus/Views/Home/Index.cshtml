@@ -19,6 +19,11 @@
     </div>
 </div>
 <script>
+    $(window).on("load", function () {
+        if (@ViewBag.LoginError == 1) {
+            $("#myModal").modal("show");
+        }
+    })
 
     $(document).ready(async function () {
         var thisYear = new Date().getFullYear();

@@ -125,7 +125,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.LoggedStatus = Session["UserName"];
                 Session["UserName"] = LoggedUser.UserName;
                 ViewBag.LoginError = 0;
-                return RedirectToAction("Index", "home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa ----> Home/Index
+                return RedirectToAction("Index", "Home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa ----> Home/Index
             }
             else
             {
@@ -133,7 +133,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.LoginMessage = "Login unsuccessfull";
                 ViewBag.LoggedStatus = "Out";
                 LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana";
-                return View("LoginModal", LoginModel);
+                return View("Index",LoginModel);
             }
         }
 
