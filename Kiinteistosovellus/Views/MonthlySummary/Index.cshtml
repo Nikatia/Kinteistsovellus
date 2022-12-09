@@ -46,8 +46,8 @@
                     </div>
                 </div>
             </div><br />
-            <div id="collapse_@item.Rivi" class="accordion-collapse collapse" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.Rivi" data-bs-parent="#MonthList">
-                <div class="accordion-body">
+            <div id="collapse_@item.Rivi" class="accordion-collapse collapse" aria-labelledby="heading_@item.Rivi" data-bs-parent="#MonthList">
+                <div class="accordion-body" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; ">
                     <ul>
                         @foreach (Kiinteistosovellus.Models.MonthlySummary month in ViewBag.Summary)
                         {
@@ -58,7 +58,7 @@
                         }
                     </ul>
                     <h6 ><b>&emsp;Summa: @item.Summa</b></h6>
-                </div>
+                </div><br />
             </div>
 
         }
