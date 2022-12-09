@@ -17,5 +17,6 @@ namespace Kiinteistosovellus.Models
         public long Rivi { get; set; }
         public Nullable<int> MonthOfSpending { get; set; }
         public Nullable<int> YearOfSpending { get; set; }
+        public Nullable<decimal> Summa { get; set; }
     }
 }

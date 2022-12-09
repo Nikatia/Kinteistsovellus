@@ -314,6 +314,7 @@ warning 6002: The table/view 'KiinteistoDB.dbo.SpendingMonths' does not have a p
           <Property Name="Rivi" Type="bigint" Nullable="false" />
           <Property Name="MonthOfSpending" Type="int" />
           <Property Name="YearOfSpending" Type="int" />
+          <Property Name="Summa" Type="numeric" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1052,7 +1053,8 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <DefiningQuery>SELECT 
     [SpendingMonths].[Rivi] AS [Rivi], 
     [SpendingMonths].[MonthOfSpending] AS [MonthOfSpending], 
-    [SpendingMonths].[YearOfSpending] AS [YearOfSpending]
+    [SpendingMonths].[YearOfSpending] AS [YearOfSpending], 
+    [SpendingMonths].[Summa] AS [Summa]
     FROM [dbo].[SpendingMonths] AS [SpendingMonths]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
@@ -1882,6 +1884,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Rivi" Type="Int64" Nullable="false" />
           <Property Name="MonthOfSpending" Type="Int32" />
           <Property Name="YearOfSpending" Type="Int32" />
+          <Property Name="Summa" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2156,6 +2159,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySetMapping Name="SpendingMonths">
             <EntityTypeMapping TypeName="KiinteistoDBModel.SpendingMonths">
               <MappingFragment StoreEntitySet="SpendingMonths">
+                <ScalarProperty Name="Summa" ColumnName="Summa" />
                 <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
                 <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
                 <ScalarProperty Name="Rivi" ColumnName="Rivi" />

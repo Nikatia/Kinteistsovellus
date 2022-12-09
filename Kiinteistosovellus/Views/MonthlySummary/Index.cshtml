@@ -22,10 +22,7 @@
 <br />
 <h2>Yhteenveto</h2>
 
-<div class="card">
-    @*<div class="card-header bg-primary" style="color:white">
-        <div class="col-12" style="padding-left:27px">Kuukausi, Vuosi</div>
-    </div>*@
+<div class="card"  id="MonthList">
     <div class="card-body">
 
         @foreach (var item in Model)
@@ -49,26 +46,22 @@
                     </div>
                 </div>
             </div><br />
-            <div id="collapse_@item.Rivi" class="accordion-collapse collapse" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.Rivi" data-bs-parent="#ContractorsList">
+            <div id="collapse_@item.Rivi" class="accordion-collapse collapse" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.Rivi" data-bs-parent="#MonthList">
                 <div class="accordion-body">
                     <ul>
                         @foreach (Kiinteistosovellus.Models.MonthlySummary month in ViewBag.Summary)
                         {
                             if (month.YearOfSpending == item.YearOfSpending && month.MonthOfSpending == item.MonthOfSpending)
                             {
-                                <li class="summa" id="@item.YearOfSpending@month.MonthOfSpending">@month.TypeName @month.Kokonaishinta</li>
+                                <li>@month.TypeName @month.Kokonaishinta</li>
                             }
                         }
                     </ul>
-                    <h6 style="text-align:right">Summa: </h6>
+                    <h6 ><b>&emsp;Summa: @item.Summa</b></h6>
                 </div>
             </div>
 
         }
     </div>
 </div>
-
-<script>
-    var summa 
-</script>
 
