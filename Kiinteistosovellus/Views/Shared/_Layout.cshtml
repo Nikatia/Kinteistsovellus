@@ -98,7 +98,9 @@
             $.get(url, function (data) {
                 $detailDivEdit.replaceWith(data);
                 $("#myModal").modal("show");
-
+                $("#UserName").val("Jeps2");
+                $("#UserPassword").val("Jeps2");
+                $("#submitCreate").click();
             });
 
         });
