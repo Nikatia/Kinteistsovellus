@@ -5,7 +5,6 @@
 <br />
 @if (Session["UserName"] == null)
 {
-    <br />
     <h2>
         Tervetuloa Kiinteistösovellukseen!
     </h2>
@@ -17,7 +16,6 @@
 
 @if (Session["UserName"] != null)
 {
-    <br />
     <h2>Pääsivu</h2>
     <p class="lead">
         Tänä vuonna käytit <b>@ViewBag.ThisYearSumma</b> euroa kiinteistöihin liittyviin kuluihin.<br />
