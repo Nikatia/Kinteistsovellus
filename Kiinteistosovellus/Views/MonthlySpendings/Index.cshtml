@@ -49,13 +49,13 @@
             <label class="form-label">
                 Alkupäivämäärä
             </label>
-            <input type="date" class="form-control" />
+            <input type="date" id="beginDate" class="form-control" />
         </div>
         <div class="col-md-4">
             <label class="form-label">
                 Loppupäivämäärä
             </label>
-            <input type="date" class="form-control" />
+            <input type="date" id="endDate" class="form-control" />
         </div>
     </div>
 </div>
@@ -283,7 +283,16 @@
         } else {
             $(this).addClass("active");
         }
-        filterTable("hidingField", "dropdownMenuButton1");
+        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
+    });
+
+    $("#beginDate").change(function () {
+        console.log("toimii");
+        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
+    });
+
+    $("#endDate").change(function () {
+        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
     });
 
 
