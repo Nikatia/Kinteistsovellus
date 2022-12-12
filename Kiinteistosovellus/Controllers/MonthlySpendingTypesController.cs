@@ -173,21 +173,6 @@ namespace Kiinteistosovellus.Controllers
             return PartialView();
         }
 
-        // GET: MonthlySpendingTypes/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
-            if (monthlySpendingTypes == null)
-            {
-                return HttpNotFound();
-            }
-            return View(monthlySpendingTypes);
-        }
-
         // GET: MonthlySpendingTypes/Create
         public ActionResult _CreateModal()
         {

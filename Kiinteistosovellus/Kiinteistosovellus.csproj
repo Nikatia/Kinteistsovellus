@@ -317,12 +317,10 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\MonthlySpendings\Details.cshtml" />
     <Content Include="Views\MonthlySpendings\Index.cshtml" />
     <Content Include="Views\MonthlySpendings\_EditModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_DeleteModal.cshtml" />
     <Content Include="Views\MonthlySpendings\_CreateModal.cshtml" />
-    <Content Include="Views\MonthlySpendings\Edit.cshtml" />
     <Content Include="Views\OtherSpendings\Index.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalCreate.cshtml" />
     <Content Include="Views\OtherSpendings\_ModalEdit.cshtml" />
@@ -331,10 +329,6 @@
     <Content Include="Views\Plans\_DeleteModal.cshtml" />
     <Content Include="Views\Plans\_EditModal.cshtml" />
     <Content Include="Views\Plans\Index.cshtml" />
-    <Content Include="Views\Logins\Create.cshtml" />
-    <Content Include="Views\Logins\Delete.cshtml" />
-    <Content Include="Views\Logins\Details.cshtml" />
-    <Content Include="Views\Logins\Edit.cshtml" />
     <Content Include="Views\Contractors\Index.cshtml" />
     <Content Include="Views\Logins\Index.cshtml" />
     <Content Include="Views\Logins\_CreateModalLogins.cshtml" />

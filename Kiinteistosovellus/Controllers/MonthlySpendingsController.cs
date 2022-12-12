@@ -102,23 +102,6 @@ namespace Kiinteistosovellus.Controllers
             return PartialView();
         }
 
-        // GET: MonthlySpendings/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
-            if (monthlySpendings == null)
-            {
-                return HttpNotFound();
-            }
-            return View(monthlySpendings);
-        }
-
-      
-
         public ActionResult _CreateModal()
         {
             ViewBag.LoginID = "1000";

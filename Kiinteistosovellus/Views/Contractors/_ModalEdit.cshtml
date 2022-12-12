@@ -18,35 +18,35 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    Nimi @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Osoite @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
+                                    Osoite* @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.StreetAdress, new { htmlAttributes = new { @class = "form-control" } })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Postinumero @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                                    Postinumero* @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Postitoimipaikka @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                    Postitoimipaikka* @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Maa @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                    Maa* @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
                                     </div>

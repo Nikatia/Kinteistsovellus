@@ -24,7 +24,7 @@ namespace Kiinteistosovellus.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DateEnd { get; set; }
 
-        [Required(ErrorMessage = "Kvaaditaan!")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public int SpendingTypeID { get; set; }
 
         public Nullable<decimal> AmountOfUnits { get; set; }
