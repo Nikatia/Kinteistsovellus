@@ -103,9 +103,6 @@ namespace Kiinteistosovellus.Controllers
 
             if (Session["UserName"] != null)
             {
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
-
                 return PartialView("/Views/Contractors/_ModalCreate.cshtml");
             }
             else
@@ -119,7 +116,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,LoginID, PostCode, City, Country")] Contractors contractors)
+        public async Task<ActionResult> CreateContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress, PostCode, City, Country")] Contractors contractors)
         {
 
             if (Session["UserName"] != null)
@@ -131,9 +128,6 @@ namespace Kiinteistosovellus.Controllers
                     await db.SaveChangesAsync();
                     return null;
                 }
-
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
                 return PartialView("/Views/Contractors/_ModalCreate.cshtml", contractors);
             }
             else
@@ -181,11 +175,6 @@ namespace Kiinteistosovellus.Controllers
                 IEnumerable<Persons> persons = GetPersons().Where(p => p.PersonID == ViewBag.ContractorID.Value);
                 ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
 
-
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
-                ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
                 ViewBag.Contractors = GetContractors();
                 return PartialView("/Views/Contractors/_ModalCreateContact.cshtml");
             }
@@ -197,7 +186,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult CreateContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email,LoginID")] Contacts contacts)
+        public PartialViewResult CreateContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email")] Contacts contacts)
         {
             if (Session["UserName"] != null)
             {
@@ -209,11 +198,8 @@ namespace Kiinteistosovellus.Controllers
                 }
 
                 ViewBag.Contractors = GetContractors();
-                ViewBag.LoginID = "1001";
                 ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "ContractorsPerson", contacts.PersonID);
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contacts.ContractorID);
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
 
                 return PartialView("/Views/Contractors/_ModalCreateContact.cshtml", contacts);
             }
@@ -228,8 +214,6 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
                 ViewBag.SuccessMsg = "";
                 return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
@@ -242,7 +226,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult CreatePerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,LoginID,Description")] Persons persons)
+        public PartialViewResult CreatePerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,Description")] Persons persons)
         {
             if (Session["UserName"] != null)
             {
@@ -255,9 +239,6 @@ namespace Kiinteistosovellus.Controllers
                     ViewBag.SuccessMsg = "successfully added";
                     return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
                 }
-
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
                 ViewBag.SuccessMsg = "";
                 return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml", persons);
             }
@@ -283,7 +264,6 @@ namespace Kiinteistosovellus.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.LoginID = "1001";
                 return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
             }
             else { return null; }
@@ -291,7 +271,7 @@ namespace Kiinteistosovellus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress,LoginID, PostCode, City, Country")] Contractors contractors)
+        public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress, PostCode, City, Country")] Contractors contractors)
         {
             if (Session["UserName"] != null)
             {
@@ -301,7 +281,6 @@ namespace Kiinteistosovellus.Controllers
                     db.SaveChanges();
                     return null;
                 }
-                ViewBag.LoginID = "1001";
                 return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
             }
             else { return null; }
@@ -321,7 +300,6 @@ namespace Kiinteistosovellus.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.LoginID = "1001";
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", person.ContractorID);
                 return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
             }
@@ -333,7 +311,7 @@ namespace Kiinteistosovellus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult EditPerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,LoginID,Description")] Persons person)
+        public PartialViewResult EditPerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,Description")] Persons person)
         {
             if (Session["UserName"] != null)
             {
@@ -343,7 +321,6 @@ namespace Kiinteistosovellus.Controllers
                     db.SaveChanges();
                     return null;
                 }
-                ViewBag.LoginID = "1001";
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", person.ContractorID);
                 return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
             }
@@ -364,7 +341,6 @@ namespace Kiinteistosovellus.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.LoginID = "1001";
                 ViewBag.PersonID = contact.PersonID;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contact.ContractorID);
                 return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);
@@ -374,7 +350,7 @@ namespace Kiinteistosovellus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult EditContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email,LoginID")] Contacts contact)
+        public PartialViewResult EditContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email")] Contacts contact)
         {
             if (Session["UserName"] != null)
             {
@@ -384,7 +360,6 @@ namespace Kiinteistosovellus.Controllers
                     db.SaveChanges();
                     return null;
                 }
-                ViewBag.LoginID = "1001";
                 ViewBag.PersonID = contact.PersonID;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contact.ContractorID);
                 return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);

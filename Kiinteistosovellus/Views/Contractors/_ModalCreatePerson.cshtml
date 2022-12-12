@@ -41,9 +41,6 @@
         </div>
     </div>
 
-    @*Temporary solution for LoginID until Login system is done*@
-    @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
     <div style="text-align: right; padding-right: 90px; padding-top:10px">
     <a class="btn" style="background-color: rgb(184, 214, 164); color: white" role="button" id="lisaaUusiHenkilo">Lisää henkilö</a> | <a class="card-link closeAddPerson" role="button">Sulje</a>
     </div>

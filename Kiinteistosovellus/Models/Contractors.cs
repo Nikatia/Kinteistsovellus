@@ -33,7 +33,7 @@ namespace Kiinteistosovellus.Models
 
         [Required(ErrorMessage = "vaaditaan!")]
         public string StreetAdress { get; set; }
-        public int LoginID { get; set; }
+
         [Required(ErrorMessage = "vaaditaan!")]
         public string PostCode { get; set; }
         [Required(ErrorMessage = "vaaditaan!")]
@@ -43,7 +43,6 @@ namespace Kiinteistosovellus.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacts> Contacts { get; set; }
-        public virtual Logins Logins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonthlySpendings> MonthlySpendings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

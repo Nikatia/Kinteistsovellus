@@ -12,7 +12,7 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Plans
     {
         public int PlandID { get; set; }
@@ -32,12 +32,8 @@ namespace Kiinteistosovellus.Models
         [Required(ErrorMessage = "vaaditaan!")]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
-
-
-        public int LoginID { get; set; }
         public Nullable<int> MonthOrOtherID { get; set; }
     
-        public virtual Logins Logins { get; set; }
         public virtual KuukausittainenVaiMuu KuukausittainenVaiMuu { get; set; }
     }
 }

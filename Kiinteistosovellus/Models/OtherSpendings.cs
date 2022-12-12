@@ -12,7 +12,7 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class OtherSpendings
     {
         public int OtherSpendingsID { get; set; }
@@ -33,12 +33,8 @@ namespace Kiinteistosovellus.Models
         [Required(ErrorMessage = "vaaditaan!")]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
-
-
-        public int LoginID { get; set; }
     
         public virtual Contractors Contractors { get; set; }
-        public virtual Logins Logins { get; set; }
         public virtual OtherSpendingTypes OtherSpendingTypes { get; set; }
     }
 }

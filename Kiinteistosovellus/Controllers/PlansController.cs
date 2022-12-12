@@ -23,27 +23,8 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                var plans = db.Plans.Include(p => p.Logins);
+                var plans = db.Plans;
                 return View(await plans.ToListAsync());
-            }
-            else { return null; }
-        }
-
-        // GET: Plans/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (Session["UserName"] != null)
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Plans plans = await db.Plans.FindAsync(id);
-                if (plans == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(plans);
             }
             else { return null; }
         }
@@ -53,7 +34,6 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
                 ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName");
                 return PartialView("/Views/Plans/_CreateModal.cshtml");
             }
@@ -65,7 +45,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID,LoginID")] Plans plans)
+        public async Task<ActionResult> Create([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID")] Plans plans)
         {
             if (Session["UserName"] != null)
             {
@@ -76,7 +56,6 @@ namespace Kiinteistosovellus.Controllers
                     return null;
                 }
                 ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
                 return PartialView("/Views/Plans/_CreateModal.cshtml", plans);
             }
             else { return null; }
@@ -98,7 +77,6 @@ namespace Kiinteistosovellus.Controllers
                 }
 
                 ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
                 return PartialView("/Views/Plans/_EditModal.cshtml", plans);
             }
             else { return null; }
@@ -109,7 +87,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID,LoginID")] Plans plans)
+        public async Task<PartialViewResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID")] Plans plans)
         {
             if (Session["UserName"] != null)
             {
@@ -120,7 +98,6 @@ namespace Kiinteistosovellus.Controllers
                     return null;
                 }
                 ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
                 return PartialView("/Views/Plans/_EditModal.cshtml", plans);
             }
             else { return null; }

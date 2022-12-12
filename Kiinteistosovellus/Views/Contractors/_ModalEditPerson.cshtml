@@ -37,14 +37,8 @@
                                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
                         </div>
-
-                        @*Temporary solution for LoginID until Login system is done*@
-                        @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
                     </div>
-
                 }
-
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">

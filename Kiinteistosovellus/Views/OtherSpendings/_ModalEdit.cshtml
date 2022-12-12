@@ -72,10 +72,6 @@
                                     <div class="text-success">Tyyppi lisätty onnistuneesti</div>
                                     <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                 </div>
-
-                                @*Temporary solution for LoginID until Login system is done*@
-                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
                             </div>
 
                             <div class="col-sm-6">
@@ -141,7 +137,7 @@
 
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
     function submitModal() {
-        submitModalPost("OtherSpendings", "_ModalEdit", "editForm", "ModalOtherSpendingEdit");
+        submitModalPost("OtherSpendings", "_ModalEdit", "editForm", "ModalotherSpendingEdit");
     };
 
     $("#Price").keypress(function () {

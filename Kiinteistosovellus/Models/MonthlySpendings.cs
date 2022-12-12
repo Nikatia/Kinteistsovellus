@@ -12,7 +12,7 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class MonthlySpendings
     {
         public int MonthlySpendingID { get; set; }
@@ -40,11 +40,8 @@ namespace Kiinteistosovellus.Models
         public decimal FullPrice { get; set; }
 
         public Nullable<int> ContractorID { get; set; }
-
-        public int LoginID { get; set; }
     
         public virtual Contractors Contractors { get; set; }
-        public virtual Logins Logins { get; set; }
         public virtual MonthlySpendingTypes MonthlySpendingTypes { get; set; }
     }
 }

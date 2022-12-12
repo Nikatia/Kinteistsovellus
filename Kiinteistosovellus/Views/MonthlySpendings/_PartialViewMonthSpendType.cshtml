@@ -22,7 +22,6 @@
             @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger", @id = "realErrorUnit" }) @*Täytyy antaa id*@
         </div>
     </div>
-    @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
 </div>
 }
 

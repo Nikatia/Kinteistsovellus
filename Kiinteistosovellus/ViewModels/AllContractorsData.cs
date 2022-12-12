@@ -15,7 +15,6 @@ namespace Kiinteistosovellus.ViewModels
         public string Country { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        public int LoginID { get; set; }
         public int PersonID { get; set; }
         public int ContactID { get; set; }
         public string FirstName { get; set; }

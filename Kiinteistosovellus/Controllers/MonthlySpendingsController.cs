@@ -25,7 +25,7 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 ViewBag.Error = 0;
-                var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.Logins).Include(m => m.MonthlySpendingTypes);
+                var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.MonthlySpendingTypes);
                 var distinctYearList = db.MonthlyTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
                 ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
                 return View(monthlySpendings.ToList());
@@ -121,7 +121,6 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.LoginID = "1000";
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
                 return PartialView("/Views/MonthlySpendings/_CreateModal.cshtml");
@@ -133,11 +132,10 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
+        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID")] MonthlySpendings monthlySpendings)
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.LoginID = "1000";
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
 
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
@@ -160,8 +158,6 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
                 ViewBag.SuccessMsg = "";
                 return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml");
             }
@@ -173,7 +169,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _ModalCreateMonthSpendingType([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthSpendingType)
+        public PartialViewResult _ModalCreateMonthSpendingType([Bind(Include = "SpendingTypeID,TypeName,Unit")] MonthlySpendingTypes monthSpendingType)
         {
             if (Session["UserName"] != null)
             {
@@ -188,8 +184,6 @@ namespace Kiinteistosovellus.Controllers
                     return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml"); //Tässä pitää palauttaa näkymä!!!
                 }
 
-                //---LATER ON INSTEAD OF HARD CODED ID HERE SHOULD BE CORRECT LOGINID---//
-                ViewBag.LoginID = "1001";
                 return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml", monthSpendingType);
             }
             else
@@ -211,7 +205,6 @@ namespace Kiinteistosovellus.Controllers
                     return HttpNotFound();
                 }
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendings.LoginID);
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
                 return PartialView("_EditModal", monthlySpendings);
             }
@@ -223,7 +216,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _EditModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,LoginID")] MonthlySpendings monthlySpendings)
+        public ActionResult _EditModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID")] MonthlySpendings monthlySpendings)
         {
             if (Session["UserName"] != null)
             {
@@ -232,14 +225,10 @@ namespace Kiinteistosovellus.Controllers
                     db.Entry(monthlySpendings).State = EntityState.Modified;
                     db.SaveChanges();
                     return null;
-                    //  return RedirectToAction("Index");
                 }
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-                ViewBag.LoginID = "1000";
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
                 return PartialView("_EditModal", monthlySpendings);
-                // return RedirectToAction("Index");
-                //return View("Edit",monthlySpendings);
             }
             else
             {

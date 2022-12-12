@@ -13,7 +13,7 @@ namespace Kiinteistosovellus.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Persons
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -35,14 +35,10 @@ namespace Kiinteistosovellus.Models
 
         [Required(ErrorMessage = "vaaditaan!")]
         public int ContractorID { get; set; }
-
-        public int LoginID { get; set; }
-
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacts> Contacts { get; set; }
         public virtual Contractors Contractors { get; set; }
-        public virtual Logins Logins { get; set; }
     }
 }

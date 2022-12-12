@@ -21,7 +21,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                var othSpendtype = db.OtherSpendingTypes.Include(o => o.Logins);
+                var othSpendtype = db.OtherSpendingTypes;
                 return View(await othSpendtype.ToListAsync());
             }
             else { return null; }
@@ -85,7 +85,6 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
                 return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml");
             }
             else { return null; }
@@ -96,7 +95,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes othSpendType)
+        public async Task<ActionResult> Create([Bind(Include = "OtherSpendingTypeId,TypeName")] OtherSpendingTypes othSpendType)
         {
             if (Session["UserName"] != null)
             {
@@ -106,8 +105,6 @@ namespace Kiinteistosovellus.Controllers
                     await db.SaveChangesAsync();
                     return null;
                 }
-
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
                 return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml", othSpendType);
             }
             else { return null; }
@@ -127,8 +124,6 @@ namespace Kiinteistosovellus.Controllers
                 {
                     return HttpNotFound();
                 }
-
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
                 return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
             }
             else { return null; }
@@ -139,7 +134,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> Edit([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes othSpendType)
+        public async Task<PartialViewResult> Edit([Bind(Include = "OtherSpendingTypeId,TypeName")] OtherSpendingTypes othSpendType)
         {
             if (Session["UserName"] != null)
             {
@@ -149,8 +144,6 @@ namespace Kiinteistosovellus.Controllers
                     await db.SaveChangesAsync();
                     return null;
                 }
-
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
                 return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
             }
             else { return null; }

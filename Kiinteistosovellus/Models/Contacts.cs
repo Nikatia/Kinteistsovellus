@@ -12,7 +12,7 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Contacts
     {
         public int ContactID { get; set; }
@@ -26,10 +26,8 @@ namespace Kiinteistosovellus.Models
 
         public string Email { get; set; }
 
-        public int LoginID { get; set; }
     
         public virtual Contractors Contractors { get; set; }
-        public virtual Logins Logins { get; set; }
         public virtual Persons Persons { get; set; }
     }
 }

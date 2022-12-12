@@ -59,9 +59,6 @@
                                         @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "10", @maxlength = "300" })
                                     </div>
                                 </div>
-
-                                @*Temporary solution for LoginID until Login system is done*@
-                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
                             </div>
                         </div>
                     </div>
