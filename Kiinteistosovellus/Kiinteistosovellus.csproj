@@ -375,7 +375,7 @@
     <Content Include="Views\OtherSpendings\BarChart.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\ChartContainerUnits.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\ChartSpending.cshtml" />
-    <Content Include="Views\Home\IndexNotLogged.cshtml" />
+    <Content Include="Views\Home\LoginModal.cshtml" />
     <Content Include="Views\MonthlySummary\Index.cshtml" />
     <Content Include="Views\MonthlySummary\_PieChart.cshtml" />
   </ItemGroup>

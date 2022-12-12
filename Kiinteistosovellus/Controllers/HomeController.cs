@@ -14,60 +14,64 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
-        public ActionResult IndexNotLogged()
-        {
-            return View();
-        }
-
         public ActionResult Index()
         {
-            ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
-            ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
-            ViewBag.Years = GetYears();
-            var thisYear = DateTime.Now.Year;
-            decimal summa = 0;
-            var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
-                                    where sld.Vuosi == thisYear
-                                    select sld;
-            var yearObject = monthOthSpendData.FirstOrDefault();
-            summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu + 
-                    yearObject.Kesäkuu + yearObject.Heinäkuu + yearObject.Elokuu + yearObject.Syyskuu + yearObject.Lokakuu + yearObject.Marraskuu + yearObject.Joulukuu;
-            ViewBag.ThisYearSumma = summa;
+            if(Session["UserName"] != null){
+                ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+                ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
+                ViewBag.Years = GetYears();
+                var thisYear = DateTime.Now.Year;
+                decimal summa = 0;
+                var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
+                                        where sld.Vuosi == thisYear
+                                        select sld;
+                var yearObject = monthOthSpendData.FirstOrDefault();
+                summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu + 
+                        yearObject.Kesäkuu + yearObject.Heinäkuu + yearObject.Elokuu + yearObject.Syyskuu + yearObject.Lokakuu + yearObject.Marraskuu + yearObject.Joulukuu;
+                ViewBag.ThisYearSumma = summa;
 
-            return View();
+                return View();
+            }
+            else { return View(); }
         }
 
         public ActionResult PieChart(int? year)
         {
-            string typeList;
-            string priceList;
-            List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
-
-            var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
-
-            foreach (ForCategorySortChartWithYears spending in spendingListData)
+            if (Session["UserName"] != null)
             {
-                if (spending.SpendingYear == year)
+                string typeList;
+                string priceList;
+                List<ForCategorySortChartWithYearsClass> spendingList = new List<ForCategorySortChartWithYearsClass>();
+
+                var spendingListData = from sld in db.ForCategorySortChartWithYears where sld.SpendingYear == year select sld;
+
+                foreach (ForCategorySortChartWithYears spending in spendingListData)
                 {
-                    ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
-                    OneRow.Category = spending.Category;
-                    OneRow.Price = (int)spending.Price;
-                    spendingList.Add(OneRow);
+                    if (spending.SpendingYear == year)
+                    {
+                        ForCategorySortChartWithYearsClass OneRow = new ForCategorySortChartWithYearsClass();
+                        OneRow.Category = spending.Category;
+                        OneRow.Price = (int)spending.Price;
+                        spendingList.Add(OneRow);
+                    }
                 }
+
+                typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
+                priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
+
+                ViewBag.Category = typeList;
+                ViewBag.Price = priceList;
+
+                return PartialView();
             }
-
-            typeList = "'" + string.Join("','", spendingList.Select(n => n.Category).ToList()) + "'";
-            priceList = string.Join(",", spendingList.Select(n => n.Price).ToList());
-
-            ViewBag.Category = typeList;
-            ViewBag.Price = priceList;
-
-            return PartialView();
+            else { return View(); }
         }
 
         public ActionResult _LineChart(int? year)
         {
-            int? thisYear = year;
+            if (Session["UserName"] != null)
+            {
+                int? thisYear = year;
 
             var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
                                     where sld.Vuosi == thisYear
@@ -107,13 +111,54 @@ namespace Kiinteistosovellus.Controllers
             ViewBag.Months = JsonConvert.SerializeObject(months);
 
             return PartialView("/Views/Home/_LineChart.cshtml");
+            }
+            else { return View(); }
         }
 
         public List<MonthlyAndOtherSpendingsByMonth> GetYears()
         {
             List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
             return years;
+
         }
 
+        [HttpPost]
+        public ActionResult Authorize(Logins LoginModel)
+        {
+
+            //Haetaan käyttäjän/Loginin tiedot annetuilla tunnustiedoilla tietokannasta LINQ kyselyllä
+            var LoggedUser = db.Logins.SingleOrDefault(x => x.UserName == LoginModel.UserName && x.UserPassword == LoginModel.UserPassword);
+
+            if (LoggedUser != null)
+            {
+                ViewBag.LoginMessage = "Successfull login";
+
+                ViewBag.LoggedStatus = Session["UserName"];
+                Session["UserName"] = LoggedUser.UserName;
+                return null;
+
+            }
+            else
+            {
+                ViewBag.LoginError = 1;
+                ViewBag.LoginMessage = "Login unsuccessfull";
+                ViewBag.LoggedStatus = "Out";
+                LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana";
+                return PartialView("LoginModal", LoginModel);
+            }
+        }
+
+        public ActionResult LoginModal()
+        {
+
+            return PartialView("LoginModal");
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            ViewBag.LoggedStatus = "Out";
+            return RedirectToAction("Index", "Home"); //Uloskirjautumisen jälkeen pääsivulle
+        }
     }
 }

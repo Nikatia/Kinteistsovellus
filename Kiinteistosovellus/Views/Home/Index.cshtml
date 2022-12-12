@@ -3,12 +3,26 @@
     ViewBag.Title = "Pääsivu";
 }
 <br />
-<h2>Pääsivu</h2>
-<p class="lead">
-    Tänä vuonna käytit @ViewBag.ThisYearSumma euroa kiinteistöihin liittyviin kuluihin.<br />
-    Alla olevista kaavioista voit tutkia, mihin ja missä kuussa rahasi on käytetty
-</p>
-<div>
+@if (Session["UserName"] == null)
+{
+    <br />
+    <h2>
+        Tervetuloa Kiinteistösovellukseen!
+    </h2>
+    <p class="lead">
+        Ole hyvä ja kirjaudu sisään nähdäksesi sen toiminnot.<br />
+        Rekisteröityminen sovellukseen on mahdollista vain ylläpitäjän kautta.<br />
+    </p>
+}
+
+@if (Session["UserName"] != null)
+{
+    <br />
+    <h2>Pääsivu</h2>
+    <p class="lead">
+        Tänä vuonna käytit <b>@ViewBag.ThisYearSumma</b> euroa kiinteistöihin liittyviin kuluihin.<br />
+        Alla olevista kaavioista voit tutkia, mihin ja missä kuussa rahasi on käytetty
+    </p>
     <div class="row">
         <div class="col-md-6">
             <div id="chartContainer"></div>
@@ -16,18 +30,21 @@
         </div>
         <div class="col-md-6">
             <div style="height: 398px" id="chartContainerLine"></div>
-            <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control"})</div>
+            <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
         </div>
     </div>
-</div>
+}
+
 
 <script>
+
 
     $(function () {
         $('#homeClicked').addClass('active');
         $('#spendingsClicked').removeClass('active');
         $('#othersClicked').removeClass('active');
     });
+
 
     $(document).ready(async function () {
         var thisYear = new Date().getFullYear();
@@ -73,15 +90,15 @@
         var divForPartial = $("#chartContainer");
 
         $.ajax({
-            url: url, 
+            url: url,
             cache: false,
             contentType: false,
             processData: false,
-            method: 'get', 
+            method: 'get',
             type: "get",
             success: function (result) {
-                $(divForPartial).html(""); 
-                $(divForPartial).html(result); 
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
             }
         });
     });
