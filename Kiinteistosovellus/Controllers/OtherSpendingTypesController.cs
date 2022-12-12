@@ -19,60 +19,76 @@ namespace Kiinteistosovellus.Controllers
         // GET: OtherSpendingTypes
         public async Task<ActionResult> Index()
         {
-            var othSpendtype = db.OtherSpendingTypes.Include(o => o.Logins);
-            return View(await othSpendtype.ToListAsync());
+            if (Session["UserName"] != null)
+            {
+                var othSpendtype = db.OtherSpendingTypes.Include(o => o.Logins);
+                return View(await othSpendtype.ToListAsync());
+            }
+            else { return null; }
         }
 
         public ActionResult ChartContainer(int? id)
         {
-            OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
-            ViewBag.Vuosi = new SelectList(db.OtherTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
-            ViewBag.TypeName = spendingTypes.TypeName;
-            ViewBag.TypeID = id;
-            return PartialView();
+            if (Session["UserName"] != null)
+            {
+                OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
+                ViewBag.Vuosi = new SelectList(db.OtherTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+                ViewBag.TypeName = spendingTypes.TypeName;
+                ViewBag.TypeID = id;
+                return PartialView();
+            }
+            else { return null; }
         }
 
         [Route("OtherSpendingTypes/Chart/{id?}/{year?}")]
         public ActionResult Chart(int id, int year)
         {
-            OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
-            if (spendingTypes == null)
+            if (Session["UserName"] != null)
             {
-                return HttpNotFound();
+                OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
+                if (spendingTypes == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var monthSpendData = from sld in db.OtherTypeSpendingsByMonth
+                                     where sld.Vuosi == year && sld.Tyyppi == id
+                                     select sld;
+
+                var yearObject = monthSpendData.FirstOrDefault();
+
+                decimal[] yearValues = new decimal[12];
+                yearValues[0] = yearObject.Tammikuu;
+                yearValues[1] = yearObject.Helmikuu;
+                yearValues[2] = yearObject.Maaliskuu;
+                yearValues[3] = yearObject.Huhtikuu;
+                yearValues[4] = yearObject.Toukokuu;
+                yearValues[5] = yearObject.Kesäkuu;
+                yearValues[6] = yearObject.Heinäkuu;
+                yearValues[7] = yearObject.Elokuu;
+                yearValues[8] = yearObject.Syyskuu;
+                yearValues[9] = yearObject.Lokakuu;
+                yearValues[10] = yearObject.Marraskuu;
+                yearValues[11] = yearObject.Joulukuu;
+
+                ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+
+                ViewBag.ThisYear = year;
+
+                return PartialView();
             }
-
-            var monthSpendData = from sld in db.OtherTypeSpendingsByMonth
-                                 where sld.Vuosi == year && sld.Tyyppi == id
-                                 select sld;
-
-            var yearObject = monthSpendData.FirstOrDefault();
-
-            decimal[] yearValues = new decimal[12];
-            yearValues[0] = yearObject.Tammikuu;
-            yearValues[1] = yearObject.Helmikuu;
-            yearValues[2] = yearObject.Maaliskuu;
-            yearValues[3] = yearObject.Huhtikuu;
-            yearValues[4] = yearObject.Toukokuu;
-            yearValues[5] = yearObject.Kesäkuu;
-            yearValues[6] = yearObject.Heinäkuu;
-            yearValues[7] = yearObject.Elokuu;
-            yearValues[8] = yearObject.Syyskuu;
-            yearValues[9] = yearObject.Lokakuu;
-            yearValues[10] = yearObject.Marraskuu;
-            yearValues[11] = yearObject.Joulukuu;
-
-            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
-
-            ViewBag.ThisYear = year;
-
-            return PartialView();
+            else { return null; }
         }
 
         // GET: OtherSpendingTypes/Create
         public PartialViewResult Create()
         {
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
-            return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml");
+            if (Session["UserName"] != null)
+            {
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
+                return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml");
+            }
+            else { return null; }
         }
 
         // POST: Plans/Create
@@ -82,32 +98,40 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes othSpendType)
         {
-            if (ModelState.IsValid)
+            if (Session["UserName"] != null)
             {
-                db.OtherSpendingTypes.Add(othSpendType);
-                await db.SaveChangesAsync();
-                return null;
+                if (ModelState.IsValid)
+                {
+                    db.OtherSpendingTypes.Add(othSpendType);
+                    await db.SaveChangesAsync();
+                    return null;
+                }
+
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
+                return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml", othSpendType);
             }
-            
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
-            return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml", othSpendType);
+            else { return null; }
         }
 
         // GET: OtherSpendingTypes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+                if (othSpendType == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
+                return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
             }
-            OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
-            if (othSpendType == null)
-            {
-                return HttpNotFound();
-            }
-            
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
-            return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
+            else { return null; }
         }
 
         // POST: Plans/Edit/5
@@ -117,30 +141,38 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> Edit([Bind(Include = "OtherSpendingTypeId,TypeName,LoginID")] OtherSpendingTypes othSpendType)
         {
-            if (ModelState.IsValid)
+            if (Session["UserName"] != null)
             {
-                db.Entry(othSpendType).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return null;
+                if (ModelState.IsValid)
+                {
+                    db.Entry(othSpendType).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return null;
+                }
+
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
+                return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
             }
-            
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", othSpendType.LoginID);
-            return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
+            else { return null; }
         }
 
         // GET: OtherSpendingTypes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+                if (othSpendType == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView("/Views/OtherSpendingTypes/_DeleteModal.cshtml", othSpendType);
             }
-            OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
-            if (othSpendType == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("/Views/OtherSpendingTypes/_DeleteModal.cshtml", othSpendType);
+            else { return null; }
         }
 
         // POST: Plans/Delete/5
@@ -148,10 +180,14 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
-            db.OtherSpendingTypes.Remove(othSpendType);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (Session["UserName"] != null)
+            {
+                OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+                db.OtherSpendingTypes.Remove(othSpendType);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else { return null; }
         }
     }
 }
