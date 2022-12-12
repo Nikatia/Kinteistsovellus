@@ -17,28 +17,40 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins
         public ActionResult Index()
         {
-            return View(db.Logins.ToList());
+            if (Session["UserName"].ToString() == "admin")
+            {
+                return View(db.Logins.ToList());
+            }
+            else { return null; }
         }
 
         // GET: Logins/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (Session["UserName"].ToString() == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Logins logins = db.Logins.Find(id);
+                if (logins == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(logins);
             }
-            Logins logins = db.Logins.Find(id);
-            if (logins == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logins);
+            else { return null; }
         }
 
         // GET: Logins/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["UserName"].ToString() == "admin")
+            {
+                return View();
+            }
+            else { return null; }
         }
 
         // POST: Logins/Create
@@ -48,47 +60,71 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LoginID,UserName,UserPassword")] Logins logins)
         {
-            if (ModelState.IsValid)
+            if (Session["UserName"].ToString() == "admin")
             {
-                db.Logins.Add(logins);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.Logins.Add(logins);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(logins);
+                return View(logins);
+            }
+            else { return null; }
         }
 
         public ActionResult _CreateModalLogins()
         {
-            return PartialView();
+            if (Session["UserName"].ToString() == "admin")
+            {
+                return PartialView();
+            }
+            else { return null; }
         }
         // GET: Logins/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+
+            if (Session["UserName"].ToString() == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Logins logins = db.Logins.Find(id);
+                if (logins == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(logins);
             }
-            Logins logins = db.Logins.Find(id);
-            if (logins == null)
+            else
             {
-                return HttpNotFound();
+                return null;
             }
-            return View(logins);
         }
 
         public ActionResult _EditModalLogins(int? id)
         {
-            if (id == null)
+
+            if (Session["UserName"].ToString() == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Logins logins = db.Logins.Find(id);
+                if (logins == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView(logins);
             }
-            Logins logins = db.Logins.Find(id);
-            if (logins == null)
+            else
             {
-                return HttpNotFound();
+                return null;
             }
-            return PartialView(logins);
         }
 
         // POST: Logins/Edit/5
@@ -98,28 +134,44 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "LoginID,UserName,UserPassword")] Logins logins)
         {
-            if (ModelState.IsValid)
+
+            if (Session["UserName"].ToString() == "admin")
             {
-                db.Entry(logins).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(logins).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(logins);
             }
-            return View(logins);
+            else
+            {
+                return null;
+            }
         }
 
         // GET: Logins/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+
+            if (Session["UserName"].ToString() == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Logins logins = db.Logins.Find(id);
+                if (logins == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(logins);
             }
-            Logins logins = db.Logins.Find(id);
-            if (logins == null)
+            else
             {
-                return HttpNotFound();
+                return null;
             }
-            return View(logins);
         }
 
         // POST: Logins/Delete/5
@@ -127,32 +179,51 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Logins logins = db.Logins.Find(id);
-            db.Logins.Remove(logins);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            if (Session["UserName"].ToString() == "admin")
+            {
+                Logins logins = db.Logins.Find(id);
+                db.Logins.Remove(logins);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else { return null; }
         }
         public ActionResult _DeleteModalLogins(int? id)
         {
-            if (id == null)
+
+            if (Session["UserName"].ToString() == "admin")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Logins logins = db.Logins.Find(id);
+                if (logins == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView(logins);
             }
-            Logins logins = db.Logins.Find(id);
-            if (logins == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView(logins);
+            else { return null; }
         }
+
         [HttpPost, ActionName("_DeleteModalLogins")]
         [ValidateAntiForgeryToken]
         public ActionResult _DeleteModalLoginsConfirmed(int id)
         {
-            Logins logins = db.Logins.Find(id);
-            db.Logins.Remove(logins);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            if (Session["UserName"].ToString() == "admin")
+            {
+                Logins logins = db.Logins.Find(id);
+                db.Logins.Remove(logins);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return null;
+            }   
         }
 
         protected override void Dispose(bool disposing)

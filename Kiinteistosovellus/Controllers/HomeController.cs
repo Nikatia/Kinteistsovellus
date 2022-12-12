@@ -117,9 +117,12 @@ namespace Kiinteistosovellus.Controllers
 
         public List<MonthlyAndOtherSpendingsByMonth> GetYears()
         {
-            List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
-            return years;
-
+            if (Session["UserName"] != null)
+            {
+                List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
+                return years;
+            }
+            else { return null; }
         }
 
         [HttpPost]

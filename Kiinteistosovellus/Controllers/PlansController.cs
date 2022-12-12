@@ -21,31 +21,43 @@ namespace Kiinteistosovellus.Controllers
         // GET: Plans
         public async Task<ActionResult> Index()
         {
-            var plans = db.Plans.Include(p => p.Logins);
-            return View(await plans.ToListAsync());
+            if (Session["UserName"] != null)
+            {
+                var plans = db.Plans.Include(p => p.Logins);
+                return View(await plans.ToListAsync());
+            }
+            else { return null; }
         }
 
         // GET: Plans/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Plans plans = await db.Plans.FindAsync(id);
+                if (plans == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(plans);
             }
-            Plans plans = await db.Plans.FindAsync(id);
-            if (plans == null)
-            {
-                return HttpNotFound();
-            }
-            return View(plans);
+            else { return null; }
         }
 
         // GET: Plans/Create
         public PartialViewResult Create()
         {
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
-            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName");
-            return PartialView("/Views/Plans/_CreateModal.cshtml");
+            if (Session["UserName"] != null)
+            {
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
+                ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName");
+                return PartialView("/Views/Plans/_CreateModal.cshtml");
+            }
+            else { return null; }
         }
 
         // POST: Plans/Create
@@ -55,33 +67,41 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID,LoginID")] Plans plans)
         {
-            if (ModelState.IsValid)
+            if (Session["UserName"] != null)
             {
-                db.Plans.Add(plans);
-                await db.SaveChangesAsync();
-                return null ;
+                if (ModelState.IsValid)
+                {
+                    db.Plans.Add(plans);
+                    await db.SaveChangesAsync();
+                    return null;
+                }
+                ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
+                return PartialView("/Views/Plans/_CreateModal.cshtml", plans);
             }
-            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
-            return PartialView("/Views/Plans/_CreateModal.cshtml", plans);
+            else { return null; }
         }
 
         // GET: Plans/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Plans plans = await db.Plans.FindAsync(id);
-            if (plans == null)
-            {
-                return HttpNotFound();
-            }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Plans plans = await db.Plans.FindAsync(id);
+                if (plans == null)
+                {
+                    return HttpNotFound();
+                }
 
-            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID); 
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
-            return PartialView("/Views/Plans/_EditModal.cshtml", plans);
+                ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
+                return PartialView("/Views/Plans/_EditModal.cshtml", plans);
+            }
+            else { return null; }
         }
 
         // POST: Plans/Edit/5
@@ -91,30 +111,38 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> Edit([Bind(Include = "PlandID,Name,DateBegin,DateEnd,Desciption,Price,MonthOrOtherID,LoginID")] Plans plans)
         {
-            if (ModelState.IsValid)
+            if (Session["UserName"] != null)
             {
-                db.Entry(plans).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return null;
+                if (ModelState.IsValid)
+                {
+                    db.Entry(plans).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return null;
+                }
+                ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
+                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
+                return PartialView("/Views/Plans/_EditModal.cshtml", plans);
             }
-            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
-            ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", plans.LoginID);
-            return PartialView("/Views/Plans/_EditModal.cshtml", plans);
+            else { return null; }
         }
 
         // GET: Plans/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (Session["UserName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Plans plans = await db.Plans.FindAsync(id);
+                if (plans == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView("/Views/Plans/_DeleteModal.cshtml", plans);
             }
-            Plans plans = await db.Plans.FindAsync(id);
-            if (plans == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("/Views/Plans/_DeleteModal.cshtml", plans);
+            else { return null; }
         }
 
         // POST: Plans/Delete/5
@@ -122,10 +150,14 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Plans plans = await db.Plans.FindAsync(id);
-            db.Plans.Remove(plans);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (Session["UserName"] != null)
+            {
+                Plans plans = await db.Plans.FindAsync(id);
+                db.Plans.Remove(plans);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else { return null; }
         }
 
         protected override void Dispose(bool disposing)

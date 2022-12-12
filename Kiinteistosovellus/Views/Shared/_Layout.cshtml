@@ -54,7 +54,9 @@
                                 <li><a class="dropdown-item" href="/monthlyspendingTypes/index">Kuukausittaiset kulutyypit</a></li>
                                 <li><a class="dropdown-item" href="/OtherSpendingTypes/Index">Muut kulutyypit</a></li>
                                 <li><hr class="dropdown-divider"></li>
+                                @if (Session["UserName"].ToString() == "admin"){ 
                                 <li><a class="dropdown-item" href="/logins/index">Käyttäjät</a></li>
+                                }
                             </ul>
                         </li>
                     }
