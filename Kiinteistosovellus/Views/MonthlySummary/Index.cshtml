@@ -21,47 +21,106 @@
 
 <br />
 <h2>Yhteenveto</h2>
-
-<div class="card"  id="MonthList">
-    <div class="card-body">
-
-        @foreach (var item in Model)
-        {
-
-            <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.Rivi">
-                <div class="accordion-header" id="heading_@item.Rivi">
-                    <div class="accordion-button collapsed row openContractor panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.Rivi" data-contractorid="@item.Rivi" aria-expanded="false" aria-controls="heading_@item.Rivi">
-                        @if (@item.MonthOfSpending == 1)      {<h6>&emsp;Tammikuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 2)  {<h6>&emsp;Helmikuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 3)  {<h6>&emsp;Maaliskuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 4)  {<h6>&emsp;Huhtikuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 5)  {<h6>&emsp;Toukokuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 6)  {<h6>&emsp;Kesäkuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 7)  {<h6>&emsp;Heinäkuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 8)  {<h6>&emsp;Elokuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 9)  {<h6>&emsp;Syyskuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 10) {<h6>&emsp;Lokakuu, @item.YearOfSpending</h6>}
-                        else if (@item.MonthOfSpending == 11) {<h6>&emsp;Marraskuu, @item.YearOfSpending</h6>}
-                        else                                  {<h6>&emsp;Joulukuu, @item.YearOfSpending</h6>}
+<div class="row">
+    <div class="col-12" id="monthList">
+        <div class="card"  id="MonthList">
+            <div class="card-body">
+                @foreach (var item in Model)
+                {
+                    <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.Rivi">
+                        <div class="accordion-header" id="heading_@item.Rivi">
+                            <div class="accordion-button collapsed row panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.Rivi" data-monthid="@item.Rivi" aria-expanded="false" aria-controls="heading_@item.Rivi" title="Näytä tiedot">
+                                @if (@item.MonthOfSpending == 1)      {<h6>&emsp;Tammikuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 2)  {<h6>&emsp;Helmikuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 3)  {<h6>&emsp;Maaliskuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 4)  {<h6>&emsp;Huhtikuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 5)  {<h6>&emsp;Toukokuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 6)  {<h6>&emsp;Kesäkuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 7)  {<h6>&emsp;Heinäkuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 8)  {<h6>&emsp;Elokuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 9)  {<h6>&emsp;Syyskuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 10) {<h6>&emsp;Lokakuu, @item.YearOfSpending</h6>}
+                                else if (@item.MonthOfSpending == 11) {<h6>&emsp;Marraskuu, @item.YearOfSpending</h6>}
+                                else                                  {<h6>&emsp;Joulukuu, @item.YearOfSpending</h6>}
+                            </div>
+                        </div>
+                    </div><br />
+                    <div id="collapse_@item.Rivi" class="accordion-collapse collapse" aria-labelledby="heading_@item.Rivi" data-bs-parent="#MonthList">
+                        <div class="accordion-body" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; ">
+                            <ul>
+                                @foreach (Kiinteistosovellus.Models.MonthlySummary month in ViewBag.Summary)
+                                {
+                                    if (month.YearOfSpending == item.YearOfSpending && month.MonthOfSpending == item.MonthOfSpending)
+                                    {
+                                        <li>@month.TypeName @month.Kokonaishinta</li>
+                                    }
+                                }
+                            </ul>
+                            <h6><b>&emsp;Summa: @item.Summa</b></h6>
+                        </div><br />
                     </div>
-                </div>
-            </div><br />
-            <div id="collapse_@item.Rivi" class="accordion-collapse collapse" aria-labelledby="heading_@item.Rivi" data-bs-parent="#MonthList">
-                <div class="accordion-body" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; ">
-                    <ul>
-                        @foreach (Kiinteistosovellus.Models.MonthlySummary month in ViewBag.Summary)
-                        {
-                            if (month.YearOfSpending == item.YearOfSpending && month.MonthOfSpending == item.MonthOfSpending)
-                            {
-                                <li>@month.TypeName @month.Kokonaishinta</li>
-                            }
-                        }
-                    </ul>
-                    <h6 ><b>&emsp;Summa: @item.Summa</b></h6>
-                </div><br />
+                }
             </div>
-
-        }
+        </div>
+    </div>
+    <div class="col-6" id="chart" style="display: none">
+        <div style="position: sticky; top: 0;" id="chartContainer"></div>
     </div>
 </div>
 
+
+<script>
+
+    function allHaveAttribute(elements, attrName, attrValue) {
+        // Do all elements have given attribute?
+        for (var i = 0; i < elements.length; i++) {
+            if (!elements[i].hasAttribute(attrName)) return false;
+        }
+
+        //if given value...
+        if (attrValue) { 
+            for (i = 0; i < elements.length; i++) {
+                if (elements[i].getAttribute(attrName) !== attrValue) //is different than we want
+                    return false;
+            }
+            return true;
+        } else { // if elements have the attribute we have given
+            return true;
+        }
+    }
+
+    //using above function, open or close chart's div
+    $(".accordion-button").click(function () {
+        var els = document.querySelectorAll('div.accordion-button.row.panel-title');
+        console.log(els);
+        if (allHaveAttribute(els, 'aria-expanded', 'false') == true) {
+            $("#monthList").removeClass("col-6");
+            $("#monthList").addClass("col-12");
+            document.getElementById("chart").style.display = "none";
+        } else {
+            $("#monthList").removeClass("col-12");
+            $("#monthList").addClass("col-6");
+            document.getElementById("chart").style.display = "block";
+        }
+    });
+
+    $(document).ready(function () {
+        $(".accordion-button").click(function () {
+            let id = $(this).data("monthid");
+            var url = "/monthlysummary/_PieChart/?id=" + id;
+            var divChart = $("#chartContainer");
+            $.ajax({
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divChart).html("");
+                    $(divChart).html(result);
+                }
+            });
+        });
+    });
+</script>
