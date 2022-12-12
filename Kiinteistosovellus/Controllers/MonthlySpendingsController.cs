@@ -26,6 +26,18 @@ namespace Kiinteistosovellus.Controllers
             var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.Logins).Include(m => m.MonthlySpendingTypes);
             var distinctYearList = db.MonthlyTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
             ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
+
+            var kulutyypit = db.MonthlySpendingTypes.ToArray();
+            string[] monthTypeArray = new string[kulutyypit.Length];
+            for (int i = 0; i < kulutyypit.Length; i++)
+            {
+                if (!monthTypeArray.Contains(kulutyypit[i].TypeName.ToString()))
+                {
+                    monthTypeArray[i] = kulutyypit[i].TypeName.ToString();
+                }
+            }
+            ViewBag.Kulutyypit = monthTypeArray;
+
             return View(monthlySpendings.ToList());
         }
 
