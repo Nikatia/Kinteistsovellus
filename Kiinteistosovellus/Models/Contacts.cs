@@ -17,7 +17,7 @@ namespace Kiinteistosovellus.Models
     {
         public int ContactID { get; set; }
 
-        [Required(ErrorMessage = "Urakoitsija vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public int ContractorID { get; set; }
 
         public Nullable<int> PersonID { get; set; }

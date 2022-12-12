@@ -23,7 +23,7 @@ namespace Kiinteistosovellus.Models
     
         public int SpendingTypeID { get; set; }
 
-        [Required(ErrorMessage = "Nimi vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string TypeName { get; set; }
 
         public string Unit { get; set; }

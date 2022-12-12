@@ -17,10 +17,10 @@ namespace Kiinteistosovellus.Models
     {
         public int PlandID { get; set; }
 
-        [Required(ErrorMessage = "Nimi vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "P‰iv‰m‰‰r‰ vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime DateBegin { get; set; }
 
@@ -29,7 +29,7 @@ namespace Kiinteistosovellus.Models
 
         public string Desciption { get; set; }
 
-        [Required(ErrorMessage = "Hinta vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 

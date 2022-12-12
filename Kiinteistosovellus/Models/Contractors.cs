@@ -26,19 +26,19 @@ namespace Kiinteistosovellus.Models
     
         public int ContractorID { get; set; }
 
-        [Required(ErrorMessage = "Nimi vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Osoite vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string StreetAdress { get; set; }
         public int LoginID { get; set; }
-        [Required(ErrorMessage = "Postinumero vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string PostCode { get; set; }
-        [Required(ErrorMessage = "Kaupunki vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string City { get; set; }
-        [Required(ErrorMessage = "Maa vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string Country { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -4,21 +4,15 @@
     ViewBag.Title = "Delete";
 }
 
-
-
-
-
 <div class="modal fade" id="ModalLoginsDelete">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-               
+                <h3>Poista</h3>
             </div>
             <div class="modal-body">
-
-                <h3>Oletko varma, että haluat poistaa tämän käyttäjän?</h3>
+                <h5>Oletko varma, että haluat poistaa tämän käyttäjän?</h5>
                 <div>
-
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
@@ -27,7 +21,7 @@
                         </dt>
 
                         <dd>
-                           
+
                             @Html.DisplayFor(model => model.UserName)
                         </dd>
 
@@ -41,29 +35,24 @@
                         </dd>
 
                     </dl>
-
+                </div>
+                <div class="modal-footer">
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
 
-                <div class="modal-footer" style="display:inline-block">
+                        <button type="submit" class="btn btn-primary">Poista</button>
+                        @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button> //Ei voi käyttää, koska div id vaihtuu*@
+                        @Html.ActionLink("Takaisin", "Index", "logins")
 
-                    <button type="submit" class="btn btn-primary">Poista</button>
-                    @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button> //Ei voi käyttää, koska div id vaihtuu*@
-                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
-                </div>
-                       
                     }
-
-
+                </div>
 
                     @section Scripts {
                         @Scripts.Render("~/bundles/jqueryval")
                     }
 
-                    <br />
-
-                </div>
+                
             </div>
         </div>
     </div>

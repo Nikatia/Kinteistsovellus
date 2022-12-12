@@ -17,14 +17,14 @@ namespace Kiinteistosovellus.Models
     {
         public int MonthlySpendingID { get; set; }
 
-        [Required(ErrorMessage = "P‰iv‰m‰‰r‰ vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime DateBegin { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DateEnd { get; set; }
 
-        [Required(ErrorMessage = "Kulutyyppi vaaditaan")]
+        [Required(ErrorMessage = "Kvaaditaan!")]
         public int SpendingTypeID { get; set; }
 
         public Nullable<decimal> AmountOfUnits { get; set; }
@@ -35,7 +35,7 @@ namespace Kiinteistosovellus.Models
         [DataType(DataType.Currency)]
         public Nullable<decimal> TransferPayment { get; set; }
 
-        [Required(ErrorMessage = "Hinta vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         [DataType(DataType.Currency)]
         public decimal FullPrice { get; set; }
 

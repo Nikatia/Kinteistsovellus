@@ -29,10 +29,10 @@ namespace Kiinteistosovellus.Models
         }
     
         public int LoginID { get; set; }
-        [Required(ErrorMessage = "Käyttäjänimi vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Salasana vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string UserPassword { get; set; }
 
         public string LoginErrorMessage { get; set; }

@@ -24,16 +24,16 @@ namespace Kiinteistosovellus.Models
     
         public int PersonID { get; set; }
 
-        [Required(ErrorMessage = "vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public string LastName { get; set; }
 
         [NotMapped]
         public string FullName { get { return this.FirstName + " " + this.LastName; } }
 
-        [Required(ErrorMessage = "vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public int ContractorID { get; set; }
 
         public int LoginID { get; set; }
