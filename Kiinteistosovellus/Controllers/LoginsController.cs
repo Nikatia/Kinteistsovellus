@@ -17,7 +17,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins
         public ActionResult Index()
         {
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 return View(db.Logins.ToList());
             }
@@ -27,7 +27,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins/Details/5
         public ActionResult Details(int? id)
         {
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (id == null)
                 {
@@ -46,7 +46,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins/Create
         public ActionResult Create()
         {
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 return View();
             }
@@ -60,7 +60,7 @@ namespace Kiinteistosovellus.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LoginID,UserName,UserPassword")] Logins logins)
         {
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (ModelState.IsValid)
                 {
@@ -76,7 +76,7 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _CreateModalLogins()
         {
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 return PartialView();
             }
@@ -86,7 +86,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Edit(int? id)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (id == null)
                 {
@@ -108,7 +108,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _EditModalLogins(int? id)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (id == null)
                 {
@@ -135,7 +135,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Edit([Bind(Include = "LoginID,UserName,UserPassword")] Logins logins)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (ModelState.IsValid)
                 {
@@ -155,7 +155,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Delete(int? id)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (id == null)
                 {
@@ -180,7 +180,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 Logins logins = db.Logins.Find(id);
                 db.Logins.Remove(logins);
@@ -192,7 +192,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _DeleteModalLogins(int? id)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 if (id == null)
                 {
@@ -212,7 +212,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _DeleteModalLoginsConfirmed(int id)
         {
 
-            if (Session["UserName"] != null)
+            if (Session["UserName"].ToString() == "admin")
             {
                 Logins logins = db.Logins.Find(id);
                 db.Logins.Remove(logins);
