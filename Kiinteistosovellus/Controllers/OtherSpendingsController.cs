@@ -208,27 +208,6 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
-        // GET: OtherSpendings/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (Session["UserName"] != null)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //        }
-        //        OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
-        //        if (otherSpendings == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-        //        ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-
-        //        return PartialView("/Views/OtherSpendings/_ModalEdit", otherSpendings);
-        //    }
-        //    else { return null; }
-        //}
 
         public ActionResult _ModalEdit(int? id)
         {
