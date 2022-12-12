@@ -167,66 +167,66 @@ function validateKeyUp(evt, priceFieldId) {
     }
 };
 
-function filterTable(hidingFieldID, dropdownMenuButtonID) {
+//function filterTable(hidingFieldID, dropdownMenuButtonID) {
 
-    //etsi kaikki rivit taulukosta, jossa filtering-class
-    var rows = $(".filtering"), //filtering class pitää olla kaikissa roweissa indexissä!!!
-        rowsLength = rows.length;
-    console.log(rowsLength);
+//    //etsi kaikki rivit taulukosta, jossa filtering-class
+//    var rows = $(".filtering"), //filtering class pitää olla kaikissa roweissa indexissä!!!
+//        rowsLength = rows.length;
+//    console.log(rowsLength);
 
-    var activateThis = $(".activate-this");
-    var activeSelect = [];
-    for (var i = 0; i < activateThis.length; i++) {
-        if ($(activateThis[i]).hasClass("active")) {
-            activeSelect.push(activateThis[i].innerText);
-        }
-    }
-    //console.log(activeSelect);
+//    var activateThis = $(".activate-this");
+//    var activeSelect = [];
+//    for (var i = 0; i < activateThis.length; i++) {
+//        if ($(activateThis[i]).hasClass("active")) {
+//            activeSelect.push(activateThis[i].innerText);
+//        }
+//    }
+//    //console.log(activeSelect);
 
-    //Haetaan span-elementit eli badget dropdownin sisäll'
-    var spans = $(".spans");
-    //Jos ei löydy mitään, tuodaan placeholder div takaisin, muutoin poistetaan se
-    if (activeSelect.length == 0) {
-        $("#" + hidingFieldID).removeClass("d-none");
-    } else {
-        $("#" + hidingFieldID).addClass("d-none");
-    }
+//    //Haetaan span-elementit eli badget dropdownin sisäll'
+//    var spans = $(".spans");
+//    //Jos ei löydy mitään, tuodaan placeholder div takaisin, muutoin poistetaan se
+//    if (activeSelect.length == 0) {
+//        $("#" + hidingFieldID).removeClass("d-none");
+//    } else {
+//        $("#" + hidingFieldID).addClass("d-none");
+//    }
 
-    //Poistaa kaikki span-elementit
-    for (var i = 0; i < spans.length; i++) {
-        spans[i].remove();
-    }
+//    //Poistaa kaikki span-elementit
+//    for (var i = 0; i < spans.length; i++) {
+//        spans[i].remove();
+//    }
 
-    //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
-    for (var i = 0; i < activeSelect.length; i++) {
-        $("#" + dropdownMenuButtonID).append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
-    }
+//    //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
+//    for (var i = 0; i < activeSelect.length; i++) {
+//        $("#" + dropdownMenuButtonID).append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+//    }
 
-    //Käy kaikki rivit läpi
-    for (var i = 0; i < rowsLength; ++i) {
+//    //Käy kaikki rivit läpi
+//    for (var i = 0; i < rowsLength; ++i) {
 
-        if (activeSelect.length == 0) {
-            for (var k = 0; k < rowsLength; k++) {
-                $(rows[k]).removeClass("d-none");
-            }
-            return;
-        } else {
-            $(rows[i]).addClass("d-none");
-        }
+//        if (activeSelect.length == 0) {
+//            for (var k = 0; k < rowsLength; k++) {
+//                $(rows[k]).removeClass("d-none");
+//            }
+//            return;
+//        } else {
+//            $(rows[i]).addClass("d-none");
+//        }
 
-        var tds = rows[i].getElementsByTagName('td'),
-            tdsLength = tds.length;
+//        var tds = rows[i].getElementsByTagName('td'),
+//            tdsLength = tds.length;
 
-        console.log(tds);
-        for (var tdsCounter = 0; tdsCounter < tdsLength; ++tdsCounter) {
-            for (var k = 0; k < activeSelect.length; k++) {
-                if (tds[tdsCounter].innerText.indexOf(activeSelect[k]) > -1) {
-                    $(rows[i]).removeClass("d-none");
-                }
-            }
-        }
-    }
-}
+//        console.log(tds);
+//        for (var tdsCounter = 0; tdsCounter < tdsLength; ++tdsCounter) {
+//            for (var k = 0; k < activeSelect.length; k++) {
+//                if (tds[tdsCounter].innerText.indexOf(activeSelect[k]) > -1) {
+//                    $(rows[i]).removeClass("d-none");
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 
