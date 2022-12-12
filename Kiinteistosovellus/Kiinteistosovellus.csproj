@@ -350,10 +350,6 @@
     <Content Include="Views\Contractors\_ModalEditContact.cshtml" />
     <Content Include="Views\Contractors\_ModalDeletePerson.cshtml" />
     <Content Include="Views\Contractors\_ModalDeleteContact.cshtml" />
-    <Content Include="Views\MonthlySpendingTypes\Create.cshtml" />
-    <Content Include="Views\MonthlySpendingTypes\Delete.cshtml" />
-    <Content Include="Views\MonthlySpendingTypes\Details.cshtml" />
-    <Content Include="Views\MonthlySpendingTypes\Edit.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\Index.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\_CreateModal.cshtml" />
     <Content Include="Views\MonthlySpendingTypes\_DeleteModal.cshtml" />

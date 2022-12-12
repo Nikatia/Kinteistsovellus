@@ -6,7 +6,7 @@
 
 
 <div class="modal fade" id="ModalLoginsCreate">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="padding-bottom:0px">
                 <h3>Luo uusi käyttäjä</h3>
@@ -20,7 +20,7 @@
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-secondary" })
                         <div class="form-group">
-                            Käyttäjänimi <label id="userlab" class="text-secondary">vaaditaan!</label>
+                            Käyttäjätunnus <label id="userlab" class="text-secondary">vaaditaan!</label>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @oninput = "jepajuuser()", @id = "use", @class = "form-control", @maxlength = "15" } })
                             </div>

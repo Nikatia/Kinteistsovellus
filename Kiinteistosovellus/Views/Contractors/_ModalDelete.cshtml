@@ -34,31 +34,32 @@
                         <div class="col-sm-6">
                             <p class="text-danger">Huom! Tämä toiminto poistaa myös urakoitsijan henkilöt ja heidän yhteystietonsa!</p>
                             <b>Henkilöt:</b>
-                            <ul>@*calling persons list from Controller's ViewBag*@
-                                @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
+                            <ul>
+                                @*calling persons list from Controller's ViewBag*@
+                            @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
+                            {
+                                if (person.ContractorID == ViewBag.ContractorID)
                                 {
-                                    if (person.ContractorID == ViewBag.ContractorID)
-                                    {
-                                        <li>@person.FirstName @person.LastName, @person.Description</li>
-                                    }
+                                    <li>@person.FirstName @person.LastName, @person.Description</li>
                                 }
-                            </ul>
-                        </div>
-
+                            }
+                        </ul>
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="form-actions no-color">
-                            <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
-                            <a href="@Url.Action("Index", "Contractors")">Peruuta</a>
-                        </div>
-                    }
-                </div>
+
             </div>
+        </div>
+        <div class="modal-footer">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-actions no-color">
+                    <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                    <a href="@Url.Action("Index", "Contractors")">Peruuta</a>
+                </div>
+            }
+        </div>
         </div>
     </div>
 </div>

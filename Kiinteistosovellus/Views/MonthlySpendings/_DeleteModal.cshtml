@@ -97,15 +97,17 @@
                         </div>
 
                     </div>
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Poista</button>
-                            @Html.ActionLink("Takaisin", "Index", "Monthlyspendings")
-                        </div>
-                    }
+                    
                 </div>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn btn-primary">Poista</button>
+                    @Html.ActionLink("Takaisin", "Index", "Monthlyspendings")
+                }
             </div>
         </div>
     </div>
