@@ -5,6 +5,11 @@
     }
 <br />
 <h2>Käyttäjät</h2>
+<p class="lead">
+    Tällä sivulla voit luoda ja poistaa käyttäjiä sekä muuttaa käyttäjien tietoja. Kun käyttäjä on luotu, et voi nähdä hänen salasanaansa.<br />
+    Vain Adminillä on pääsy tälle sivulle. Jotta vältetään tilanne, jossa kaikki Adminit poistetaan vahingossa, Adminin poistamista rajoitetaan. <br />
+    Jos haluat poistaa Adminin, muuta hänen roolinsa ensin Käyttäjäksi.
+</p>
 <a class="card-link ikonka" title="Uusi Käyttäjä" id="CreateLoginsButton" role="button"><img src="/Icons/square-add.svg" height="45"></a>
 <br />
 
@@ -31,7 +36,14 @@
 
             <td class="centeredTds">
                 <a class="card-link ikonka getO" title="Muokkaa Käyttäjä" data-editlogin="@item.LoginID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
-                <a class="card-link ikonka getId" title="Poista Käyttäjä" data-deletelogin="@item.LoginID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                @if (item.Roles.Role != "Admin")
+                {
+                    <a class="card-link ikonka getId" title="Poista Käyttäjä" data-deletelogin="@item.LoginID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                }
+                else
+                {
+                    <a class="noUnits" title="Jos varmasti haluat poistaa tämän, vaihda hänen roolinsa Administa Käyttäjäksi"><img src="/Icons/square-delete.svg" height="30"></a>
+                }
             </td>
 
         </tr>

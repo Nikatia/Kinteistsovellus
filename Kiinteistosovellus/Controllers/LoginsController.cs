@@ -17,7 +17,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins
         public ActionResult Index()
         {
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 return View(db.Logins.ToList());
             }
@@ -27,7 +27,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins/Details/5
         public ActionResult Details(int? id)
         {
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 if (id == null)
                 {
@@ -46,7 +46,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins/Create
         public ActionResult Create()
         {
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 return View();
             }
@@ -58,10 +58,11 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LoginID,UserName,UserPassword")] Logins logins)
+        public ActionResult Create([Bind(Include = "LoginID,UserName,UserPassword,RoleID")] Logins logins)
         {
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
+                ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
                 if (ModelState.IsValid)
                 {
                     db.Logins.Add(logins);
@@ -76,7 +77,7 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _CreateModalLogins()
         {
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role");
                 return PartialView();
@@ -87,7 +88,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Edit(int? id)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 if (id == null)
                 {
@@ -109,7 +110,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _EditModalLogins(int? id)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 if (id == null)
                 {
@@ -120,6 +121,7 @@ namespace Kiinteistosovellus.Controllers
                 {
                     return HttpNotFound();
                 }
+                ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
                 return PartialView(logins);
             }
             else
@@ -133,10 +135,10 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LoginID,UserName,UserPassword")] Logins logins)
+        public ActionResult Edit([Bind(Include = "LoginID,UserName,UserPassword,RoleID")] Logins logins)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 if (ModelState.IsValid)
                 {
@@ -144,6 +146,7 @@ namespace Kiinteistosovellus.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
+                ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
                 return View(logins);
             }
             else
@@ -156,7 +159,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult Delete(int? id)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 if (id == null)
                 {
@@ -181,7 +184,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 Logins logins = db.Logins.Find(id);
                 db.Logins.Remove(logins);
@@ -193,7 +196,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _DeleteModalLogins(int? id)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 if (id == null)
                 {
@@ -214,7 +217,7 @@ namespace Kiinteistosovellus.Controllers
         public ActionResult _DeleteModalLoginsConfirmed(int id)
         {
 
-            if (Session["UserName"].ToString() == "admin")
+            if (Session["Role"].ToString() == "Admin")
             {
                 Logins logins = db.Logins.Find(id);
                 db.Logins.Remove(logins);
