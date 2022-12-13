@@ -12,11 +12,9 @@
     <tr>
         <th>
             Käyttäjänimi
-            @*@Html.DisplayNameFor(model => model.UserName)*@
         </th>
         <th>
-            Tunnussana
-            @*@Html.DisplayNameFor(model => model.UserPassword)*@
+            Rooli
         </th>
         <th></th>
     </tr>
@@ -28,7 +26,7 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td class="centeredTds">
-                @Html.DisplayFor(modelItem => item.UserPassword)
+                @Html.DisplayFor(modelItem => item.Roles.Role)
             </td>
 
             <td class="centeredTds">

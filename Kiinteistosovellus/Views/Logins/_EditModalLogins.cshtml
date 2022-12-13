@@ -1,13 +1,8 @@
 ﻿@model Kiinteistosovellus.Models.Logins
 
-
-
-
 @{
     ViewBag.Title = "_EditModalLogins";
 }
-
-
 
 <div class="modal fade" id="ModalLoginsEdit">
     <div class="modal-dialog">
@@ -36,7 +31,16 @@
                         <div style="clear:both" , class="form-group">
                             Salasana* <label id="passlabe" style="color:red">vaaditaan!</label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "passw", @class = "form-control", @maxlength = "15" } })
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "passw", @class = "form-control", @maxlength = "15", @Textmode = "Password" } })
+
+                                @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div style="clear:both" , class="form-group">
+                            Rooli* 
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "passw", @class = "form-control", @maxlength = "15", @Textmode = "Password" } })
 
                                 @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
                             </div>

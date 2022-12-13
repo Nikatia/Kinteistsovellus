@@ -215,6 +215,9 @@
     <Compile Include="Models\Plans.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Roles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SpendingMonths.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

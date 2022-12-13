@@ -78,6 +78,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"].ToString() == "admin")
             {
+                ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role");
                 return PartialView();
             }
             else { return null; }

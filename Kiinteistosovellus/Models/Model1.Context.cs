@@ -46,5 +46,6 @@ namespace Kiinteistosovellus.Models
         public virtual DbSet<MonthlyTypeSpendingsByMonthUnitsChart> MonthlyTypeSpendingsByMonthUnitsChart { get; set; }
         public virtual DbSet<MonthlySummary> MonthlySummary { get; set; }
         public virtual DbSet<SpendingMonths> SpendingMonths { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
     }
 }
