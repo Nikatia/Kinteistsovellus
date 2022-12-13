@@ -14,7 +14,6 @@
           <Property Name="PersonID" Type="int" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="15" />
           <Property Name="Email" Type="nvarchar" MaxLength="200" />
-          <Property Name="LoginID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Contractors">
           <Key>
@@ -24,7 +23,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
           <Property Name="StreetAdress" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="LoginID" Type="int" Nullable="false" />
           <Property Name="PostCode" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -57,7 +55,6 @@
           <Property Name="TransferPayment" Type="numeric" Precision="7" Scale="2" />
           <Property Name="FullPrice" Type="numeric" Precision="7" Scale="2" Nullable="false" />
           <Property Name="ContractorID" Type="int" />
-          <Property Name="LoginID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MonthlySpendingTypes">
           <Key>
@@ -66,7 +63,6 @@
           <Property Name="SpendingTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Unit" Type="nvarchar" MaxLength="15" />
-          <Property Name="LoginID" Type="int" />
         </EntityType>
         <EntityType Name="OtherSpendings">
           <Key>
@@ -79,7 +75,6 @@
           <Property Name="OtherSpendingTypeID" Type="int" Nullable="false" />
           <Property Name="ContractorID" Type="int" />
           <Property Name="Price" Type="numeric" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="LoginID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OtherSpendingTypes">
           <Key>
@@ -87,7 +82,6 @@
           </Key>
           <Property Name="OtherSpendingTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="LoginID" Type="int" />
         </EntityType>
         <EntityType Name="Persons">
           <Key>
@@ -97,7 +91,6 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
           <Property Name="ContractorID" Type="int" Nullable="false" />
-          <Property Name="LoginID" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Plans">
@@ -111,7 +104,6 @@
           <Property Name="Desciption" Type="nvarchar" MaxLength="1000" />
           <Property Name="Price" Type="numeric" Precision="7" Scale="2" Nullable="false" />
           <Property Name="MonthOrOtherID" Type="int" />
-          <Property Name="LoginID" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChartWithYears' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -189,6 +181,19 @@ warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyAndOtherSpendingsByMonth' 
           <Property Name="Lokakuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
           <Property Name="Marraskuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
           <Property Name="Joulukuu" Type="numeric" Precision="38" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.MonthlySummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonthlySummary">
+          <Key>
+            <PropertyRef Name="Kokonaishinta" />
+            <PropertyRef Name="TypeName" />
+          </Key>
+          <Property Name="Rivi" Type="bigint" />
+          <Property Name="MonthOfSpending" Type="int" />
+          <Property Name="YearOfSpending" Type="int" />
+          <Property Name="Kokonaishinta" Type="numeric" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.MonthlyTypeSpendingsByMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -293,6 +298,17 @@ warning 6002: The table/view 'KiinteistoDB.dbo.OtherTypeSpendingsByMonth' does n
           <Property Name="Tyyppi" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'KiinteistoDB.dbo.SpendingMonths' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SpendingMonths">
+          <Key>
+            <PropertyRef Name="Rivi" />
+          </Key>
+          <Property Name="Rivi" Type="bigint" Nullable="false" />
+          <Property Name="MonthOfSpending" Type="int" />
+          <Property Name="YearOfSpending" Type="int" />
+          <Property Name="Summa" Type="numeric" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="database_firewall_rules">
           <Key>
@@ -319,54 +335,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Contacts">
               <PropertyRef Name="ContractorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contacts__LoginI__3B40CD36">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contacts">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contacts__LoginI__55F4C372">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contacts">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contacts__LoginI__70A8B9AE">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contacts">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contacts__LoginI__70DDC3D8">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contacts">
-              <PropertyRef Name="LoginID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -418,18 +386,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contracto__Login__0D7A0286">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contractors" Type="Self.Contractors" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contractors">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__MonthlySp__Contr__6D0D32F4">
           <End Role="Contractors" Type="Self.Contractors" Multiplicity="0..1" />
           <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
@@ -439,102 +395,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="MonthlySpendings">
               <PropertyRef Name="ContractorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__3D2915A8">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__3F115E1A">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="MonthlySpendingTypes" Type="Self.MonthlySpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__57DD0BE4">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__59C55456">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="MonthlySpendingTypes" Type="Self.MonthlySpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__72910220">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__72C60C4A">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__74794A92">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="MonthlySpendingTypes" Type="Self.MonthlySpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__75A278F5">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="MonthlySpendingTypes" Type="Self.MonthlySpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendingTypes">
-              <PropertyRef Name="LoginID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -598,102 +458,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OtherSpen__Login__40058253">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="OtherSpendings" Type="Self.OtherSpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__41EDCAC5">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="OtherSpendingTypes" Type="Self.OtherSpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__5AB9788F">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="OtherSpendings" Type="Self.OtherSpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__5CA1C101">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="OtherSpendingTypes" Type="Self.OtherSpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__73BA3083">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="OtherSpendings" Type="Self.OtherSpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__74AE54BC">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="OtherSpendingTypes" Type="Self.OtherSpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__756D6ECB">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="OtherSpendings" Type="Self.OtherSpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__7755B73D">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="OtherSpendingTypes" Type="Self.OtherSpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__OtherSpen__Other__40F9A68C">
           <End Role="OtherSpendingTypes" Type="Self.OtherSpendingTypes" Multiplicity="1" />
           <End Role="OtherSpendings" Type="Self.OtherSpendings" Multiplicity="*" />
@@ -751,102 +515,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Persons">
               <PropertyRef Name="ContractorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Persons__LoginID__42E1EEFE">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Persons" Type="Self.Persons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Persons">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Persons__LoginID__5D95E53A">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Persons" Type="Self.Persons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Persons">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Persons__LoginID__76969D2E">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Persons" Type="Self.Persons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Persons">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Persons__LoginID__7849DB76">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Persons" Type="Self.Persons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Persons">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Plans__LoginID__43D61337">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Plans">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Plans__LoginID__5E8A0973">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Plans">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Plans__LoginID__778AC167">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Plans">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Plans__LoginID__793DFFAF">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Plans">
-              <PropertyRef Name="LoginID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -959,6 +627,15 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [MonthlyAndOtherSpendingsByMonth].[Joulukuu] AS [Joulukuu]
     FROM [dbo].[MonthlyAndOtherSpendingsByMonth] AS [MonthlyAndOtherSpendingsByMonth]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="MonthlySummary" EntityType="Self.MonthlySummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonthlySummary].[Rivi] AS [Rivi], 
+    [MonthlySummary].[MonthOfSpending] AS [MonthOfSpending], 
+    [MonthlySummary].[YearOfSpending] AS [YearOfSpending], 
+    [MonthlySummary].[Kokonaishinta] AS [Kokonaishinta], 
+    [MonthlySummary].[TypeName] AS [TypeName]
+    FROM [dbo].[MonthlySummary] AS [MonthlySummary]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="MonthlyTypeSpendingsByMonth" EntityType="Self.MonthlyTypeSpendingsByMonth" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [MonthlyTypeSpendingsByMonth].[Rivi] AS [Rivi], 
@@ -1016,6 +693,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
     [OtherTypeSpendingsByMonth].[Tyyppi] AS [Tyyppi]
     FROM [dbo].[OtherTypeSpendingsByMonth] AS [OtherTypeSpendingsByMonth]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="SpendingMonths" EntityType="Self.SpendingMonths" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SpendingMonths].[Rivi] AS [Rivi], 
+    [SpendingMonths].[MonthOfSpending] AS [MonthOfSpending], 
+    [SpendingMonths].[YearOfSpending] AS [YearOfSpending], 
+    [SpendingMonths].[Summa] AS [Summa]
+    FROM [dbo].[SpendingMonths] AS [SpendingMonths]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
             <DefiningQuery>SELECT 
     [database_firewall_rules].[id] AS [id], 
@@ -1028,22 +713,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           </EntitySet>
           <AssociationSet Name="FK__Contacts__Contra__6C190EBB" Association="Self.FK__Contacts__Contra__6C190EBB">
             <End Role="Contractors" EntitySet="Contractors" />
-            <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contacts__LoginI__3B40CD36" Association="Self.FK__Contacts__LoginI__3B40CD36">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contacts__LoginI__55F4C372" Association="Self.FK__Contacts__LoginI__55F4C372">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contacts__LoginI__70A8B9AE" Association="Self.FK__Contacts__LoginI__70A8B9AE">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contacts__LoginI__70DDC3D8" Association="Self.FK__Contacts__LoginI__70DDC3D8">
-            <End Role="Logins" EntitySet="Logins" />
             <End Role="Contacts" EntitySet="Contacts" />
           </AssociationSet>
           <AssociationSet Name="FK__Contacts__Person__3C34F16F" Association="Self.FK__Contacts__Person__3C34F16F">
@@ -1062,45 +731,9 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Persons" EntitySet="Persons" />
             <End Role="Contacts" EntitySet="Contacts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contracto__Login__0D7A0286" Association="Self.FK__Contracto__Login__0D7A0286">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contractors" EntitySet="Contractors" />
-          </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__3D2915A8" Association="Self.FK__MonthlySp__Login__3D2915A8">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__3F115E1A" Association="Self.FK__MonthlySp__Login__3F115E1A">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__57DD0BE4" Association="Self.FK__MonthlySp__Login__57DD0BE4">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__59C55456" Association="Self.FK__MonthlySp__Login__59C55456">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__72910220" Association="Self.FK__MonthlySp__Login__72910220">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__72C60C4A" Association="Self.FK__MonthlySp__Login__72C60C4A">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__74794A92" Association="Self.FK__MonthlySp__Login__74794A92">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__75A278F5" Association="Self.FK__MonthlySp__Login__75A278F5">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
           </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Spend__3E1D39E1" Association="Self.FK__MonthlySp__Spend__3E1D39E1">
             <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
@@ -1122,38 +755,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="OtherSpendings" EntitySet="OtherSpendings" />
           </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__40058253" Association="Self.FK__OtherSpen__Login__40058253">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendings" EntitySet="OtherSpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__41EDCAC5" Association="Self.FK__OtherSpen__Login__41EDCAC5">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__5AB9788F" Association="Self.FK__OtherSpen__Login__5AB9788F">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendings" EntitySet="OtherSpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__5CA1C101" Association="Self.FK__OtherSpen__Login__5CA1C101">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__73BA3083" Association="Self.FK__OtherSpen__Login__73BA3083">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendings" EntitySet="OtherSpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__74AE54BC" Association="Self.FK__OtherSpen__Login__74AE54BC">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__756D6ECB" Association="Self.FK__OtherSpen__Login__756D6ECB">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendings" EntitySet="OtherSpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__7755B73D" Association="Self.FK__OtherSpen__Login__7755B73D">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
-          </AssociationSet>
           <AssociationSet Name="FK__OtherSpen__Other__40F9A68C" Association="Self.FK__OtherSpen__Other__40F9A68C">
             <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
             <End Role="OtherSpendings" EntitySet="OtherSpendings" />
@@ -1173,38 +774,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <AssociationSet Name="FK__Persons__Contrac__6EF57B66" Association="Self.FK__Persons__Contrac__6EF57B66">
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Persons__LoginID__42E1EEFE" Association="Self.FK__Persons__LoginID__42E1EEFE">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Persons__LoginID__5D95E53A" Association="Self.FK__Persons__LoginID__5D95E53A">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Persons__LoginID__76969D2E" Association="Self.FK__Persons__LoginID__76969D2E">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Persons__LoginID__7849DB76" Association="Self.FK__Persons__LoginID__7849DB76">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Plans__LoginID__43D61337" Association="Self.FK__Plans__LoginID__43D61337">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Plans" EntitySet="Plans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Plans__LoginID__5E8A0973" Association="Self.FK__Plans__LoginID__5E8A0973">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Plans" EntitySet="Plans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Plans__LoginID__778AC167" Association="Self.FK__Plans__LoginID__778AC167">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Plans" EntitySet="Plans" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Plans__LoginID__793DFFAF" Association="Self.FK__Plans__LoginID__793DFFAF">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Plans" EntitySet="Plans" />
           </AssociationSet>
           <AssociationSet Name="FK__Plans__MonthOrOt__1332DBDC" Association="Self.FK__Plans__MonthOrOt__1332DBDC">
             <End Role="KuukausittainenVaiMuu" EntitySet="KuukausittainenVaiMuu" />
@@ -1236,9 +805,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="PersonID" Type="Int32" />
           <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contractors" Relationship="Self.FK__Contacts__Contra__6C190EBB" FromRole="Contacts" ToRole="Contractors" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__Contacts__LoginI__70DDC3D8" FromRole="Contacts" ToRole="Logins" />
           <NavigationProperty Name="Persons" Relationship="Self.FK__Contacts__Person__6FE99F9F" FromRole="Contacts" ToRole="Persons" />
         </EntityType>
         <EntityType Name="Contractors">
@@ -1249,9 +816,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="StreetAdress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contacts" Relationship="Self.FK__Contacts__Contra__6C190EBB" FromRole="Contractors" ToRole="Contacts" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__Contracto__Login__0D7A0286" FromRole="Contractors" ToRole="Logins" />
           <NavigationProperty Name="MonthlySpendings" Relationship="Self.FK__MonthlySp__Contr__6D0D32F4" FromRole="Contractors" ToRole="MonthlySpendings" />
           <NavigationProperty Name="OtherSpendings" Relationship="Self.FK__OtherSpen__Contr__6E01572D" FromRole="Contractors" ToRole="OtherSpendings" />
           <NavigationProperty Name="Persons" Relationship="Self.FK__Persons__Contrac__6EF57B66" FromRole="Contractors" ToRole="Persons" />
@@ -1266,14 +831,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="LoginID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Contacts" Relationship="Self.FK__Contacts__LoginI__70DDC3D8" FromRole="Logins" ToRole="Contacts" />
-          <NavigationProperty Name="Contractors" Relationship="Self.FK__Contracto__Login__0D7A0286" FromRole="Logins" ToRole="Contractors" />
-          <NavigationProperty Name="MonthlySpendings" Relationship="Self.FK__MonthlySp__Login__72C60C4A" FromRole="Logins" ToRole="MonthlySpendings" />
-          <NavigationProperty Name="MonthlySpendingTypes" Relationship="Self.FK__MonthlySp__Login__75A278F5" FromRole="Logins" ToRole="MonthlySpendingTypes" />
-          <NavigationProperty Name="OtherSpendings" Relationship="Self.FK__OtherSpen__Login__73BA3083" FromRole="Logins" ToRole="OtherSpendings" />
-          <NavigationProperty Name="OtherSpendingTypes" Relationship="Self.FK__OtherSpen__Login__74AE54BC" FromRole="Logins" ToRole="OtherSpendingTypes" />
-          <NavigationProperty Name="Persons" Relationship="Self.FK__Persons__LoginID__76969D2E" FromRole="Logins" ToRole="Persons" />
-          <NavigationProperty Name="Plans" Relationship="Self.FK__Plans__LoginID__778AC167" FromRole="Logins" ToRole="Plans" />
         </EntityType>
         <EntityType Name="MonthlySpendings">
           <Key>
@@ -1288,9 +845,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="TransferPayment" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="FullPrice" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="ContractorID" Type="Int32" />
-          <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contractors" Relationship="Self.FK__MonthlySp__Contr__6D0D32F4" FromRole="MonthlySpendings" ToRole="Contractors" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__MonthlySp__Login__72C60C4A" FromRole="MonthlySpendings" ToRole="Logins" />
           <NavigationProperty Name="MonthlySpendingTypes" Relationship="Self.FK__MonthlySp__Spend__787EE5A0" FromRole="MonthlySpendings" ToRole="MonthlySpendingTypes" />
         </EntityType>
         <EntityType Name="MonthlySpendingTypes">
@@ -1300,8 +855,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="SpendingTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Unit" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="LoginID" Type="Int32" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__MonthlySp__Login__75A278F5" FromRole="MonthlySpendingTypes" ToRole="Logins" />
           <NavigationProperty Name="MonthlySpendings" Relationship="Self.FK__MonthlySp__Spend__787EE5A0" FromRole="MonthlySpendingTypes" ToRole="MonthlySpendings" />
         </EntityType>
         <EntityType Name="OtherSpendings">
@@ -1315,9 +868,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="OtherSpendingTypeID" Type="Int32" Nullable="false" />
           <Property Name="ContractorID" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="LoginID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Contractors" Relationship="Self.FK__OtherSpen__Contr__6E01572D" FromRole="OtherSpendings" ToRole="Contractors" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__OtherSpen__Login__73BA3083" FromRole="OtherSpendings" ToRole="Logins" />
           <NavigationProperty Name="OtherSpendingTypes" Relationship="Self.FK__OtherSpen__Other__797309D9" FromRole="OtherSpendings" ToRole="OtherSpendingTypes" />
         </EntityType>
         <EntityType Name="OtherSpendingTypes">
@@ -1326,8 +877,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           </Key>
           <Property Name="OtherSpendingTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LoginID" Type="Int32" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__OtherSpen__Login__74AE54BC" FromRole="OtherSpendingTypes" ToRole="Logins" />
           <NavigationProperty Name="OtherSpendings" Relationship="Self.FK__OtherSpen__Other__797309D9" FromRole="OtherSpendingTypes" ToRole="OtherSpendings" />
         </EntityType>
         <EntityType Name="Persons">
@@ -1338,11 +887,9 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContractorID" Type="Int32" Nullable="false" />
-          <Property Name="LoginID" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Contacts" Relationship="Self.FK__Contacts__Person__6FE99F9F" FromRole="Persons" ToRole="Contacts" />
           <NavigationProperty Name="Contractors" Relationship="Self.FK__Persons__Contrac__6EF57B66" FromRole="Persons" ToRole="Contractors" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__Persons__LoginID__76969D2E" FromRole="Persons" ToRole="Logins" />
         </EntityType>
         <EntityType Name="Plans">
           <Key>
@@ -1354,8 +901,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="DateEnd" Type="DateTime" Precision="0" />
           <Property Name="Desciption" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
-          <Property Name="LoginID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Logins" Relationship="Self.FK__Plans__LoginID__778AC167" FromRole="Plans" ToRole="Logins" />
           <Property Name="MonthOrOtherID" Type="Int32" />
           <NavigationProperty Name="KuukausittainenVaiMuu" Relationship="KiinteistoDBModel.FK__Plans__MonthOrOt__1332DBDC" FromRole="Plans" ToRole="KuukausittainenVaiMuu" />
         </EntityType>
@@ -1387,18 +932,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contacts__LoginI__70DDC3D8">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contacts">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Contacts__Person__6FE99F9F">
           <End Role="Persons" Type="Self.Persons" Multiplicity="0..1" />
           <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
@@ -1408,18 +941,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Contacts">
               <PropertyRef Name="PersonID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Contracto__Login__0D7A0286">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Contractors" Type="Self.Contractors" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Contractors">
-              <PropertyRef Name="LoginID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1456,78 +977,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Principal>
             <Dependent Role="Persons">
               <PropertyRef Name="ContractorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__72C60C4A">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__MonthlySp__Login__75A278F5">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="MonthlySpendingTypes" Type="Self.MonthlySpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="MonthlySpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__73BA3083">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="OtherSpendings" Type="Self.OtherSpendings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendings">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OtherSpen__Login__74AE54BC">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="0..1" />
-          <End Role="OtherSpendingTypes" Type="Self.OtherSpendingTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="OtherSpendingTypes">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Persons__LoginID__76969D2E">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Persons" Type="Self.Persons" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Persons">
-              <PropertyRef Name="LoginID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Plans__LoginID__778AC167">
-          <End Role="Logins" Type="Self.Logins" Multiplicity="1" />
-          <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Logins">
-              <PropertyRef Name="LoginID" />
-            </Principal>
-            <Dependent Role="Plans">
-              <PropertyRef Name="LoginID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1570,17 +1019,9 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="Contacts" EntitySet="Contacts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contacts__LoginI__70DDC3D8" Association="Self.FK__Contacts__LoginI__70DDC3D8">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
           <AssociationSet Name="FK__Contacts__Person__6FE99F9F" Association="Self.FK__Contacts__Person__6FE99F9F">
             <End Role="Persons" EntitySet="Persons" />
             <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Contracto__Login__0D7A0286" Association="Self.FK__Contracto__Login__0D7A0286">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Contractors" EntitySet="Contractors" />
           </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
             <End Role="Contractors" EntitySet="Contractors" />
@@ -1593,30 +1034,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <AssociationSet Name="FK__Persons__Contrac__6EF57B66" Association="Self.FK__Persons__Contrac__6EF57B66">
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__72C60C4A" Association="Self.FK__MonthlySp__Login__72C60C4A">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__MonthlySp__Login__75A278F5" Association="Self.FK__MonthlySp__Login__75A278F5">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__73BA3083" Association="Self.FK__OtherSpen__Login__73BA3083">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendings" EntitySet="OtherSpendings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OtherSpen__Login__74AE54BC" Association="Self.FK__OtherSpen__Login__74AE54BC">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="OtherSpendingTypes" EntitySet="OtherSpendingTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Persons__LoginID__76969D2E" Association="Self.FK__Persons__LoginID__76969D2E">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Persons" EntitySet="Persons" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Plans__LoginID__778AC167" Association="Self.FK__Plans__LoginID__778AC167">
-            <End Role="Logins" EntitySet="Logins" />
-            <End Role="Plans" EntitySet="Plans" />
           </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Spend__787EE5A0" Association="Self.FK__MonthlySp__Spend__787EE5A0">
             <End Role="MonthlySpendingTypes" EntitySet="MonthlySpendingTypes" />
@@ -1639,6 +1056,8 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="ForMonthlyCategorySortChart" EntityType="KiinteistoDBModel.ForMonthlyCategorySortChart" />
           <EntitySet Name="ForOthersCategorySortChart" EntityType="KiinteistoDBModel.ForOthersCategorySortChart" />
           <EntitySet Name="MonthlyTypeSpendingsByMonthUnitsChart" EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonthUnitsChart" />
+          <EntitySet Name="MonthlySummary" EntityType="KiinteistoDBModel.MonthlySummary" />
+          <EntitySet Name="SpendingMonths" EntityType="KiinteistoDBModel.SpendingMonths" />
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -1823,6 +1242,26 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="Joulukuu" Type="Decimal" Nullable="false" Precision="38" Scale="2" />
           <Property Name="Tyyppi" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="MonthlySummary">
+          <Key>
+            <PropertyRef Name="Kokonaishinta" />
+            <PropertyRef Name="TypeName" />
+          </Key>
+          <Property Name="Rivi" Type="Int64" />
+          <Property Name="MonthOfSpending" Type="Int32" />
+          <Property Name="YearOfSpending" Type="Int32" />
+          <Property Name="Kokonaishinta" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SpendingMonths">
+          <Key>
+            <PropertyRef Name="Rivi" />
+          </Key>
+          <Property Name="Rivi" Type="Int64" Nullable="false" />
+          <Property Name="MonthOfSpending" Type="Int32" />
+          <Property Name="YearOfSpending" Type="Int32" />
+          <Property Name="Summa" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1837,7 +1276,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1851,7 +1289,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StreetAdress" ColumnName="StreetAdress" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1876,7 +1313,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="TransferPayment" ColumnName="TransferPayment" />
                 <ScalarProperty Name="FullPrice" ColumnName="FullPrice" />
                 <ScalarProperty Name="ContractorID" ColumnName="ContractorID" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1886,7 +1322,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="SpendingTypeID" ColumnName="SpendingTypeID" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1900,7 +1335,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="OtherSpendingTypeID" ColumnName="OtherSpendingTypeID" />
                 <ScalarProperty Name="ContractorID" ColumnName="ContractorID" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1909,7 +1343,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
               <MappingFragment StoreEntitySet="OtherSpendingTypes">
                 <ScalarProperty Name="OtherSpendingTypeId" ColumnName="OtherSpendingTypeId" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1920,7 +1353,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="ContractorID" ColumnName="ContractorID" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1935,7 +1367,6 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
                 <ScalarProperty Name="Desciption" ColumnName="Desciption" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2078,6 +1509,27 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="Helmikuu" ColumnName="Helmikuu" />
                 <ScalarProperty Name="Tammikuu" ColumnName="Tammikuu" />
                 <ScalarProperty Name="Vuosi" ColumnName="Vuosi" />
+                <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthlySummary">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.MonthlySummary">
+              <MappingFragment StoreEntitySet="MonthlySummary">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Kokonaishinta" ColumnName="Kokonaishinta" />
+                <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
+                <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
+                <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpendingMonths">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.SpendingMonths">
+              <MappingFragment StoreEntitySet="SpendingMonths">
+                <ScalarProperty Name="Summa" ColumnName="Summa" />
+                <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
+                <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
                 <ScalarProperty Name="Rivi" ColumnName="Rivi" />
               </MappingFragment>
             </EntityTypeMapping>

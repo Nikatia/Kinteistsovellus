@@ -21,7 +21,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                var monthlySpendingTypes = db.MonthlySpendingTypes.Include(m => m.Logins);
+                var monthlySpendingTypes = db.MonthlySpendingTypes;
                 return View(monthlySpendingTypes.ToList());
             }
             else { return null; }
@@ -193,31 +193,11 @@ namespace Kiinteistosovellus.Controllers
             else { return null; }
         }
 
-        // GET: MonthlySpendingTypes/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (Session["UserName"] != null)
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
-                if (monthlySpendingTypes == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(monthlySpendingTypes);
-            }
-            else { return null; }
-        }
-
         // GET: MonthlySpendingTypes/Create
         public ActionResult _CreateModal()
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName");
                 return PartialView("_CreateModal");
             }
             else
@@ -231,7 +211,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _CreateModal([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthlySpendingTypes)
+        public ActionResult _CreateModal([Bind(Include = "SpendingTypeID,TypeName,Unit")] MonthlySpendingTypes monthlySpendingTypes)
         {
             if (Session["UserName"] != null)
             {
@@ -242,8 +222,6 @@ namespace Kiinteistosovellus.Controllers
                     return null;
                     //return RedirectToAction("Index");
                 }
-
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendingTypes.LoginID);
                 return PartialView("_CreateModal", monthlySpendingTypes);
             }
             else { return null; }
@@ -263,7 +241,6 @@ namespace Kiinteistosovellus.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendingTypes.LoginID);
                 return PartialView("_EditModal", monthlySpendingTypes);
             }
             else { return null; }
@@ -274,7 +251,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _EditModal([Bind(Include = "SpendingTypeID,TypeName,Unit,LoginID")] MonthlySpendingTypes monthlySpendingTypes)
+        public ActionResult _EditModal([Bind(Include = "SpendingTypeID,TypeName,Unit")] MonthlySpendingTypes monthlySpendingTypes)
         {
             if (Session["UserName"] != null)
             {
@@ -285,7 +262,6 @@ namespace Kiinteistosovellus.Controllers
                     return null;
                     //return RedirectToAction("Index");
                 }
-                ViewBag.LoginID = new SelectList(db.Logins, "LoginID", "UserName", monthlySpendingTypes.LoginID);
                 return PartialView("_EditModal", monthlySpendingTypes);
             }
             else { return null; }

@@ -19,56 +19,44 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    @Html.Label("Nimi*", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.Label("Aloituspäivämäärä*", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
-                                        @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.Label("Päätymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Päätymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
-                                        @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    @Html.Label("Kokonaishinta*", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.Label("Kuukausittainen vai muu", htmlAttributes: new { @class = "control-label col-md-8" })
+                                    Kuukausittainen vai muu @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
-                                        @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("LoginID", null, htmlAttributes: new { @class = "form-control", @Hidden = "true" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    @Html.Label("Kuvaus", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Kuvaus @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.TextAreaFor(model => model.Desciption, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
-                                        @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 

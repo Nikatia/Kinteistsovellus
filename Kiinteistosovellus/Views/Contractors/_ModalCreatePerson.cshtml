@@ -13,21 +13,21 @@
     <b id="yhteystiedot">Uusi henkilö<br /></b>
 
     <div class="form-group">
-        Etunimi  @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger"})
+        Etunimi*  @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger"})
         <div class="col-md-10">
             @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
 
     <div class="form-group">
-        Sukunimi  @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger"})
+        Sukunimi*  @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger"})
         <div class="col-md-10">
             @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
 
     <div class="form-group">
-        Urakoitsija  @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+        Urakoitsija*  @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
         <div class="col-md-10">
             @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control", @id = "ContractorsDropdown" })
         </div>
@@ -41,11 +41,8 @@
         </div>
     </div>
 
-    @*Temporary solution for LoginID until Login system is done*@
-    @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
     <div style="text-align: right; padding-right: 90px; padding-top:10px">
-    <a class="btn" style="background-color: rgb(117, 167, 240); color:white" role="button" id="lisaaUusiHenkilo">Lisää henkilö</a> | <a class="card-link closeAddPerson" role="button">Sulje henkilön lisäys</a>
+    <a class="btn" style="background-color: rgb(184, 214, 164); color: white" role="button" id="lisaaUusiHenkilo">Lisää henkilö</a> | <a class="card-link closeAddPerson" role="button">Sulje</a>
     </div>
 }
 

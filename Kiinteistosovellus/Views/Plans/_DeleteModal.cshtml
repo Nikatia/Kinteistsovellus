@@ -8,58 +8,64 @@
             </div>
 
             <div class="modal-body">
-                <h3>Haluatko varmasti poistaa tämän</h3>
-                
-                    <dl class="dl-horizontal">
-                        <dt>
-                            Nimi
-                        </dt>
+                <h5>Haluatko varmasti poistaa tämän</h5>
+                <hr />
+                <div class="row">
+                    <div class="col-6">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Nimi
+                            </dt>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.Name)
-                        </dd>
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
 
-                        <dt>
-                            Aloituspäivämäärä
-                        </dt>
+                            <dt>
+                                Aloituspäivämäärä
+                            </dt>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.DateBegin)
-                        </dd>
+                            <dd>
+                                @Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")
+                            </dd>
 
-                        <dt>
-                            Päättymispäivämäärä
-                        </dt>
+                            <dt>
+                                Päättymispäivämäärä
+                            </dt>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.DateEnd)
-                        </dd>
+                            <dd>
+                                @Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-6">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Kuvaus
+                            </dt>
 
-                        <dt>
-                            Kuvaus
-                        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Desciption)
+                            </dd>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.Desciption)
-                        </dd>
+                            <dt>
+                                Hinta
+                            </dt>
 
-                        <dt>
-                            Hinta
-                        </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Price)
+                            </dd>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.Price)
-                        </dd>
+                            <dt>
+                                Kuukausittainen vai muu
+                            </dt>
 
-                        <dt>
-                            Kuukausittainen vai muu
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.KuukausittainenVaiMuu.MonthOrOtherName)
-                        </dd>
-
-                    </dl>
+                            <dd>
+                                @Html.DisplayFor(model => model.KuukausittainenVaiMuu.MonthOrOtherName)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 @using (Html.BeginForm())

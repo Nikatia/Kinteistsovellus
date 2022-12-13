@@ -1,12 +1,13 @@
 ﻿@model Kiinteistosovellus.Models.OtherSpendings
 
 <div class="modal fade" id="ModalOtherSpendingCreate">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <div class="modal-header">
                 <h3>Luo uusi kulutus</h3>
             </div>
+
             <div class="modal-body">
 
                 @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
@@ -17,53 +18,46 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="row">
-
                             <div class="col-sm-6">
-
                                 <div class="form-group">
-                                    Päivämäärä / Alkupäivämäärä
+                                    Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Loppupäivämäärä
+                                    Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Urakoitsija
+                                    Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Hinta yhteensä
+                                    Hinta yhteensä* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
-                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    Kulutustyyppi
+                                    Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
                                         <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
 
                                     </div>
                                 </div>
 
                                 <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                    Uusin tyypin nimi: <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                    Uusin tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                     <div class="col-md-10 input-group">
                                         <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
 
@@ -76,30 +70,19 @@
                                     <div class="text-success">Tyyppi lisätty onnistuneesti</div>
                                     <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                 </div>
-
-                                @*Temporary solution for LoginID until Login system is done*@
-                                @Html.TextBoxFor(model => model.LoginID, "LoginID", new { @class = "form-control", @Value = ViewBag.LoginID, @Hidden = "true" })
-
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    Kuvaus
+                                    Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
-                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
                 }
-
-
-
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">

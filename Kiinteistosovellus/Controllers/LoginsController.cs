@@ -22,7 +22,7 @@ namespace Kiinteistosovellus.Controllers
                 return View(db.Logins.ToList());
             }
             else { return null; }
-            }
+        }
 
         // GET: Logins/Details/5
         public ActionResult Details(int? id)
@@ -51,7 +51,7 @@ namespace Kiinteistosovellus.Controllers
                 return View();
             }
             else { return null; }
-            }
+        }
 
         // POST: Logins/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -81,7 +81,7 @@ namespace Kiinteistosovellus.Controllers
                 return PartialView();
             }
             else { return null; }
-            }
+        }
         // GET: Logins/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -125,7 +125,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return null;
             }
-            }
+        }
 
         // POST: Logins/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -149,7 +149,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return null;
             }
-            }
+        }
 
         // GET: Logins/Delete/5
         public ActionResult Delete(int? id)
@@ -172,7 +172,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return null;
             }
-            }
+        }
 
         // POST: Logins/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -188,7 +188,7 @@ namespace Kiinteistosovellus.Controllers
                 return RedirectToAction("Index");
             }
             else { return null; }
-            }
+        }
         public ActionResult _DeleteModalLogins(int? id)
         {
 
@@ -206,7 +206,8 @@ namespace Kiinteistosovellus.Controllers
                 return PartialView(logins);
             }
             else { return null; }
-            }
+        }
+
         [HttpPost, ActionName("_DeleteModalLogins")]
         [ValidateAntiForgeryToken]
         public ActionResult _DeleteModalLoginsConfirmed(int id)
@@ -223,7 +224,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return null;
             }   
-            }
+        }
 
         protected override void Dispose(bool disposing)
         {

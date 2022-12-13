@@ -6,7 +6,7 @@
 }
 
 <br />
-<h2>Muu kulu -tyypit</h2>
+<h2>Suunnitelmat</h2>
 
 <iframe id="plansCreate" style="display:none"></iframe>
 <iframe id="plansEdit" style="display:none"></iframe>
@@ -20,12 +20,12 @@
             Nimi
         </th>
         <th>
-            Aloituspäivämäärä
+            Aloituspvm
         </th>
         <th>
-            Päättymispäivämäärä
+            Päättymispvm
         </th>
-        <th>
+        <th style="width:45%">
             Kuvaus
         </th>
         <th>
@@ -50,7 +50,7 @@
             <td>
                 @Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")
             </td>
-            <td>
+            <td style="word-break:break-word">
                 @Html.DisplayFor(modelItem => item.Desciption)
             </td>
             <td>

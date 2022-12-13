@@ -13,8 +13,8 @@
         type: "POST",
         data: submittedForm, //aikaisemmin mainittu formdata viedään ajax-pyynnöllä controllerille
         success: function (result) {
-            //console.log("Result:")
-            //console.log(result);
+            console.log("Result:")
+            console.log(result);
             if (result == "") { //Jos lisäys onnistui, controller palauttaa nullin
                 window.location.href = indexUrl; //Onnistumisen jälkeen käyttäjä ohjataan indexiin, jossa päivittyneet tiedot
             } else {//tallentaminen ei onnistunut, koska modelstate.isvalid ei ollut true

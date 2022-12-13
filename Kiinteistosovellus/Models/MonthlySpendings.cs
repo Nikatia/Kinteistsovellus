@@ -12,19 +12,19 @@ namespace Kiinteistosovellus.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class MonthlySpendings
     {
         public int MonthlySpendingID { get; set; }
 
-        [Required(ErrorMessage = "P‰iv‰m‰‰r‰ vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime DateBegin { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DateEnd { get; set; }
 
-        [Required(ErrorMessage = "Kulutyyppi vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         public int SpendingTypeID { get; set; }
 
         public Nullable<decimal> AmountOfUnits { get; set; }
@@ -35,16 +35,13 @@ namespace Kiinteistosovellus.Models
         [DataType(DataType.Currency)]
         public Nullable<decimal> TransferPayment { get; set; }
 
-        [Required(ErrorMessage = "Hinta vaaditaan")]
+        [Required(ErrorMessage = "vaaditaan!")]
         [DataType(DataType.Currency)]
         public decimal FullPrice { get; set; }
 
         public Nullable<int> ContractorID { get; set; }
-
-        public int LoginID { get; set; }
     
         public virtual Contractors Contractors { get; set; }
-        public virtual Logins Logins { get; set; }
         public virtual MonthlySpendingTypes MonthlySpendingTypes { get; set; }
     }
 }

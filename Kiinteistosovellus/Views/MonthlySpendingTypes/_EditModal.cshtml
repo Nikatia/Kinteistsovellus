@@ -1,14 +1,10 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendingTypes
 
-
-
-
-
 <div class="modal fade" id="ModalMSEdit">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Muokkaa </h2>
+                <h3>Muokkaa kulutustyyppi</h3>
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editMSForm" }))
@@ -16,46 +12,33 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        <h4>Kuukausittaiset kulutustyypit</h4>
-                        <hr />
-                        <div class="form-horizontal">
 
-                            <hr />
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.SpendingTypeID)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.SpendingTypeID)
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TypeName, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="form-group">
+                            Kulutustyyppi* @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
+
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Unit, "Yksikkö", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="form-group">
+                            Yksikkö @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                            @Html.DropDownList("LoginID", null, htmlAttributes: new { @Hidden = "hidden", @class = "form-control" })
-
                         </div>
                         <div class="form-group">
                             <input type="button" id="submitModalMSEdit" style="display:none" value="Tallenna" class="btn btn-primary" />
                         </div>
-
-
-
-
                     </div>
                 }
             </div>
-            <div class="modal-footer" style="display:inline-block">
-                @*<button type="submit" class="btn btn-primary" form="editMSForm">Tallenna</button>*@
+            <div class="modal-footer">
                 <button type="submit" id="submitEdit" class="btn btn-primary">Tallenna</button>
-                @Html.ActionLink("Takaisin", "Index", "Monthly_spendings", new { @Class = "btn btn-secondary" })
+                @Html.ActionLink("Takaisin", "Index", "monthlyspendingtypes")
             </div>
         </div>
     </div>

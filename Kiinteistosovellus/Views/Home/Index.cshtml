@@ -1,33 +1,40 @@
 ﻿@model Kiinteistosovellus.ViewModels.MonthlyAndOtherSpendingsByMonthClass
 @{
-    ViewBag.Title = "Home Page";
-
-
+    ViewBag.Title = "Pääsivu";
 }
-<div class="jumbotron">
-    @if (Session["UserName"] == null)
-    {
-        <br />
-        <p class="lead">Kirjaudu sisään käyttääksesi Kiinteistösovellus -ohjelmaa.</p>
-    }
-        <div>
-            @if (Session["UserName"] != null)
-            {
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="chartContainer"></div>
-                        <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
-                    </div>
-                    <div class="col-md-6">
-                        <div style="height: 398px" id="chartContainerLine"></div>
-                        <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
-                    </div>
-                </div>}
+<br />
+@if (Session["UserName"] == null)
+{
+    <h2>
+        Tervetuloa Kiinteistösovellukseen!
+    </h2>
+    <p class="lead">
+        Ole hyvä ja kirjaudu sisään nähdäksesi sen toiminnot.<br />
+        Rekisteröityminen sovellukseen on mahdollista vain ylläpitäjän kautta.<br />
+    </p>
+}
+
+@if (Session["UserName"] != null)
+{
+    <h2>Pääsivu</h2>
+    <p class="lead">
+        Tänä vuonna käytit <b>@ViewBag.ThisYearSumma</b> euroa kiinteistöihin liittyviin kuluihin.<br />
+        Alla olevista kaavioista voit tutkia, mihin ja missä kuussa rahasi on käytetty
+    </p>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="chartContainer"></div>
+            <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
+        </div>
+        <div class="col-md-6">
+            <div style="height: 398px" id="chartContainerLine"></div>
+            <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
         </div>
     </div>
+}
+
+
 <script>
-
-
     $(function () {
         $('#homeClicked').addClass('active');
         $('#spendingsClicked').removeClass('active');

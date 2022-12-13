@@ -10,10 +10,10 @@
 
 
 <div class="modal fade" id="ModalLoginsEdit">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Muokkaa</h2>
+                <h3>Muokkaa</h3>
             </div>
             <div class="modal-body">
 
@@ -22,53 +22,37 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        @*<h4>Käyttäjät</h4>*@
-                        <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.LoginID)
                         <div class="form-group">
-                            @Html.LabelFor(model => model.UserName, "Käyttäjänimi", htmlAttributes: new { @class = "control-label col-md-2" })
+                            Käyttäjätunnus* <label id="userlabe" style="color:red">vaaditaan!</label>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "usern", @class = "form-control", @maxlength = "15" } })
-                                <label id="userlabe" style="color:red">&nbsp; &nbsp;Kirjoita käyttäjänimi!</label>
+
                                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div style="clear:both" , class="form-group">
-                            @Html.LabelFor(model => model.UserPassword, "Salasana", htmlAttributes: new { @class = "control-label col-md-2" })
+                            Salasana* <label id="passlabe" style="color:red">vaaditaan!</label>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @style = "float:left", @oninput = "jepsie()", @id = "passw", @class = "form-control", @maxlength = "15" } })
-                                <label id="passlabe" style="color:red">&nbsp; &nbsp;Kirjoita salasana!</label>
+
                                 @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <br />
-                        @*<div style="clear:both" class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" id="loginCreateButton" value="Tallenna" class="btn btn-primary" />
-                                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
-                                </div>
-
-                            </div>*@
-
                     </div>
                 }
-
-
 
                 @section Scripts {
                     @Scripts.Render("~/bundles/jqueryval")
                 }
 
-                <br />
-                <div class="modal-footer" style="display:inline-block">
-                    @*<button type="submit" class="btn btn-primary" id="cr">Validate</button>*@
-                    <button type="submit" id="loginModb" class="btn btn-primary" form="editLoginsForm">Tallenna</button>
-                    <button type="button" onclick="jepajuus()" id="nappi" class="btn btn-primary">Tallenna</button>
-                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
-
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="loginModb" class="btn btn-primary" form="editLoginsForm">Tallenna</button>
+                <button type="button" onclick="jepajuus()" id="nappi" class="btn btn-primary">Tallenna</button>
+                @Html.ActionLink("Takaisin", "Index", "logins")
             </div>
         </div>
     </div>

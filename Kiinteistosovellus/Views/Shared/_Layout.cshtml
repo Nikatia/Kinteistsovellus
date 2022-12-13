@@ -33,16 +33,18 @@
                     @if (Session["UserName"] != null)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" id="spendingsClicked" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Kulut
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/monthlyspendings/index">Kuukausittaiset</a></li>
                                 <li><a class="dropdown-item" href="/otherspendings/index">Muut</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/monthlysummary/index">Yhteenveto</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" id="othersClicked" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Muita toimintoja
                             </a>
                             <ul class="dropdown-menu">
@@ -62,14 +64,14 @@
                 <ul class="navbar-nav ms-auto">
                     @if (Session["UserName"] != null)
                     {
-                        <li class="">
-                            <a style="font-size:18px;color:aquamarine" class="nav-link" id="logout" href="/Home/Logout">Kirjaudu ulos</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="logout" href="/Home/Logout">Kirjaudu ulos</a>
                         </li>
                     }
                     @if (Session["UserName"] == null)
                     {
-                        <li class="">
-                            <a style="font-size:18px;color:aquamarine" class="nav-link  " id="login" href="#">Kirjaudu sisään</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="login" href="#">Kirjaudu sisään</a>
                         </li>
                     }
                 </ul>

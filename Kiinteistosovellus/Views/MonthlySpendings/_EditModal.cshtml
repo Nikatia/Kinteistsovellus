@@ -1,14 +1,10 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendings
 
-
-
-
-
 <div class="modal fade" id="ModalMSEdit">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                @*<h2>Edit </h2>*@
+                <h3>Muokkaa kulua</h3>
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editMSForm" }))
@@ -16,44 +12,40 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        <h4>Kuukausittaiset kulut</h4>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.MonthlySpendingID)
 
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DateBegin, "Aloituspäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.DateEnd, "Päättymispäivämäärä", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.SpendingTypeID, "Kulutustyyppi", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Kulutustyyppi* @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.DropDownList("SpendingTypeID", null, new { @class = "form-control form-select" })
-                                        @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
                                         <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
                                     </div>
                                 </div>
 
                                 <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                    Tyypin nimi: <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                    Tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                     <div class="col-md-10 input-group">
                                         <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKenttaName()" />
 
                                     </div>
-                                    Yksikkönimi: <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
+                                    Yksikkönimi <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
                                     <div class="col-md-10 input-group">
                                         <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormUnit" onkeyup="paivitaOikeaKenttaUnit()" />
 
@@ -70,62 +62,52 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.AmountOfUnits, "Käytetyt mittayksiköt", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Käytetyt mittayksiköt @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @{ Html.EnableClientValidation(false); }
                                         @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
                                         @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.PricePerUnit, "Yksikköhinta", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Yksikköhinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @{ Html.EnableClientValidation(false); }
                                         @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
                                         @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.TransferPayment, "Siirtomaksu", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Siirtomaksu @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @{ Html.EnableClientValidation(false); }
                                         @Html.EditorFor(model => model.TransferPayment, new { htmlAttributes = new { @class = "form-control" } })
                                         @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FullPrice, "Kokonaishinta", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Kokonaishinta* @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @{ Html.EnableClientValidation(false); }
                                         @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
                                         @{ Html.EnableClientValidation(true); }
-                                        @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.ContractorID, "Yrityksen nimi", htmlAttributes: new { @class = "control-label col-md-5" })
+                                    Yrityksen nimi @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
                                         @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
-                                        @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
                                 @*<div>
                                     @Html.DropDownList("LoginID", null, htmlAttributes: new { @Hidden = "hidden", @class = "form-control" })
                                 </div>*@
                             </div>
                         </div>
-
-
-
-
                         <div class="form-group">
                             <input type="button" id="submitModal" style="display:none" value="Tallenna" class="btn btn-primary" />
                         </div>

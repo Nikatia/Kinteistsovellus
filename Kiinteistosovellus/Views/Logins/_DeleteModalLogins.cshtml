@@ -4,36 +4,28 @@
     ViewBag.Title = "Delete";
 }
 
-
-
-
-
 <div class="modal fade" id="ModalLoginsDelete">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-               
+                <h3>Poista</h3>
             </div>
             <div class="modal-body">
-
-                <h3>Oletko varma, että haluat poistaa tämän käyttäjän?</h3>
+                <h5>Oletko varma, että haluat poistaa tämän käyttäjän?</h5>
                 <div>
-
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
-                            Käyttäjänimi
-                            @*@Html.DisplayNameFor(model => model.UserName)*@
+                            Käyttäjätunnus
                         </dt>
 
                         <dd>
-                           
+
                             @Html.DisplayFor(model => model.UserName)
                         </dd>
 
                         <dt>
-                            Tunnussana
-                            @*@Html.DisplayNameFor(model => model.UserPassword)*@
+                            Salasana
                         </dt>
 
                         <dd>
@@ -41,30 +33,22 @@
                         </dd>
 
                     </dl>
-
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-
-                <div class="modal-footer" style="display:inline-block">
+                </div>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
                     <button type="submit" class="btn btn-primary">Poista</button>
-                    @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Takaisin</button> //Ei voi käyttää, koska div id vaihtuu*@
-                    @Html.ActionLink("Takaisin", "Index", "logins", new { @Class = "btn btn-secondary" })
-                </div>
-                       
-                    }
+                    @Html.ActionLink("Takaisin", "Index", "logins")
 
-
-
-                    @section Scripts {
-                        @Scripts.Render("~/bundles/jqueryval")
-                    }
-
-                    <br />
-
-                </div>
+                }
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

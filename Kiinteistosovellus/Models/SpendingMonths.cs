@@ -11,23 +11,12 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
-    public partial class Contacts
+    public partial class SpendingMonths
     {
-        public int ContactID { get; set; }
-
-        [Required(ErrorMessage = "vaaditaan!")]
-        public int ContractorID { get; set; }
-
-        public Nullable<int> PersonID { get; set; }
-
-        public string PhoneNumber { get; set; }
-
-        public string Email { get; set; }
-
-    
-        public virtual Contractors Contractors { get; set; }
-        public virtual Persons Persons { get; set; }
+        public long Rivi { get; set; }
+        public Nullable<int> MonthOfSpending { get; set; }
+        public Nullable<int> YearOfSpending { get; set; }
+        public Nullable<decimal> Summa { get; set; }
     }
 }

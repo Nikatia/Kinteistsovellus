@@ -4,24 +4,20 @@
 
 
 <div class="modal fade" id="ModalMSDelete">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header">
-
+                <h3>Poista</h3>
             </div>
+
             <div class="modal-body">
-
-
-
-
-                <h3>Oletko varma, että haluat poistaa tämän?</h3>
+                <h5>Oletko varma, että haluat poistaa tämän?</h5>
                 <div>
-                    @*<h4>Kuukausittaiset kulutyypit</h4>*@
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
                             Kulutustyyppi
-                           
                         </dt>
 
                         <dd>
@@ -30,33 +26,21 @@
 
                         <dt>
                             Yksikkö
-                            
                         </dt>
 
                         <dd>
                             @Html.DisplayFor(model => model.Unit)
                         </dd>
-
-                        @*<dt>
-                            @Html.DisplayNameFor(model => model.Logins.UserName)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Logins.UserName)
-                        </dd>*@
-
                     </dl>
-
-
-
                 </div>
+            </div>
+
+            <div class="modal-footer">
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    <div class="modal-footer" style="display:inline-block">
-                        <button type="submit" class="btn btn-primary">Poista</button>
-                        @Html.ActionLink("Takaisin", "Index", "Monthly_spendingTypes", new { @Class = "btn btn-secondary" })
-                    </div>
+                    <button type="submit" class="btn btn-primary">Poista</button>
+                    @Html.ActionLink("Takaisin", "Index", "MonthlyspendingTypes")
                 }
             </div>
         </div>

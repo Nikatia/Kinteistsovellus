@@ -20,6 +20,15 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
                 ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
                 ViewBag.Years = GetYears();
+                var thisYear = DateTime.Now.Year;
+                decimal summa = 0;
+                var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
+                                        where sld.Vuosi == thisYear
+                                        select sld;
+                var yearObject = monthOthSpendData.FirstOrDefault();
+                summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu + 
+                        yearObject.Kesäkuu + yearObject.Heinäkuu + yearObject.Elokuu + yearObject.Syyskuu + yearObject.Lokakuu + yearObject.Marraskuu + yearObject.Joulukuu;
+                ViewBag.ThisYearSumma = summa;
 
                 return View();
             }
@@ -108,7 +117,6 @@ namespace Kiinteistosovellus.Controllers
 
         public List<MonthlyAndOtherSpendingsByMonth> GetYears()
         {
-
             if (Session["UserName"] != null)
             {
                 List<MonthlyAndOtherSpendingsByMonth> years = db.MonthlyAndOtherSpendingsByMonth.ToList();
