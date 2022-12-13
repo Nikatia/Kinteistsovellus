@@ -37,6 +37,14 @@
                             </div>
                         </div>
 
+                        <div style="clear:both" , class="form-group">
+                            Toistaa salasana* <label id="passlab2" class="text-danger">vaaditaan!</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" type="password" id="check" maxlength="15" oninput="jepajucheck()">
+                            </div>
+                        </div>
+                        <label id="passlab3" class="text-danger">Salasanat eivät samat!</label>
+
                         <div style="clear:both" class="form-group">
                             Rooli* 
                             <div class="col-md-10">
@@ -65,13 +73,19 @@
         $("#loginModb").hide();
         $("#userlabe").hide();
         $("#passlabe").hide();
+        $("#passlab2").hide();
+        $("#passlab3").hide();
+        var passwordValue = $("#passw").val();
+        $("#check").val(passwordValue);
+
     });
 
     function jepsie() {
         var usernameValue = $("#usern").val();
         var passwordValue = $("#passw").val();
+        var checkValue = $("#check").val();
         // alert(usernameValue);
-        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "") {
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
             $("#loginModb").prop('disabled', true);
 
 
@@ -91,9 +105,33 @@
             $("#passlabe").hide();
         }
     };
+    function jepajucheck() {
+        var usernameValue = $("#usern").val();
+        var passwordValue = $("#passw").val();
+        var checkValue = $("#check").val();
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
+            $("#LogModButton").prop('disabled', true);
+        } else {
+            $("#LogModButton").prop('disabled', false);
+        }
+
+        if (checkValue == "") {
+            $("#passlab2").show();
+        } else {
+            $("#passlab2").hide();
+        }
+
+        if (checkValue != "" && checkValue != passwordValue) {
+            $("#passlab3").show();
+        } else {
+            $("#passlab3").hide();
+        }
+
+    }
     function jepajuus() {
         var usernameValue = $("#usern").val();
         var passwordValue = $("#passw").val();
+        var checkValue = $("#check").val();
         if (usernameValue == null || usernameValue == "") {
             $("#userlabe").show();
         } else {
@@ -105,7 +143,13 @@
         } else {
             $("#passlabe").hide();
         }
-        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "") {
+
+        if (checkValue != passwordValue) {
+            $("#passlab3").show();
+        } else {
+            $("#passlab3").hide();
+        }
+        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "" && checkValue === passwordValue) {
             $("#loginModb").click();
         }
     }

@@ -3,8 +3,6 @@
     ViewBag.Title = "_CreateModalLogins";
 }
 
-
-
 <div class="modal fade" id="ModalLoginsCreate">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -29,10 +27,17 @@
                         <div style="clear:both" , class="form-group">
                             Salasana* <label id="passlab" class="text-danger">vaaditaan!</label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @oninput = "jepajupass()", @id = "pas", @class = "form-control", @maxlength = "15" } })
+                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @oninput = "jepajupass()", @id = "pas", @class = "form-control", @maxlength = "15", @type="password"} })
                             </div>
                         </div>
 
+                        <div style="clear:both" , class="form-group">
+                            Toistaa salasana* <label id="passlab2" class="text-danger">vaaditaan!</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" type="password" id="check" maxlength="15" oninput="jepajucheck()">
+                            </div>
+                        </div>
+                        <label id="passlab3" class="text-danger">Salasanat eivät samat!</label>
                         <div class="form-group">
                             Rooli*
                             <div class="col-md-10">
@@ -64,12 +69,15 @@
         $("#LogModButton").prop('disabled', true);
         $("#userlab").hide();
         $("#passlab").hide();
+        $("#passlab2").hide();
+        $("#passlab3").hide();
     });
    
     function jepajuuser() {
         var usernameValue = $("#use").val();
         var passwordValue = $("#pas").val();
-        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "") {
+        var checkValue = $("#check").val();
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
             $("#LogModButton").prop('disabled', true);
         } else {
             $("#LogModButton").prop('disabled', false);
@@ -85,7 +93,8 @@
     function jepajupass() {
         var usernameValue = $("#use").val();
         var passwordValue = $("#pas").val();
-        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "") {
+        var checkValue = $("#check").val();
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
             $("#LogModButton").prop('disabled', true);
         } else {
             $("#LogModButton").prop('disabled', false);
@@ -97,10 +106,41 @@
             $("#passlab").hide();
         }
     }
+    function jepajucheck() {
+        var usernameValue = $("#use").val();
+        var passwordValue = $("#pas").val();
+        var checkValue = $("#check").val();
+        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
+            $("#LogModButton").prop('disabled', true);
+        } else {
+            $("#LogModButton").prop('disabled', false);
+        }
+
+        if (checkValue == "") {
+            $("#passlab2").show();
+        } else {
+            $("#passlab2").hide();
+        }
+
+        if (checkValue != "" && checkValue != passwordValue) {
+            $("#passlab3").show();
+        } else {
+            $("#passlab3").hide();
+        }
+
+    }
     function tallenna() {
         var usernameValue = $("#use").val();
         var passwordValue = $("#pas").val();
-        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "") {
+        var checkValue = $("#check").val();
+
+        if (checkValue != passwordValue) {
+            $("#passlab3").show();
+        } else {
+            $("#passlab3").hide();
+        }
+
+        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "" && checkValue === passwordValue) {
             $("#LogModButton").click();
         }
 
