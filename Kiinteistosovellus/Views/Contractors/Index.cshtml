@@ -109,7 +109,19 @@
                                         if (contact.PersonID == null && contact.ContractorID == item.ContractorID)
                                         {
                                             <tr>
-                                                <td>@contact.PhoneNumber @contact.Email</td>
+                                                @if (@contact.PhoneNumber != null && @contact.Email != null)
+                                                {
+                                                    <td>• @contact.PhoneNumber <br /> • @contact.Email</td>
+                                                }
+                                                else if (@contact.PhoneNumber == null)
+                                                {
+                                                    <td>• @contact.Email</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>• @contact.PhoneNumber</td>
+                                                }
+                                                    
                                                 <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a></td>
                                             </tr>
                                         }
@@ -183,6 +195,12 @@
         $(function () {
             $(".getContractorEdit").click(function () {
                 let editId = $(this).data("editid");
+                if (document.getElementById("contractorEdit") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "contractorEdit");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
                 modalGet("Contractors", "EditContractor", editId, "contractorEdit", "ModalContractorEdit");
             });
         });
@@ -191,6 +209,12 @@
         $(function () {
             $(".getContractorDelete").click(function () {
                 let deleteId = $(this).data("deleteid");
+                if (document.getElementById("contractorDelete") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "contractorDelete");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
                 modalGet("Contractors", "DeleteContractor", deleteId, "contractorDelete", "ModalContractorDelete");
             });
         });
@@ -201,17 +225,31 @@
 
 
         /* Edit */
-        $(document).on('click', '.getHooman', function () {
-            let leHooman = $(this).data("hooman");
-            console.log(leHooman);
-            modalGet("Contractors", "EditPerson", leHooman, "personEdit", "ModalPersonEdit");
+        $(function () {
+            $(".getHooman").click(function () {
+                let leHooman = $(this).data("hooman");
+                if (document.getElementById("personEdit") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "personEdit");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
+                modalGet("Contractors", "EditPerson", leHooman, "personEdit", "ModalPersonEdit");
+            });
         });
 
         /* Delete */
-        $(document).on('click', '.getHoman', function () {
-            let leHoman = $(this).data("homan");
-            console.log(leHoman);
-            modalGet("Contractors", "DeletePerson", leHoman, "personDelete", "ModalPersonDelete");
+        $(function () {
+            $(".getHoman").click(function () {
+                let leHoman = $(this).data("homan");
+                if (document.getElementById("personDelete") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "personDelete");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
+                modalGet("Contractors", "DeletePerson", leHoman, "personDelete", "ModalPersonDelete");
+            });
         });
 
 
@@ -225,18 +263,31 @@
         });
 
         /* Edit */
-        $(document).on('click', '.getContactEdit', function () {
-            let editContactID = $(this).data("editcontactid");
-            modalGet("Contractors", "EditContact", editContactID, "contactEdit", "ModalContactEdit");
-
+        $(function () {
+            $(".getContactEdit").click(function () {
+                let editContactID = $(this).data("editcontactid");
+                if (document.getElementById("contactEdit") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "contactEdit");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
+                modalGet("Contractors", "EditContact", editContactID, "contactEdit", "ModalContactEdit");
+            });
         });
 
         /* Delete */
-        $(document).on('click', '.getContactDelete', function () {
-            let leDelCont = $(this).data("delcontactid");
-            console.log(leDelCont);
-            modalGet("Contractors", "DeleteContact", leDelCont, "contactDelete", "ModalContactDelete");
+        $(function () {
+            $(".getContactDelete").click(function () {
+                let leDelCont = $(this).data("delcontactid");
+                if (document.getElementById("contactDelete") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "contactDelete");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
+                modalGet("Contractors", "DeleteContact", leDelCont, "contactDelete", "ModalContactDelete");
+            });
         });
-
     </script>
 }
