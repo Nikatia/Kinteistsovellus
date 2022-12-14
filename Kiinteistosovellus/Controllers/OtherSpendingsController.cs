@@ -19,6 +19,30 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
+        public List<OtherSpendingTypes> GetTypes()
+        {
+            if (Session["UserName"] != null)
+            {
+                List<OtherSpendingTypes> types = db.OtherSpendingTypes.ToList();
+                return types;
+            }
+            else { return null; }
+        }
+
+        [HttpGet]
+        public JsonResult FetchTypes()
+        {
+            if (Session["UserName"] != null)
+            {
+                var data = GetTypes().Select(c => new { Value = c.OtherSpendingTypeId, Text = c.TypeName });
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         // GET: OtherSpendings
         public ActionResult Index()
         {

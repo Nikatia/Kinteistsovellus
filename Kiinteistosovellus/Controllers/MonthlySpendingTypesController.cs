@@ -270,7 +270,6 @@ namespace Kiinteistosovellus.Controllers
                     db.Entry(monthlySpendingTypes).State = EntityState.Modified;
                     db.SaveChanges();
                     return null;
-                    //return RedirectToAction("Index");
                 }
                 return PartialView("_EditModal", monthlySpendingTypes);
             }
@@ -282,7 +281,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                if (id == null)
+                if (id == null || id == 1000)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -304,6 +303,13 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
+                foreach (var item in db.MonthlySpendings)
+                {
+                    if (item.SpendingTypeID == id)
+                    {
+                        item.SpendingTypeID = 1000;
+                    }
+                }
                 db.MonthlySpendingTypes.Remove(monthlySpendingTypes);
                 db.SaveChanges();
                 return RedirectToAction("Index");

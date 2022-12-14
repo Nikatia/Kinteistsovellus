@@ -74,101 +74,99 @@
     <div class="card-body">
         @foreach (var item in groupedList)
         {
-            if (item.ContractorID != 1004)
-            {
-                <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.ContractorID">
-                    <div class="accordion-header" id="heading_@item.ContractorID">
-                        <div class="accordion-button collapsed row openContractor panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.ContractorID" data-contractorid="@item.ContractorID" aria-expanded="false" aria-controls="heading_@item.ContractorID">
-                            <div class="col-1 px-4">@item.ContractorID</div>
-                            <div class="col-2 px-1">@item.Name</div>
-                            <div class="col-2 px-2">@item.StreetAdress</div>
-                            <div class="col-2 px-3">@item.PostCode</div>
-                            <div class="col-2 px-3">@item.City</div>
-                            <div class="col-2 px-4">@item.Country</div>
-                            <div class="col-1 px-0">
-                                <a class="card-link getContractorEdit ikonka" style="font-size: 25px;" data-editid="@item.ContractorID" title="Muokkaa urakoitsija" role="button"><img src="/Icons/contractors-edit-square.svg" style="margin-top:auto; margin-bottom:auto" height="40"></a>
-                                <a class="card-link getContractorDelete ikonka" style="font-size:25px" data-deleteid="@item.ContractorID" title="Poistaa urakoitsija" role="button"><img src="/Icons/contractors-delete-square.svg" style="margin-top:auto; margin-bottom:auto" height="40"></a>
-                            </div>
+            <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.ContractorID">
+                <div class="accordion-header" id="heading_@item.ContractorID">
+                    <div class="accordion-button collapsed row openContractor panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.ContractorID" data-contractorid="@item.ContractorID" aria-expanded="false" aria-controls="heading_@item.ContractorID">
+                        <div class="col-1 px-4">@item.ContractorID</div>
+                        <div class="col-2 px-1">@item.Name</div>
+                        <div class="col-2 px-2">@item.StreetAdress</div>
+                        <div class="col-2 px-3">@item.PostCode</div>
+                        <div class="col-2 px-3">@item.City</div>
+                        <div class="col-2 px-4">@item.Country</div>
+                        <div class="col-1 px-0">
+                            <a class="card-link getContractorEdit ikonka" style="font-size: 25px;" data-editid="@item.ContractorID" title="Muokkaa urakoitsija" role="button"><img src="/Icons/contractors-edit-square.svg" style="margin-top:auto; margin-bottom:auto" height="40"></a>
+                            <a class="card-link getContractorDelete ikonka" style="font-size:25px" data-deleteid="@item.ContractorID" title="Poistaa urakoitsija" role="button"><img src="/Icons/contractors-delete-square.svg" style="margin-top:auto; margin-bottom:auto" height="40"></a>
                         </div>
-                    </div>
-                </div><br />
-                <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.ContractorID" data-bs-parent="#ContractorsList">
-                    <div class="accordion-body">
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div style="word-break:break-word">
-                                    <b>Kuvaus:</b><br />
-                                    @item.ContractorsDescription
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <b>Yleinen yhteystiedot:</b>
-                                <table width="80%">
-                                    @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
-                                    {
-                                        if (contact.PersonID == null && contact.ContractorID == item.ContractorID)
-                                        {
-                                            <tr>
-                                                @if (@contact.PhoneNumber != null && @contact.Email != null)
-                                                {
-                                                    <td>• @contact.PhoneNumber <br /> • @contact.Email</td>
-                                                }
-                                                else if (@contact.PhoneNumber == null)
-                                                {
-                                                    <td>• @contact.Email</td>
-                                                }
-                                                else
-                                                {
-                                                    <td>• @contact.PhoneNumber</td>
-                                                }
-                                                    
-                                                <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a></td>
-                                            </tr>
-                                        }
-                                    }
-                                </table>
-                            </div>
-                        </div>
-                        <br />
-
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Etunimi</th>
-                                    <th>Sukunimi</th>
-                                    <th>Kuvaus</th>
-                                    <th>Puhelin numero</th>
-                                    <th>Sähköposti</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
-                                {
-                                    foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
-                                    {
-                                        if (person.ContractorID == item.ContractorID && person.PersonID == contact.PersonID)
-                                        {
-                                            <tr>
-                                                <td>@person.FirstName</td>
-                                                <td>@person.LastName</td>
-                                                <td>@person.Description</td>
-                                                <td>@contact.PhoneNumber</td>
-                                                <td>@contact.Email</td>
-                                                <td>
-                                                    <a class="card-link getHooman ikonka" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><img src="/Icons/person-delete-square.svg" height="30"></a>  <a class="card-link getHoman ikonka" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/person-delete2-square.svg" height="30"></a> &emsp;
-                                                    <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a>  <a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                }
-                            </tbody>
-                        </table>
                     </div>
                 </div>
+            </div><br />
+            <div id="collapse_@item.ContractorID" class="accordion-collapse collapse" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.ContractorID" data-bs-parent="#ContractorsList">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div style="word-break:break-word">
+                                <b>Kuvaus:</b><br />
+                                @item.ContractorsDescription
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <b>Yleinen yhteystiedot:</b>
+                            <table width="80%">
+                                @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
+                                {
+                                    if (contact.PersonID == null && contact.ContractorID == item.ContractorID)
+                                    {
+                                        <tr>
+                                            @if (@contact.PhoneNumber != null && @contact.Email != null)
+                                            {
+                                                <td>• @contact.PhoneNumber <br /> • @contact.Email</td>
+                                            }
+                                            else if (@contact.PhoneNumber == null)
+                                            {
+                                                <td>• @contact.Email</td>
+                                            }
+                                            else
+                                            {
+                                                <td>• @contact.PhoneNumber</td>
+                                            }
+                                                    
+                                            <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a></td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Etunimi</th>
+                                <th>Sukunimi</th>
+                                <th>Kuvaus</th>
+                                <th>Puhelin numero</th>
+                                <th>Sähköposti</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Kiinteistosovellus.Models.Contacts contact in ViewBag.Contacts)
+                            {
+                                foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
+                                {
+                                    if (person.ContractorID == item.ContractorID && person.PersonID == contact.PersonID)
+                                    {
+                                        <tr>
+                                            <td>@person.FirstName</td>
+                                            <td>@person.LastName</td>
+                                            <td>@person.Description</td>
+                                            <td>@contact.PhoneNumber</td>
+                                            <td>@contact.Email</td>
+                                            <td>
+                                                <a class="card-link getHooman ikonka" title="Muokkaa henkilö" role="button" data-hooman="@person.PersonID"><img src="/Icons/person-delete-square.svg" height="30"></a>  <a class="card-link getHoman ikonka" title="Poistaa henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/person-delete2-square.svg" height="30"></a> &emsp;
+                                                <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a>  <a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             
-            }
+            
         }
     </div>
 </div>

@@ -156,11 +156,6 @@
         $("#colDiv2").removeClass("col-sm-6");
     });
 
-    //Removes Contractor 1004 from dropdown list, as 1004 is deleted value
-    $(function () {
-        $("#ContractorID option[value='1004']").remove();
-    })
-
     //---Dropdowns part---
     var contractorUrl = '@Url.Action("FetchContractors")';
 	var personUrl = '@Url.Action("FetchPersons")';
@@ -183,7 +178,7 @@
         }
     })
 
-    //When modal is shown, empty Persons and Contractors dropdown, then populate Contractors dropdown with empty value and Contractorx except 1004.
+    //When modal is shown, empty Persons and Contractors dropdown, then populate Contractors dropdown with empty value as first
     const myModalEl = document.getElementById('ModalContactCreate')
     myModalEl.addEventListener('shown.bs.modal', event => {
         persons1.empty();
@@ -191,9 +186,7 @@
         contractors.append($('<option></option>').val('').text(''));
         $.getJSON(contractorUrl, function (data) {
             $.each(data, function (index, item) {
-                if (item.Value != 1004) {
-                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
-                }
+                contractors.append($('<option></option>').val(item.Value).text(item.Text));
             });
         });
     })

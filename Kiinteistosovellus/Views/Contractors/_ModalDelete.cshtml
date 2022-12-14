@@ -32,17 +32,17 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <p class="text-danger">Huom! Tämä toiminto poistaa myös urakoitsijan henkilöt ja heidän yhteystietonsa!</p>
-                            <b>Henkilöt:</b>
+                            <p class="text-danger">Huom! Tämä toiminto poistaa myös urakoitsijan henkilöt ja heidän yhteystietonsa! <br />Jos olet käyttänyt tätä urakoitsijaa kuluissasi, myös hänen nimensä poistetaan sieltä!</p>
+                            <b>Poistettavat henkilöt:</b>
                             <ul>
                                 @*calling persons list from Controller's ViewBag*@
-                            @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
-                            {
-                                if (person.ContractorID == ViewBag.ContractorID)
+                                @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.Persons)
                                 {
-                                    <li>@person.FirstName @person.LastName, @person.Description</li>
+                                    if (person.ContractorID == ViewBag.ContractorID)
+                                    {
+                                        <li>@person.FirstName @person.LastName, @person.Description</li>
+                                    }
                                 }
-                            }
                         </ul>
                     </div>
 

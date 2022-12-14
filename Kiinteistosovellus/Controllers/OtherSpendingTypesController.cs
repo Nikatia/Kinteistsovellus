@@ -164,7 +164,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                if (id == null)
+                if (id == null || id == 1000)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -186,6 +186,13 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+                foreach (var item in db.OtherSpendings)
+                {
+                    if (item.OtherSpendingTypeID == id)
+                    {
+                        item.OtherSpendingTypeID = 1000;
+                    }
+                }
                 db.OtherSpendingTypes.Remove(othSpendType);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

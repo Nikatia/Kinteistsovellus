@@ -76,15 +76,13 @@
         document.getElementById("successfullyAddedPerson").style.display = "inline-block";
     }
 
-    //Repopulate this PartialView's Contractors dropdown, so empty value is first and contractor 1004 is ignored
+    //Repopulate this PartialView's Contractors dropdown, so empty value is first
     var contractors = $('#ContractorsDropdown');
     contractors.empty();
     contractors.append($('<option></option>').val('').text(''));
     $.getJSON(contractorUrl, function (data) {
         $.each(data, function (index, item) {
-            if (item.Value != 1004) {
-                contractors.append($('<option></option>').val(item.Value).text(item.Text));
-            }
+            contractors.append($('<option></option>').val(item.Value).text(item.Text));
         });
     });
 

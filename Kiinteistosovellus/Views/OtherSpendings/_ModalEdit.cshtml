@@ -146,4 +146,9 @@
     $("#Price").keyup(function () {
         validateKeyUp(event, "Price");
     });
+
+    //Removes Type 1000 from dropdown list, as 1000 is deleted value
+    $(function () {
+        $("#OtherSpendingTypeID option[value='1000']").remove();
+    })
 </script>
