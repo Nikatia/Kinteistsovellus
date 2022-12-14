@@ -15,7 +15,7 @@
 <a class="card-link ikonka" id="createNewPlanModal" title="Uusi Suunnitelma" role="button"><img src="/Icons/square-add.svg" height="45"></a>
 <br />
 <table class="table">
-    <tr>
+    <tr class="card-header bg-primary" style="color:white">
         <th>
             Nimi
         </th>
@@ -40,16 +40,23 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="card-body">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")
             </td>
-            <td>
-                @Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")
-            </td>
+            @{
+                if (item.DateEnd != null)
+                {
+                    <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+                }
+                else
+                {
+                    <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+                }
+            }
             <td style="word-break:break-word">
                 @Html.DisplayFor(modelItem => item.Desciption)
             </td>

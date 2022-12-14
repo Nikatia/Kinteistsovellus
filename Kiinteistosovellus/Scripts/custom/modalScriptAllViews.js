@@ -167,6 +167,235 @@ function validateKeyUp(evt, priceFieldId) {
     }
 };
 
+function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, dateEndInputID) {
+
+    //etsi kaikki rivit taulukosta, jossa filtering-class
+    var rows = $(".filtering"), //filtering class pitää olla kaikissa roweissa indexissä!!!
+        rowsLength = rows.length;
+    console.log(rowsLength);
+
+    var activateThis = $(".activate-this");
+    var activeSelect = [];
+    for (var i = 0; i < activateThis.length; i++) {
+        if ($(activateThis[i]).hasClass("active")) {
+            activeSelect.push(activateThis[i].innerText);
+        }
+    }
+
+    var dateBegin = $("#" + dateBeginInputID).val();
+    var dtDateBegin;
+
+    var dateEnd = $("#" + dateEndInputID).val();
+    var dtDateEnd;
+
+    //Haetaan span-elementit eli badget dropdownin sisäll'
+    var spans = $(".spans");
+    //Jos ei löydy mitään, tuodaan placeholder div takaisin, muutoin poistetaan se
+    if (activeSelect.length == 0) {
+        $("#" + hidingFieldID).removeClass("d-none");
+    } else {
+        $("#" + hidingFieldID).addClass("d-none");
+    }
+
+    //Poistaa kaikki span-elementit
+    for (var i = 0; i < spans.length; i++) {
+        spans[i].remove();
+    }
+
+    //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
+    for (var i = 0; i < activeSelect.length; i++) {
+        $("#" + dropdownMenuButtonID).append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+    }
+
+    //Käy kaikki rivit läpi
+    for (var i = 0; i < rowsLength; ++i) {
+
+
+
+        if (activeSelect.length == 0 && dateBegin == "" && dateEnd == "") {//MUUTA CONDITION!!!!!!!
+            for (var k = 0; k < rowsLength; k++) {
+                $(rows[k]).removeClass("d-none");
+                $(rows[k]).removeClass("ChosenType");
+                $(rows[k]).removeClass("ChosenDate");
+            }
+            return;
+        } else {
+            $(rows[i]).addClass("d-none");
+            $(rows[i]).removeClass("ChosenType");
+            $(rows[i]).removeClass("ChosenDate");
+        }
+
+
+        var tds = rows[i].getElementsByTagName('td'),
+            tdsLength = tds.length;
+        //Alustetaan indeksissä oleville päivämäärille muuttujat
+        var tdsDateBegin;
+        var tdsDateEnd;
+
+        //switch-casella päätetään, millainen toteutus
+        switch (true) {
+            case (dateBegin != "" && dateEnd == ""): //Suodatuksessa: alkupvm
+                console.log("VAin alkupvm");
+                dtDateBegin = new Date(dateBegin);
+                tdsDateBegin = new Date(createISO(tds[0].innerText));
+
+                if (tds[1].innerText == "") {//Jos ei indexissä ei loppupäivämäärää
+                    if (tdsDateBegin >= dtDateBegin) {
+                        //$(rows[i]).addClass("d-none");
+                        $(rows[i]).addClass("ChosenDate");
+                    }
+                } else { //Muutoin siinä on loppupvm
+                    tdsDateEnd = new Date(createISO(tds[1].innerText));
+                    if (tdsDateEnd >= dtDateBegin) {
+                        //$(rows[i]).addClass("d-none");
+                        $(rows[i]).addClass("ChosenDate");
+                    }
+                }
+
+                break;
+
+            case (dateEnd != "" && dateBegin == ""): //Suodatuksessa: loppupvm
+                console.log("VAin loppupvm");
+                dtDateEnd = new Date(dateEnd)
+                tdsDateBegin = new Date(createISO(tds[0].innerText));
+
+                if (tds[1].innerText == "") {//Riippumattta, onko loppupäivämäärää vai ei
+                    if (tdsDateBegin <= dtDateEnd) {
+                        //$(rows[i]).addClass("d-none");
+                        $(rows[i]).addClass("ChosenDate");
+                    }
+                }
+
+                break;
+
+            case (dateEnd != "" && dateBegin != ""): //Suodatuksessa: alkupvm ja loppupvm
+                console.log("Kummatkin");
+                dtDateBegin = new Date(dateBegin); //datetime-muuttuja alkupvm (suodatuksesta) vertailuun
+                dtDateEnd = new Date(dateEnd); //datetime-muuttuja loppupvm (suodatuksesta) vertailuun
+
+                tdsDateBegin = new Date(createISO(tds[0].innerText));
+
+                if (tds[1].innerText != "") {//Löytyy loppupvm
+                    tdsDateEnd = new Date(createISO(tds[1].innerText));
+                    if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
+                        //$(rows[i]).addClass("d-none");
+                        $(rows[i]).addClass("ChosenDate");
+                    }
+                } else {
+                    tdsDateEnd = new Date(createISO(tds[0].innerText));
+                    if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
+                        //$(rows[i]).addClass("d-none");
+                        $(rows[i]).addClass("ChosenDate");
+                    }
+                }
+
+                break;
+            default:
+                break;
+        }
+
+        for (var k = 0; k < activeSelect.length; k++) {
+            if (tds[2].innerText.indexOf(activeSelect[k]) > -1) {
+                $(rows[i]).addClass("ChosenType");
+            }
+        }
+    }
+    switch (true) {
+        case ((dateEnd != "" || dateBegin != "") && activeSelect.length > 0):
+            for (var i = 0; i < rowsLength; i++) {
+                if ($(rows[i]).hasClass("ChosenType") && $(rows[i]).hasClass("ChosenDate")) {
+                    $(rows[i]).removeClass("d-none");
+                }
+            }
+            break;
+        case ((dateEnd != "" || dateBegin != "") && activeSelect.length == 0):
+            for (var i = 0; i < rowsLength; i++) {
+                if ($(rows[i]).hasClass("ChosenDate")) {
+                    $(rows[i]).removeClass("d-none");
+                }
+            }
+            break;
+
+        case ((dateEnd == "" && dateBegin == "") && activeSelect.length > 0):
+            for (var i = 0; i < rowsLength; i++) {
+                if ($(rows[i]).hasClass("ChosenType")) {
+                    $(rows[i]).removeClass("d-none");
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    
+}
+
+function createISO(dateStringFiCulture) {
+    var partsOfDate = dateStringFiCulture.split(".");
+    var strIsoDate = partsOfDate[2] + "-" + partsOfDate[1] + "-" + partsOfDate[0];
+    return strIsoDate;
+}
+
+//function filterTable(hidingFieldID, dropdownMenuButtonID) {
+
+//    //etsi kaikki rivit taulukosta, jossa filtering-class
+//    var rows = $(".filtering"), //filtering class pitää olla kaikissa roweissa indexissä!!!
+//        rowsLength = rows.length;
+//    console.log(rowsLength);
+
+//    var activateThis = $(".activate-this");
+//    var activeSelect = [];
+//    for (var i = 0; i < activateThis.length; i++) {
+//        if ($(activateThis[i]).hasClass("active")) {
+//            activeSelect.push(activateThis[i].innerText);
+//        }
+//    }
+//    //console.log(activeSelect);
+
+//    //Haetaan span-elementit eli badget dropdownin sisäll'
+//    var spans = $(".spans");
+//    //Jos ei löydy mitään, tuodaan placeholder div takaisin, muutoin poistetaan se
+//    if (activeSelect.length == 0) {
+//        $("#" + hidingFieldID).removeClass("d-none");
+//    } else {
+//        $("#" + hidingFieldID).addClass("d-none");
+//    }
+
+//    //Poistaa kaikki span-elementit
+//    for (var i = 0; i < spans.length; i++) {
+//        spans[i].remove();
+//    }
+
+//    //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
+//    for (var i = 0; i < activeSelect.length; i++) {
+//        $("#" + dropdownMenuButtonID).append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+//    }
+
+//    //Käy kaikki rivit läpi
+//    for (var i = 0; i < rowsLength; ++i) {
+
+//        if (activeSelect.length == 0) {
+//            for (var k = 0; k < rowsLength; k++) {
+//                $(rows[k]).removeClass("d-none");
+//            }
+//            return;
+//        } else {
+//            $(rows[i]).addClass("d-none");
+//        }
+
+//        var tds = rows[i].getElementsByTagName('td'),
+//            tdsLength = tds.length;
+
+//        console.log(tds);
+//        for (var tdsCounter = 0; tdsCounter < tdsLength; ++tdsCounter) {
+//            for (var k = 0; k < activeSelect.length; k++) {
+//                if (tds[tdsCounter].innerText.indexOf(activeSelect[k]) > -1) {
+//                    $(rows[i]).removeClass("d-none");
+//                }
+//            }
+//        }
+//    }
+//}
+
 
 
 //function isNumberKey(evt, priceFieldId) {
