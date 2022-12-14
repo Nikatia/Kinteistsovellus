@@ -16,7 +16,8 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult Index()
         {
-            if(Session["UserName"] != null){
+            if (Session["UserName"] != null)
+            {
                 ViewBag.Vuosi = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
                 ViewBag.VuosiLine = new SelectList(db.MonthlyAndOtherSpendingsByMonth, "Vuosi", "Vuosi");
                 ViewBag.Years = GetYears();
@@ -26,7 +27,7 @@ namespace Kiinteistosovellus.Controllers
                                         where sld.Vuosi == thisYear
                                         select sld;
                 var yearObject = monthOthSpendData.FirstOrDefault();
-                summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu + 
+                summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu +
                         yearObject.Kesäkuu + yearObject.Heinäkuu + yearObject.Elokuu + yearObject.Syyskuu + yearObject.Lokakuu + yearObject.Marraskuu + yearObject.Joulukuu;
                 ViewBag.ThisYearSumma = summa;
 
@@ -73,44 +74,44 @@ namespace Kiinteistosovellus.Controllers
             {
                 int? thisYear = year;
 
-            var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
-                                    where sld.Vuosi == thisYear
-                                    select sld;
+                var monthOthSpendData = from sld in db.MonthlyAndOtherSpendingsByMonth
+                                        where sld.Vuosi == thisYear
+                                        select sld;
 
-            var yearObject = monthOthSpendData.FirstOrDefault();
+                var yearObject = monthOthSpendData.FirstOrDefault();
 
-            decimal[] yearValues = new decimal[12];
-            yearValues[0] = yearObject.Tammikuu;
-            yearValues[1] = yearObject.Helmikuu;
-            yearValues[2] = yearObject.Maaliskuu;
-            yearValues[3] = yearObject.Huhtikuu;
-            yearValues[4] = yearObject.Toukokuu;
-            yearValues[5] = yearObject.Kesäkuu;
-            yearValues[6] = yearObject.Heinäkuu;
-            yearValues[7] = yearObject.Elokuu;
-            yearValues[8] = yearObject.Syyskuu;
-            yearValues[9] = yearObject.Lokakuu;
-            yearValues[10] = yearObject.Marraskuu;
-            yearValues[11] = yearObject.Joulukuu;
+                decimal[] yearValues = new decimal[12];
+                yearValues[0] = yearObject.Tammikuu;
+                yearValues[1] = yearObject.Helmikuu;
+                yearValues[2] = yearObject.Maaliskuu;
+                yearValues[3] = yearObject.Huhtikuu;
+                yearValues[4] = yearObject.Toukokuu;
+                yearValues[5] = yearObject.Kesäkuu;
+                yearValues[6] = yearObject.Heinäkuu;
+                yearValues[7] = yearObject.Elokuu;
+                yearValues[8] = yearObject.Syyskuu;
+                yearValues[9] = yearObject.Lokakuu;
+                yearValues[10] = yearObject.Marraskuu;
+                yearValues[11] = yearObject.Joulukuu;
 
-            string[] months = new string[12];
-            months[0] = "Tammikuu";
-            months[1] = "Helmikuu";
-            months[2] = "Maaliskuu";
-            months[3] = "Huthikuu";
-            months[4] = "Toukokuu";
-            months[5] = "Kesäkuu";
-            months[6] = "Heinäkuu";
-            months[7] = "Elokuu";
-            months[8] = "Syyskuu";
-            months[9] = "Lokakuu";
-            months[10] = "Marraskuu";
-            months[11] = "Joulukuu";
+                string[] months = new string[12];
+                months[0] = "Tammikuu";
+                months[1] = "Helmikuu";
+                months[2] = "Maaliskuu";
+                months[3] = "Huthikuu";
+                months[4] = "Toukokuu";
+                months[5] = "Kesäkuu";
+                months[6] = "Heinäkuu";
+                months[7] = "Elokuu";
+                months[8] = "Syyskuu";
+                months[9] = "Lokakuu";
+                months[10] = "Marraskuu";
+                months[11] = "Joulukuu";
 
-            ViewBag.Year = JsonConvert.SerializeObject(yearValues);
-            ViewBag.Months = JsonConvert.SerializeObject(months);
-
-            return PartialView("/Views/Home/_LineChart.cshtml");
+                ViewBag.Year = JsonConvert.SerializeObject(yearValues);
+                ViewBag.Months = JsonConvert.SerializeObject(months);
+                ViewBag.ThisYear = year;
+                return PartialView("/Views/Home/_LineChart.cshtml");
             }
             else { return View(); }
         }
