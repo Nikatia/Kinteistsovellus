@@ -137,6 +137,93 @@ namespace Kiinteistosovellus.Controllers
             else { return null; }
         }
 
+        public ActionResult _MoveOthPlan(int? id)
+        {
+            if (Session["UserName"] != null)
+            {
+                Plans plans = db.Plans.Find(id);
+                ViewBag.DateBegin = plans.DateBegin.ToString("yyyy-MM-dd");
+                ViewBag.DateEnd = plans.DateEnd?.ToString("yyyy-MM-dd");
+                ViewBag.Price = plans.Price;
+                ViewBag.Description = plans.Desciption;
+                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+                ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+
+                return PartialView("/Views/Plans/_MoveOthPlan.cshtml");
+            }
+            else { return null; }
+        }
+
+        // POST: OtherSpendings/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _MoveOthPlan([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price")] OtherSpendings otherSpendings)
+        {
+            if (Session["UserName"] != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    Console.WriteLine("IsValid");
+                    
+                    db.OtherSpendings.Add(otherSpendings);
+                    db.SaveChanges();
+                    return null;
+                }
+                ViewBag.DateBegin = otherSpendings.DateBegin.ToString("yyyy-MM-dd");
+                ViewBag.DateEnd = otherSpendings.DateEnd?.ToString("yyyy-MM-dd");
+                ViewBag.Price = otherSpendings.Price;
+                ViewBag.Description = otherSpendings.Description;
+                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
+                ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+                return PartialView("/Views/Plans/_MoveOthPlan.cshtml", otherSpendings);
+            }
+            else { return null; }
+        }
+
+        public ActionResult _MoveMonthPlan(int? id)
+        {
+            if (Session["UserName"] != null)
+            {
+                Plans plans = db.Plans.Find(id);
+                ViewBag.DateBegin = plans.DateBegin.ToString("yyyy-MM-dd");
+                ViewBag.DateEnd = plans.DateEnd?.ToString("yyyy-MM-dd");
+                ViewBag.Price = plans.Price;
+                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+                ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
+
+                return PartialView("/Views/Plans/_MoveMonthPlan.cshtml");
+            }
+            else { return null; }
+        }
+
+        // POST: OtherSpendings/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult _MoveMonthPlan([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID")] MonthlySpendings monthlySpendings)
+        {
+            if (Session["UserName"] != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    Console.WriteLine("IsValid");
+                    db.MonthlySpendings.Add(monthlySpendings);
+                    db.SaveChanges();
+                    return null;
+                }
+                ViewBag.DateBegin = monthlySpendings.DateBegin.ToString("yyyy-MM-dd");
+                ViewBag.DateEnd = monthlySpendings.DateEnd?.ToString("yyyy-MM-dd");
+                ViewBag.Price = monthlySpendings.FullPrice;
+                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
+                ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
+                return PartialView("/Views/Plans/_MoveMonthPlan.cshtml", monthlySpendings);
+            }
+            else { return null; }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

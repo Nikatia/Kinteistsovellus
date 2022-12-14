@@ -1,6 +1,6 @@
 ﻿@model Kiinteistosovellus.Models.OtherSpendings
 
-<div class="modal fade" id="ModalOtherSpendingCreate">
+<div class="modal fade" id="ModalOtherSpendingPlanCreate">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -9,7 +9,7 @@
             </div>
 
             <div class="modal-body">
-
+                <p class="text-danger">Huomaa, että tämä toiminto ei poista suunnitelmaa, vaan luo vain uusia kuluja. Sinun on poistettava suunnitelma manuaalisesti tämän jälkeen.</p>
                 @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
                 {
                     @Html.AntiForgeryToken()
@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                        @Html.TextArea("Description", (string)ViewBag.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000", name = "Description" })
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
+                    <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Lisätä" class="btn btn-primary" />
                     @Html.ActionLink("Takaisin", "Index")
                 </div>
             </div>
@@ -98,6 +98,13 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    $(function () {
+        $("#DateBegin").val("@ViewBag.DateBegin");
+        $("#DateEnd").val("@ViewBag.DateEnd");
+        $("#Price").val("@ViewBag.Price");
+    });
+
     //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
 
     //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
@@ -137,7 +144,7 @@
 
     //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
     function submitModal() {
-        submitModalPost("OtherSpendings", "_ModalCreate", "createForm", "ModalOtherSpendingCreate");
+        submitModalPost("Plans", "_MoveOthPlan", "createForm", "ModalOtherSpendingPlanCreate");
     };
 
     $("#Price").keypress(function () {
@@ -164,7 +171,7 @@
     //Reloads type's dropdown with empty value as first
     $(function () {
         var types = $('#OtherSpendingTypeID');
-        var typeUrl = 'OtherSpendings/FetchTypes';
+        var typeUrl = '/OtherSpendings/FetchTypes';
         types.empty();
         types.append($('<option></option>').val('').text(''));
         $.getJSON(typeUrl, function (data) {
