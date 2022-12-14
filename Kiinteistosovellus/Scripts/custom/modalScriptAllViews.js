@@ -240,13 +240,13 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
                 tdsDateBegin = new Date(createISO(tds[0].innerText));
 
                 if (tds[1].innerText == "") {//Jos ei indexissä ei loppupäivämäärää
-                    if (!(tdsDateBegin >= dtDateBegin)) {
+                    if (tdsDateBegin >= dtDateBegin) {
                         //$(rows[i]).addClass("d-none");
                         $(rows[i]).addClass("ChosenDate");
                     }
                 } else { //Muutoin siinä on loppupvm
                     tdsDateEnd = new Date(createISO(tds[1].innerText));
-                    if (!(tdsDateEnd >= dtDateBegin)) {
+                    if (tdsDateEnd >= dtDateBegin) {
                         //$(rows[i]).addClass("d-none");
                         $(rows[i]).addClass("ChosenDate");
                     }
@@ -260,7 +260,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
                 tdsDateBegin = new Date(createISO(tds[0].innerText));
 
                 if (tds[1].innerText == "") {//Riippumattta, onko loppupäivämäärää vai ei
-                    if (!(tdsDateBegin <= dtDateEnd)) {
+                    if (tdsDateBegin <= dtDateEnd) {
                         //$(rows[i]).addClass("d-none");
                         $(rows[i]).addClass("ChosenDate");
                     }
@@ -277,13 +277,13 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
 
                 if (tds[1].innerText != "") {//Löytyy loppupvm
                     tdsDateEnd = new Date(createISO(tds[1].innerText));
-                    if (!(tdsDateBegin <= dtDateEnd) && !(tdsDateEnd >= dtDateBegin)) {
+                    if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
                         //$(rows[i]).addClass("d-none");
                         $(rows[i]).addClass("ChosenDate");
                     }
                 } else {
                     tdsDateEnd = new Date(createISO(tds[0].innerText));
-                    if (!(tdsDateBegin <= dtDateEnd) && !(tdsDateEnd >= dtDateBegin)) {
+                    if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
                         //$(rows[i]).addClass("d-none");
                         $(rows[i]).addClass("ChosenDate");
                     }

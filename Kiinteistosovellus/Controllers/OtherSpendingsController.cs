@@ -22,11 +22,9 @@ namespace Kiinteistosovellus.Controllers
         // GET: OtherSpendings
         public ActionResult Index()
         {
-            
-        }
             if (Session["UserName"] != null)
             {
-                var otherSpendings = db.OtherSpendings.Include(o => o.Contractors).Include(o => o.Logins).Include(o => o.OtherSpendingTypes);
+                var otherSpendings = db.OtherSpendings.Include(o => o.Contractors).Include(o => o.OtherSpendingTypes);
                 var distinctYearList = db.OtherTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
                 ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
                 var kulutyypit = db.OtherSpendingTypes.ToArray();
@@ -43,6 +41,8 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return null; }
         }
+            
+        
 
         public ActionResult Chart(int year)
         {
