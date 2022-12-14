@@ -62,7 +62,7 @@ namespace Kiinteistosovellus.Controllers
 
                 ViewBag.Category = typeList;
                 ViewBag.Price = priceList;
-
+                ViewBag.ThisYear = year;
                 return PartialView();
             }
             else { return View(); }
