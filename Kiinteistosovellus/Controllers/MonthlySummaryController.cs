@@ -4,9 +4,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -44,13 +47,18 @@ namespace Kiinteistosovellus.Controllers
                         ForMonthSummary OneRow = new ForMonthSummary();
                         OneRow.TypeName = category.TypeName;
                         OneRow.Kokonaishinta = ((int)category.Kokonaishinta * 100 / (int)month.Summa);
+                       OneRow.MonthOfSpending = category.MonthOfSpending;
                         spendingList.Add(OneRow);
                     }
                 }
             }
             typeList = "'" + string.Join("','", spendingList.Select(n => n.TypeName).ToList()) + "'";
             priceList = string.Join(",", spendingList.Select(n => n.Kokonaishinta).ToList());
-
+            var thismonth = string.Join(",",spendingList.Select(n=>n.MonthOfSpending).First()).ToString();
+            var thismonthname= DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(int.Parse(thismonth));
+            byte[] bytes = Encoding.Default.GetBytes(thismonthname);
+            thismonthname = Encoding.UTF8.GetString(bytes);
+            ViewBag.ThisMonth = thismonthname + "kuun";
             ViewBag.Category = typeList;
             ViewBag.Price = priceList;
 

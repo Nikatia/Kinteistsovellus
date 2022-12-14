@@ -187,7 +187,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Year = JsonConvert.SerializeObject(yearValues);
 
                 ViewBag.ThisYear = year;
-
+                ViewBag.TypeName = spendingTypes.TypeName;
                 return PartialView();
             }
             else { return null; }
