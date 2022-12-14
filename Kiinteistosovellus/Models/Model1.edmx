@@ -41,6 +41,7 @@
           <Property Name="LoginID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MonthlySpendings">
           <Key>
@@ -104,6 +105,13 @@
           <Property Name="Desciption" Type="nvarchar" MaxLength="1000" />
           <Property Name="Price" Type="numeric" Precision="7" Scale="2" Nullable="false" />
           <Property Name="MonthOrOtherID" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'KiinteistoDB.dbo.ForCategorySortChartWithYears' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -386,6 +394,18 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Logins__RoleID__01D345B0">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__MonthlySp__Contr__6D0D32F4">
           <End Role="Contractors" Type="Self.Contractors" Multiplicity="0..1" />
           <End Role="MonthlySpendings" Type="Self.MonthlySpendings" Multiplicity="*" />
@@ -577,6 +597,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="OtherSpendingTypes" EntityType="Self.OtherSpendingTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ForCategorySortChartWithYears" EntityType="Self.ForCategorySortChartWithYears" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ForCategorySortChartWithYears].[ROW_NUM] AS [ROW_NUM], 
@@ -731,6 +752,10 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
             <End Role="Persons" EntitySet="Persons" />
             <End Role="Contacts" EntitySet="Contacts" />
           </AssociationSet>
+          <AssociationSet Name="FK__Logins__RoleID__01D345B0" Association="Self.FK__Logins__RoleID__01D345B0">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
           <AssociationSet Name="FK__MonthlySp__Contr__6D0D32F4" Association="Self.FK__MonthlySp__Contr__6D0D32F4">
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="MonthlySpendings" EntitySet="MonthlySpendings" />
@@ -831,6 +856,8 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="LoginID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Roles" Relationship="KiinteistoDBModel.FK__Logins__RoleID__01D345B0" FromRole="Logins" ToRole="Roles" />
         </EntityType>
         <EntityType Name="MonthlySpendings">
           <Key>
@@ -1058,6 +1085,11 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySet Name="MonthlyTypeSpendingsByMonthUnitsChart" EntityType="KiinteistoDBModel.MonthlyTypeSpendingsByMonthUnitsChart" />
           <EntitySet Name="MonthlySummary" EntityType="KiinteistoDBModel.MonthlySummary" />
           <EntitySet Name="SpendingMonths" EntityType="KiinteistoDBModel.SpendingMonths" />
+          <EntitySet Name="Roles" EntityType="KiinteistoDBModel.Roles" />
+          <AssociationSet Name="FK__Logins__RoleID__01D345B0" Association="KiinteistoDBModel.FK__Logins__RoleID__01D345B0">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="KuukausittainenVaiMuu">
           <Key>
@@ -1262,6 +1294,26 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <Property Name="YearOfSpending" Type="Int32" />
           <Property Name="Summa" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Logins" Relationship="KiinteistoDBModel.FK__Logins__RoleID__01D345B0" FromRole="Roles" ToRole="Logins" />
+        </EntityType>
+        <Association Name="FK__Logins__RoleID__01D345B0">
+          <End Type="KiinteistoDBModel.Roles" Role="Roles" Multiplicity="1" />
+          <End Type="KiinteistoDBModel.Logins" Role="Logins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1295,6 +1347,7 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
           <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="KiinteistoDBModel.Logins">
               <MappingFragment StoreEntitySet="Logins">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="LoginID" ColumnName="LoginID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
@@ -1531,6 +1584,14 @@ warning 6002: The table/view 'KiinteistoDB.sys.database_firewall_rules' does not
                 <ScalarProperty Name="YearOfSpending" ColumnName="YearOfSpending" />
                 <ScalarProperty Name="MonthOfSpending" ColumnName="MonthOfSpending" />
                 <ScalarProperty Name="Rivi" ColumnName="Rivi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="KiinteistoDBModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

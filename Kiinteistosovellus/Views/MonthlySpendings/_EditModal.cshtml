@@ -213,6 +213,11 @@
     $("#AmountOfUnits").keyup(function () {
         validateKeyUp(event, "AmountOfUnits");
     });
+
+    //Removes Type 1000 from dropdown list, as 1000 is deleted value
+    $(function () {
+        $("#SpendingTypeID option[value='1000']").remove();
+    })
 </script>
 
 

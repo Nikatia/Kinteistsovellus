@@ -58,13 +58,20 @@
                     @Html.AntiForgeryToken()
                     <div class="form-actions no-color">
                         <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
-                        <a href="@Url.Action("Index", "Contractors")">Peruuta</a>
+                        <a href="#" data-bs-dismiss="modal" onclick='destroyDiv()'>Peruuta</a>
                     </div>
                 }
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function destroyDiv() {
+        var div = parent.document.getElementById("ModalPersonDelete");
+        div.parentNode.removeChild(div);
+    }
+</script>
 
 
 

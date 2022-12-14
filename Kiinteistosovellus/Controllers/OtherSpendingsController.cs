@@ -19,6 +19,30 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
+        public List<OtherSpendingTypes> GetTypes()
+        {
+            if (Session["UserName"] != null)
+            {
+                List<OtherSpendingTypes> types = db.OtherSpendingTypes.ToList();
+                return types;
+            }
+            else { return null; }
+        }
+
+        [HttpGet]
+        public JsonResult FetchTypes()
+        {
+            if (Session["UserName"] != null)
+            {
+                var data = GetTypes().Select(c => new { Value = c.OtherSpendingTypeId, Text = c.TypeName });
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         // GET: OtherSpendings
         public ActionResult Index()
         {
@@ -221,27 +245,6 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // ----------------------------------------------- EDIT PART -----------------------------------------------
-        // GET: OtherSpendings/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (Session["UserName"] != null)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //        }
-        //        OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
-        //        if (otherSpendings == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-        //        ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-
-        //        return PartialView("/Views/OtherSpendings/_ModalEdit", otherSpendings);
-        //    }
-        //    else { return null; }
-        //}
 
         public ActionResult _ModalEdit(int? id)
         {

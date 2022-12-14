@@ -409,14 +409,14 @@ namespace Kiinteistosovellus.Controllers
                 {
                     if (item.ContractorID == id)
                     {
-                        item.ContractorID = 1004;
+                        item.ContractorID = null;
                     }
                 }
                 foreach (var item in db.MonthlySpendings)
                 {
                     if (item.ContractorID == id)
                     {
-                        item.ContractorID = 1004;
+                        item.ContractorID = null;
                     }
                 }
                 //deleting contractor together with it's persons and their contact informations

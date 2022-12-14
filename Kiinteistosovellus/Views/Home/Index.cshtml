@@ -24,11 +24,11 @@
     <div class="row">
         <div class="col-md-6">
             <div id="chartContainer"></div>
-            <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, htmlAttributes: new { @class = "form-control" })</div>
+            <div style="padding-left:60px">@Html.DropDownListFor(model => model.Vuosi, null, new { @class = "form-control form-select" })</div>
         </div>
         <div class="col-md-6">
             <div style="height: 398px" id="chartContainerLine"></div>
-            <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, htmlAttributes: new { @class = "form-control" })</div>
+            <div style="margin-left:31.5%">@Html.DropDownList("VuosiLine", null, new { @class = "form-control form-select" })</div>
         </div>
     </div>
 }

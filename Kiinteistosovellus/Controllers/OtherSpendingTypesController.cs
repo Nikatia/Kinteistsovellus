@@ -15,6 +15,15 @@ namespace Kiinteistosovellus.Controllers
     public class OtherSpendingTypesController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
+        public List<OtherSpendings> GetSpendings()
+        {
+            if (Session["UserName"] != null)
+            {
+                List<OtherSpendings> spendings = db.OtherSpendings.ToList();
+                return spendings;
+            }
+            else { return null; }
+        }
 
         // GET: OtherSpendingTypes
         public async Task<ActionResult> Index()
@@ -22,6 +31,7 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 var othSpendtype = db.OtherSpendingTypes;
+                ViewBag.Spendings = GetSpendings();
                 return View(await othSpendtype.ToListAsync());
             }
             else { return null; }
@@ -154,7 +164,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                if (id == null)
+                if (id == null || id == 1000)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -176,6 +186,13 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+                foreach (var item in db.OtherSpendings)
+                {
+                    if (item.OtherSpendingTypeID == id)
+                    {
+                        item.OtherSpendingTypeID = 1000;
+                    }
+                }
                 db.OtherSpendingTypes.Remove(othSpendType);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

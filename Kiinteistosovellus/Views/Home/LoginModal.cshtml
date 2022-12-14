@@ -19,24 +19,24 @@
                         @Html.AntiForgeryToken()
 
                         <div class="form-horizontal">
-                            @Html.ValidationSummary(true, "", new { @class = "text-secondary" })
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.LoginID)
 
                             <div class="form-group">
-                                Käyttäjätunnus @Html.ValidationMessageFor(model => model.UserName, "", new { @style = "color:red" })
+                                Käyttäjätunnus @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                Salasana @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-secondary" })
+                                Salasana @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
 
                                 </div>
-                            </div><br id="newRow" style="display:none"/>
-                            <label class="text-bg-danger">
+                            </div>@*<br id="newRow" style="display:none"/>*@
+                            <label class="text-danger">
                                 @Html.DisplayFor(model => model.LoginErrorMessage)
                             </label>
                             <div class="form-group">
@@ -78,12 +78,12 @@
             data: data,
             success: function (result) {
                 if (result == "") {
-                    document.getElementById("newRow").style.display = "none";
+                    /*document.getElementById("newRow").style.display = "none";*/
                     window.location.href = indexUrl;
                 } else {
                     $(detailDivCreate).html("");
                     $(detailDivCreate).replaceWith(result);
-                    document.getElementById("newRow").style.display = "inline-block";
+                    /*document.getElementById("newRow").style.display = "inline-block";*/
                     $("#myModal").modal("show");
                 }
 

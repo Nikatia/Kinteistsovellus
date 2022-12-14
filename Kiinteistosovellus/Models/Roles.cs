@@ -11,22 +11,19 @@ namespace Kiinteistosovellus.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
-    public partial class Logins
+    public partial class Roles
     {
-        public int LoginID { get; set; }
-        [Required(ErrorMessage = "vaaditaan!")]
-        public string UserName { get; set; }
-
-        [Required(ErrorMessage = "vaaditaan!")]
-        public string UserPassword { get; set; }
-
-        [Required(ErrorMessage = "vaaditaan!")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Roles()
+        {
+            this.Logins = new HashSet<Logins>();
+        }
+    
         public int RoleID { get; set; }
-
-        public string LoginErrorMessage { get; set; }
-
-        public virtual Roles Roles { get; set; }
+        public string Role { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Logins> Logins { get; set; }
     }
 }

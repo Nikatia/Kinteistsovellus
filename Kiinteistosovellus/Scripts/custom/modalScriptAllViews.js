@@ -1,9 +1,9 @@
 ﻿function submitModalPost(controller, actionResult, formId, modalId) {
-    console.log(formId);
+    /*console.log(formId);*/
     var indexUrl = '/' + controller + '/Index';
     var submittedForm = new FormData(document.getElementById(formId));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta
     var modalIdParent = parent.document.getElementById(modalId); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan
-    console.log("menee tänne asti");
+    /*console.log("menee tänne asti");*/
     $.ajax({
         url: "/" + controller + "/" + actionResult,
         cache: false,
@@ -13,8 +13,8 @@
         type: "POST",
         data: submittedForm, //aikaisemmin mainittu formdata viedään ajax-pyynnöllä controllerille
         success: function (result) {
-            console.log("Result:")
-            console.log(result);
+            //console.log("Result:")
+            //console.log(result);
             if (result == "") { //Jos lisäys onnistui, controller palauttaa nullin
                 window.location.href = indexUrl; //Onnistumisen jälkeen käyttäjä ohjataan indexiin, jossa päivittyneet tiedot
             } else {//tallentaminen ei onnistunut, koska modelstate.isvalid ei ollut true
@@ -28,7 +28,7 @@
 
 function modalGet(controller, actionresult, actionresultId, iframeId, modalId) {
     var url = "/" + controller + "/" + actionresult;
-    console.log(actionresultId);
+    /*console.log(actionresultId);*/
     if (actionresultId != null) {
         url += "/?id=" + actionresultId;
     }

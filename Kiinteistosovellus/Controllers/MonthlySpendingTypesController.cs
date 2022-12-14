@@ -15,6 +15,15 @@ namespace Kiinteistosovellus.Controllers
     public class MonthlySpendingTypesController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
+        public List<MonthlySpendings> GetSpendings()
+        {
+            if (Session["UserName"] != null)
+            {
+                List<MonthlySpendings> spendings = db.MonthlySpendings.ToList();
+                return spendings;
+            }
+            else { return null; }
+        }
 
         // GET: MonthlySpendingTypes
         public ActionResult Index()
@@ -22,6 +31,7 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 var monthlySpendingTypes = db.MonthlySpendingTypes;
+                ViewBag.Spendings = GetSpendings();
                 return View(monthlySpendingTypes.ToList());
             }
             else { return null; }
@@ -260,7 +270,6 @@ namespace Kiinteistosovellus.Controllers
                     db.Entry(monthlySpendingTypes).State = EntityState.Modified;
                     db.SaveChanges();
                     return null;
-                    //return RedirectToAction("Index");
                 }
                 return PartialView("_EditModal", monthlySpendingTypes);
             }
@@ -272,7 +281,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                if (id == null)
+                if (id == null || id == 1000)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -294,6 +303,13 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
+                foreach (var item in db.MonthlySpendings)
+                {
+                    if (item.SpendingTypeID == id)
+                    {
+                        item.SpendingTypeID = 1000;
+                    }
+                }
                 db.MonthlySpendingTypes.Remove(monthlySpendingTypes);
                 db.SaveChanges();
                 return RedirectToAction("Index");

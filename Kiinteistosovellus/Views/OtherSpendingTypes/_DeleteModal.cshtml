@@ -12,13 +12,14 @@
                 <hr />
                 <dl class="dl-horizontal">
                     <dt>
-                        @Html.DisplayNameFor(model => model.TypeName)
+                        Tyypin nimi
                     </dt>
 
                     <dd>
                         @Html.DisplayFor(model => model.TypeName)
                     </dd>
                 </dl>
+                <p class="text-danger">Huom! <br />Jos tämä kulutustyyppi on käytössä, poistaminen muuttaisi kulutyyppien nimet kaikissa liittyvissä kuluissa muotoon <br />"(poistettu)"!</p>
             </div>
             <div class="modal-footer">
                 @using (Html.BeginForm())

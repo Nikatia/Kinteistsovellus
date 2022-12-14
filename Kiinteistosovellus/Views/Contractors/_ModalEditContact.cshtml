@@ -19,25 +19,28 @@
                         @Html.HiddenFor(model => model.ContactID)
 
                         <div class="form-group">
-                            Puhelin numero @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            Puhelin numero <div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group">
-                            Sähköposti @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            Sähköposti <div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div> 
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
                     </div>
                 }
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
                     <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                    @Html.ActionLink("Takaisin", "Index")
+                    <a href="#" data-bs-dismiss="modal" id="back" onclick='destroyDiv()'>Takaisin</a>
                 </div>
             </div>
         </div>
@@ -47,9 +50,46 @@
 <script type="text/javascript">
 
     $("#submitDataModal").click(function () {
-        submitModalPost("Contractors", "EditContact", "editContactForm", "ModalContactEdit");
+        var telephone = $("#phone").val();
+        var email = $("#mail").val();
+        var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
+        if ((telephone == "" && email == "") || (!email.match(mailFormat) && email != "") || (!telephone.match(phoneFormat) && telephone != "")) {
+            $("#back").attr('href', '/Contractors/Index');
+            $("#back").removeAttr('data-bs-dismiss');
+            $("#back").removeAttr('onclick');
+            if (telephone != "" || email != "") {
+                document.getElementById("noContactInfo").style.display = "none";
+            }
+            else {
+                document.getElementById("noContactInfo").style.display = "inline-block";
+            }
+
+            if (!email.match(mailFormat) && email != "") {
+                console.log("email wrong")
+                document.getElementById("wrongEmail").style.display = "inline-block";
+            }
+            else {
+                document.getElementById("wrongEmail").style.display = "none";
+            }
+
+            if (!telephone.match(phoneFormat) && telephone != "") {
+                console.log("phone wrong")
+                document.getElementById("wrongPhone").style.display = "inline-block";
+            }
+            else {
+                document.getElementById("wrongPhone").style.display = "none";
+            }
+        }
+        else {
+            submitModalPost("Contractors", "EditContact", "editContactForm", "ModalContactEdit");
+        }
     });
 
+    function destroyDiv() {
+        var div = parent.document.getElementById("ModalContactEdit");
+        div.parentNode.removeChild(div);
+    }
 </script>
 
 

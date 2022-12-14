@@ -220,20 +220,31 @@
         isNumberKey(event, "AmountOfUnits");
     });
 
-    //Removes Contractor 1004 from dropdown list, as 1004 is deleted value
+    //Reloads contractor's dropdown with empty value as first
     $(function () {
         var contractors = $('#ContractorID');
         var contractorUrl = '/Contractors/FetchContractors';
-        console.log(contractorUrl);
         contractors.empty();
         contractors.append($('<option></option>').val('').text(''));
         $.getJSON(contractorUrl, function (data) {
             $.each(data, function (index, item) {
-                if (item.Value != 1004) {
-                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
-                }
+                contractors.append($('<option></option>').val(item.Value).text(item.Text));
             });
         });
     })
 
+    //Reloads type's dropdown with empty value as first
+    $(function () {
+        var types = $('#SpendingTypeID');
+        var typeUrl = 'MonthlySpendings/FetchTypes';
+        types.empty();
+        types.append($('<option></option>').val('').text(''));
+        $.getJSON(typeUrl, function (data) {
+            $.each(data, function (index, item) {
+                if (item.Value != 1000) {
+                    types.append($('<option></option>').val(item.Value).text(item.Text));
+                }
+            });
+        });
+    })
 </script>

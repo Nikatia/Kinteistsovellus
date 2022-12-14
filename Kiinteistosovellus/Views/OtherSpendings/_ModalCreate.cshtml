@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("ContractorID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
                                     <div class="col-md-10">
-                                        @Html.DropDownList("OtherSpendingTypeID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("OtherSpendingTypeID", null, new { @class = "form-control form-select" })
                                         <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
 
                                     </div>
@@ -147,7 +147,7 @@
     $("#Price").keyup(function () {
         validateKeyUp(event, "Price");
     });
-    //Removes Contractor 1004 from dropdown list, as 1004 is deleted value
+    //Reloads dropdown with empty value as first
     $(function () {
         var contractors = $('#ContractorID');
         var contractorUrl = '/Contractors/FetchContractors';
@@ -156,8 +156,21 @@
         contractors.append($('<option></option>').val('').text(''));
         $.getJSON(contractorUrl, function (data) {
             $.each(data, function (index, item) {
-                if (item.Value != 1004) {
-                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
+                contractors.append($('<option></option>').val(item.Value).text(item.Text));
+            });
+        });
+    })
+
+    //Reloads type's dropdown with empty value as first
+    $(function () {
+        var types = $('#OtherSpendingTypeID');
+        var typeUrl = 'OtherSpendings/FetchTypes';
+        types.empty();
+        types.append($('<option></option>').val('').text(''));
+        $.getJSON(typeUrl, function (data) {
+            $.each(data, function (index, item) {
+                if (item.Value != 1000) {
+                    types.append($('<option></option>').val(item.Value).text(item.Text));
                 }
             });
         });

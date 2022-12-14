@@ -139,6 +139,7 @@ namespace Kiinteistosovellus.Controllers
 
                 ViewBag.LoggedStatus = Session["UserName"];
                 Session["UserName"] = LoggedUser.UserName;
+                Session["Role"] = LoggedUser.Roles.Role;
                 return null;
 
             }
