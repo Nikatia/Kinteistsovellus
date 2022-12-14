@@ -339,20 +339,20 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
     var table, rows, switching, i, x, y, shouldSwitch, stop;
     table = document.getElementById(tableID);
     switching = true;
-    stop = 1;
+    //stop = 1;
     console.log(varThis);
     var emptyRowArray = [];
     if ($(varThis).hasClass("desc")) {//Jos on laskeva, luodaan nouseva järjestys
         $(varThis).addClass("asc");
         $(varThis).removeClass("desc");
         while (switching) {
-            stop++;
+            //stop++;
             switching = false;
             rows = table.rows;
-            for (i = 1; i < (rows.length); i++) {
+            for (i = 1; i < (rows.length-1); i++) {
                 shouldSwitch = false;
                 x = rows[i].getElementsByTagName("TD")[columnNumber];
-                y = rows[i + 1].getElementsByTagName("TD")[columnNumber];
+                
                 if (x.innerText == "") {
                     console.log("Postaa rivin: " + $(rows[i]));
                     emptyRowArray.push(rows[i]);
@@ -360,6 +360,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                     i--;
                     continue;
                 }
+                y = rows[i + 1].getElementsByTagName("TD")[columnNumber];
                 if (dateNumberOther == "DATE") {
                     //console.log("Tänne meni päivämäärä");
                     if (createISO(x.innerText) < createISO(y.innerText)) {
@@ -369,7 +370,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 } else if (dateNumberOther == "NUMBER") {
                     if (y.innerText == "" && x.innerText != "") {
                         y = parseFloat("0");
-                        console.log("funktioon menee y: " + x.innerText);
+                        //console.log("funktioon menee y: " + x.innerText);
                         if (eurosToFloat(x.innerText) < y) {
                             shouldSwitch = true;
                             break;
@@ -377,7 +378,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                     }
                     else if (y.innerText != "" && x.innerText == "") {
                         x = parseFloat("0");
-                        console.log("funktioon menee x: " + y.innerText);
+                        //console.log("funktioon menee x: " + y.innerText);
                         if (x < eurosToFloat(y.innerText)) {
                             shouldSwitch = true;
                             break;
@@ -386,7 +387,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
 
                     else {
                         if (eurosToFloat(x.innerText) < eurosToFloat(y.innerText)) {
-                            console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
+                            //console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
                             shouldSwitch = true;
                             break;
                         }
@@ -401,13 +402,13 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 }
             }
             if (shouldSwitch) {
-                console.log("Pitäisi vaihtaa");
+                //console.log("Pitäisi vaihtaa");
                 rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
                 switching = true;
             }
-            if (stop == 4000) {
-                return;
-            }
+            //if (stop == 4000) {
+            //    return;
+            //}
         }
         for (var i = 0; i < emptyRowArray.length; i++) {
             table.tBodies[0].insertBefore(emptyRowArray[i], table.tBodies[0].children[1]);
@@ -482,9 +483,9 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
 }
 
 function eurosToFloat(euro) {
-    var correctNumber = euro;
+    var correctNumber = parseFloat(euro.toString().replace("€", "").replace(",", ".").replace(/\s/g, '').trim());
     //console.log(parseFloat(correctNumber.toString().replace("€", "").replace(",", ".").replace(" ", "").trim()));
-    return parseFloat(correctNumber.toString().replace("€", "").replace(",", ".").replace(" ", "").trim());
+    return correctNumber;
 }
 
 //function filterTable(hidingFieldID, dropdownMenuButtonID) {
