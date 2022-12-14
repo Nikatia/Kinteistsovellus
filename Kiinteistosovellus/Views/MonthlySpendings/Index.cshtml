@@ -100,15 +100,18 @@
 
         <tr class="card-body filtering">
             <td class="centeredTds">
-                @if (item.DateBegin != null)
-                {@Convert.ToDateTime(item.DateBegin).ToString("dd/MM/yyyy")}
-            @*@Html.DisplayFor(modelItem => item.DateBegin)*@
+                @Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")
             </td>
-            <td class="centeredTds">
-                @if (item.DateEnd != null)
-                {@Convert.ToDateTime(item.DateEnd).ToString("dd/MM/yyyy")}
-            @*@Html.DisplayFor(modelItem => item.DateEnd)*@
-            </td>
+            @{
+                if (item.DateEnd != null)
+                {
+                    <td class="centeredTds">@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+                }
+                else
+                {
+                    <td class="centeredTds">@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+                }
+            }
             <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
             </td>
@@ -131,7 +134,7 @@
             <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.Contractors.Name)
             </td>
-            
+
 
             <td class="centeredTds">
                 <a class="card-link ikonka getOrderId" title="Muokkaa Kulu" data-orderid="@item.MonthlySpendingID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>

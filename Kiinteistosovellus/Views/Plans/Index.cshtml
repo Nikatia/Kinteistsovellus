@@ -47,9 +47,16 @@
             <td>
                 @Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")
             </td>
-            <td>
-                @Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")
-            </td>
+            @{
+                if (item.DateEnd != null)
+                {
+                    <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+                }
+                else
+                {
+                    <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+                }
+            }
             <td style="word-break:break-word">
                 @Html.DisplayFor(modelItem => item.Desciption)
             </td>
