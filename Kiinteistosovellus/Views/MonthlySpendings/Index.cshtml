@@ -60,34 +60,33 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table" id="sortableTable">
     <tr class="card-header bg-primary" style="color:white">
-        <th>
+        <th id="0" class="dateHeader">
             Aloituspvm
-
         </th>
-        <th>
+        <th id="1" class="dateHeader">
             Päättymispvm
         </th>
-        <th>
+        <th id="2" class="otherHeader">
             Kulutustyyppi
         </th>
-        <th>
+        <th id="3" class="numberHeader">
             Kokonaiskulutus
         </th>
-        <th>
+        <th id="4" class="otherHeader">
             Energian yksikkö
         </th>
-        <th class="details" style="display: none; font-weight: bold;">
+        <th id="5" class="details numberHeader" style="display: none; font-weight: bold;">
             Yksikköhinta
         </th>
-        <th class="details" style="display: none; font-weight: bold;">
+        <th id="6" class="details numberHeader" style="display: none; font-weight: bold;">
             Siirtomaksu
         </th>
-        <th>
+        <th id="7" class="numberHeader">
             Kokonaishinta
         </th>
-        <th>
+        <th id="8" class="otherHeader">
             Yrityksen nimi
         </th>
        
@@ -145,6 +144,17 @@
 
 </table>
 <script type="text/javascript">
+    $(".otherHeader").click(function () {
+        sortTable("sortableTable", parseInt(this.id), "OTHER", this);
+    });
+
+    $(".numberHeader").click(function () {
+        sortTable("sortableTable", parseInt(this.id), "NUMBER", this);
+    });
+
+    $(".dateHeader").click(function () {
+        sortTable("sortableTable", parseInt(this.id), "DATE", this);
+    });
 
     $(function () {
         $('#homeClicked').removeClass('active');

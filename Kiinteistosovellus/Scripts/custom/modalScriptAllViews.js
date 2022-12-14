@@ -335,6 +335,158 @@ function createISO(dateStringFiCulture) {
     return strIsoDate;
 }
 
+function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
+    var table, rows, switching, i, x, y, shouldSwitch, stop;
+    table = document.getElementById(tableID);
+    switching = true;
+    stop = 1;
+    console.log(varThis);
+    var emptyRowArray = [];
+    if ($(varThis).hasClass("desc")) {//Jos on laskeva, luodaan nouseva järjestys
+        $(varThis).addClass("asc");
+        $(varThis).removeClass("desc");
+        while (switching) {
+            stop++;
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[columnNumber];
+                y = rows[i + 1].getElementsByTagName("TD")[columnNumber];
+                if (x.innerText == "") {
+                    console.log("Postaa rivin: " + $(rows[i]));
+                    emptyRowArray.push(rows[i]);
+                    $(rows[i]).remove();
+                    i--;
+                    continue;
+                }
+                if (dateNumberOther == "DATE") {
+                    //console.log("Tänne meni päivämäärä");
+                    if (createISO(x.innerText) < createISO(y.innerText)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dateNumberOther == "NUMBER") {
+                    if (y.innerText == "" && x.innerText != "") {
+                        y = parseFloat("0");
+                        console.log("funktioon menee y: " + x.innerText);
+                        if (eurosToFloat(x.innerText) < y) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    else if (y.innerText != "" && x.innerText == "") {
+                        x = parseFloat("0");
+                        console.log("funktioon menee x: " + y.innerText);
+                        if (x < eurosToFloat(y.innerText)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+
+                    else {
+                        if (eurosToFloat(x.innerText) < eurosToFloat(y.innerText)) {
+                            console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+
+                } else {
+                    //console.log("Tänne meni muu aakkosjärjestyksessä");
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                console.log("Pitäisi vaihtaa");
+                rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+                switching = true;
+            }
+            if (stop == 4000) {
+                return;
+            }
+        }
+        for (var i = 0; i < emptyRowArray.length; i++) {
+            table.tBodies[0].insertBefore(emptyRowArray[i], table.tBodies[0].children[1]);
+        }
+    } else {
+        $(varThis).addClass("desc");
+        $(varThis).removeClass("asc");
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[columnNumber];
+                y = rows[i + 1].getElementsByTagName("TD")[columnNumber];
+                if (x.innerText == "") {
+                    emptyRowArray.push(rows[i]);
+                    $(rows[i]).remove();
+                    i--;
+                    continue;
+                }
+                if (dateNumberOther == "DATE") {
+                    //console.log("Tänne meni päivämäärä");
+                    if (createISO(x.innerText) > createISO(y.innerText)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dateNumberOther == "NUMBER") {
+                    if (y.innerText == "" && x.innerText != "") {
+                        y = parseFloat("0");
+                        //console.log("funktioon menee y: " + x.innerText);
+                        if (eurosToFloat(x.innerText) > y) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    else if (y.innerText != "" && x.innerText == "") {
+                        x = parseFloat("0");
+                        //console.log("funktioon menee x: " + y.innerText);
+                        if (x > eurosToFloat(y.innerText)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+
+                    else {
+                        if (eurosToFloat(x.innerText) > eurosToFloat(y.innerText)) {
+                            //console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+
+                } else {
+                    //console.log("Tänne meni muu aakkosjärjestyksessä");
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+        for (var i = 0; i < emptyRowArray.length; i++) {
+            table.tBodies[0].appendChild(emptyRowArray[i]);
+        }
+    }
+
+    
+}
+
+function eurosToFloat(euro) {
+    var correctNumber = euro;
+    //console.log(parseFloat(correctNumber.toString().replace("€", "").replace(",", ".").replace(" ", "").trim()));
+    return parseFloat(correctNumber.toString().replace("€", "").replace(",", ".").replace(" ", "").trim());
+}
+
 //function filterTable(hidingFieldID, dropdownMenuButtonID) {
 
 //    //etsi kaikki rivit taulukosta, jossa filtering-class
