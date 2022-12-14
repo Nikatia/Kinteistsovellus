@@ -97,6 +97,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
+                ViewBag.ThisYear = year;
                 string typeList;
                 string priceList;
                 List<ForOthersCategorySortChartClass> spendingList = new List<ForOthersCategorySortChartClass>();
