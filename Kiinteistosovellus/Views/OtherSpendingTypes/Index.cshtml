@@ -24,6 +24,7 @@
 
     @foreach (var item in Model)
     {
+        bool exists = false;
         <tr>
             <td class="centeredTds">
                 @Html.DisplayFor(modelItem => item.TypeName)
@@ -31,7 +32,22 @@
             <td class="centeredTds">
                 <a class="card-link ikonka editOthSpendTypeModal" title="Muokkaa Kulutustyyppi" data-editid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
                 <a class="card-link ikonka deleteOthSpendTypeModal" title="Poista Kulutustyyppi" data-deleteid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
-                <a class="card-link ikonka chartOthSpendTypeModal" title="Näytä kaavio" data-chartid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-chart.svg" height="30"></a>
+                @foreach (Kiinteistosovellus.Models.OtherSpendings spendings in ViewBag.Spendings)
+                {
+                    if (item.OtherSpendingTypeId == spendings.OtherSpendingTypeID)
+                    {
+                        exists = true;
+                    }
+                }
+                @if (exists == true)
+                {
+                    <a class="card-link ikonka chartOthSpendTypeModal" title="Näytä kaavio" data-chartid="@item.OtherSpendingTypeId" role="button"><img src="/Icons/square-chart.svg" height="30"></a>
+                }
+                else
+                {
+                    <img src="/Icons/square-chart.svg" height="30" class="noUnits" title="Tämä tyyppi ei ole vielä käytössä">
+                }
+
             </td>
         </tr>
     }

@@ -15,6 +15,15 @@ namespace Kiinteistosovellus.Controllers
     public class MonthlySpendingTypesController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
+        public List<MonthlySpendings> GetSpendings()
+        {
+            if (Session["UserName"] != null)
+            {
+                List<MonthlySpendings> spendings = db.MonthlySpendings.ToList();
+                return spendings;
+            }
+            else { return null; }
+        }
 
         // GET: MonthlySpendingTypes
         public ActionResult Index()
@@ -22,6 +31,7 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 var monthlySpendingTypes = db.MonthlySpendingTypes;
+                ViewBag.Spendings = GetSpendings();
                 return View(monthlySpendingTypes.ToList());
             }
             else { return null; }

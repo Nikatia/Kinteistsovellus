@@ -15,6 +15,15 @@ namespace Kiinteistosovellus.Controllers
     public class OtherSpendingTypesController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
+        public List<OtherSpendings> GetSpendings()
+        {
+            if (Session["UserName"] != null)
+            {
+                List<OtherSpendings> spendings = db.OtherSpendings.ToList();
+                return spendings;
+            }
+            else { return null; }
+        }
 
         // GET: OtherSpendingTypes
         public async Task<ActionResult> Index()
@@ -22,6 +31,7 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 var othSpendtype = db.OtherSpendingTypes;
+                ViewBag.Spendings = GetSpendings();
                 return View(await othSpendtype.ToListAsync());
             }
             else { return null; }
