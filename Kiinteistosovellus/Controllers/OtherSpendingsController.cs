@@ -22,11 +22,23 @@ namespace Kiinteistosovellus.Controllers
         // GET: OtherSpendings
         public ActionResult Index()
         {
+            
+        }
             if (Session["UserName"] != null)
             {
-                var otherSpendings = db.OtherSpendings.Include(o => o.Contractors).Include(o => o.OtherSpendingTypes);
+                var otherSpendings = db.OtherSpendings.Include(o => o.Contractors).Include(o => o.Logins).Include(o => o.OtherSpendingTypes);
                 var distinctYearList = db.OtherTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
                 ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
+                var kulutyypit = db.OtherSpendingTypes.ToArray();
+                string[] othTypeArray = new string[kulutyypit.Length];
+                for (int i = 0; i < kulutyypit.Length; i++)
+                {
+                    if (!othTypeArray.Contains(kulutyypit[i].TypeName.ToString()))
+                    {
+                        othTypeArray[i] = kulutyypit[i].TypeName.ToString();
+                    }
+                }
+                ViewBag.Kulutyypit = othTypeArray;
                 return View(otherSpendings.ToList());
             }
             else { return null; }

@@ -22,12 +22,41 @@ namespace Kiinteistosovellus.Controllers
         // GET: MonthlySpendings
         public ActionResult Index()
         {
+            ViewBag.Error = 0;
+            var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.Logins).Include(m => m.MonthlySpendingTypes);
+            var distinctYearList = db.MonthlyTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
+            ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
+
+            var kulutyypit = db.MonthlySpendingTypes.ToArray();
+            string[] monthTypeArray = new string[kulutyypit.Length];
+            for (int i = 0; i < kulutyypit.Length; i++)
+            {
+                if (!monthTypeArray.Contains(kulutyypit[i].TypeName.ToString()))
+                {
+                    monthTypeArray[i] = kulutyypit[i].TypeName.ToString();
+                }
+            }
+            ViewBag.Kulutyypit = monthTypeArray;
+
+            return View(monthlySpendings.ToList());
+        }
             if (Session["UserName"] != null)
             {
                 ViewBag.Error = 0;
-                var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.MonthlySpendingTypes);
+                var monthlySpendings = db.MonthlySpendings.Include(m => m.Contractors).Include(m => m.Logins).Include(m => m.MonthlySpendingTypes);
                 var distinctYearList = db.MonthlyTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
                 ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
+
+                var kulutyypit = db.MonthlySpendingTypes.ToArray();
+                string[] monthTypeArray = new string[kulutyypit.Length];
+                for (int i = 0; i < kulutyypit.Length; i++)
+                {
+                    if (!monthTypeArray.Contains(kulutyypit[i].TypeName.ToString()))
+                    {
+                        monthTypeArray[i] = kulutyypit[i].TypeName.ToString();
+                    }
+                }
+                ViewBag.Kulutyypit = monthTypeArray;
                 return View(monthlySpendings.ToList());
             }
             else

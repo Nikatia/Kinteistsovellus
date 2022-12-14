@@ -9,10 +9,10 @@
 <br />
 <div class="row">
     <div class="col-6">
-        <div style="height: 338px" id="chartContainer"></div>
+        <div style="height: 318px" id="chartContainer"></div>
     </div>
     <div class="col-6">
-        <div style="height: 318px" id="chartContainerBar"></div>
+        <div id="chartContainerBar"></div>
     </div>
 </div>
 <br />
@@ -24,38 +24,110 @@
 <iframe id="otherSpendingEdit" style="display:none;"></iframe>
 <iframe id="otherSpendingDelete" style="display:none;"></iframe>
 
+<div class="card border-primary" style="margin:10px 0">
+    <div class="card-header bg-primary" style="color: white; font-weight: bold;">Suodatus</div>
+    <div class="card-body row">
+        <div class="col-md-4">
+            <label class="form-label">
+                Kulutyyppi
+            </label>
+            <div class="dropdown" @*style="width:75%"*@>
+                <div class="form-select form-control" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div id="hidingField" style="margin-left:auto; margin-right:auto; color:gray">-- Valitse suodattimet --</div>
+                </div>
+                <ul style="width:100%" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    @{ 
+                        var array = ViewBag.Kulutyypit;
+                        foreach (var item in array)
+                        {
+                            <li style="width:100%"><a class="dropdown-item activate-this">@item</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">
+                Alkupäivämäärä
+            </label>
+            <input type="date" id="beginDate" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">
+                Loppupäivämäärä
+            </label>
+            <input type="date" id="endDate" class="form-control" />
+        </div>
+    </div>
+</div>
 
 <table class="table">
-    <tr>
+    <tr class="card-header bg-primary" style="color:white">
+        @*---NAMES FROM TIETOHAKEMISTO---*@
+        @*<th>Päivämäärä / Alkupäivämäärä</th>
+            <th>Loppupäivämäärä</th>
+            <th>Kulutustyyppi</th>
+            <th>Kuvaus</th>
+            <th>Hinta yhteensä</th>
+            <th>Nimi</th>*@
+
+        @*---IN MY OPINION BETTER VERSION---*@
+        @*<th>Alkupäivämäärä</th>
+            <th>Loppupäivämäärä</th>
+            <th>Kulutustyyppi</th>
+            <th style="width:40%">Kuvaus</th>
+            <th>Hinta</th>
+            <th>Urakoitsija</th>*@
+
+        @*---IN MY OPINION THE BEST VERSION---*@
         <th>Aloituspvm</th>
         <th>Päättymispvm</th>
         <th>Kulutustyyppi</th>
         <th style="width:45%">Kuvaus</th>
         <th>Hinta</th>
         <th>Urakoitsija</th>
+
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="card-body filtering">
             <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
             <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
             <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
             <td style="word-break:break-word">@Html.DisplayFor(modelItem => item.Description)</td>
             <td>@Html.DisplayFor(modelItem => item.Price)</td>
             <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
+
             <td>
-                <a class="card-link ikonka getOtherSpendingId" title="Muokkaa Kulu" data-otherspendingid="@item.OtherSpendingsID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
-                <a class="card-link ikonka delOtherSpendingId" title="Poista Kulu" data-otherspendingid2="@item.OtherSpendingsID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Muokkaa</a> |
+                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Poista</a>
             </td>
         </tr>
     }
 
 </table>
 
-@section scripts {
-    <script type="text/javascript">
+<script type="text/javascript">
+    $(".activate-this").click(function () {
+        event.stopPropagation();
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
+    });
+
+    $("#beginDate").change(function () {
+        console.log("toimii");
+        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
+    });
+
+    $("#endDate").change(function () {
+        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
+    });
 
         $(function () {
             $('#homeClicked').removeClass('active');
@@ -69,84 +141,84 @@
                 var url = "/OtherSpendings/_ModalCreate";
                 var $detailDivCreate = $("#otherSpendingCreate");
 
-                $.get(url, function (data) {
-                    $detailDivCreate.replaceWith(data);
-                    $('#ModalOtherSpendingCreate').modal('show');
-                });
+            $.get(url, function (data) {
+                $detailDivCreate.replaceWith(data);
+                $('#ModalOtherSpendingCreate').modal('show');
             });
         });
+    });
 
-        /*Edit Modal Window*/
-        $(function () {
-            $(".getOtherSpendingId").click(function () {
-                let otherSpendingId = $(this).data("otherspendingid");
-                var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
-                var $detailDivEdit = $("#otherSpendingEdit");
+    /*Edit Modal Window*/
+    $(function () {
+        $(".getOtherSpendingId").click(function () {
+            let otherSpendingId = $(this).data("otherspendingid");
+            var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
+            var $detailDivEdit = $("#otherSpendingEdit");
 
-                $.get(url, function (data) {
-                    $detailDivEdit.replaceWith(data);
-                    $('#ModalotherSpendingEdit').modal('show');
-                });
+            $.get(url, function (data) {
+                $detailDivEdit.replaceWith(data);
+                $('#ModalotherSpendingEdit').modal('show');
             });
         });
+    });
 
 
-        /*Delete Modal Window*/
-        $(function () {
-            $(".delOtherSpendingId").click(function () {
-                let otherSpendingId2 = $(this).data("otherspendingid2");
-                var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
-                var $detailDivDelete = $("#otherSpendingDelete");
+    /*Delete Modal Window*/
+    $(function () {
+        $(".delOtherSpendingId").click(function () {
+            let otherSpendingId2 = $(this).data("otherspendingid2");
+            var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
+            var $detailDivDelete = $("#otherSpendingDelete");
 
-                $.get(url, function (data) {
-                    $detailDivDelete.replaceWith(data);
-                    $('#ModalOtherSpendingDelete').modal('show');
-                });
+            $.get(url, function (data) {
+                $detailDivDelete.replaceWith(data);
+                $('#ModalOtherSpendingDelete').modal('show');
             });
         });
+    });
 
-        //On page load showes chart's partials with data for current year
-        $(document).ready(async function () {
-            var thisYear = new Date().getFullYear();
-            document.getElementById("Vuosi").value = thisYear;
-            var url = "/OtherSpendings/Chart/?year=" + thisYear;
-            var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
-            var divForPartial = $("#chartContainer");
-            var divForPartialBar = $("#chartContainerBar");
+    //On page load showes chart's partials with data for current year
+    $(document).ready(async function () {
+        var thisYear = new Date().getFullYear();
+        document.getElementById("Vuosi").value = thisYear;
+        var url = "/OtherSpendings/Chart/?year=" + thisYear;
+        var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+        var divForPartialBar = $("#chartContainerBar");
 
-            await $.ajax({
-                url: url,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'get',
-                type: "get",
-                success: function (result) {
-                    $(divForPartial).html("");
-                    $(divForPartial).html(result);
-                }
-            });
-            await $.ajax({
-                url: urlBar,
-                cache: false,
-                contentType: false,
-                processData: false,
-                method: 'get',
-                type: "get",
-                success: function (result) {
-                    $(divForPartialBar).html("");
-                    $(divForPartialBar).html(result);
-                }
-            });
+        await $.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartial).html("");
+                $(divForPartial).html(result);
+            }
         });
+        await $.ajax({
+            url: urlBar,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'get',
+            type: "get",
+            success: function (result) {
+                $(divForPartialBar).html("");
+                $(divForPartialBar).html(result);
+            }
+        });
+    });
 
-        //On year's dropdown change showes chart's partials with data for selected year
-        $('#Vuosi').change(async function () {
-            var thisYear = $(this).val();
-            var url = "/OtherSpendings/Chart/?year=" + thisYear;
-            var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
-            var divForPartial = $("#chartContainer");
-            var divForPartialBar = $("#chartContainerBar");
+    //On year's dropdown change showes chart's partials with data for selected year
+    $('#Vuosi').change(async function () {
+        var thisYear = $(this).val();
+        var url = "/OtherSpendings/Chart/?year=" + thisYear;
+        var urlBar = "/OtherSpendings/BarChart/?year=" + thisYear;
+        var divForPartial = $("#chartContainer");
+        var divForPartialBar = $("#chartContainerBar");
 
             await $.ajax({
                 url: url,

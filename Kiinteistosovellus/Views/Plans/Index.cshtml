@@ -15,7 +15,7 @@
 <a class="card-link ikonka" id="createNewPlanModal" title="Uusi Suunnitelma" role="button"><img src="/Icons/square-add.svg" height="45"></a>
 <br />
 <table class="table">
-    <tr>
+    <tr class="card-header bg-primary" style="color:white">
         <th>
             Nimi
         </th>
@@ -40,7 +40,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="card-body">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
