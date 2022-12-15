@@ -79,7 +79,7 @@
     //Repopulate this PartialView's Contractors dropdown, so empty value is first
     var contractors = $('#ContractorsDropdown');
     contractors.empty();
-    contractors.append($('<option></option>').val('').text(''));
+    item.Text + '</option>');
     $.getJSON(contractorUrl, function (data) {
         $.each(data, function (index, item) {
             contractors.append($('<option></option>').val(item.Value).text(item.Text));
