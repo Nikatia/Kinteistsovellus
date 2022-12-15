@@ -398,6 +398,7 @@
     <Content Include="Views\Home\LoginModal.cshtml" />
     <Content Include="Views\MonthlySummary\Index.cshtml" />
     <Content Include="Views\MonthlySummary\_PieChart.cshtml" />
+    <Content Include="Views\MonthlySpendings\_IndexTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

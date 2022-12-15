@@ -63,12 +63,169 @@ namespace Kiinteistosovellus.Controllers
                     }
                 }
                 ViewBag.Kulutyypit = monthTypeArray;
-                return View(monthlySpendings.ToList());
+                return View();
             }
             else
             {
                 return null;
             }
+        }
+
+        public PartialViewResult _IndexTable(string alkuPvm, string loppuPvm, string kulutyypit, string columnNumber, string ascOrDesc)
+        {
+            DateTime dtAlkuPvmTest;
+            DateTime dtLoppuPvmTest;
+
+            DateTime? dtAlkuPvm = null;
+            DateTime? dtLoppuPvm = null;
+
+            if (DateTime.TryParse(alkuPvm, out dtAlkuPvmTest))
+            {
+                dtAlkuPvmTest = DateTime.Parse(alkuPvm);
+                dtAlkuPvm = dtAlkuPvmTest;
+            }
+
+            if (DateTime.TryParse(loppuPvm, out dtLoppuPvmTest))
+            {
+                dtLoppuPvmTest = DateTime.Parse(loppuPvm);
+                dtLoppuPvm = dtLoppuPvmTest;
+            }
+            var tempIQueryable = from ms in db.MonthlySpendings
+                                 select ms;
+            IQueryable<MonthlySpendings> monthlySpendings = null;
+            //var monthlySpendings = from ms in db.MonthlySpendings
+            //                       where (ms.MonthlySpendingID == 1)
+            //                       select ms;
+            string strKulutyypit = kulutyypit;
+
+            
+            if (strKulutyypit != "")
+            {
+                var kulutyyppiArray = strKulutyypit.Split('#');
+                HashSet<string> strset = new HashSet<string>(kulutyyppiArray);
+                monthlySpendings = tempIQueryable.Where(ms => strset.Contains(ms.MonthlySpendingTypes.TypeName));
+            }
+            else
+            {
+                monthlySpendings=tempIQueryable;
+            }
+
+            string intColumnNumber = columnNumber;
+
+            //var monthlySpendings = from ms in db.MonthlySpendings
+            //                       select ms;
+
+            if (dtAlkuPvm != null && dtLoppuPvm != null)
+            {
+                monthlySpendings = monthlySpendings.Where(ms => ms.DateBegin >= dtAlkuPvm && ms.DateBegin <= dtLoppuPvm);
+            }
+            else if (dtAlkuPvm != null && dtLoppuPvm == null)
+            {
+                monthlySpendings = monthlySpendings.Where(ms => ms.DateBegin >= dtAlkuPvm);
+            }
+            else if (dtAlkuPvm == null && dtLoppuPvm != null)
+            {
+                monthlySpendings = monthlySpendings.Where(ms => ms.DateBegin <= dtLoppuPvm);
+            }            
+
+
+            switch (columnNumber)
+            {
+                case "0":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.DateBegin);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.DateBegin);
+                    }
+                    break;
+                case "1":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.DateEnd);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.DateEnd);
+                    }
+                    break;
+                case "2":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.MonthlySpendingTypes.TypeName);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.MonthlySpendingTypes.TypeName);
+                    }
+                    break;
+                case "3":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.AmountOfUnits);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.AmountOfUnits);
+                    }
+                    break;
+                case "4":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.MonthlySpendingTypes.Unit);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.MonthlySpendingTypes.Unit);
+                    }
+                    break;
+                case "5":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.PricePerUnit);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.PricePerUnit);
+                    }
+                    break;
+                case "6":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.TransferPayment);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.TransferPayment);
+                    }
+                    break;
+                case "7":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.FullPrice);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.FullPrice);
+                    }
+                    break;
+                case "8":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.Contractors.Name);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.Contractors.Name);
+                    }
+                    break;
+                default:
+                    monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.DateBegin);
+                    break;
+            }
+            return PartialView("/Views/MonthlySpendings/_IndexTable.cshtml", monthlySpendings);
         }
 
         public ActionResult Chart(int year)
