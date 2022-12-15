@@ -236,7 +236,7 @@
     //Reloads type's dropdown with empty value as first
     $(function () {
         var types = $('#SpendingTypeID');
-        var typeUrl = 'MonthlySpendings/FetchTypes';
+        var typeUrl = '/MonthlySpendings/FetchTypes';
         types.empty();
         types.append($('<option></option>').val('').text(''));
         $.getJSON(typeUrl, function (data) {
