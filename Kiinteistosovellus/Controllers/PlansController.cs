@@ -148,6 +148,8 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Description = plans.Desciption;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
                 ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+                ViewBag.SuccessMsg = "";
+                ViewBag.PlanId = id;
 
                 return PartialView("/Views/Plans/_MoveOthPlan.cshtml");
             }
@@ -166,8 +168,11 @@ namespace Kiinteistosovellus.Controllers
                 if (ModelState.IsValid)
                 {
                     Console.WriteLine("IsValid");
-                    
+                    ViewBag.SuccessMsg = "successfully added";
+                    int planID = Convert.ToInt32(TempData["PlanID"]);
                     db.OtherSpendings.Add(otherSpendings);
+                    Plans plans = db.Plans.Find(planID);
+                    db.Plans.Remove(plans);
                     db.SaveChanges();
                     return null;
                 }
@@ -177,6 +182,8 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Description = otherSpendings.Description;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
                 ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+                ViewBag.SuccessMsg = "";
+
                 return PartialView("/Views/Plans/_MoveOthPlan.cshtml", otherSpendings);
             }
             else { return null; }
