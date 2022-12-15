@@ -100,10 +100,12 @@ function updateDropdownList(controller, dropdownId) {
         url: url,
         success: function (result) {
             $("#" + dropdownId).empty();
-            //$("#OtherSpendingTypeID").append('<option value="">Select One</option>');
+            $("#" + dropdownId).append('<option value=""></option>');
             $.each(result, function (i, item) {
-                $("#" + dropdownId).append('<option value="' + item.Value + '">' +
-                    item.Text + '</option>');
+                if (item.Value != 1000) {
+                    $("#" + dropdownId).append('<option value="' + item.Value + '">' +
+                        item.Text + '</option>');
+                }
             });
         },
         error: function (ex) {
@@ -593,3 +595,4 @@ function eurosToFloat(euro) {
 //        return 0;
 //    }
 //}
+
