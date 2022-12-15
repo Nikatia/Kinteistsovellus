@@ -229,6 +229,7 @@
     <Compile Include="ViewModels\ForOthersCategorySortChartClass.cs" />
     <Compile Include="ViewModels\ForOtherSpendingTypeChartsClass.cs" />
     <Compile Include="ViewModels\MonthlyAndOtherSpendingsByMonthClass.cs" />
+    <Compile Include="ViewModels\MoveMonthSpendings.cs" />
     <Compile Include="ViewModels\MoveOthSpendings.cs" />
   </ItemGroup>
   <ItemGroup>

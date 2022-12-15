@@ -207,6 +207,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Price = plans.Price;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
+                ViewBag.PlanId = id;
 
                 return PartialView("/Views/Plans/_MoveMonthPlan.cshtml");
             }
@@ -218,14 +219,29 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _MoveMonthPlan([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID")] MonthlySpendings monthlySpendings)
+        public PartialViewResult _MoveMonthPlan([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,PlanToDelete")] MoveMonthSpendings monthlySpendings)
         {
             if (Session["UserName"] != null)
             {
                 if (ModelState.IsValid)
                 {
                     Console.WriteLine("IsValid");
-                    db.MonthlySpendings.Add(monthlySpendings);
+                    if (monthlySpendings.PlanToDelete == "true")
+                    {
+                        int planID = Convert.ToInt32(TempData["PlanID"]);
+                        Plans plans = db.Plans.Find(planID);
+                        db.Plans.Remove(plans);
+                    }
+                    MonthlySpendings newSpending = new MonthlySpendings();
+                    newSpending.DateBegin = monthlySpendings.DateBegin;
+                    newSpending.DateEnd = monthlySpendings.DateEnd;
+                    newSpending.SpendingTypeID = monthlySpendings.SpendingTypeID;
+                    newSpending.AmountOfUnits = monthlySpendings.AmountOfUnits;
+                    newSpending.PricePerUnit = monthlySpendings.PricePerUnit;
+                    newSpending.TransferPayment = monthlySpendings.TransferPayment;
+                    newSpending.FullPrice = monthlySpendings.FullPrice;
+                    newSpending.ContractorID = monthlySpendings.ContractorID;
+                    db.MonthlySpendings.Add(newSpending);
                     db.SaveChanges();
                     return null;
                 }

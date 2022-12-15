@@ -9,7 +9,6 @@
             </div>
 
             <div class="modal-body">
-                @*<p class="text-danger">Huomaa, että tämä toiminto ei poista suunnitelmaa, vaan luo vain uusia kuluja. Sinun on poistettava suunnitelma manuaalisesti tämän jälkeen.</p>*@
                 @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
                 {
                     @Html.AntiForgeryToken()
