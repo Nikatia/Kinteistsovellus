@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.MonthlySpendings>
+@foreach (var item in Model)
+{
+
+    <tr class="card-body filtering">
+        <td class="centeredTds">
+            @Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")
+        </td>
+        @{
+            if (item.DateEnd != null)
+            {
+                <td class="centeredTds">@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+            }
+            else
+            {
+                <td class="centeredTds">@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+            }
+        }
+        <td class="centeredTds">
+            @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.TypeName)
+        </td>
+        <td class="centeredTds">
+
+            @Html.DisplayFor(modelItem => item.AmountOfUnits)
+        </td>
+        <td class="centeredTds">
+            @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
+        </td>
+        <td class="details centeredTds" style="display:none;font-weight: bold;">
+            @Html.DisplayFor(modelItem => item.PricePerUnit)
+        </td>
+        <td class="details centeredTds" style="display: none; font-weight: bold;">
+            @Html.DisplayFor(modelItem => item.TransferPayment)
+        </td>
+        <td class="centeredTds">
+            @Html.DisplayFor(modelItem => item.FullPrice)
+        </td>
+        <td class="centeredTds">
+            @Html.DisplayFor(modelItem => item.Contractors.Name)
+        </td>
+
+
+        <td class="centeredTds">
+            <a class="card-link ikonka getOrderId" title="Muokkaa Kulu" data-orderid="@item.MonthlySpendingID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+            <a class="card-link ikonka getId" title="Poista Kulu" data-id="@item.MonthlySpendingID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+        </td>
+    </tr>
+}

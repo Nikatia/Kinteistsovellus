@@ -167,6 +167,7 @@ function validateKeyUp(evt, priceFieldId) {
     }
 };
 
+
 function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, dateEndInputID) {
 
     //etsi kaikki rivit taulukosta, jossa filtering-class
