@@ -182,10 +182,10 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
         }
     }
 
-    var dateBegin = $("#" + dateBeginInputID).val();
+    var dateBeginInput = $("#" + dateBeginInputID).val();
     var dtDateBegin;
 
-    var dateEnd = $("#" + dateEndInputID).val();
+    var dateEndInput = $("#" + dateEndInputID).val();
     var dtDateEnd;
 
     //Haetaan span-elementit eli badget dropdownin sisäll'
@@ -209,114 +209,94 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
 
     //Käy kaikki rivit läpi
     for (var i = 0; i < rowsLength; ++i) {
-
-
-
-        if (activeSelect.length == 0 && dateBegin == "" && dateEnd == "") {//MUUTA CONDITION!!!!!!!
+        if (activeSelect.length == 0 && dateBeginInput == "" && dateEndInput == "") {//Jos mitään suodatusta ei ole, ohjelma poistaa ChosenType ja Chosen date kaikista, ja tuo kaikki näkyviin
             for (var k = 0; k < rowsLength; k++) {
                 $(rows[k]).removeClass("d-none");
                 $(rows[k]).removeClass("ChosenType");
                 $(rows[k]).removeClass("ChosenDate");
             }
             return;
-        } else {
+        } else {//Poistaa rivin näkyvistä ja poistaa chosentype ja chosendate classit
             $(rows[i]).addClass("d-none");
             $(rows[i]).removeClass("ChosenType");
             $(rows[i]).removeClass("ChosenDate");
         }
 
+        var tds = rows[i].getElementsByTagName('td');
 
-        var tds = rows[i].getElementsByTagName('td'),
-            tdsLength = tds.length;
-        //Alustetaan indeksissä oleville päivämäärille muuttujat
+        //Alustetaan indeksissä taulukossa oleville päivämäärille muuttujat
         var tdsDateBegin;
         var tdsDateEnd;
 
         //switch-casella päätetään, millainen toteutus
         switch (true) {
-            case (dateBegin != "" && dateEnd == ""): //Suodatuksessa: alkupvm
+            case (dateBeginInput != "" && dateEndInput == ""): //Suodatuksessa: alkupvm
                 console.log("VAin alkupvm");
-                dtDateBegin = new Date(dateBegin);
-                tdsDateBegin = new Date(createISO(tds[0].innerText));
+                dtDateBegin = new Date(dateBeginInput);
+                tdsDateEnd = new Date(createISO(tds[1].innerText));
 
-                if (tds[1].innerText == "") {//Jos ei indexissä ei loppupäivämäärää
-                    if (tdsDateBegin >= dtDateBegin) {
-                        //$(rows[i]).addClass("d-none");
-                        $(rows[i]).addClass("ChosenDate");
-                    }
-                } else { //Muutoin siinä on loppupvm
-                    tdsDateEnd = new Date(createISO(tds[1].innerText));
-                    if (tdsDateEnd >= dtDateBegin) {
-                        //$(rows[i]).addClass("d-none");
-                        $(rows[i]).addClass("ChosenDate");
-                    }
+                if (tdsDateEnd >= dtDateBegin) { //Jos päättymispäivämäärä td:ssä on suurempi tai yhtäsuuri kuin suodatuksessa oleva alkupvm, annetaan class ChosenDate
+                    //$(rows[i]).addClass("d-none");
+                    $(rows[i]).addClass("ChosenDate");
                 }
-
                 break;
 
-            case (dateEnd != "" && dateBegin == ""): //Suodatuksessa: loppupvm
+            case (dateEndInput != "" && dateBeginInput == ""): //Suodatuksessa: loppupvm
                 console.log("VAin loppupvm");
-                dtDateEnd = new Date(dateEnd)
+                dtDateEnd = new Date(dateEndInput)
                 tdsDateBegin = new Date(createISO(tds[0].innerText));
+                console.log(dtDateEnd, tdsDateBegin, tds[0].innerText, createISO(tds[0].innerText));
 
-                if (tds[1].innerText == "") {//Riippumattta, onko loppupäivämäärää vai ei
-                    if (tdsDateBegin <= dtDateEnd) {
-                        //$(rows[i]).addClass("d-none");
-                        $(rows[i]).addClass("ChosenDate");
-                    }
+                if (tdsDateBegin <= dtDateEnd) {//Jos alkupvm td:ssä on pienempi tai yhtäsuuri kuin suodatuksessa oleva loppupvm, annetaan class ChosenDate
+                    //$(rows[i]).addClass("d-none");
+                    console.log("Rivi: " + rows[i] + " sisältää oikean esiintymän");
+                    $(rows[i]).addClass("ChosenDate");
                 }
 
                 break;
 
-            case (dateEnd != "" && dateBegin != ""): //Suodatuksessa: alkupvm ja loppupvm
+            case (dateEndInput != "" && dateBeginInput != ""): //Suodatuksessa: alkupvm ja loppupvm
                 console.log("Kummatkin");
-                dtDateBegin = new Date(dateBegin); //datetime-muuttuja alkupvm (suodatuksesta) vertailuun
-                dtDateEnd = new Date(dateEnd); //datetime-muuttuja loppupvm (suodatuksesta) vertailuun
-
+                dtDateBegin = new Date(dateBeginInput); //datetime-muuttuja alkupvm (suodatuksesta) vertailuun
+                dtDateEnd = new Date(dateEndInput); //datetime-muuttuja loppupvm (suodatuksesta) vertailuun
+                tdsDateEnd = new Date(createISO(tds[1].innerText));
                 tdsDateBegin = new Date(createISO(tds[0].innerText));
 
-                if (tds[1].innerText != "") {//Löytyy loppupvm
-                    tdsDateEnd = new Date(createISO(tds[1].innerText));
-                    if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
-                        //$(rows[i]).addClass("d-none");
-                        $(rows[i]).addClass("ChosenDate");
-                    }
-                } else {
-                    tdsDateEnd = new Date(createISO(tds[0].innerText));
-                    if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
-                        //$(rows[i]).addClass("d-none");
-                        $(rows[i]).addClass("ChosenDate");
-                    }
+                if (tdsDateBegin <= dtDateEnd && tdsDateEnd >= dtDateBegin) {
+                    //$(rows[i]).addClass("d-none");
+                    $(rows[i]).addClass("ChosenDate");
                 }
-
                 break;
+
             default:
+                console.log("Ei pitäisi mennä tänne");
                 break;
         }
 
-        for (var k = 0; k < activeSelect.length; k++) {
+        for (var k = 0; k < activeSelect.length; k++) {//Käy läpi jokaisen tyyppikriteerin riville ja lisää chosenType
             if (tds[2].innerText.indexOf(activeSelect[k]) > -1) {
                 $(rows[i]).addClass("ChosenType");
             }
         }
     }
     switch (true) {
-        case ((dateEnd != "" || dateBegin != "") && activeSelect.length > 0):
+        case ((dateEndInput != "" || dateBeginInput != "") && activeSelect.length > 0)://Alku / loppupvm on olemassa ja tyyppi on olemassa
             for (var i = 0; i < rowsLength; i++) {
                 if ($(rows[i]).hasClass("ChosenType") && $(rows[i]).hasClass("ChosenDate")) {
                     $(rows[i]).removeClass("d-none");
                 }
             }
             break;
-        case ((dateEnd != "" || dateBegin != "") && activeSelect.length == 0):
+        case ((dateEndInput != "" || dateBeginInput != "") && activeSelect.length == 0)://Vain päivämäärä on olemassa
             for (var i = 0; i < rowsLength; i++) {
                 if ($(rows[i]).hasClass("ChosenDate")) {
                     $(rows[i]).removeClass("d-none");
+                    console.log(i);
                 }
             }
             break;
 
-        case ((dateEnd == "" && dateBegin == "") && activeSelect.length > 0):
+        case ((dateEndInput == "" && dateBeginInput == "") && activeSelect.length > 0)://vain tyyppi on olemassa
             for (var i = 0; i < rowsLength; i++) {
                 if ($(rows[i]).hasClass("ChosenType")) {
                     $(rows[i]).removeClass("d-none");
@@ -324,6 +304,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
             }
             break;
         default:
+            console.log("Ei pitäisi mennä tänne lopulliseen suodatukseen")
             break;
     }
     
@@ -331,7 +312,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
 
 function createISO(dateStringFiCulture) {
     var partsOfDate = dateStringFiCulture.split(".");
-    var strIsoDate = partsOfDate[2] + "-" + partsOfDate[1] + "-" + partsOfDate[0];
+    var strIsoDate = partsOfDate[2].replace("\n", "").trim() + "-" + partsOfDate[1].replace("\n", "").trim() + "-" + partsOfDate[0].replace("\n", "").trim();
     return strIsoDate;
 }
 
