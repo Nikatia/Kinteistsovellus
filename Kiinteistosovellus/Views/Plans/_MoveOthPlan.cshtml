@@ -1,4 +1,4 @@
-﻿@model Kiinteistosovellus.Models.OtherSpendings
+﻿@model Kiinteistosovellus.ViewModels.MoveOthSpendings
 
 <div class="modal fade" id="ModalOtherSpendingPlanCreate">
     <div class="modal-dialog modal-lg">
@@ -82,12 +82,27 @@
                             </div>
                         </div>
                     </div>
+                    @Html.TextArea("PlanToDelete", "", new { @class = "form-control", name = "PlanToDelete", style= "display:none;" })
                 }
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
-                    <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Lisätä" class="btn btn-primary" />
-                    @Html.ActionLink("Takaisin", "Index")
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-2">
+                                    <input class="form-check-input" style="height:30px; width:30px" type="checkbox" id="PlanToDeleteCheck" name="PlanToDeleteCheck">
+                                </div>
+                                <div class="col-10">
+                                    <label>Haluan poistaa suunnitelman</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Lisätä" class="btn btn-primary" />
+                            @Html.ActionLink("Takaisin", "Index")
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="divForPartialPseudo" style="display:none;">
@@ -98,12 +113,51 @@
     </div>
 </div>
 @{TempData["PlanID"] = ViewBag.PlanID;}
+
 <script type="text/javascript">
 
+    //checkbox 
+    $(document).ready(function () {
+
+        $('#PlanToDelete').val($(this).is(':checked'));
+
+        $('#PlanToDeleteCheck').click(function () {
+            if ($(this).is(':checked') == true) {
+                $('#PlanToDelete').val("true");
+            } else {
+                $('#PlanToDelete').val("false");
+            }
+        });
+    });
+
+     //Fills corresponding fields with data from Plan and reloads dropdowns with empty value as first
     $(function () {
         $("#DateBegin").val("@ViewBag.DateBegin");
         $("#DateEnd").val("@ViewBag.DateEnd");
         $("#Price").val("@ViewBag.Price");
+
+        var types = $('#OtherSpendingTypeID');
+        var typeUrl = '/OtherSpendings/FetchTypes';
+        types.empty();
+        types.append($('<option></option>').val('').text(''));
+        $.getJSON(typeUrl, function (data) {
+            $.each(data, function (index, item) {
+                if (item.Value != 1000) {
+                    types.append($('<option></option>').val(item.Value).text(item.Text));
+                }
+            });
+        });
+
+        var contractors = $('#ContractorID');
+        var contractorUrl = '/Contractors/FetchContractors';
+        console.log(contractorUrl);
+        contractors.empty();
+        contractors.append($('<option></option>').val('').text(''));
+        $.getJSON(contractorUrl, function (data) {
+            $.each(data, function (index, item) {
+                contractors.append($('<option></option>').val(item.Value).text(item.Text));
+            });
+        });
     });
 
     //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
@@ -155,32 +209,6 @@
     $("#Price").keyup(function () {
         validateKeyUp(event, "Price");
     });
-    //Reloads dropdown with empty value as first
-    $(function () {
-        var contractors = $('#ContractorID');
-        var contractorUrl = '/Contractors/FetchContractors';
-        console.log(contractorUrl);
-        contractors.empty();
-        contractors.append($('<option></option>').val('').text(''));
-        $.getJSON(contractorUrl, function (data) {
-            $.each(data, function (index, item) {
-                contractors.append($('<option></option>').val(item.Value).text(item.Text));
-            });
-        });
-    });
 
-    //Reloads type's dropdown with empty value as first
-    $(function () {
-        var types = $('#OtherSpendingTypeID');
-        var typeUrl = '/OtherSpendings/FetchTypes';
-        types.empty();
-        types.append($('<option></option>').val('').text(''));
-        $.getJSON(typeUrl, function (data) {
-            $.each(data, function (index, item) {
-                if (item.Value != 1000) {
-                    types.append($('<option></option>').val(item.Value).text(item.Text));
-                }
-            });
-        });
-    });
+
 </script>

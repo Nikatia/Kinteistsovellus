@@ -11,6 +11,7 @@ using Kiinteistosovellus.Models;
 using System.Globalization;
 using System.Threading;
 using System.Drawing;
+using Kiinteistosovellus.ViewModels;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -148,7 +149,6 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Description = plans.Desciption;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
                 ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
-                ViewBag.SuccessMsg = "";
                 ViewBag.PlanId = id;
 
                 return PartialView("/Views/Plans/_MoveOthPlan.cshtml");
@@ -161,18 +161,27 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _MoveOthPlan([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price")] OtherSpendings otherSpendings)
+        public PartialViewResult _MoveOthPlan([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,PlanToDelete")] MoveOthSpendings otherSpendings)
         {
             if (Session["UserName"] != null)
             {
                 if (ModelState.IsValid)
                 {
                     Console.WriteLine("IsValid");
-                    ViewBag.SuccessMsg = "successfully added";
-                    int planID = Convert.ToInt32(TempData["PlanID"]);
-                    db.OtherSpendings.Add(otherSpendings);
-                    Plans plans = db.Plans.Find(planID);
-                    db.Plans.Remove(plans);
+                    if (otherSpendings.PlanToDelete == "true")
+                    {
+                        int planID = Convert.ToInt32(TempData["PlanID"]);
+                        Plans plans = db.Plans.Find(planID);
+                        db.Plans.Remove(plans);
+                    }
+                    OtherSpendings newSpending = new OtherSpendings();
+                    newSpending.Description = otherSpendings.Description;
+                    newSpending.DateBegin = otherSpendings.DateBegin;
+                    newSpending.DateEnd = otherSpendings.DateEnd;
+                    newSpending.OtherSpendingTypeID = otherSpendings.OtherSpendingTypeID;
+                    newSpending.ContractorID = otherSpendings.ContractorID;
+                    newSpending.Price = otherSpendings.Price;
+                    db.OtherSpendings.Add(newSpending);
                     db.SaveChanges();
                     return null;
                 }
@@ -182,7 +191,6 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Description = otherSpendings.Description;
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
                 ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-                ViewBag.SuccessMsg = "";
 
                 return PartialView("/Views/Plans/_MoveOthPlan.cshtml", otherSpendings);
             }
