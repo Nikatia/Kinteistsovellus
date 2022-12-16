@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Kiinteistosovellus.Models.OtherSpendings>
+
+@foreach (var item in Model)
+{
+    <tr class="card-body filtering">
+        <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+        @{
+            if (item.DateEnd != null)
+            {
+                <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
+            }
+            else
+            {
+                <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
+            }
+        }
+        <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
+        <td style="word-break:break-word">@Html.DisplayFor(modelItem => item.Description)</td>
+        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+        <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
+
+        <td>
+            <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Muokkaa</a> |
+            <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Poista</a>
+        </td>
+    </tr>
+}

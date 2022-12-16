@@ -65,8 +65,133 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return null; }
         }
-            
-        
+
+        public PartialViewResult _IndexTable(string alkuPvm, string loppuPvm, string kulutyypit, string columnNumber, string ascOrDesc)
+        {
+            DateTime dtAlkuPvmTest;
+            DateTime dtLoppuPvmTest;
+
+            DateTime? dtAlkuPvm = null;
+            DateTime? dtLoppuPvm = null;
+
+            if (DateTime.TryParse(alkuPvm, out dtAlkuPvmTest))
+            {
+                dtAlkuPvmTest = DateTime.Parse(alkuPvm);
+                dtAlkuPvm = dtAlkuPvmTest;
+            }
+
+            if (DateTime.TryParse(loppuPvm, out dtLoppuPvmTest))
+            {
+                dtLoppuPvmTest = DateTime.Parse(loppuPvm);
+                dtLoppuPvm = dtLoppuPvmTest;
+            }
+            var tempIQueryable = from ms in db.OtherSpendings
+                                 select ms;
+            IQueryable<OtherSpendings> otherSpendings = null;
+            //var monthlySpendings = from ms in db.MonthlySpendings
+            //                       where (ms.MonthlySpendingID == 1)
+            //                       select ms;
+            string strKulutyypit = kulutyypit;
+
+
+            if (strKulutyypit != "")
+            {
+                var kulutyyppiArray = strKulutyypit.Split('#');
+                HashSet<string> strset = new HashSet<string>(kulutyyppiArray);
+                otherSpendings = tempIQueryable.Where(ms => strset.Contains(ms.OtherSpendingTypes.TypeName));
+            }
+            else
+            {
+                otherSpendings = tempIQueryable;
+            }
+
+            string intColumnNumber = columnNumber;
+
+            //var monthlySpendings = from ms in db.MonthlySpendings
+            //                       select ms;
+
+            if (dtAlkuPvm != null && dtLoppuPvm != null)
+            {
+                otherSpendings = otherSpendings.Where(ms => ms.DateBegin >= dtAlkuPvm && ms.DateBegin <= dtLoppuPvm);
+            }
+            else if (dtAlkuPvm != null && dtLoppuPvm == null)
+            {
+                otherSpendings = otherSpendings.Where(ms => ms.DateBegin >= dtAlkuPvm);
+            }
+            else if (dtAlkuPvm == null && dtLoppuPvm != null)
+            {
+                otherSpendings = otherSpendings.Where(ms => ms.DateBegin <= dtLoppuPvm);
+            }
+
+
+            switch (columnNumber)
+            {
+                case "0":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.DateBegin);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.DateBegin);
+                    }
+                    break;
+                case "1":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.DateEnd);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.DateEnd);
+                    }
+                    break;
+                case "2":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.OtherSpendingTypes.TypeName);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.OtherSpendingTypes.TypeName);
+                    }
+                    break;
+                case "3":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.Description);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.Description);
+                    }
+                    break;
+                case "4":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.Price);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.Price);
+                    }
+                    break;
+                case "5":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.Contractors.Name);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.Contractors.Name);
+                    }
+                    break;
+                default:
+                    otherSpendings = otherSpendings.OrderByDescending(ms => ms.DateBegin);
+                    break;
+            }
+            return PartialView("/Views/OtherSpendings/_IndexTable.cshtml", otherSpendings);
+        }
 
         public ActionResult Chart(int year)
         {

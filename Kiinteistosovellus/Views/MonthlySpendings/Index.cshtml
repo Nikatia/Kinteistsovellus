@@ -113,19 +113,22 @@
         var allHeaders = $("th");
 
         for (var i = 0; i < allHeaders.length; i++) {
+            console.log($(this).attr('id'));
             if (i == $(this).attr('id')) {
                 continue;
             }
             $(allHeaders[i]).removeClass("desc");
             $(allHeaders[i]).removeClass("asc");
         }
-
+        console.log($(this).hasClass("asc"));
         if ($(this).hasClass("asc")) {
             $(this).removeClass("asc");
             $(this).addClass("desc");
             filterTableAJAX(passedID, "desc");
         } else {
             filterTableAJAX(passedID, "asc");
+            $(this).removeClass("desc");
+            $(this).addClass("asc");
         }       
     });
 

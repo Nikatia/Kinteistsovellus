@@ -62,94 +62,162 @@
 </div>
 
 <table class="table" id="sortableTable">
-    <tr class="card-header bg-primary"  style="color:white">
-        @*---NAMES FROM TIETOHAKEMISTO---*@
-        @*<th>Päivämäärä / Alkupäivämäärä</th>
+    <thead>
+        <tr class="card-header bg-primary" style="color:white">
+            @*---NAMES FROM TIETOHAKEMISTO---*@
+            @*<th>Päivämäärä / Alkupäivämäärä</th>
             <th>Loppupäivämäärä</th>
             <th>Kulutustyyppi</th>
             <th>Kuvaus</th>
             <th>Hinta yhteensä</th>
             <th>Nimi</th>*@
 
-        @*---IN MY OPINION BETTER VERSION---*@
-        @*<th>Alkupäivämäärä</th>
+            @*---IN MY OPINION BETTER VERSION---*@
+            @*<th>Alkupäivämäärä</th>
             <th>Loppupäivämäärä</th>
             <th>Kulutustyyppi</th>
             <th style="width:40%">Kuvaus</th>
             <th>Hinta</th>
             <th>Urakoitsija</th>*@
 
-        @*---IN MY OPINION THE BEST VERSION---*@
-        <th id="0" class="dateHeader">Aloituspvm</th>
-        <th id="1" class="dateHeader">Päättymispvm</th>
-        <th id="2" class="otherHeader">Kulutustyyppi</th>
-        <th style="width:45%" id="3" class="otherHeader">Kuvaus</th>
-        <th id="4" class="numberHeader">Hinta</th>
-        <th id="5" class="otherHeader">Urakoitsija</th>
+            @*---IN MY OPINION THE BEST VERSION---*@
+            <th id="0" class="dateHeader">Aloituspvm</th>
+            <th id="1" class="dateHeader">Päättymispvm</th>
+            <th id="2" class="otherHeader">Kulutustyyppi</th>
+            <th style="width:45%" id="3" class="otherHeader">Kuvaus</th>
+            <th id="4" class="numberHeader">Hinta</th>
+            <th id="5" class="otherHeader">Urakoitsija</th>
 
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr class="card-body filtering">
-            <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
-            @{
-                if (item.DateEnd != null)
-                {
-                    <td>@Html.ValueFor(modelItem => item.DateEnd, "{0:dd.MM.yyyy}")</td>
-                }
-                else
-                {
-                    <td>@Html.ValueFor(modelItem => item.DateBegin, "{0:dd.MM.yyyy}")</td>
-                }
-            }
-            <td>@Html.DisplayFor(modelItem => item.OtherSpendingTypes.TypeName)</td>
-            <td style="word-break:break-word">@Html.DisplayFor(modelItem => item.Description)</td>
-            <td>@Html.DisplayFor(modelItem => item.Price)</td>
-            <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
-
-            <td>
-                <a class="card-link getOtherSpendingId" role="button" data-otherspendingid="@item.OtherSpendingsID">Muokkaa</a> |
-                <a class="card-link delOtherSpendingId" role="button" data-otherspendingid2="@item.OtherSpendingsID">Poista</a>
-            </td>
+            <th></th>
         </tr>
-    }
+    </thead>
+    
+    <tbody id="createBodyHere">
+
+    </tbody>
+    
 
 </table>
 
 <script type="text/javascript">
+    $("th").click(function () {
+        var passedID = this.id.toString();
+        var allHeaders = $("th");
 
-    $(".otherHeader").click(function () {
-        sortTable("sortableTable", parseInt(this.id), "OTHER", this);
-    });
-
-    $(".numberHeader").click(function () {
-        sortTable("sortableTable", parseInt(this.id), "NUMBER", this);
-    });
-
-    $(".dateHeader").click(function () {
-        sortTable("sortableTable", parseInt(this.id), "DATE", this);
+        for (var i = 0; i < allHeaders.length; i++) {
+            console.log($(this).attr('id'));
+            if (i == $(this).attr('id')) {
+                continue;
+            }
+            $(allHeaders[i]).removeClass("desc");
+            $(allHeaders[i]).removeClass("asc");
+        }
+        console.log($(this).hasClass("asc"));
+        if ($(this).hasClass("asc")) {
+            $(this).removeClass("asc");
+            $(this).addClass("desc");
+            filterTableAJAX(passedID, "desc");
+        } else {
+            filterTableAJAX(passedID, "asc");
+            $(this).removeClass("desc");
+            $(this).addClass("asc");
+        }
     });
 
     $(".activate-this").click(function () {
         event.stopPropagation();
         if ($(this).hasClass("active")) {
             $(this).removeClass("active");
+            $(this).removeClass("chosen");
         } else {
             $(this).addClass("active");
+            $(this).addClass("chosen");
         }
-        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
+
+        var activateThis = $(".activate-this");
+        var activeSelect = [];
+        for (var i = 0; i < activateThis.length; i++) {
+            if ($(activateThis[i]).hasClass("active")) {
+                activeSelect.push(activateThis[i].innerText);
+            }
+        }
+        var spans = $(".spans");
+        //Jos ei löydy mitään, tuodaan placeholder div takaisin, muutoin poistetaan se
+        if (activeSelect.length == 0) {
+            $("#hidingField").removeClass("d-none");
+        } else {
+            $("#hidingField").addClass("d-none");
+        }
+        //Poistaa kaikki span-elementit
+        for (var i = 0; i < spans.length; i++) {
+            spans[i].remove();
+        }
+
+        //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
+        for (var i = 0; i < activeSelect.length; i++) {
+            $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+        }
+
+        filterTableAJAX("", "");
+        //filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
     });
+
+    $("#filterBtn").click(function () {
+        filterTableAJAX("", "");
+    });
+
+    function filterTableAJAX(columnNumber, ascOrDesc) {
+        console.log(columnNumber, ascOrDesc);
+        var dateBegin = $("#beginDate").val();
+        var dtDateBegin;
+        if (dateBegin != "") {
+            dtDateBegin = new Date(dateBegin);
+        }
+        console.log(dateBegin);
+        var dateEnd = $("#endDate").val();
+        var dtDateEnd;
+        if (dateEnd != "") {
+            dtDateEnd = new Date(dateEnd);
+        }
+        console.log(dateBegin);
+
+        var stringTypes = "";
+
+        var activeClassCollection = $(".chosen");
+        activeClassCollection.each(function (index, node) {
+            console.log(index, $(node).text());
+            if (index == 0) {
+                stringTypes += $(node).text();
+            } else {
+                stringTypes += "#" + $(node).text();
+            }
+
+        });
+        console.log(stringTypes);
+        var columnNumberData;
+        var ascOrDescData;
+
+        if (columnNumber != null) {
+            columnNumberData = columnNumber;
+        }
+
+        if (ascOrDesc != null) {
+            ascOrDescData = ascOrDesc;
+        }
+
+        $.post("@Url.Action("_IndexTable","OtherSpendings")", { alkuPvm: dateBegin, loppuPvm: dateEnd, kulutyypit: stringTypes, columnNumber: columnNumberData, ascOrDesc: ascOrDescData } ,function(data){
+
+            $("#createBodyHere").html(data);
+        });
+    }
 
     $("#beginDate").change(function () {
         console.log("toimii");
-        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
-    });
+        filterTableAJAX("", "");    });
 
     $("#endDate").change(function () {
-        filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
-    });
+        filterTableAJAX("", "");    });
+
 
         $(function () {
             $('#homeClicked').removeClass('active');
@@ -268,5 +336,4 @@
             });
         });
 
-    </script>
-}
+</script>
