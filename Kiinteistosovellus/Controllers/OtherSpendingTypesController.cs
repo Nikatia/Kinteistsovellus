@@ -34,20 +34,16 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Spendings = GetSpendings();
                 return View(await othSpendtype.ToListAsync());
             }
-            else { return null; }
+            else { return RedirectToAction("Index", "Home"); }
         }
 
         public ActionResult ChartContainer(int? id)
         {
-            if (Session["UserName"] != null)
-            {
-                OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
-                ViewBag.Vuosi = new SelectList(db.OtherTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
-                ViewBag.TypeName = spendingTypes.TypeName;
-                ViewBag.TypeID = id;
-                return PartialView();
-            }
-            else { return null; }
+            OtherSpendingTypes spendingTypes = db.OtherSpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.OtherTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.TypeID = id;
+            return PartialView();
         }
 
         [Route("OtherSpendingTypes/Chart/{id?}/{year?}")]
@@ -93,11 +89,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: OtherSpendingTypes/Create
         public PartialViewResult Create()
         {
-            if (Session["UserName"] != null)
-            {
-                return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml");
-            }
-            else { return null; }
+            return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml");
         }
 
         // POST: Plans/Create
@@ -123,20 +115,16 @@ namespace Kiinteistosovellus.Controllers
         // GET: OtherSpendingTypes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
-                if (othSpendType == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+            if (othSpendType == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
         }
 
         // POST: Plans/Edit/5
@@ -162,20 +150,16 @@ namespace Kiinteistosovellus.Controllers
         // GET: OtherSpendingTypes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null || id == 1000)
             {
-                if (id == null || id == 1000)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
-                if (othSpendType == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("/Views/OtherSpendingTypes/_DeleteModal.cshtml", othSpendType);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            OtherSpendingTypes othSpendType = await db.OtherSpendingTypes.FindAsync(id);
+            if (othSpendType == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("/Views/OtherSpendingTypes/_DeleteModal.cshtml", othSpendType);
         }
 
         // POST: Plans/Delete/5

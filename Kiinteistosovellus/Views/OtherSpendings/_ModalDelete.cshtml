@@ -1,59 +1,78 @@
 ﻿@model Kiinteistosovellus.Models.OtherSpendings
 
-<div class="modal fade" id="ModalOtherSpendingDelete">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
+@if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
+{
+   <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalOtherSpendingDelete">
+       <div class="modal-dialog modal-lg modal-dialog-centered">
+           <div class="modal-content">
 
-            <div class="modal-header">
-                <h3>Poistaa kulutus</h3>
-            </div>
+               <div class="modal-header">
+                   <h3>Poistaa kulutus</h3>
+               </div>
 
-            <div class="modal-body">
-                <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
-                <div>
-                    <hr />
-                    <div class="row">
+               <div class="modal-body">
+                   <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
+                   <div>
+                       <hr />
+                       <div class="row">
 
-                        <div class="col-sm-3">
-                            <dl class="dl-horizontal">
-                                <dt>Alkupäivämäärä</dt>
-                                <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
+                           <div class="col-sm-3">
+                               <dl class="dl-horizontal">
+                                   <dt>Alkupäivämäärä</dt>
+                                   <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
 
-                                <dt>Loppupäivämäärä</dt>
-                                <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
+                                   <dt>Loppupäivämäärä</dt>
+                                   <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
 
-                                <dt>Hinta yhteensä</dt>
-                                <dd>@Html.DisplayFor(model => model.Price)</dd>
+                                   <dt>Hinta yhteensä</dt>
+                                   <dd>@Html.DisplayFor(model => model.Price)</dd>
 
-                                <dt>Urakoitsija</dt>
-                                <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
+                                   <dt>Urakoitsija</dt>
+                                   <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
 
-                                <dt>Kulutustyyppi</dt>
-                                <dd>@Html.DisplayFor(model => model.OtherSpendingTypes.TypeName)</dd>
-                            </dl>
-                        </div>
+                                   <dt>Kulutustyyppi</dt>
+                                   <dd>@Html.DisplayFor(model => model.OtherSpendingTypes.TypeName)</dd>
+                               </dl>
+                           </div>
 
-                        <div class="col-sm-9">
-                            <dl class="dl-horizontal">
-                                <dt>Kuvaus</dt>
-                                <dd>@Html.DisplayFor(model => model.Description)</dd>
-                            </dl>
-                        </div>
+                           <div class="col-sm-9">
+                               <dl class="dl-horizontal">
+                                   <dt>Kuvaus</dt>
+                                   <dd>@Html.DisplayFor(model => model.Description)</dd>
+                               </dl>
+                           </div>
 
+                       </div>
+
+                   </div>
+                   <div class="modal-footer">
+                       @using (Html.BeginForm())
+                       {
+                           @Html.AntiForgeryToken()
+                           <div class="form-actions no-color">
+                               <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                               <a href="@Url.Action("Index", "OtherSpendings")">Peruuta</a>
+                           </div>
+                       }
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalOtherSpendingDelete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
                     </div>
-                       
-                </div>
-                <div class="modal-footer">
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="form-actions no-color">
-                            <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
-                            <a href="@Url.Action("Index", "OtherSpendings")">Peruuta</a>
-                        </div>
-                    }
                 </div>
             </div>
         </div>
     </div>
-</div>
+}

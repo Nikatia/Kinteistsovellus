@@ -91,7 +91,7 @@ namespace Kiinteistosovellus.Controllers
 
                 return View(wholeContractorsList.ToList());
             }
-            else { return null; }
+            else { return RedirectToAction("Index", "Home"); }
         }
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
@@ -100,15 +100,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Contractors/Create
         public PartialViewResult CreateContractor()
         {
-
-            if (Session["UserName"] != null)
-            {
-                return PartialView("/Views/Contractors/_ModalCreate.cshtml");
-            }
-            else
-            {
-                return null;
-            }
+            return PartialView("/Views/Contractors/_ModalCreate.cshtml");
         }
 
         // POST: Contractors/Create
@@ -178,7 +170,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Contractors = GetContractors();
                 return PartialView("/Views/Contractors/_ModalCreateContact.cshtml");
             }
-            else { return null; }
+            else { return PartialView("/Views/Contractors/_ModalCreateContact.cshtml"); }
         }
 
         // POST: Contractors/Create
@@ -218,7 +210,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.SuccessMsg = "";
                 return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
             }
-            else { return null; }
+            else { return PartialView("/Views/Home/_NotLogged.cshtml"); }
         }
 
         // POST: Contractors/Create
@@ -244,7 +236,7 @@ namespace Kiinteistosovellus.Controllers
             }
             else
             {
-                return null;
+                return PartialView("/Views/Home/_NotLogged.cshtml");
             }
         }
 
@@ -253,20 +245,16 @@ namespace Kiinteistosovellus.Controllers
         //------------------------------------Contractors------------------------------------
         public ActionResult EditContractor(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Contractors contractors = db.Contractors.Find(id);
-                if (contractors == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Contractors contractors = db.Contractors.Find(id);
+            if (contractors == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 
         [HttpPost]
@@ -289,24 +277,17 @@ namespace Kiinteistosovellus.Controllers
         //------------------------------------Persons------------------------------------
         public ActionResult EditPerson(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Persons person = db.Persons.Find(id);
-                if (person == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", person.ContractorID);
-                return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else
+            Persons person = db.Persons.Find(id);
+            if (person == null)
             {
-                return null;
+                return HttpNotFound();
             }
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", person.ContractorID);
+            return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
         }
 
         [HttpPost]
@@ -330,22 +311,18 @@ namespace Kiinteistosovellus.Controllers
         //------------------------------------Contacts------------------------------------
         public ActionResult EditContact(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Contacts contact = db.Contacts.Find(id);
-                if (contact == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.PersonID = contact.PersonID;
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contact.ContractorID);
-                return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Contacts contact = db.Contacts.Find(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PersonID = contact.PersonID;
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contact.ContractorID);
+            return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);
         }
 
         [HttpPost]
@@ -377,22 +354,20 @@ namespace Kiinteistosovellus.Controllers
         // GET: Contractors/Delete/5
         public ActionResult DeleteContractor(int? id)
         {
-            if (Session["UserName"] != null)
+
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Contractors contractors = db.Contractors.Find(id);
-                ViewBag.Persons = GetPersons();
-                if (contractors == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.ContractorID = id;
-                return PartialView("_ModalDelete", contractors);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Contractors contractors = db.Contractors.Find(id);
+            ViewBag.Persons = GetPersons();
+            if (contractors == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ContractorID = id;
+            return PartialView("_ModalDelete", contractors);
+
         }
 
         // POST: Contractors/Delete/5
@@ -426,29 +401,25 @@ namespace Kiinteistosovellus.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else { return null; }
+            else { return PartialView("/Views/Home/_NotLoggedModal.cshtml"); }
         }
 
         //------------------------------------Persons------------------------------------
         // GET: Contractors/Delete/5
         public ActionResult DeletePerson(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Persons persons = db.Persons.Find(id);
-                ViewBag.Contacts = GetContacts();
-                if (persons == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.PersonID = id;
-                return PartialView("_ModalDeletePerson", persons);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Persons persons = db.Persons.Find(id);
+            ViewBag.Contacts = GetContacts();
+            if (persons == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PersonID = id;
+            return PartialView("_ModalDeletePerson", persons);
         }
 
         // POST: Contractors/Delete/5
@@ -466,27 +437,23 @@ namespace Kiinteistosovellus.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else { return null; }
+            else { return PartialView("/Views/Home/_NotLoggedModal.cshtml"); }
         }
 
         //------------------------------------Contacts------------------------------------
         public ActionResult DeleteContact(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Contacts contact = db.Contacts.Find(id);
-                ViewBag.Persons = GetPersons();
-                if (contact == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("_ModalDeleteContact", contact);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Contacts contact = db.Contacts.Find(id);
+            ViewBag.Persons = GetPersons();
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_ModalDeleteContact", contact);
         }
 
         // POST: Contractors/Delete/5
@@ -501,7 +468,7 @@ namespace Kiinteistosovellus.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else { return null; }
+            else { return PartialView("/Views/Home/_NotLoggedModal.cshtml"); }
         }
 
 

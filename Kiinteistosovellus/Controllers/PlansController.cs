@@ -27,18 +27,14 @@ namespace Kiinteistosovellus.Controllers
                 var plans = db.Plans;
                 return View(await plans.ToListAsync());
             }
-            else { return null; }
+            else { return RedirectToAction("Index", "Home"); }
         }
 
         // GET: Plans/Create
         public PartialViewResult Create()
         {
-            if (Session["UserName"] != null)
-            {
-                ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName");
-                return PartialView("/Views/Plans/_CreateModal.cshtml");
-            }
-            else { return null; }
+            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName");
+            return PartialView("/Views/Plans/_CreateModal.cshtml");
         }
 
         // POST: Plans/Create
@@ -65,22 +61,18 @@ namespace Kiinteistosovellus.Controllers
         // GET: Plans/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Plans plans = await db.Plans.FindAsync(id);
-                if (plans == null)
-                {
-                    return HttpNotFound();
-                }
-
-                ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
-                return PartialView("/Views/Plans/_EditModal.cshtml", plans);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Plans plans = await db.Plans.FindAsync(id);
+            if (plans == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.MonthlyOrOther = new SelectList(db.KuukausittainenVaiMuu, "MonthOrOtherID", "MonthOrOtherName", plans.MonthOrOtherID);
+            return PartialView("/Views/Plans/_EditModal.cshtml", plans);
         }
 
         // POST: Plans/Edit/5
@@ -107,20 +99,16 @@ namespace Kiinteistosovellus.Controllers
         // GET: Plans/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Plans plans = await db.Plans.FindAsync(id);
-                if (plans == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("/Views/Plans/_DeleteModal.cshtml", plans);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Plans plans = await db.Plans.FindAsync(id);
+            if (plans == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("/Views/Plans/_DeleteModal.cshtml", plans);
         }
 
         // POST: Plans/Delete/5
@@ -140,20 +128,16 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _MoveOthPlan(int? id)
         {
-            if (Session["UserName"] != null)
-            {
-                Plans plans = db.Plans.Find(id);
-                ViewBag.DateBegin = plans.DateBegin.ToString("yyyy-MM-dd");
-                ViewBag.DateEnd = plans.DateEnd?.ToString("yyyy-MM-dd");
-                ViewBag.Price = plans.Price;
-                ViewBag.Description = plans.Desciption;
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-                ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
-                ViewBag.PlanId = id;
+            Plans plans = db.Plans.Find(id);
+            ViewBag.DateBegin = plans.DateBegin.ToString("yyyy-MM-dd");
+            ViewBag.DateEnd = plans.DateEnd?.ToString("yyyy-MM-dd");
+            ViewBag.Price = plans.Price;
+            ViewBag.Description = plans.Desciption;
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+            ViewBag.PlanId = id;
 
-                return PartialView("/Views/Plans/_MoveOthPlan.cshtml");
-            }
-            else { return null; }
+            return PartialView("/Views/Plans/_MoveOthPlan.cshtml");
         }
 
         // POST: OtherSpendings/Create
@@ -199,19 +183,15 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _MoveMonthPlan(int? id)
         {
-            if (Session["UserName"] != null)
-            {
-                Plans plans = db.Plans.Find(id);
-                ViewBag.DateBegin = plans.DateBegin.ToString("yyyy-MM-dd");
-                ViewBag.DateEnd = plans.DateEnd?.ToString("yyyy-MM-dd");
-                ViewBag.Price = plans.Price;
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-                ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
-                ViewBag.PlanId = id;
+            Plans plans = db.Plans.Find(id);
+            ViewBag.DateBegin = plans.DateBegin.ToString("yyyy-MM-dd");
+            ViewBag.DateEnd = plans.DateEnd?.ToString("yyyy-MM-dd");
+            ViewBag.Price = plans.Price;
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
+            ViewBag.PlanId = id;
 
-                return PartialView("/Views/Plans/_MoveMonthPlan.cshtml");
-            }
-            else { return null; }
+            return PartialView("/Views/Plans/_MoveMonthPlan.cshtml");
         }
 
         // POST: OtherSpendings/Create

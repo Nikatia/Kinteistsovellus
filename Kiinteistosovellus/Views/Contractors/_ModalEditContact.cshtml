@@ -1,95 +1,112 @@
 ﻿@model Kiinteistosovellus.Models.Contacts
 
-<div class="modal fade" id="ModalContactEdit">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Muokkaa yhteystiedot</h3>
-            </div>
+@if (Session["UserName"] != null)
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactEdit">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Muokkaa yhteystiedot</h3>
+                </div>
 
-            <div class="modal-body">
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editContactForm" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <h4>@Html.DisplayFor(model => model.Persons.FullName)</h4>
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.PersonID)
-                        @Html.HiddenFor(model => model.ContractorID)
-                        @Html.HiddenFor(model => model.ContactID)
+                <div class="modal-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editContactForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <h4>@Html.DisplayFor(model => model.Persons.FullName)</h4>
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.PersonID)
+                            @Html.HiddenFor(model => model.ContractorID)
+                            @Html.HiddenFor(model => model.ContactID)
 
-                        <div class="form-group">
-                            Puhelin numero <div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
-                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                Puhelin numero <div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            Sähköposti <div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div> 
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
-                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                Sähköposti <div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
                             </div>
+                            <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
                         </div>
-                        <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
+                        <a href="#" data-bs-dismiss="modal" id="back" onclick='destroyDiv()'>Takaisin</a>
                     </div>
-                }
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                    <a href="#" data-bs-dismiss="modal" id="back" onclick='destroyDiv()'>Takaisin</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $("#submitDataModal").click(function () {
-        var telephone = $("#phone").val();
-        var email = $("#mail").val();
-        var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
-        if ((telephone == "" && email == "") || (!email.match(mailFormat) && email != "") || (!telephone.match(phoneFormat) && telephone != "")) {
-            $("#back").attr('href', '/Contractors/Index');
-            $("#back").removeAttr('data-bs-dismiss');
-            $("#back").removeAttr('onclick');
-            if (telephone != "" || email != "") {
-                document.getElementById("noContactInfo").style.display = "none";
+        $("#submitDataModal").click(function () {
+            var telephone = $("#phone").val();
+            var email = $("#mail").val();
+            var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
+            if ((telephone == "" && email == "") || (!email.match(mailFormat) && email != "") || (!telephone.match(phoneFormat) && telephone != "")) {
+                $("#back").attr('href', '/Contractors/Index');
+                $("#back").removeAttr('data-bs-dismiss');
+                $("#back").removeAttr('onclick');
+                if (telephone != "" || email != "") {
+                    document.getElementById("noContactInfo").style.display = "none";
+                }
+                else {
+                    document.getElementById("noContactInfo").style.display = "inline-block";
+                }
+
+                if (!email.match(mailFormat) && email != "") {
+                    console.log("email wrong")
+                    document.getElementById("wrongEmail").style.display = "inline-block";
+                }
+                else {
+                    document.getElementById("wrongEmail").style.display = "none";
+                }
+
+                if (!telephone.match(phoneFormat) && telephone != "") {
+                    console.log("phone wrong")
+                    document.getElementById("wrongPhone").style.display = "inline-block";
+                }
+                else {
+                    document.getElementById("wrongPhone").style.display = "none";
+                }
             }
             else {
-                document.getElementById("noContactInfo").style.display = "inline-block";
+                submitModalPost("Contractors", "EditContact", "editContactForm", "ModalContactEdit");
             }
+        });
 
-            if (!email.match(mailFormat) && email != "") {
-                console.log("email wrong")
-                document.getElementById("wrongEmail").style.display = "inline-block";
-            }
-            else {
-                document.getElementById("wrongEmail").style.display = "none";
-            }
-
-            if (!telephone.match(phoneFormat) && telephone != "") {
-                console.log("phone wrong")
-                document.getElementById("wrongPhone").style.display = "inline-block";
-            }
-            else {
-                document.getElementById("wrongPhone").style.display = "none";
-            }
+        function destroyDiv() {
+            var div = parent.document.getElementById("ModalContactEdit");
+            div.parentNode.removeChild(div);
         }
-        else {
-            submitModalPost("Contractors", "EditContact", "editContactForm", "ModalContactEdit");
-        }
-    });
-
-    function destroyDiv() {
-        var div = parent.document.getElementById("ModalContactEdit");
-        div.parentNode.removeChild(div);
-    }
-</script>
-
-
+    </script>
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactEdit">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

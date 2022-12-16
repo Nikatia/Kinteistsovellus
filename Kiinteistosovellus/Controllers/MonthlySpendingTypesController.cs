@@ -34,21 +34,17 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Spendings = GetSpendings();
                 return View(monthlySpendingTypes.ToList());
             }
-            else { return null; }
+            else { return RedirectToAction("Index", "Home"); }
         }
 
         public ActionResult ChartContainerUnits(int? id)
         {
-            if (Session["UserName"] != null)
-            {
-                MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
-                ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonthUnitsChart.Where(i => i.Tyyppi == id), "Vuosi", "Vuodet");
-                ViewBag.TypeName = spendingTypes.TypeName;
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonthUnitsChart.Where(i => i.Tyyppi == id), "Vuosi", "Vuodet");
+            ViewBag.TypeName = spendingTypes.TypeName;
 
-                ViewBag.TypeID = id;
-                return PartialView();
-            }
-            else { return null; }
+            ViewBag.TypeID = id;
+            return PartialView();
         }
         [Route("MonthlySpendingTypes/ChartSpending/{id?}/{year?}")]
         public ActionResult ChartSpending(int id, int year)
@@ -152,15 +148,11 @@ namespace Kiinteistosovellus.Controllers
         }
         public ActionResult ChartContainer(int? id)
         {
-            if (Session["UserName"] != null)
-            {
-                MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
-                ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
-                ViewBag.TypeName = spendingTypes.TypeName;
-                ViewBag.TypeID = id;
-                return PartialView();
-            }
-            else { return null; }
+            MonthlySpendingTypes spendingTypes = db.MonthlySpendingTypes.Find(id);
+            ViewBag.Vuosi = new SelectList(db.MonthlyTypeSpendingsByMonth.Where(i => i.Tyyppi == id), "Vuosi", "Vuosi");
+            ViewBag.TypeName = spendingTypes.TypeName;
+            ViewBag.TypeID = id;
+            return PartialView();
         }
 
         [Route("MonthlySpendingTypes/Chart/{id?}/{year?}")]
@@ -206,14 +198,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: MonthlySpendingTypes/Create
         public ActionResult _CreateModal()
         {
-            if (Session["UserName"] != null)
-            {
                 return PartialView("_CreateModal");
-            }
-            else
-            {
-                return null;
-            }
         }
 
         // POST: MonthlySpendingTypes/Create
@@ -240,20 +225,16 @@ namespace Kiinteistosovellus.Controllers
         // GET: MonthlySpendingTypes/Edit/5
         public ActionResult _EditModal(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
-                if (monthlySpendingTypes == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("_EditModal", monthlySpendingTypes);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
+            if (monthlySpendingTypes == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_EditModal", monthlySpendingTypes);
         }
 
         // POST: MonthlySpendingTypes/Edit/5
@@ -279,20 +260,16 @@ namespace Kiinteistosovellus.Controllers
         // GET: MonthlySpendingTypes/Delete/5
         public ActionResult _DeleteModal(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null || id == 1000)
             {
-                if (id == null || id == 1000)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
-                if (monthlySpendingTypes == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("_DeleteModal", monthlySpendingTypes);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            MonthlySpendingTypes monthlySpendingTypes = db.MonthlySpendingTypes.Find(id);
+            if (monthlySpendingTypes == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_DeleteModal", monthlySpendingTypes);
         }
 
         // POST: MonthlySpendingTypes/Delete/5

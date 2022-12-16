@@ -393,6 +393,7 @@
     <Content Include="Views\Plans\_MoveOthPlan.cshtml" />
     <Content Include="Views\Plans\_MoveMonthPlan.cshtml" />
     <Content Include="Views\OtherSpendings\_IndexTable.cshtml" />
+    <Content Include="Views\Home\_NotLogged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

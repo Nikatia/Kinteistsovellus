@@ -67,7 +67,7 @@ namespace Kiinteistosovellus.Controllers
             }
             else
             {
-                return null;
+                return RedirectToAction("Index", "Home"); ;
             }
         }
 
@@ -312,13 +312,9 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _CreateModal()
         {
-            if (Session["UserName"] != null)
-            {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-                ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
-                return PartialView("/Views/MonthlySpendings/_CreateModal.cshtml");
-            }
-            else { return null; }
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName");
+            return PartialView("/Views/MonthlySpendings/_CreateModal.cshtml");
         }
         // POST: MonthlySpendings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -386,22 +382,18 @@ namespace Kiinteistosovellus.Controllers
         }
         public ActionResult _EditModal(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
-                if (monthlySpendings == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-                ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
-                return PartialView("_EditModal", monthlySpendings);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
+            if (monthlySpendings == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
+            ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
+            return PartialView("_EditModal", monthlySpendings);
         }
 
         // POST: MonthlySpendings/Edit/5
@@ -433,20 +425,16 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _DeleteModal(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
-                if (monthlySpendings == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView("_DeleteModal", monthlySpendings);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            MonthlySpendings monthlySpendings = db.MonthlySpendings.Find(id);
+            if (monthlySpendings == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_DeleteModal", monthlySpendings);
         }
 
         // POST: MonthlySpendings/Delete/5

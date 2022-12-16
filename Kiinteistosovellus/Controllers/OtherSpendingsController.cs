@@ -63,7 +63,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Kulutyypit = othTypeArray;
                 return View(otherSpendings.ToList());
             }
-            else { return null; }
+            else { return RedirectToAction("Index", "Home"); }
         }
 
         public PartialViewResult _IndexTable(string alkuPvm, string loppuPvm, string kulutyypit, string columnNumber, string ascOrDesc)
@@ -278,33 +278,12 @@ namespace Kiinteistosovellus.Controllers
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
-
-        // GET: OtherSpendings/Create
-        public ActionResult Create()
-        {
-            if (Session["UserName"] != null)
-            {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-                ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
-
-                return View();
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public ActionResult _ModalCreate()
         {
-            if (Session["UserName"] != null)
-            {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-                ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName");
 
-                return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml");
-            }
-            else { return null; }
+            return PartialView("/Views/OtherSpendings/_ModalCreate.cshtml");
         }
 
         // POST: OtherSpendings/Create
@@ -373,25 +352,21 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _ModalEdit(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
-                if (otherSpendings == null)
-                {
-                    return HttpNotFound();
-                }
-
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
-                ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
-                ViewBag.OtherSpendingID = otherSpendings.OtherSpendingsID;
-
-                return PartialView("_ModalEdit", otherSpendings);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
+            if (otherSpendings == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
+            ViewBag.OtherSpendingTypeID = new SelectList(db.OtherSpendingTypes, "OtherSpendingTypeId", "TypeName", otherSpendings.OtherSpendingTypeID);
+            ViewBag.OtherSpendingID = otherSpendings.OtherSpendingsID;
+
+            return PartialView("_ModalEdit", otherSpendings);
         }
 
         // POST: OtherSpendings/Edit/5
@@ -425,21 +400,17 @@ namespace Kiinteistosovellus.Controllers
         //GET: OtherSpendings/Delete/5
         public ActionResult _ModalDelete(int? id)
         {
-            if (Session["UserName"] != null)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
-                if (otherSpendings == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return PartialView("_ModalDelete", otherSpendings);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            OtherSpendings otherSpendings = db.OtherSpendings.Find(id);
+            if (otherSpendings == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView("_ModalDelete", otherSpendings);
         }
 
         // POST: OtherSpendings/Delete/5
