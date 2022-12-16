@@ -39,7 +39,7 @@
 <h2>Urakoitsijat</h2>
 
 
-<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>  <a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>
+<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>  @*<a class="card-link ikonka" title="Uusi yhteystiedot" id="creNewContact" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>*@
 
 
 @*---Modal Containers---*@
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <br />
-
+                    <a class="card-link ikonka creNewContact" title="Uusi yhteystiedot" data-contrid="@item.ContractorID" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>
                     <table class="table">
                         <thead>
                             <tr>
@@ -256,8 +256,15 @@
 
         /* Create */
         $(function () {
-            $("#creNewContact").click(function () {
-                modalGet("Contractors", "CreateContact", null, "contactCreate", "ModalContactCreate");
+            $(".creNewContact").click(function () {
+                let creContactContrID = $(this).data("contrid");
+                if (document.getElementById("contactCreate") === null) {
+                    newIframe = document.createElement('iframe');
+                    newIframe.setAttribute("id", "contactCreate");
+                    newIframe.style.display = "none";
+                    document.body.appendChild(newIframe);
+                }
+                modalGet("Contractors", "CreateContact", creContactContrID, "contactCreate", "ModalContactCreate");
             });
         });
 

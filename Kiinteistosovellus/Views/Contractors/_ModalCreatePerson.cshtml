@@ -11,6 +11,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <b id="yhteystiedot">Uusi henkilö<br /></b>
+    @Html.EditorFor(model => model.ContractorID, new { htmlAttributes = new { @class = "form-control", @id = "ContractorID2", @style = "display:none" } })
 
     <div class="form-group">
         Etunimi*  @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger"})
@@ -26,23 +27,17 @@
         </div>
     </div>
 
-    <div class="form-group">
-        Urakoitsija*  @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
-        <div class="col-md-10">
-            @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select", @id = "ContractorsDropdown" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        Kuvaus
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Kuvaus
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
     <div style="text-align: right; padding-right: 90px; padding-top:10px">
-    <a class="btn" style="background-color: rgb(184, 214, 164); color: white" role="button" id="lisaaUusiHenkilo">Lisää henkilö</a> | <a class="card-link closeAddPerson" role="button">Sulje</a>
+        <a class="btn" style="background-color: rgb(184, 214, 164); color: white" role="button" id="lisaaUusiHenkilo">Lisää henkilö</a> | <a class="card-link closeAddPerson" role="button">Sulje</a>
     </div>
 }
 
@@ -57,7 +52,6 @@
     var message = '@message';
     //if model is valid, close PartialView, go to successful page and reset Contacts Contractors dropdown
     if (message) {
-        console.log(contractors.val());
         var personUrl = '@Url.Action("FetchPersons")';
         var persons = $('#lePerson');
         var contractor = $('#ContractorID');
@@ -67,7 +61,7 @@
             if (!data) {
                 persons.empty();
             }
-            persons.append($('<option></option>').val('').text(''));
+
             $.each(data, function (index, item) {
                 persons.append($('<option></option>').val(item.Value).text(item.Text));
             });
@@ -75,16 +69,6 @@
         document.getElementById("divForPartialPseudo").innerHTML = "";
         document.getElementById("successfullyAddedPerson").style.display = "inline-block";
     }
-
-    //Repopulate this PartialView's Contractors dropdown, so empty value is first
-    var contractors = $('#ContractorsDropdown');
-    contractors.empty();
-    item.Text + '</option>');
-    $.getJSON(contractorUrl, function (data) {
-        $.each(data, function (index, item) {
-            contractors.append($('<option></option>').val(item.Value).text(item.Text));
-        });
-    });
 
     //Make modal smaller and erase this PartialView from modal
     $(".closeAddPerson").click(function () {
@@ -97,4 +81,9 @@
         $("#colDiv2").removeClass("col-sm-6");
         document.getElementById("divForPartialPseudo").innerHTML = "";
     });
+
+    $(document).ready(function () {
+        $("#ContractorID2").val("@ViewBag.Contractor");
+    });
+
 </script>

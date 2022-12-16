@@ -12,6 +12,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -157,14 +158,13 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // GET: Contacts/Create
-        public PartialViewResult CreateContact()
+        public PartialViewResult CreateContact(int? id)
         {
             if (Session["UserName"] != null)
             {
-                List<Contractors> contractors = GetContractors();
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-
-                IEnumerable<Persons> persons = GetPersons().Where(p => p.PersonID == ViewBag.ContractorID.Value);
+                ViewBag.ContractorYes = id;
+                Contractors contractor = db.Contractors.Find(id);
+                ViewBag.ContractorName = contractor.Name;
                 ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
 
                 ViewBag.Contractors = GetContractors();
@@ -202,11 +202,11 @@ namespace Kiinteistosovellus.Controllers
 
         //------------------------------------Persons------------------------------------
         // GET: Contacts/Create
-        public PartialViewResult CreatePerson()
+        public PartialViewResult CreatePerson(int? id)
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+                ViewBag.Contractor = id;
                 ViewBag.SuccessMsg = "";
                 return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
             }
@@ -222,7 +222,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", persons.ContractorID);
+                ViewBag.Contractor = persons.ContractorID;
                 ViewBag.SuccessMsg = "";
                 if (ModelState.IsValid)
                 {
