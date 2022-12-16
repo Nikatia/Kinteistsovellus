@@ -219,11 +219,12 @@
         filterTableAJAX("", "");    });
 
 
-        $(function () {
-            $('#homeClicked').removeClass('active');
-            $('#spendingsClicked').addClass('active');
-            $('#othersClicked').removeClass('active');
-        });
+    $(function () {
+        filterTableAJAX("", "");
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').addClass('active');
+        $('#othersClicked').removeClass('active');
+    });
 
         /* Create Modal Window */
         $(function () {
