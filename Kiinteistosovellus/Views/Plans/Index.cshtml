@@ -11,6 +11,8 @@
 <iframe id="plansCreate" style="display:none"></iframe>
 <iframe id="plansEdit" style="display:none"></iframe>
 <iframe id="plansDelete" style="display:none"></iframe>
+<iframe id="otherSpendingCreate" style="display:none"></iframe>
+<iframe id="monthlySpendingCreate" style="display:none"></iframe>
 
 <a class="card-link ikonka" id="createNewPlanModal" title="Uusi Suunnitelma" role="button"><img src="/Icons/square-add.svg" height="45"></a>
 <br />
@@ -25,17 +27,17 @@
         <th>
             Päättymispvm
         </th>
-        <th style="width:45%">
+        <th>
             Kuvaus
         </th>
-        <th>
+        <th style="width:9%">
             Hinta
         </th>
-        <th>
+        <th style="width:16%">
             Kuukausittainen vai muu
         </th>
 
-        <th></th>
+        <th style="width:9%"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -70,6 +72,19 @@
             <td>
                 <a class="card-link ikonka editPlanModal" title="Muokkaa Suunnittelu" data-editid="@item.PlandID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
                 <a class="card-link ikonka deletePlanModal" title="Poista Suunnittelu" data-deleteid="@item.PlandID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                @if (item.MonthOrOtherID == 1)
+                {
+                    <a class="card-link ikonka creNewMonthlySpending" title="Siirrä Kuukausittainen Suunnittelu" data-movemonthid="@item.PlandID" role="button"><img src="/Icons/square-arrow.svg" height="30"></a>
+                }
+                else if (item.MonthOrOtherID == 2)
+                {
+                    <a class="card-link ikonka creNewOtherSpending" title="Siirrä Muu Suunnittelu" data-moveothid="@item.PlandID" role="button"><img src="/Icons/square-arrow.svg" height="30"></a>
+                }
+                else
+                {
+                    <img src="/Icons/square-arrow.svg" class="noUnits" title="Määritä onko tämä kuukausittainen vai muu kulu" height="30">
+                }
+
             </td>
         </tr>
     }
@@ -100,6 +115,21 @@
         $(".deletePlanModal").click(function () {
             let deleteId = $(this).data("deleteid");
             modalGet("Plans", "Delete", deleteId, "plansDelete", "ModalPlansDelete");
+        });
+    });
+
+    $(function () {
+        $(".creNewOtherSpending").click(function () {
+
+            let newSpendingId = $(this).data("moveothid");
+            modalGet("Plans", "_MoveOthPlan", newSpendingId, "otherSpendingCreate", "ModalOtherSpendingPlanCreate");
+        });
+    });
+
+    $(function () {
+        $(".creNewMonthlySpending").click(function () {
+            let newMonthSpendingId = $(this).data("movemonthid");
+            modalGet("Plans", "_MoveMonthPlan", newMonthSpendingId, "monthlySpendingCreate", "ModalMonthlySpendingPlanCreate");
         });
     });
 </script>

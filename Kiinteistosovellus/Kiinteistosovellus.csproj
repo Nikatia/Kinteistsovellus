@@ -229,6 +229,8 @@
     <Compile Include="ViewModels\ForOthersCategorySortChartClass.cs" />
     <Compile Include="ViewModels\ForOtherSpendingTypeChartsClass.cs" />
     <Compile Include="ViewModels\MonthlyAndOtherSpendingsByMonthClass.cs" />
+    <Compile Include="ViewModels\MoveMonthSpendings.cs" />
+    <Compile Include="ViewModels\MoveOthSpendings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -253,32 +255,21 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Icons\comment-add-square.svg" />
-    <Content Include="Icons\comment-add2.svg" />
-    <Content Include="Icons\comment-add3.svg" />
     <Content Include="Icons\comment-delete-square.svg" />
     <Content Include="Icons\comment-edit-square.svg" />
-    <Content Include="Icons\comment-edit.svg" />
-    <Content Include="Icons\comment-gear-solid.svg" />
-    <Content Include="Icons\comment-medical-solid.svg" />
-    <Content Include="Icons\comment-pen.svg" />
-    <Content Include="Icons\comment-slash-solid.svg" />
     <Content Include="Icons\contractors-add-square.svg" />
-    <Content Include="Icons\contractors-add.svg" />
     <Content Include="Icons\contractors-delete-square.svg" />
     <Content Include="Icons\contractors-edit-square.svg" />
     <Content Include="Icons\person-delete-square.svg" />
-    <Content Include="Icons\person-delete2-square.svg" />
+    <Content Include="Icons\person-edit-square.svg" />
     <Content Include="Icons\square-add.svg" />
+    <Content Include="Icons\square-arrow.svg" />
+    <Content Include="Icons\square-chart-yksikko.svg" />
+    <Content Include="Icons\square-chart.svg" />
+    <Content Include="Icons\square-delete.svg" />
+    <Content Include="Icons\square-edit.svg" />
     <Content Include="Icons\square-more-info.svg" />
     <Content Include="Icons\square-no-more-info.svg" />
-    <Content Include="Icons\square-pen-solid.svg" />
-    <Content Include="Icons\square-trash.svg" />
-    <Content Include="Icons\user-gear-solid.svg" />
-    <Content Include="Icons\user-large-slash-solid.svg" />
-    <Content Include="Icons\user-pen-solid.svg" />
-    <Content Include="Icons\users-pen-solid.svg" />
-    <Content Include="Icons\users-pen-solid2.svg" />
-    <Content Include="Icons\users-slash-solid.svg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -399,6 +390,8 @@
     <Content Include="Views\MonthlySummary\Index.cshtml" />
     <Content Include="Views\MonthlySummary\_PieChart.cshtml" />
     <Content Include="Views\MonthlySpendings\_IndexTable.cshtml" />
+    <Content Include="Views\Plans\_MoveOthPlan.cshtml" />
+    <Content Include="Views\Plans\_MoveMonthPlan.cshtml" />
     <Content Include="Views\OtherSpendings\_IndexTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
