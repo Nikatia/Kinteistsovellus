@@ -41,11 +41,6 @@ namespace Kiinteistosovellus.Controllers
             return PartialView(); 
         }
 
-        public ActionResult _NotLoggedModal()
-        {
-            return PartialView();
-        }
-
         public ActionResult PieChart(int? year)
         {
             if (Session["UserName"] != null)

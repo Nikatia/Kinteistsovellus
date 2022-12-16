@@ -7,11 +7,12 @@
     <div class="modal" data-bs-backdrop="static" data-bs-keyboard="false" id="myModal">
         <div class="modal-dialog ">
             <div class="modal-content">
+
                 @*Modal Header*@
                 <div class="modal-header">
                     <h2>Kirjautuminen</h2>
-                    @*<button type="button" class="btn-close" data-bs-dismiss="modal"></button>*@
                 </div>
+
                 @*Modal body*@
                 <div class="modal-body">
                     @using (Html.BeginForm("Authorize", "Home", FormMethod.Post, new { id = "loginForm" }))
