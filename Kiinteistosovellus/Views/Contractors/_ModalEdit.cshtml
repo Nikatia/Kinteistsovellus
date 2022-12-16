@@ -1,117 +1,136 @@
 ﻿@model Kiinteistosovellus.Models.Contractors
 
-<div class="modal fade" id="ModalContractorEdit">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Muokkaa urakoitsija</h3>
-            </div>
+@if (Session["UserName"] != null)
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContractorEdit">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Muokkaa urakoitsija</h3>
+                </div>
 
-            <div class="modal-body">
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editForm" }))
-                {
-                    @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editForm" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.ContractorID)
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ContractorID)
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Osoite* @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.StreetAdress, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Postinumero* @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Postitoimipaikka* @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Maa* @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    Osoite* @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.StreetAdress, new { htmlAttributes = new { @class = "form-control" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Postinumero* @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Postitoimipaikka* @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Maa* @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "10", @maxlength = "300" })
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "10", @maxlength = "300" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                    }
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
                     </div>
-
-                }
-
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                    <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $("#submitDataModal").click(function () {
-        submitModalPost("Contractors", "EditContractor", "editForm", "ModalContractorEdit");
-    });
+        $("#submitDataModal").click(function () {
+            submitModalPost("Contractors", "EditContractor", "editForm", "ModalContractorEdit");
+        });
 
-    function allHaveAttribute(elements, attrName, attrValue) {
-        // Do all elements have given attribute?
-        for (var i = 0; i < elements.length; i++) {
-            if (!elements[i].hasAttribute(attrName)) return false;
-        }
-
-        //if given value...
-        if (attrValue) {
-            for (i = 0; i < elements.length; i++) {
-                if (elements[i].getAttribute(attrName) !== attrValue) //is different than we want
-                    return false;
+        function allHaveAttribute(elements, attrName, attrValue) {
+            // Do all elements have given attribute?
+            for (var i = 0; i < elements.length; i++) {
+                if (!elements[i].hasAttribute(attrName)) return false;
             }
-            return true;
-        } else { // if elements have the attribute we have given
-            return true;
+
+            //if given value...
+            if (attrValue) {
+                for (i = 0; i < elements.length; i++) {
+                    if (elements[i].getAttribute(attrName) !== attrValue) //is different than we want
+                        return false;
+                }
+                return true;
+            } else { // if elements have the attribute we have given
+                return true;
+            }
         }
-    }
 
-    $(document).ready(function () {
-        var els = document.querySelectorAll('span.field-validation-error.text-danger');
-        if (allHaveAttribute(els, 'innerText', '') == false) {
-            $("#back").attr('href', '/Contractors/Index');
-            $("#back").removeAttr('data-bs-dismiss');
-            $("#back").removeAttr('onclick');
+        $(document).ready(function () {
+            var els = document.querySelectorAll('span.field-validation-error.text-danger');
+            if (allHaveAttribute(els, 'innerText', '') == false) {
+                $("#back").attr('href', '/Contractors/Index');
+                $("#back").removeAttr('data-bs-dismiss');
+                $("#back").removeAttr('onclick');
+            }
+        });
+
+        function destroyDiv() {
+            var div = parent.document.getElementById("ModalContractorEdit");
+            div.parentNode.removeChild(div);
         }
-    });
 
-    function destroyDiv() {
-        var div = parent.document.getElementById("ModalContractorEdit");
-        div.parentNode.removeChild(div);
-    }
-
-</script>
+    </script>
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContractorEdit">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

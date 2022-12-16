@@ -1,90 +1,110 @@
 ﻿@model Kiinteistosovellus.Models.Plans
 
-<div class="modal fade" id="ModalPlansEdit">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Suunnitellun menon muokkaus</h3>
-            </div>
+@if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalPlansEdit">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Suunnitellun menon muokkaus</h3>
+                </div>
 
-            <div class="modal-body">
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editForm" }))
-                {
-                    @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editForm" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
+                        <div class="form-horizontal">
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.PlandID)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.PlandID)
 
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Päätymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Kuukausittainen vai muu @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Päätymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Kuukausittainen vai muu @Html.ValidationMessageFor(model => model.MonthOrOtherID, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.MonthOrOtherID, new SelectList(ViewBag.MonthlyOrOther, "Value", "Text"), "", new { @class = "form-control form-select" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    Kuvaus @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Desciption, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        Kuvaus @Html.ValidationMessageFor(model => model.Desciption, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Desciption, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
+                        @Html.ActionLink("Takaisin", "Index")
                     </div>
-                }
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                    @Html.ActionLink("Takaisin", "Index")
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    $("#submitDataModal").click(function () {
-        submitModalPost("Plans", "Edit", "editForm", "ModalPlansEdit");
-    });
+    <script type="text/javascript">
+        $("#submitDataModal").click(function () {
+            submitModalPost("Plans", "Edit", "editForm", "ModalPlansEdit");
+        });
 
-    $("#Price").keypress(function () {
-        //console.log("toimii eventlistener");
-        isNumberKey(event, "Price");
-    });
-    $("#Price").keyup(function () {
-        validateKeyUp(event, "Price");
-    });
-</script>
+        $("#Price").keypress(function () {
+            //console.log("toimii eventlistener");
+            isNumberKey(event, "Price");
+        });
+        $("#Price").keyup(function () {
+            validateKeyUp(event, "Price");
+        });
+    </script>
+
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalPlansEdit">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

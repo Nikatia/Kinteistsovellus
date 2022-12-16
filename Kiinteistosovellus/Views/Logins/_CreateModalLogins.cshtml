@@ -1,151 +1,183 @@
 ﻿@model Kiinteistosovellus.Models.Logins
-@{
-    ViewBag.Title = "_CreateModalLogins";
-}
 
-<div class="modal fade" id="ModalLoginsCreate">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="padding-bottom:0px">
-                <h3>Luo uusi käyttäjä</h3>
-            </div>
-            <div class="modal-body">
+@if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalLoginsCreate">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom:0px">
+                    <h3>Luo uusi käyttäjä</h3>
+                </div>
+                <div class="modal-body">
 
-                @using (Html.BeginForm("Create", "Logins", FormMethod.Post, new { id = "createLoginsForm" }))
-                {
-                    @Html.AntiForgeryToken()
+                    @using (Html.BeginForm("Create", "Logins", FormMethod.Post, new { id = "createLoginsForm" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-secondary" })
-                        <div class="form-group">
-                            Käyttäjätunnus* <label id="userlab" class="text-danger">vaaditaan!</label>
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @oninput = "jepajuuser()", @id = "use", @class = "form-control", @maxlength = "15" } })
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-secondary" })
+                            <div class="form-group">
+                                Käyttäjätunnus* <label id="userlab" class="text-danger">vaaditaan!</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @oninput = "jepajuuser()", @id = "use", @class = "form-control", @maxlength = "15" } })
+                                </div>
+                            </div>
+
+                            <div style="clear:both" , class="form-group">
+                                Salasana* <label id="passlab" class="text-danger">vaaditaan!</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @oninput = "jepajupass()", @id = "pas", @class = "form-control", @maxlength = "15", @type = "password" } })
+                                </div>
+                            </div>
+
+                            <div style="clear:both" , class="form-group">
+                                Toistaa salasana* <label id="passlab2" class="text-danger">vaaditaan!</label>
+                                <div class="col-md-10">
+                                    <input class="form-control text-box single-line" type="password" id="check" maxlength="15" oninput="jepajucheck()">
+                                </div>
+                            </div>
+                            <label id="passlab3" class="text-danger">Salasanat eivät samat!</label>
+                            <div class="form-group">
+                                Rooli*
+                                <div class="col-md-10">
+                                    @Html.DropDownList("RoleID", null, new { @class = "form-control form-select" })
+                                </div>
                             </div>
                         </div>
+                    }
 
-                        <div style="clear:both" , class="form-group">
-                            Salasana* <label id="passlab" class="text-danger">vaaditaan!</label>
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @oninput = "jepajupass()", @id = "pas", @class = "form-control", @maxlength = "15", @type="password"} })
-                            </div>
-                        </div>
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
 
-                        <div style="clear:both" , class="form-group">
-                            Toistaa salasana* <label id="passlab2" class="text-danger">vaaditaan!</label>
-                            <div class="col-md-10">
-                                <input class="form-control text-box single-line" type="password" id="check" maxlength="15" oninput="jepajucheck()">
-                            </div>
-                        </div>
-                        <label id="passlab3" class="text-danger">Salasanat eivät samat!</label>
-                        <div class="form-group">
-                            Rooli*
-                            <div class="col-md-10">
-                                @Html.DropDownList("RoleID", null, new { @class = "form-control form-select" })
-                            </div>
-                        </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <button type="submit" id="LogModButton" class="btn btn-primary" form="createLoginsForm">Tallenna</button>
+                        <button type="button" onclick="jepajuuser(); jepajupass(); tallenna()" id="nappi" class="btn btn-primary">Tallenna</button>
+                        @Html.ActionLink("Takaisin", "Index", "logins")
                     </div>
-                }
-
-                @section Scripts {
-                    @Scripts.Render("~/bundles/jqueryval")
-                }
-
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <button type="submit" id="LogModButton" class="btn btn-primary" form="createLoginsForm">Tallenna</button>
-                    <button type="button" onclick="jepajuuser(); jepajupass(); tallenna()" id="nappi" class="btn btn-primary">Tallenna</button>
-                    @Html.ActionLink("Takaisin", "Index", "logins")
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    $(document).ready(function () {
-        $("#LogModButton").hide();
-        $("#LogModButton").prop('disabled', true);
-        $("#userlab").hide();
-        $("#passlab").hide();
-        $("#passlab2").hide();
-        $("#passlab3").hide();
-    });
-   
-    function jepajuuser() {
-        var usernameValue = $("#use").val();
-        var passwordValue = $("#pas").val();
-        var checkValue = $("#check").val();
-        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
+    <script>
+        $(document).ready(function () {
+            $("#LogModButton").hide();
             $("#LogModButton").prop('disabled', true);
-        } else {
-            $("#LogModButton").prop('disabled', false);
-        }
-
-        if (usernameValue == "") {
-            $("#userlab").show();
-        } else {
             $("#userlab").hide();
-        }
-
-    }
-    function jepajupass() {
-        var usernameValue = $("#use").val();
-        var passwordValue = $("#pas").val();
-        var checkValue = $("#check").val();
-        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
-            $("#LogModButton").prop('disabled', true);
-        } else {
-            $("#LogModButton").prop('disabled', false);
-        }
-
-        if (passwordValue == "") {
-            $("#passlab").show();
-        } else {
             $("#passlab").hide();
-        }
-    }
-    function jepajucheck() {
-        var usernameValue = $("#use").val();
-        var passwordValue = $("#pas").val();
-        var checkValue = $("#check").val();
-        if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
-            $("#LogModButton").prop('disabled', true);
-        } else {
-            $("#LogModButton").prop('disabled', false);
-        }
-
-        if (checkValue == "") {
-            $("#passlab2").show();
-        } else {
             $("#passlab2").hide();
-        }
-
-        if (checkValue != "" && checkValue != passwordValue) {
-            $("#passlab3").show();
-        } else {
             $("#passlab3").hide();
+        });
+
+        function jepajuuser() {
+            var usernameValue = $("#use").val();
+            var passwordValue = $("#pas").val();
+            var checkValue = $("#check").val();
+            if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
+                $("#LogModButton").prop('disabled', true);
+            } else {
+                $("#LogModButton").prop('disabled', false);
+            }
+
+            if (usernameValue == "") {
+                $("#userlab").show();
+            } else {
+                $("#userlab").hide();
+            }
+
+        }
+        function jepajupass() {
+            var usernameValue = $("#use").val();
+            var passwordValue = $("#pas").val();
+            var checkValue = $("#check").val();
+            if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
+                $("#LogModButton").prop('disabled', true);
+            } else {
+                $("#LogModButton").prop('disabled', false);
+            }
+
+            if (passwordValue == "") {
+                $("#passlab").show();
+            } else {
+                $("#passlab").hide();
+            }
+        }
+        function jepajucheck() {
+            var usernameValue = $("#use").val();
+            var passwordValue = $("#pas").val();
+            var checkValue = $("#check").val();
+            if (usernameValue == null || usernameValue == "" || passwordValue == null || passwordValue == "" || checkValue != passwordValue) {
+                $("#LogModButton").prop('disabled', true);
+            } else {
+                $("#LogModButton").prop('disabled', false);
+            }
+
+            if (checkValue == "") {
+                $("#passlab2").show();
+            } else {
+                $("#passlab2").hide();
+            }
+
+            if (checkValue != "" && checkValue != passwordValue) {
+                $("#passlab3").show();
+            } else {
+                $("#passlab3").hide();
+            }
+
+        }
+        function tallenna() {
+            var usernameValue = $("#use").val();
+            var passwordValue = $("#pas").val();
+            var checkValue = $("#check").val();
+
+            if (checkValue != passwordValue) {
+                $("#passlab3").show();
+            } else {
+                $("#passlab3").hide();
+            }
+
+            if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "" && checkValue === passwordValue) {
+                $("#LogModButton").click();
+            }
+
         }
 
-    }
-    function tallenna() {
-        var usernameValue = $("#use").val();
-        var passwordValue = $("#pas").val();
-        var checkValue = $("#check").val();
-
-        if (checkValue != passwordValue) {
-            $("#passlab3").show();
-        } else {
-            $("#passlab3").hide();
-        }
-
-        if (usernameValue != null && usernameValue != "" && passwordValue != null && passwordValue != "" && checkValue === passwordValue) {
-            $("#LogModButton").click();
-        }
-
-    }
-
-</script>
+    </script>
+}
+else if (Session["UserName"] == null)
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalLoginsCreate">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (Session["UserName"] != null && Session["Role"].ToString() != "Admin")
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalLoginsCreate">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole Admin!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 

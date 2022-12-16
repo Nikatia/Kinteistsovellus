@@ -1,84 +1,86 @@
 ﻿@model Kiinteistosovellus.Models.Contacts
 
-<div class="modal fade" id="ModalContactCreate">
-    <div class="modal-dialog modal-dialog-centered" id="modalWindow">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Luo uusi yhteystiedot</h3>
-            </div>
-
-            <div class="modal-body">
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-                        <div id="rowDiv">
-                            <div id="colDiv1">
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                <b id="yhteystiedot" style="display:none">Uusi yhteystiedot<br /></b>
-
-                                <div class="form-group">
-                                    Urakoitsija* <div class="text-danger" id="noContractorInfo" style="display:none">vaaditaan!</div>
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Henkilö
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("PersonID", null, new { @class = "form-control form-select", id = "lePerson" })
-                                        @Html.ValidationMessageFor(model => model.PersonID, "", new { @class = "text-danger" }) 
-                                        <div style="text-align:right; padding-right:110px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi henkilö</a></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Puhelinumero<div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
-                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Sähköposti<div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
-                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
-                            </div>
-
-                            <div id="colDiv2">
-                                @*Opens PartialView for Persons*@
-                                <div id="divForPartialPseudo" style="display:none; width:100%;"></div>
-
-                                @*Opens if model is valid and database is being updated*@
-                                <div class="form-group" id="successfullyAddedPerson" style="display:none; padding:90px 40px">
-                                    <div class="text-success">Henkilö lisätty onnistuneesti</div>
-                                    <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenHenkilo">Lisää uusi henkilö</a> | <a class="card-link closeAddPerson" role="button">Peruuta</a></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
-                    <a href="/Contractors/Index" class="card-link" role="button">Takaisin</a>
+@if (Session["UserName"] != null)
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactCreate">
+        <div class="modal-dialog modal-dialog-centered" id="modalWindow">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Luo uusi yhteystiedot</h3>
                 </div>
+
+                <div class="modal-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <div id="rowDiv">
+                                <div id="colDiv1">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <b id="yhteystiedot" style="display:none">Uusi yhteystiedot<br /></b>
+
+                                    <div class="form-group">
+                                        Urakoitsija* <div class="text-danger" id="noContractorInfo" style="display:none">vaaditaan!</div>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Henkilö
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("PersonID", null, new { @class = "form-control form-select", id = "lePerson" })
+                                            @Html.ValidationMessageFor(model => model.PersonID, "", new { @class = "text-danger" })
+                                            <div style="text-align:right; padding-right:110px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi henkilö</a></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Puhelinumero<div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Sähköposti<div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
+                                </div>
+
+                                <div id="colDiv2">
+                                    @*Opens PartialView for Persons*@
+                                    <div id="divForPartialPseudo" style="display:none; width:100%;"></div>
+
+                                    @*Opens if model is valid and database is being updated*@
+                                    <div class="form-group" id="successfullyAddedPerson" style="display:none; padding:90px 40px">
+                                        <div class="text-success">Henkilö lisätty onnistuneesti</div>
+                                        <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenHenkilo">Lisää uusi henkilö</a> | <a class="card-link closeAddPerson" role="button">Peruuta</a></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
+                        <a href="/Contractors/Index" class="card-link" role="button">Takaisin</a>
+                    </div>
+                </div>
+                <div id="divForPartialPseudo" style="display:inline-block;"></div>
             </div>
-            <div id="divForPartialPseudo" style="display:inline-block;"></div>
         </div>
     </div>
-</div>
-<script type="text/javascript">
+    <script type="text/javascript">
 
     //Submiting Contact + validation
     $("#submitDataModal").click(function () {
@@ -163,7 +165,7 @@
     var contractors = $('#ContractorID');
 
     //When Contractors dropdown changes value, empty Persons dropdown and populate it with empty value and Persons from given Contractor
-	$('#ContractorID').change(function() {
+    $('#ContractorID').change(function () {
         persons1.empty();
         if ($(this).val() != "") {
             $.getJSON(personUrl, { ID: $(this).val() }, function (data) {
@@ -176,7 +178,7 @@
                 });
             });
         }
-    })
+    });
 
     //When modal is shown, empty Persons and Contractors dropdown, then populate Contractors dropdown with empty value as first
     const myModalEl = document.getElementById('ModalContactCreate')
@@ -189,5 +191,22 @@
                 contractors.append($('<option></option>').val(item.Value).text(item.Text));
             });
         });
-    })
-</script>
+    });
+    </script>
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactCreate">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

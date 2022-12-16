@@ -1,82 +1,102 @@
 ﻿@model Kiinteistosovellus.Models.Plans
 
-<div class="modal fade" id="ModalPlansDelete">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Suunnitellun menon poisto</h3>
-            </div>
+@if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalPlansDelete">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Suunnitellun menon poisto</h3>
+                </div>
 
-            <div class="modal-body">
-                <h5>Haluatko varmasti poistaa tämän</h5>
-                <hr />
-                <div class="row">
-                    <div class="col-6">
-                        <dl class="dl-horizontal">
-                            <dt>
-                                Nimi
-                            </dt>
+                <div class="modal-body">
+                    <h5>Haluatko varmasti poistaa tämän</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col-6">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    Nimi
+                                </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Name)
-                            </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Name)
+                                </dd>
 
-                            <dt>
-                                Aloituspäivämäärä
-                            </dt>
+                                <dt>
+                                    Aloituspäivämäärä
+                                </dt>
 
-                            <dd>
-                                @Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")
-                            </dd>
+                                <dd>
+                                    @Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")
+                                </dd>
 
-                            <dt>
-                                Päättymispäivämäärä
-                            </dt>
+                                <dt>
+                                    Päättymispäivämäärä
+                                </dt>
 
-                            <dd>
-                                @Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="col-6">
-                        <dl class="dl-horizontal">
-                            <dt>
-                                Kuvaus
-                            </dt>
+                                <dd>
+                                    @Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-6">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    Kuvaus
+                                </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Desciption)
-                            </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Desciption)
+                                </dd>
 
-                            <dt>
-                                Hinta
-                            </dt>
+                                <dt>
+                                    Hinta
+                                </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.Price)
-                            </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Price)
+                                </dd>
 
-                            <dt>
-                                Kuukausittainen vai muu
-                            </dt>
+                                <dt>
+                                    Kuukausittainen vai muu
+                                </dt>
 
-                            <dd>
-                                @Html.DisplayFor(model => model.KuukausittainenVaiMuu.MonthOrOtherName)
-                            </dd>
-                        </dl>
+                                <dd>
+                                    @Html.DisplayFor(model => model.KuukausittainenVaiMuu.MonthOrOtherName)
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-actions no-color">
-                        <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
-                        <a href="@Url.Action("Index", "Plans")">Peruuta</a>
-                    </div>
-                }
+                <div class="modal-footer">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-actions no-color">
+                            <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                            <a href="@Url.Action("Index", "Plans")">Peruuta</a>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalPlansDelete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

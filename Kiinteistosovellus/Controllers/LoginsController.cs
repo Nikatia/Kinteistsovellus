@@ -21,26 +21,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 return View(db.Logins.ToList());
             }
-            else { return null; }
-        }
-
-        // GET: Logins/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (Session["Role"].ToString() == "Admin")
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Logins logins = db.Logins.Find(id);
-                if (logins == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(logins);
-            }
-            else { return null; }
+            else { return RedirectToAction("Index", "Home"); }
         }
 
         // GET: Logins/Create
@@ -77,12 +58,8 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _CreateModalLogins()
         {
-            if (Session["Role"].ToString() == "Admin")
-            {
-                ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role");
-                return PartialView();
-            }
-            else { return null; }
+            ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role");
+            return PartialView();
         }
         // GET: Logins/Edit/5
         public ActionResult Edit(int? id)
@@ -109,25 +86,17 @@ namespace Kiinteistosovellus.Controllers
 
         public ActionResult _EditModalLogins(int? id)
         {
-
-            if (Session["Role"].ToString() == "Admin")
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Logins logins = db.Logins.Find(id);
-                if (logins == null)
-                {
-                    return HttpNotFound();
-                }
-                ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
-                return PartialView(logins);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else
+            Logins logins = db.Logins.Find(id);
+            if (logins == null)
             {
-                return null;
+                return HttpNotFound();
             }
+            ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
+            return PartialView(logins);
         }
 
         // POST: Logins/Edit/5
@@ -155,61 +124,18 @@ namespace Kiinteistosovellus.Controllers
             }
         }
 
-        // GET: Logins/Delete/5
-        public ActionResult Delete(int? id)
-        {
-
-            if (Session["Role"].ToString() == "Admin")
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Logins logins = db.Logins.Find(id);
-                if (logins == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(logins);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        // POST: Logins/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-
-            if (Session["Role"].ToString() == "Admin")
-            {
-                Logins logins = db.Logins.Find(id);
-                db.Logins.Remove(logins);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            else { return null; }
-        }
         public ActionResult _DeleteModalLogins(int? id)
         {
-
-            if (Session["Role"].ToString() == "Admin")
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Logins logins = db.Logins.Find(id);
-                if (logins == null)
-                {
-                    return HttpNotFound();
-                }
-                return PartialView(logins);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else { return null; }
+            Logins logins = db.Logins.Find(id);
+            if (logins == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(logins);
         }
 
         [HttpPost, ActionName("_DeleteModalLogins")]

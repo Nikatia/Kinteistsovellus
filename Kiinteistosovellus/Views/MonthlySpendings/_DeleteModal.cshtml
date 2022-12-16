@@ -1,119 +1,130 @@
 ﻿@model Kiinteistosovellus.Models.MonthlySpendings
 
-<div class="modal fade" id="ModalMSDelete">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+@if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalMSDelete">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-            <div class="modal-header">
-                <h3>Poistaa kulutus</h3>
-            </div>
+                <div class="modal-header">
+                    <h3>Poistaa kulutus</h3>
+                </div>
 
-            <div class="modal-body">
-                <h5>Oletko varma, että haluat poistaa tämän?</h5>
-                <div>
-                    <hr />
-                    <div class="row">
+                <div class="modal-body">
+                    <h5>Oletko varma, että haluat poistaa tämän?</h5>
+                    <div>
+                        <hr />
+                        <div class="row">
 
-                        <div class="col-sm-6">
-                            <dl class="dl-horizontal">
-                                <dt>
-                                    Aloituspäivämäärä
-                                </dt>
+                            <div class="col-sm-6">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        Aloituspäivämäärä
+                                    </dt>
 
-                                <dd>
-                                    @if (Model.DateBegin != null)
-                                    {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
-                                @*@Html.DisplayFor(model => model.DateBegin)*@
-                                </dd>
+                                    <dd>
+                                        @if (Model.DateBegin != null)
+                                        {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
+                                    @*@Html.DisplayFor(model => model.DateBegin)*@
+                                    </dd>
 
-                                <dt>
-                                    Päättymispäivämäärä
-                                </dt>
+                                    <dt>
+                                        Päättymispäivämäärä
+                                    </dt>
 
-                                <dd>
-                                    @if (Model.DateBegin != null)
-                                    {@Convert.ToDateTime(Model.DateEnd).ToString("dd/MM/yyyy")}
-                                @*@Html.DisplayFor(model => model.DateEnd)*@
-                                </dd>
+                                    <dd>
+                                        @if (Model.DateBegin != null)
+                                        {@Convert.ToDateTime(Model.DateEnd).ToString("dd/MM/yyyy")}
+                                    @*@Html.DisplayFor(model => model.DateEnd)*@
+                                    </dd>
 
-                                <dt>
-                                    Kulutustyyppi
-                                </dt>
+                                    <dt>
+                                        Kulutustyyppi
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.MonthlySpendingTypes.TypeName)
+                                    </dd>
 
-                                <dt>
-                                    Yrityksen nimi
-                                </dt>
+                                    <dt>
+                                        Yrityksen nimi
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Contractors.Name)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Contractors.Name)
+                                    </dd>
 
-                            </dl>
-                        </div>
-                        <div class="col-sm-6">
-                            <dl class="dl-horizontal">
+                                </dl>
+                            </div>
+                            <div class="col-sm-6">
+                                <dl class="dl-horizontal">
 
-                                <dt>
-                                    Yksikkömäärä
-                                </dt>
+                                    <dt>
+                                        Yksikkömäärä
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.AmountOfUnits)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.AmountOfUnits)
+                                    </dd>
 
-                                <dt>
-                                    Yksikköhinta
-                                </dt>
+                                    <dt>
+                                        Yksikköhinta
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.PricePerUnit)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PricePerUnit)
+                                    </dd>
 
-                                <dt>
-                                    Siirtohinta
-                                </dt>
+                                    <dt>
+                                        Siirtohinta
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.TransferPayment)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.TransferPayment)
+                                    </dd>
 
-                                <dt>
-                                    Kokonaishinta
-                                </dt>
+                                    <dt>
+                                        Kokonaishinta
+                                    </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.FullPrice)
-                                </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.FullPrice)
+                                    </dd>
 
-                            </dl>
+                                </dl>
+
+                            </div>
 
                         </div>
 
                     </div>
-                    
                 </div>
-            </div>
-            <div class="modal-footer">
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+                <div class="modal-footer">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
 
-                    <button type="submit" class="btn btn-primary">Poista</button>
-                    @Html.ActionLink("Takaisin", "Index", "Monthlyspendings")
-                }
+                        <button type="submit" class="btn btn-primary">Poista</button>
+                        @Html.ActionLink("Takaisin", "Index", "Monthlyspendings")
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
-
-
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalMSDelete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

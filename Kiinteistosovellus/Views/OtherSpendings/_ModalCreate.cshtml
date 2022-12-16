@@ -1,178 +1,197 @@
 ﻿@model Kiinteistosovellus.Models.OtherSpendings
 
-<div class="modal fade" id="ModalOtherSpendingCreate">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+@if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalOtherSpendingCreate">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-            <div class="modal-header">
-                <h3>Luo uusi kulutus</h3>
-            </div>
+                <div class="modal-header">
+                    <h3>Luo uusi kulutus</h3>
+                </div>
 
-            <div class="modal-body">
+                <div class="modal-body">
 
-                @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
-                {
-                    @Html.AntiForgeryToken()
+                    @using (Html.BeginForm("Create", "OtherSpendings", FormMethod.Post, new { id = "createForm" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Hinta yhteensä* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("OtherSpendingTypeID", null, new { @class = "form-control form-select" })
+                                            <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="hiddenFieldAddType" style="display:none">
+                                        Uusin tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                        <div class="col-md-10 input-group">
+                                            <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
+
+                                        </div>
+                                        <div style="text-align: right; padding-right: 5px">
+                                            <a class="card-link" role="button" id="lisaaUusiType">Lisää</a> | <a class="card-link closeAddType" role="button" id="peruuta">Peruuta</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="successfullyAddedType" style="display:none;">
+                                        <div class="text-success">Tyyppi lisätty onnistuneesti</div>
+                                        <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Hinta yhteensä* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownList("OtherSpendingTypeID", null, new { @class = "form-control form-select" })
-                                        <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                    Uusin tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
-                                    <div class="col-md-10 input-group">
-                                        <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
-
-                                    </div>
-                                    <div style="text-align: right; padding-right: 5px">
-                                        <a class="card-link" role="button" id="lisaaUusiType">Lisää</a> | <a class="card-link closeAddType" role="button" id="peruuta">Peruuta</a>
-                                    </div>
-                                </div>
-                                <div class="form-group" id="successfullyAddedType" style="display:none;">
-                                    <div class="text-success">Tyyppi lisätty onnistuneesti</div>
-                                    <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                    <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-            <div class="modal-footer">
-                <div class="form-actions no-color">
-                    <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
-                    @Html.ActionLink("Takaisin", "Index")
+                    }
                 </div>
-            </div>
-            <div id="divForPartialPseudo" style="display:none;">
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
+                        @Html.ActionLink("Takaisin", "Index")
+                    </div>
+                </div>
+                <div id="divForPartialPseudo" style="display:none;">
+
+                </div>
 
             </div>
-
         </div>
     </div>
-</div>
-<script type="text/javascript">
-    //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
+    <script type="text/javascript">
+        //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
 
-    //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
-    function paivitaOikeaKentta() {
-        var falseFormInput = $("#fakeFormTypeName");
-        var realForm = $("#TypeName");
-        realForm.val(falseFormInput.val());
-    };
+        //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
+        function paivitaOikeaKentta() {
+            var falseFormInput = $("#fakeFormTypeName");
+            var realForm = $("#TypeName");
+            realForm.val(falseFormInput.val());
+        };
 
-    //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
-    $("#lisaaUusiHiddenField").click(function () {
-        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
-        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-    });
+        //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
+        $("#lisaaUusiHiddenField").click(function () {
+            partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        });
 
-    $("#lisaaToinenTyyppi").click(function () {
-        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
-        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        document.getElementById("successfullyAddedType").style.display = "none";
-    });
+        $("#lisaaToinenTyyppi").click(function () {
+            partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+            document.getElementById("successfullyAddedType").style.display = "none";
+        });
 
-    $(".closeAddType").click(function () {
-        document.getElementById("hiddenFieldAddType").style.display = "none";
-        document.getElementById("lisaaUusiHiddenField").style.display = "block";
-        document.getElementById("divForPartialPseudo").innerHTML = "";
-        document.getElementById("successfullyAddedType").style.display = "none";
-    });
-
-
-    //luodaan uusi kulutyyppi
-    $("#lisaaUusiType").click(async function () {
-        partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
-    });
+        $(".closeAddType").click(function () {
+            document.getElementById("hiddenFieldAddType").style.display = "none";
+            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+            document.getElementById("divForPartialPseudo").innerHTML = "";
+            document.getElementById("successfullyAddedType").style.display = "none";
+        });
 
 
-    //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
-    function submitModal() {
-        submitModalPost("OtherSpendings", "_ModalCreate", "createForm", "ModalOtherSpendingCreate");
-    };
+        //luodaan uusi kulutyyppi
+        $("#lisaaUusiType").click(async function () {
+            partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
+        });
 
-    $("#Price").keypress(function () {
-        isNumberKey(event, "Price");
-    });
 
-    $("#Price").keyup(function () {
-        validateKeyUp(event, "Price");
-    });
-    //Reloads dropdown with empty value as first
-    $(function () {
-        var contractors = $('#ContractorID');
-        var contractorUrl = '/Contractors/FetchContractors';
-        console.log(contractorUrl);
-        contractors.empty();
-        contractors.append($('<option></option>').val('').text(''));
-        $.getJSON(contractorUrl, function (data) {
-            $.each(data, function (index, item) {
-                contractors.append($('<option></option>').val(item.Value).text(item.Text));
+        //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
+        function submitModal() {
+            submitModalPost("OtherSpendings", "_ModalCreate", "createForm", "ModalOtherSpendingCreate");
+        };
+
+        $("#Price").keypress(function () {
+            isNumberKey(event, "Price");
+        });
+
+        $("#Price").keyup(function () {
+            validateKeyUp(event, "Price");
+        });
+        //Reloads dropdown with empty value as first
+        $(function () {
+            var contractors = $('#ContractorID');
+            var contractorUrl = '/Contractors/FetchContractors';
+            console.log(contractorUrl);
+            contractors.empty();
+            contractors.append($('<option></option>').val('').text(''));
+            $.getJSON(contractorUrl, function (data) {
+                $.each(data, function (index, item) {
+                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
+                });
             });
         });
-    });
 
-    //Reloads type's dropdown with empty value as first
-    $(function () {
-        var types = $('#OtherSpendingTypeID');
-        var typeUrl = 'OtherSpendings/FetchTypes';
-        types.empty();
-        types.append($('<option></option>').val('').text(''));
-        $.getJSON(typeUrl, function (data) {
-            $.each(data, function (index, item) {
-                if (item.Value != 1000) {
-                    types.append($('<option></option>').val(item.Value).text(item.Text));
-                }
+        //Reloads type's dropdown with empty value as first
+        $(function () {
+            var types = $('#OtherSpendingTypeID');
+            var typeUrl = 'OtherSpendings/FetchTypes';
+            types.empty();
+            types.append($('<option></option>').val('').text(''));
+            $.getJSON(typeUrl, function (data) {
+                $.each(data, function (index, item) {
+                    if (item.Value != 1000) {
+                        types.append($('<option></option>').val(item.Value).text(item.Text));
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalOtherSpendingCreate">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

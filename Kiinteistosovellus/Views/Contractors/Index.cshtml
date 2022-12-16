@@ -34,7 +34,6 @@
     .panel-title[aria-expanded="true"]::after {
         content: "\f106";
     }
-
 </style>
 <br />
 <h2>Urakoitsijat</h2>
@@ -119,7 +118,7 @@
                                             {
                                                 <td>• @contact.PhoneNumber</td>
                                             }
-                                                    
+
                                             <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystiedot" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a><a class="card-link getContactDelete ikonka" title="Poistaa yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a></td>
                                         </tr>
                                     }
@@ -165,14 +164,16 @@
                     </table>
                 </div>
             </div>
-            
-            
+
+
         }
     </div>
 </div>
 
-
 @section scripts {
+
+    
+
     <script type="text/javascript">
 
         $(function () {
