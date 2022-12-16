@@ -53,13 +53,13 @@ namespace Kiinteistosovellus.Controllers
                 var distinctYearList = db.MonthlyTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
                 ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
 
-                var kulutyypit = db.MonthlySpendingTypes.ToArray();
-                string[] monthTypeArray = new string[kulutyypit.Length];
-                for (int i = 0; i < kulutyypit.Length; i++)
+                var kulutyypit = db.MonthlySpendings.ToList();
+                List<string> monthTypeArray = new List<string>();
+                for (int i = 0; i < kulutyypit.Count; i++)
                 {
-                    if (!monthTypeArray.Contains(kulutyypit[i].TypeName.ToString()))
+                    if (!monthTypeArray.Contains(kulutyypit[i].MonthlySpendingTypes.TypeName.ToString()))
                     {
-                        monthTypeArray[i] = kulutyypit[i].TypeName.ToString();
+                        monthTypeArray.Add(kulutyypit[i].MonthlySpendingTypes.TypeName.ToString());
                     }
                 }
                 ViewBag.Kulutyypit = monthTypeArray;
@@ -117,11 +117,11 @@ namespace Kiinteistosovellus.Controllers
 
             if (dtAlkuPvm != null && dtLoppuPvm != null)
             {
-                monthlySpendings = monthlySpendings.Where(ms => ms.DateBegin >= dtAlkuPvm && ms.DateBegin <= dtLoppuPvm);
+                monthlySpendings = monthlySpendings.Where(ms => ((ms.DateBegin >= dtAlkuPvm && ms.DateEnd == null) || (ms.DateEnd >= dtAlkuPvm && ms.DateEnd != null)) && ms.DateBegin <= dtLoppuPvm);
             }
             else if (dtAlkuPvm != null && dtLoppuPvm == null)
             {
-                monthlySpendings = monthlySpendings.Where(ms => ms.DateBegin >= dtAlkuPvm);
+                monthlySpendings = monthlySpendings.Where(ms => (ms.DateBegin >= dtAlkuPvm && ms.DateEnd == null) || (ms.DateEnd >= dtAlkuPvm && ms.DateEnd != null));
             }
             else if (dtAlkuPvm == null && dtLoppuPvm != null)
             {
@@ -144,11 +144,11 @@ namespace Kiinteistosovellus.Controllers
                 case "1":
                     if (ascOrDesc == "desc")
                     {
-                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.DateEnd);
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.DateEnd ?? ms.DateBegin);
                     }
                     else
                     {
-                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.DateEnd);
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.DateEnd ?? ms.DateBegin);
                     }
                     break;
                 case "2":

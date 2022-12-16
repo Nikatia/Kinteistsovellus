@@ -161,7 +161,9 @@ function validateKeyUp(evt, priceFieldId) {
         input.value = "";
         input.value = tempStr;
     }
-
+    if (decimalNumbersTotal.length == 1) {
+        return;
+    }
     if (decimalNumbersTotal[1].length > 2) {
         input.value = "";
         tempStr = decimalNumbersTotal[0].substring(0, 5) + "," + decimalNumbersTotal[1].substring(0, 2);

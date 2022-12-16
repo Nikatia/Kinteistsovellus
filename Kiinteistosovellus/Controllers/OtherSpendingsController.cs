@@ -51,13 +51,13 @@ namespace Kiinteistosovellus.Controllers
                 var otherSpendings = db.OtherSpendings.Include(o => o.Contractors).Include(o => o.OtherSpendingTypes);
                 var distinctYearList = db.OtherTypeSpendingsByMonth.DistinctBy(x => x.Vuosi).ToList();
                 ViewBag.Vuosi = new SelectList(distinctYearList, "Vuosi", "Vuosi");
-                var kulutyypit = db.OtherSpendingTypes.ToArray();
-                string[] othTypeArray = new string[kulutyypit.Length];
-                for (int i = 0; i < kulutyypit.Length; i++)
+                var kulutyypit = db.OtherSpendings.ToList();
+                List<string> othTypeArray = new List<string>();
+                for (int i = 0; i < kulutyypit.Count; i++)
                 {
-                    if (!othTypeArray.Contains(kulutyypit[i].TypeName.ToString()))
+                    if (!othTypeArray.Contains(kulutyypit[i].OtherSpendingTypes.TypeName.ToString()))
                     {
-                        othTypeArray[i] = kulutyypit[i].TypeName.ToString();
+                        othTypeArray.Add( kulutyypit[i].OtherSpendingTypes.TypeName.ToString());
                     }
                 }
                 ViewBag.Kulutyypit = othTypeArray;
@@ -112,11 +112,11 @@ namespace Kiinteistosovellus.Controllers
 
             if (dtAlkuPvm != null && dtLoppuPvm != null)
             {
-                otherSpendings = otherSpendings.Where(ms => ms.DateBegin >= dtAlkuPvm && ms.DateBegin <= dtLoppuPvm);
+                otherSpendings = otherSpendings.Where(ms => ((ms.DateBegin >= dtAlkuPvm && ms.DateEnd == null) || (ms.DateEnd >= dtAlkuPvm && ms.DateEnd != null)) && ms.DateBegin <= dtLoppuPvm);
             }
             else if (dtAlkuPvm != null && dtLoppuPvm == null)
             {
-                otherSpendings = otherSpendings.Where(ms => ms.DateBegin >= dtAlkuPvm);
+                otherSpendings = otherSpendings.Where(ms => (ms.DateBegin >= dtAlkuPvm && ms.DateEnd == null) || (ms.DateEnd >= dtAlkuPvm && ms.DateEnd != null));
             }
             else if (dtAlkuPvm == null && dtLoppuPvm != null)
             {
@@ -139,11 +139,11 @@ namespace Kiinteistosovellus.Controllers
                 case "1":
                     if (ascOrDesc == "desc")
                     {
-                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.DateEnd);
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.DateEnd ?? ms.DateBegin);
                     }
                     else
                     {
-                        otherSpendings = otherSpendings.OrderBy(ms => ms.DateEnd);
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.DateEnd ?? ms.DateBegin);
                     }
                     break;
                 case "2":
