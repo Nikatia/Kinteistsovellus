@@ -92,7 +92,6 @@
     //using above function, open or close chart's div
     $(".accordion-button").click(function () {
         var els = document.querySelectorAll('div.accordion-button.row.panel-title');
-        console.log(els);
         if (allHaveAttribute(els, 'aria-expanded', 'false') == true) {
             $("#monthList").removeClass("col-6");
             $("#monthList").addClass("col-12");

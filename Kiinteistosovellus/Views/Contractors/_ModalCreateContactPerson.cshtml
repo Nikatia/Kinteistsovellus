@@ -1,0 +1,126 @@
+﻿@model Kiinteistosovellus.Models.Contacts
+
+@if (Session["UserName"] != null)
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactCreatePerson">
+        <div class="modal-dialog modal-dialog-centered" id="modalWindow">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Luo uusi yhteystiedot</h3>
+                </div>
+
+                <div class="modal-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.EditorFor(model => model.ContractorID, new { htmlAttributes = new { @class = "form-control", @id = "ContractorID", @style = "display:none" } })
+                        @Html.EditorFor(model => model.PersonID, new { htmlAttributes = new { @class = "form-control", @id = "PersonID", @style = "display:none" } })
+                        <h5>@ViewBag.ContractorName: @ViewBag.FullName</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div id="rowDiv">
+                                <div id="colDiv1">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        Puhelinumero<div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Sähköposti<div class="text-danger" id="wrongEmail" style="display:none">, oikea muoto: käyttäjätunnus@domain.fi</div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "mail" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="text-danger" id="noContactInfo" style="display:none">Puhelinnumero tai sähköpostiosoite vaaditaan</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+
+
+        //Submiting Contact + validation
+        $("#submitDataModal").click(function () {
+            var telephone = $("#phone").val();
+            var email = $("#mail").val();
+            var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
+            if ((telephone == "" && email == "") || (!email.match(mailFormat) && email != "")  || (!telephone.match(phoneFormat) && telephone != "")) {
+                if (telephone != "" || email != "") {
+                    document.getElementById("noContactInfo").style.display = "none";
+                }
+                else {
+                    document.getElementById("noContactInfo").style.display = "inline-block";
+                }
+
+                if (!email.match(mailFormat) && email != "") {
+                    console.log("email wrong")
+                    document.getElementById("wrongEmail").style.display = "inline-block";
+                }
+                else {
+                    document.getElementById("wrongEmail").style.display = "none";
+                }
+
+                if (!telephone.match(phoneFormat) && telephone != "") {
+                    console.log("phone wrong")
+                    document.getElementById("wrongPhone").style.display = "inline-block";
+                }
+                else {
+                    document.getElementById("wrongPhone").style.display = "none";
+                }
+            }
+            else {
+                submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
+                document.getElementById("noContactInfo").style.display = "none";
+            }
+        });
+
+
+        //When modal is shown, empty Persons and then populate Persons dropdown with empty value as first and then only those persons, who belong to Contractor from within modal was opened
+        $(function () {
+            const myModalEl = document.getElementById('ModalContactCreatePerson');
+            myModalEl.addEventListener('shown.bs.modal', event => {
+                $("#ContractorID").val("@ViewBag.ContractorYes");
+                $("#PersonID").val("@ViewBag.PersonID");
+            });
+        });
+
+        function destroyDiv() {
+            var div = parent.document.getElementById("ModalContactCreatePerson");
+            div.parentNode.removeChild(div);
+        }
+    </script>
+}
+else
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactCreatePerson">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>Oho!</h3>
+                        <p class="lead">Näyttää siltä, ​​että et ole kirjautunut sisään!</p>
+                        <a class="btn btn-primary" href="/Home/Index">Takaisin pääsivuun</a><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
