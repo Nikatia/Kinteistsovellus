@@ -12,6 +12,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace Kiinteistosovellus.Controllers
 {
@@ -36,6 +37,21 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 List<Persons> persons = db.Persons.ToList();
+                return persons;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public List<Persons> GetNoContactPersons()
+        {
+            if (Session["UserName"] != null)
+            {
+                var noContactPerson = from p in db.Persons where !(from c in db.Contacts select c.PersonID).Contains(p.PersonID) select p;
+                List<Persons> persons = noContactPerson.ToList();
                 return persons;
             }
             else
@@ -76,6 +92,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 ViewBag.Persons = GetPersons();
                 ViewBag.Contacts = GetContacts();
+                ViewBag.NoContactPersons = GetNoContactPersons();
 
                 var wholeContractorsList = from ctr in db.Contractors
                                            select new AllContractorsData
@@ -94,6 +111,20 @@ namespace Kiinteistosovellus.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
 
+        public PartialViewResult _NoContactPersons(int? id)
+        {
+            var personexist = db.Contacts.Any(x => x.PersonID == id);
+            if (personexist)
+            {
+                ViewBag.PersonExists = true;
+            }
+            else
+            {
+                ViewBag.PersonExists = false;
+            }
+
+            return PartialView("/Views/Contractors/_NoContactPersons.cshtml");
+        }
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
         //------------------------------------Contractors------------------------------------
@@ -157,14 +188,13 @@ namespace Kiinteistosovellus.Controllers
         }
 
         // GET: Contacts/Create
-        public PartialViewResult CreateContact()
+        public PartialViewResult CreateContact(int? id)
         {
             if (Session["UserName"] != null)
             {
-                List<Contractors> contractors = GetContractors();
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
-
-                IEnumerable<Persons> persons = GetPersons().Where(p => p.PersonID == ViewBag.ContractorID.Value);
+                ViewBag.ContractorYes = id;
+                Contractors contractor = db.Contractors.Find(id);
+                ViewBag.ContractorName = contractor.Name;
                 ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "FullName");
 
                 ViewBag.Contractors = GetContractors();
@@ -198,15 +228,57 @@ namespace Kiinteistosovellus.Controllers
             else { return null; }
         }
 
+        [Route("Contractors/CreateContactPerson/{contractor?}/{person?}")]
+        public PartialViewResult CreateContactPerson(int? contractor, int? person)
+        {
+            if (Session["UserName"] != null)
+            {
+                ViewBag.ContractorYes = contractor;
+                Contractors contractors = db.Contractors.Find(contractor);
+                ViewBag.ContractorName = contractors.Name;
+                ViewBag.PersonID = person;
+                Persons persons = db.Persons.Find(person);
+                ViewBag.FullName = persons.FullName;
+
+                ViewBag.Contractors = GetContractors();
+                return PartialView("/Views/Contractors/_ModalCreateContactPerson.cshtml");
+            }
+            else { return PartialView("/Views/Contractors/_ModalCreateContactPerson.cshtml"); }
+        }
+
+        // POST: Contractors/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult CreateContactPerson([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email")] Contacts contacts)
+        {
+            if (Session["UserName"] != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Contacts.Add(contacts);
+                    db.SaveChanges();
+                    return null;
+                }
+
+                ViewBag.Contractors = GetContractors();
+                ViewBag.PersonID = new SelectList(db.Persons, "PersonID", "ContractorsPerson", contacts.PersonID);
+                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", contacts.ContractorID);
+
+                return PartialView("/Views/Contractors/_ModalCreateContact.cshtml", contacts);
+            }
+            else { return null; }
+        }
 
 
         //------------------------------------Persons------------------------------------
         // GET: Contacts/Create
-        public PartialViewResult CreatePerson()
+        public PartialViewResult CreatePerson(int? id)
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name");
+                ViewBag.Contractor = id;
                 ViewBag.SuccessMsg = "";
                 return PartialView("/Views/Contractors/_ModalCreatePerson.cshtml");
             }
@@ -222,7 +294,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", persons.ContractorID);
+                ViewBag.Contractor = persons.ContractorID;
                 ViewBag.SuccessMsg = "";
                 if (ModelState.IsValid)
                 {

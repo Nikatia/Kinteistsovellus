@@ -13,20 +13,15 @@
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
                     {
                         @Html.AntiForgeryToken()
-
+                        @Html.EditorFor(model => model.ContractorID, new { htmlAttributes = new { @class = "form-control", @id = "ContractorID", @style="display:none" } })
+                        <h5>@ViewBag.ContractorName</h5>
+                        <hr />
                         <div class="form-horizontal">
                             <div id="rowDiv">
                                 <div id="colDiv1">
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                                     <b id="yhteystiedot" style="display:none">Uusi yhteystiedot<br /></b>
-
-                                    <div class="form-group">
-                                        Urakoitsija* <div class="text-danger" id="noContractorInfo" style="display:none">vaaditaan!</div>
-                                        <div class="col-md-10">
-                                            @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         Henkilö
@@ -73,7 +68,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
-                        <a href="/Contractors/Index" class="card-link" role="button">Takaisin</a>
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
                     </div>
                 </div>
                 <div id="divForPartialPseudo" style="display:inline-block;"></div>
@@ -82,116 +77,124 @@
     </div>
     <script type="text/javascript">
 
-    //Submiting Contact + validation
-    $("#submitDataModal").click(function () {
-        var telephone = $("#phone").val();
-        var email = $("#mail").val();
-        var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
-        if ((telephone == "" && email == "") || contractors.val() == "" || (!email.match(mailFormat) && email != "")  || (!telephone.match(phoneFormat) && telephone != "")) {
-            if (telephone != "" || email != "") {
+        //Submiting Contact + validation
+        $("#submitDataModal").click(function () {
+            var telephone = $("#phone").val();
+            var email = $("#mail").val();
+            var mailFormat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var phoneFormat = /^[+]?[\s./0-9]*[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/g;
+            if ((telephone == "" && email == "") || (!email.match(mailFormat) && email != "")  || (!telephone.match(phoneFormat) && telephone != "")) {
+                if (telephone != "" || email != "") {
+                    document.getElementById("noContactInfo").style.display = "none";
+                }
+                else {
+                    document.getElementById("noContactInfo").style.display = "inline-block";
+                }
+
+                if (!email.match(mailFormat) && email != "") {
+                    console.log("email wrong")
+                    document.getElementById("wrongEmail").style.display = "inline-block";
+                }
+                else {
+                    document.getElementById("wrongEmail").style.display = "none";
+                }
+
+                if (!telephone.match(phoneFormat) && telephone != "") {
+                    console.log("phone wrong")
+                    document.getElementById("wrongPhone").style.display = "inline-block";
+                }
+                else {
+                    document.getElementById("wrongPhone").style.display = "none";
+                }
+            }
+            else {
+                submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
                 document.getElementById("noContactInfo").style.display = "none";
             }
-            else {
-                document.getElementById("noContactInfo").style.display = "inline-block";
-            }
+        });
 
-            if (contractors.val() != "") {
-                document.getElementById("noContractorInfo").style.display = "none";
-            }
-            else {
-                document.getElementById("noContractorInfo").style.display = "inline-block";
-            }
+        //Opens Persons PartialView and widens modal window
+        $("#lisaaUusiHiddenField").click(function () {
+            var url = "/Contractors/CreatePerson/?id=" + @ViewBag.ContractorYes;
+            var divForPartial = $("#divForPartialPseudo");
 
-            if (!email.match(mailFormat) && email != "") {
-                console.log("email wrong")
-                document.getElementById("wrongEmail").style.display = "inline-block";
-            }
-            else {
-                document.getElementById("wrongEmail").style.display = "none";
-            }
-
-            if (!telephone.match(phoneFormat) && telephone != "") {
-                console.log("phone wrong")
-                document.getElementById("wrongPhone").style.display = "inline-block";
-            }
-            else {
-                document.getElementById("wrongPhone").style.display = "none";
-            }
-        }
-        else {
-            submitModalPost("Contractors", "CreateContact", "createForm", "ModalContactCreate");
-            document.getElementById("noContactInfo").style.display = "none";
-            document.getElementById("noContractorInfo").style.display = "none";
-        }
-    });
-
-    //Opens Persons PartialView and widens modal window
-    $("#lisaaUusiHiddenField").click(function () {
-        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
-        $("#modalWindow").addClass("modal-lg");
-        $("#rowDiv").addClass("row");
-        $("#colDiv1").addClass("col-sm-6");
-        $("#colDiv2").addClass("col-sm-6");
-        document.getElementById("divForPartialPseudo").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        document.getElementById("yhteystiedot").style.display = "inline-block";
-    });
-
-    //Opens Persons PartialView if user wants to add another Person after previous successful try
-    $("#lisaaToinenHenkilo").click(function () {
-        partialViewGet("Contractors", "CreatePerson", "divForPartialPseudo");
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        document.getElementById("successfullyAddedPerson").style.display = "none";
-        document.getElementById("yhteystiedot").style.display = "inline-block";
-    });
-
-    //Closes Persons PartialView and makes modal smaller again
-    $(".closeAddPerson").click(function () {
-        document.getElementById("yhteystiedot").style.display = "none";
-        document.getElementById("lisaaUusiHiddenField").style.display = "block";
-        document.getElementById("divForPartialPseudo").innerHTML = "";
-        document.getElementById("successfullyAddedPerson").style.display = "none";
-        $("#modalWindow").removeClass("modal-lg");
-        $("#rowDiv").removeClass("row");
-        $("#colDiv1").removeClass("col-sm-6");
-        $("#colDiv2").removeClass("col-sm-6");
-    });
-
-    //---Dropdowns part---
-    var contractorUrl = '@Url.Action("FetchContractors")';
-	var personUrl = '@Url.Action("FetchPersons")';
-    var persons1 = $('#lePerson');
-    var contractors = $('#ContractorID');
-
-    //When Contractors dropdown changes value, empty Persons dropdown and populate it with empty value and Persons from given Contractor
-    $('#ContractorID').change(function () {
-        persons1.empty();
-        if ($(this).val() != "") {
-            $.getJSON(personUrl, { ID: $(this).val() }, function (data) {
-                if (!data) {
-                    persons1.empty();
+            $.ajax({
+                url: url, //Haetaan haluttu controller-action
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get', //pitää spesifioida get, jos halutaan get-tyyppinen toiminto
+                type: "get",
+                success: function (result) {
+                    $(divForPartial).html(""); //kaiken varalta tyhjennetään ensin partial view kohta
+                    $(divForPartial).html(result); //sitten se täytetään partialViewResultista saadulla partial viewillä
                 }
-                persons1.append($('<option></option>').val('').text(''));
-                $.each(data, function (index, item) {
-                    persons1.append($('<option></option>').val(item.Value).text(item.Text));
+            });
+
+            $("#modalWindow").addClass("modal-lg");
+            $("#rowDiv").addClass("row");
+            $("#colDiv1").addClass("col-sm-6");
+            $("#colDiv2").addClass("col-sm-6");
+            document.getElementById("divForPartialPseudo").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+            document.getElementById("yhteystiedot").style.display = "inline-block";
+        });
+
+        //Opens Persons PartialView if user wants to add another Person after previous successful try
+        $("#lisaaToinenHenkilo").click(function () {
+            var url = "/Contractors/CreatePerson/?id=" + @ViewBag.ContractorYes;
+            var divForPartial = $("#divForPartialPseudo");
+
+            $.ajax({
+                url: url, 
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    $(divForPartial).html(""); 
+                    $(divForPartial).html(result); 
+                }
+            });
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+            document.getElementById("successfullyAddedPerson").style.display = "none";
+            document.getElementById("yhteystiedot").style.display = "inline-block";
+        });
+
+        //Closes Persons PartialView and makes modal smaller again
+        $(".closeAddPerson").click(function () {
+            document.getElementById("yhteystiedot").style.display = "none";
+            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+            document.getElementById("divForPartialPseudo").innerHTML = "";
+            document.getElementById("successfullyAddedPerson").style.display = "none";
+            $("#modalWindow").removeClass("modal-lg");
+            $("#rowDiv").removeClass("row");
+            $("#colDiv1").removeClass("col-sm-6");
+            $("#colDiv2").removeClass("col-sm-6");
+        });
+
+        //When modal is shown, empty Persons and then populate Persons dropdown with empty value as first and then only those persons, who belong to Contractor from within modal was opened
+        $(function () {
+            const myModalEl = document.getElementById('ModalContactCreate');
+            var personUrl = '@Url.Action("FetchPersons")';
+            var persons1 = $('#lePerson');
+            myModalEl.addEventListener('shown.bs.modal', event => {
+                $("#ContractorID").val("@ViewBag.ContractorYes");
+                persons1.empty();
+                $.getJSON(personUrl, { ID: $('#ContractorID').val() }, function (data) {
+                    persons1.append($('<option></option>').val('').text(''));
+                    $.each(data, function (index, item) {
+                        persons1.append($('<option></option>').val(item.Value).text(item.Text));
+                    });
                 });
             });
-        }
-    });
-
-    //When modal is shown, empty Persons and Contractors dropdown, then populate Contractors dropdown with empty value as first
-    const myModalEl = document.getElementById('ModalContactCreate')
-    myModalEl.addEventListener('shown.bs.modal', event => {
-        persons1.empty();
-        contractors.empty();
-        contractors.append($('<option></option>').val('').text(''));
-        $.getJSON(contractorUrl, function (data) {
-            $.each(data, function (index, item) {
-                contractors.append($('<option></option>').val(item.Value).text(item.Text));
-            });
         });
-    });
+
+        function destroyDiv() {
+            var div = parent.document.getElementById("ModalContactCreate");
+            div.parentNode.removeChild(div);
+        }
     </script>
 }
 else
