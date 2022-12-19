@@ -30,7 +30,7 @@
             <label class="form-label">
                 Kulutyyppi
             </label>
-            <div class="dropdown form-group">
+            <div class="dropdown form-group" style="width:93%">
                 <div class="form-select form-control" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <div id="hidingField" style="margin-left:auto; margin-right:auto; color:gray">-- Valitse suodattimet --</div>
                 </div>
@@ -45,13 +45,13 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label">
                 Alkupäivämäärä
             </label>
             <input type="date" id="beginDate" class="form-control" />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3" style="margin-left:1%">
             <label class="form-label">
                 Loppupäivämäärä
             </label>
@@ -163,7 +163,7 @@
 
         //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
         for (var i = 0; i < activeSelect.length; i++) {
-            $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+            $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-primary bg-opacity-75 spans">' + activeSelect[i] + '</span>');
         }
 
         filterTableAJAX("", "");

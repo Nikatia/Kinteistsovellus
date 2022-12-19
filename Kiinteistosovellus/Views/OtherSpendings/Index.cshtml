@@ -26,12 +26,12 @@
 
 <div class="card border-primary" style="margin:10px 0">
     <div class="card-header bg-primary" style="color: white; font-weight: bold;">Suodatus</div>
-    <div class="card-body row">
+    <div class="card-body row" >
         <div class="col-md-4">
             <label class="form-label">
                 Kulutyyppi
             </label>
-            <div class="dropdown" @*style="width:75%"*@>
+            <div class="dropdown form-group" style="width:93%">
                 <div class="form-select form-control" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <div id="hidingField" style="margin-left:auto; margin-right:auto; color:gray">-- Valitse suodattimet --</div>
                 </div>
@@ -46,13 +46,13 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label">
                 Alkupäivämäärä
             </label>
             <input type="date" id="beginDate" class="form-control" />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3" style="margin-left:1%">
             <label class="form-label">
                 Loppupäivämäärä
             </label>
@@ -64,30 +64,12 @@
 <table class="table" id="sortableTable">
     <thead>
         <tr class="card-header bg-primary" style="color:white">
-            @*---NAMES FROM TIETOHAKEMISTO---*@
-            @*<th>Päivämäärä / Alkupäivämäärä</th>
-            <th>Loppupäivämäärä</th>
-            <th>Kulutustyyppi</th>
-            <th>Kuvaus</th>
-            <th>Hinta yhteensä</th>
-            <th>Nimi</th>*@
-
-            @*---IN MY OPINION BETTER VERSION---*@
-            @*<th>Alkupäivämäärä</th>
-            <th>Loppupäivämäärä</th>
-            <th>Kulutustyyppi</th>
-            <th style="width:40%">Kuvaus</th>
-            <th>Hinta</th>
-            <th>Urakoitsija</th>*@
-
-            @*---IN MY OPINION THE BEST VERSION---*@
             <th id="0" class="dateHeader">Aloituspvm</th>
             <th id="1" class="dateHeader">Päättymispvm</th>
             <th id="2" class="otherHeader">Kulutustyyppi</th>
             <th style="width:45%" id="3" class="otherHeader">Kuvaus</th>
             <th id="4" class="numberHeader">Hinta</th>
             <th id="5" class="otherHeader">Urakoitsija</th>
-
             <th></th>
         </tr>
     </thead>
@@ -155,7 +137,7 @@
 
         //Lisää kaikki aktiiviset listaelementit span-elementteinä diviin
         for (var i = 0; i < activeSelect.length; i++) {
-            $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-success spans">' + activeSelect[i] + '</span>');
+            $("#dropdownMenuButton1").append('<span class="badge rounded-pill bg-primary bg-opacity-75 spans">' + activeSelect[i] + '</span>');
         }
 
         filterTableAJAX("", "");
