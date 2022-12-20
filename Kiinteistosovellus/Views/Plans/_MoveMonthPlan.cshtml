@@ -21,14 +21,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>

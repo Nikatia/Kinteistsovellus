@@ -24,7 +24,7 @@
                                 </dd>
 
                                 <dt>
-                                    Aloituspäivämäärä
+                                    Aloituspvm
                                 </dt>
 
                                 <dd>
@@ -32,12 +32,19 @@
                                 </dd>
 
                                 <dt>
-                                    Päättymispäivämäärä
+                                    Päättymispvm
                                 </dt>
 
-                                <dd>
-                                    @Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")
-                                </dd>
+                                @{
+                                    if (Model.DateEnd == null)
+                                    {
+                                        <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
+                                    }
+                                }
                             </dl>
                         </div>
                         <div class="col-6">

@@ -240,7 +240,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
                 dtDateBegin = new Date(dateBeginInput);
                 tdsDateEnd = new Date(createISO(tds[1].innerText));
 
-                if (tdsDateEnd >= dtDateBegin) { //Jos päättymispäivämäärä td:ssä on suurempi tai yhtäsuuri kuin suodatuksessa oleva alkupvm, annetaan class ChosenDate
+                if (tdsDateEnd >= dtDateBegin) { //Jos Päättymispvm td:ssä on suurempi tai yhtäsuuri kuin suodatuksessa oleva alkupvm, annetaan class ChosenDate
                     //$(rows[i]).addClass("d-none");
                     $(rows[i]).addClass("ChosenDate");
                 }

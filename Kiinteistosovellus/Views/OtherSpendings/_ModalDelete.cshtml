@@ -7,7 +7,7 @@
            <div class="modal-content">
 
                <div class="modal-header">
-                   <h3>Poistaa kulutus</h3>
+                   <h3>Poista kulutus</h3>
                </div>
 
                <div class="modal-body">
@@ -22,13 +22,32 @@
                                    <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
 
                                    <dt>Päättymispvm</dt>
-                                   <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
+                                   @{
+                                       if (Model.DateEnd == null)
+                                       {
+                                           <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
+                                       }
+                                       else
+                                       {
+                                           <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
+                                       }
+                                   }
 
                                    <dt>Kokonaishinta</dt>
                                    <dd>@Html.DisplayFor(model => model.Price)</dd>
 
                                    <dt>Urakoitsija</dt>
-                                   <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
+                                   @{
+                                       if (Model.ContractorID == null)
+                                       {
+                                           <dd> - </dd>
+                                       }
+                                       else
+                                       {
+                                           <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
+                                       }
+                                   }
+                                   
 
                                    <dt>Kulutustyyppi</dt>
                                    <dd>@Html.DisplayFor(model => model.OtherSpendingTypes.TypeName)</dd>
@@ -38,7 +57,17 @@
                            <div class="col-sm-9">
                                <dl class="dl-horizontal">
                                    <dt>Kuvaus</dt>
-                                   <dd>@Html.DisplayFor(model => model.Description)</dd>
+                                   @{
+                                       if (Model.Description == null)
+                                       {
+                                           <dd> - </dd>
+                                       }
+                                       else
+                                       {
+                                           <dd>@Html.DisplayFor(model => model.Description)</dd>
+                                       }
+                                   }
+                                   
                                </dl>
                            </div>
 
