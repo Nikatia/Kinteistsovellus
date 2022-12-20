@@ -22,14 +22,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Hinta yhteensä* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
                                         </div>
@@ -59,7 +59,7 @@
                                     </div>
 
                                     <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                        Uusin tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                        Kulutustyyppi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                         <div class="col-md-10 input-group">
                                             <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
 
@@ -88,7 +88,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-actions no-color">
-                        <input type="button" onclick="submitModal()" value="Lisätä" class="btn btn-primary" />
+                        <input type="button" onclick="submitModal()" value="Tallenna" class="btn btn-primary" />
                         @Html.ActionLink("Takaisin", "Index")
                     </div>
                 </div>

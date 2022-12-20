@@ -18,13 +18,13 @@
 
                            <div class="col-sm-3">
                                <dl class="dl-horizontal">
-                                   <dt>Alkupäivämäärä</dt>
+                                   <dt>Alkupvm</dt>
                                    <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
 
-                                   <dt>Loppupäivämäärä</dt>
+                                   <dt>Päättymispvm</dt>
                                    <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
 
-                                   <dt>Hinta yhteensä</dt>
+                                   <dt>Kokonaishinta</dt>
                                    <dd>@Html.DisplayFor(model => model.Price)</dd>
 
                                    <dt>Urakoitsija</dt>
@@ -50,7 +50,7 @@
                        {
                            @Html.AntiForgeryToken()
                            <div class="form-actions no-color">
-                               <button type="submit" value="Delete" class="btn btn-primary">Poistaa</button>
+                               <button type="submit" value="Poista" class="btn btn-primary">Poistaa</button>
                                <a href="@Url.Action("Index", "OtherSpendings")">Peruuta</a>
                            </div>
                        }

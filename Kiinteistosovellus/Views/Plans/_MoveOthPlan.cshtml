@@ -42,7 +42,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Hinta yhteensä* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
                                         </div>
@@ -58,7 +58,7 @@
                                     </div>
 
                                     <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                        Uusin tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                        Kulutustyyppi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                         <div class="col-md-10 input-group">
                                             <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKentta()" />
 
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Lisätä" class="btn btn-primary" />
+                                <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Tallenna" class="btn btn-primary" />
                                 @Html.ActionLink("Takaisin", "Index")
                             </div>
                         </div>
