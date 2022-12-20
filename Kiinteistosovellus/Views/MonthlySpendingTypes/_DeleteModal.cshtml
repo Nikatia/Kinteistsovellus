@@ -26,10 +26,16 @@
                             <dt>
                                 Yksikkö
                             </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Unit)
-                            </dd>
+                            @{
+                                if (Model.Unit == null)
+                                {
+                                    <dd> - </dd>
+                                }
+                                else
+                                {
+                                    <dd>@Html.DisplayFor(model => model.Unit)</dd>
+                                }
+                            }
                         </dl>
                     </div>
                     <p class="text-danger">Huom! <br />Jos tämä kulutustyyppi on käytössä, poistaminen muuttaisi kulutyyppien nimet kaikissa liittyvissä kuluissa muotoon <br />"(poistettu)"!</p>

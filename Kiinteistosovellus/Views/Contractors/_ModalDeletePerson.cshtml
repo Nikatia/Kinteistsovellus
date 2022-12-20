@@ -7,7 +7,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h3>Poistaa henkilö</h3>
+                    <h3>Poista henkilö</h3>
                 </div>
 
                 <div class="modal-body">
@@ -22,7 +22,17 @@
                                     <dd>@Html.DisplayFor(model => model.FullName)</dd>
 
                                     <dt>Kuvaus</dt>
-                                    <dd>@Html.DisplayFor(model => model.Description)</dd>
+                                    @{
+                                        if (Model.Description == null)
+                                        {
+                                            <dd> - </dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Html.DisplayFor(model => model.Description)</dd>
+                                        }
+                                    }
+                                    
 
                                     <dt>Urakoitsija</dt>
                                     <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>

@@ -23,20 +23,23 @@
                                     </dt>
 
                                     <dd>
-                                        @if (Model.DateBegin != null)
-                                        {@Convert.ToDateTime(Model.DateBegin).ToString("dd/MM/yyyy")}
-                                    @*@Html.DisplayFor(model => model.DateBegin)*@
+                                        @Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")
                                     </dd>
 
                                     <dt>
                                         Päättymispvm
                                     </dt>
 
-                                    <dd>
-                                        @if (Model.DateBegin != null)
-                                        {@Convert.ToDateTime(Model.DateEnd).ToString("dd/MM/yyyy")}
-                                    @*@Html.DisplayFor(model => model.DateEnd)*@
-                                    </dd>
+                                    @{
+                                        if (Model.DateEnd == null)
+                                        {
+                                            <dd>@Html.ValueFor(model => model.DateBegin, "{0:dd.MM.yyyy}")</dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Html.ValueFor(model => model.DateEnd, "{0:dd.MM.yyyy}")</dd>
+                                        }
+                                    }
 
                                     <dt>
                                         Kulutustyyppi
@@ -49,10 +52,16 @@
                                     <dt>
                                         Urakoitsija
                                     </dt>
-
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Contractors.Name)
-                                    </dd>
+                                    @{
+                                        if (Model.ContractorID == null)
+                                        {
+                                            <dd> - </dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Html.DisplayFor(model => model.Contractors.Name)</dd>
+                                        }
+                                    }
 
                                 </dl>
                             </div>
@@ -62,26 +71,45 @@
                                     <dt>
                                         Yksiköiden määrä
                                     </dt>
-
-                                    <dd>
-                                        @Html.DisplayFor(model => model.AmountOfUnits)
-                                    </dd>
+                                    @{
+                                        if (Model.AmountOfUnits == null)
+                                        {
+                                            <dd> - </dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Html.DisplayFor(model => model.AmountOfUnits)</dd>
+                                        }
+                                    }
 
                                     <dt>
                                         Yksikön hinta
                                     </dt>
-
-                                    <dd>
-                                        @Html.DisplayFor(model => model.PricePerUnit)
-                                    </dd>
+                                    @{
+                                        if (Model.PricePerUnit == null)
+                                        {
+                                            <dd> - </dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Html.DisplayFor(model => model.PricePerUnit)</dd>
+                                        }
+                                    }
 
                                     <dt>
                                         Siirtohinta
                                     </dt>
 
-                                    <dd>
-                                        @Html.DisplayFor(model => model.TransferPayment)
-                                    </dd>
+                                    @{
+                                        if (Model.PricePerUnit == null)
+                                        {
+                                            <dd> - </dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Html.DisplayFor(model => model.TransferPayment)</dd>
+                                        }
+                                    }
 
                                     <dt>
                                         Kokonaishinta

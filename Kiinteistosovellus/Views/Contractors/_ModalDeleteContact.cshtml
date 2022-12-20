@@ -7,7 +7,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h3>Poistaa yhteystiedot</h3>
+                    <h3>Poista yhteystiedot</h3>
                 </div>
                 <div class="modal-body">
                     <h5>Haluatko varmasti poistaa alla olevat tiedot?</h5>
@@ -17,10 +17,28 @@
                         <div class="col-sm-12">
                             <dl class="dl-horizontal">
                                 <dt>Puhelin numero</dt>
-                                <dd>@Html.DisplayFor(model => model.PhoneNumber)</dd>
+                                @{
+                                    if (Model.PhoneNumber == null)
+                                    {
+                                        <dd> - </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Html.DisplayFor(model => model.PhoneNumber)</dd>
+                                    }
+                                }
 
                                 <dt>Sähköposti</dt>
-                                <dd>@Html.DisplayFor(model => model.Email)</dd>
+                                @{
+                                    if (Model.Email == null)
+                                    {
+                                        <dd> - </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Html.DisplayFor(model => model.Email)</dd>
+                                    }
+                                }
 
                             </dl>
                         </div>

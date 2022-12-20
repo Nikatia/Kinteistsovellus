@@ -53,12 +53,19 @@
                                     Kuvaus
                                 </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Desciption)
-                                </dd>
+                                @{
+                                    if (Model.Desciption == null)
+                                    {
+                                        <dd> - </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Html.DisplayFor(model => model.Desciption)</dd>
+                                    }
+                                }
 
                                 <dt>
-                                    Hinta
+                                    Kokonaishinta
                                 </dt>
 
                                 <dd>
@@ -68,10 +75,18 @@
                                 <dt>
                                     Kuukausittainen vai muu
                                 </dt>
+                                @{
+                                    if (Model.KuukausittainenVaiMuu == null)
+                                    {
+                                        <dd> - </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Html.DisplayFor(model => model.KuukausittainenVaiMuu.MonthOrOtherName)</dd>
+                                    }
+                                }
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.KuukausittainenVaiMuu.MonthOrOtherName)
-                                </dd>
+
                             </dl>
                         </div>
                     </div>

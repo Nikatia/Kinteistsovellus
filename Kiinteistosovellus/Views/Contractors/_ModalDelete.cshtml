@@ -22,7 +22,16 @@
                                     <dd>@Html.DisplayFor(model => model.Name)</dd>
 
                                     <dt>Kuvaus</dt>
-                                    <dd style="word-break:break-word">@Html.DisplayFor(model => model.Description)</dd>
+                                    @{
+                                        if (Model.Description == null)
+                                        {
+                                            <dd> - </dd>
+                                        }
+                                        else
+                                        {
+                                            <dd style="word-break:break-word">@Html.DisplayFor(model => model.Description)</dd>
+                                        }
+                                    }
 
                                     <dt>Osoite</dt>
                                     <dd>
