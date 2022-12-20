@@ -20,14 +20,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Aloituspäivämäärä* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Päättymispäivämäärä @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
@@ -37,17 +37,17 @@
                                         Kulutustyyppi* @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("SpendingTypeID", null, new { @class = "form-control form-select" })
-                                            <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
+                                            <div><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
                                         </div>
                                     </div>
 
                                     <div class="form-group" id="hiddenFieldAddType" style="display:none">
-                                        Tyypin nimi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
+                                        Kulutustyyppi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
                                         <div class="col-md-10 input-group">
                                             <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKenttaName()" />
 
                                         </div>
-                                        Yksikkönimi <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
+                                        Yksikkö <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
                                         <div class="col-md-10 input-group">
                                             <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormUnit" onkeyup="paivitaOikeaKenttaUnit()" />
 
@@ -64,7 +64,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Käytetyt mittayksiköt @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
+                                        Yksiköiden määrä @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
@@ -73,7 +73,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Yksikköhinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+                                        Yksikön hinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
@@ -116,7 +116,7 @@
 
                     <div class="modal-footer">
                         <div class="form-actions no-color">
-                            <input type="button" onclick="submitModal()" value="Lisää" class="btn btn-primary" />
+                            <input type="button" onclick="submitModal()" value="Tallenna" class="btn btn-primary" />
                             @Html.ActionLink("Takaisin", "Index")
                         </div>
                     </div>

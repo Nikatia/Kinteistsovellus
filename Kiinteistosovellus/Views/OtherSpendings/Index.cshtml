@@ -29,7 +29,7 @@
     <div class="card-body row" >
         <div class="col-md-4">
             <label class="form-label">
-                Kulutyyppi
+                Kulutustyyppi
             </label>
             <div class="dropdown form-group" style="width:93%">
                 <div class="form-select form-control" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,6 +82,9 @@
 </table>
 
 <script type="text/javascript">
+    var editNodes = $(".getOtherSpendingId");
+    var deleteNodes = $(".delOtherSpendingId");
+
     $("th").click(function () {
         var passedID = this.id.toString();
         var allHeaders = $("th");
@@ -155,13 +158,13 @@
         if (dateBegin != "") {
             dtDateBegin = new Date(dateBegin);
         }
-        console.log(dateBegin);
+        //console.log(dateBegin);
         var dateEnd = $("#endDate").val();
         var dtDateEnd;
         if (dateEnd != "") {
             dtDateEnd = new Date(dateEnd);
         }
-        console.log(dateBegin);
+        //console.log(dateBegin);
 
         var stringTypes = "";
 
@@ -175,7 +178,7 @@
             }
 
         });
-        console.log(stringTypes);
+        //console.log(stringTypes);
         var columnNumberData;
         var ascOrDescData;
 
@@ -190,6 +193,32 @@
         $.post("@Url.Action("_IndexTable","OtherSpendings")", { alkuPvm: dateBegin, loppuPvm: dateEnd, kulutyypit: stringTypes, columnNumber: columnNumberData, ascOrDesc: ascOrDescData } ,function(data){
 
             $("#createBodyHere").html(data);
+            editNodes = $(".getOtherSpendingId");
+            deleteNodes = $(".delOtherSpendingId");
+
+            $(deleteNodes).click(function () {
+                let otherSpendingId2 = $(this).data("otherspendingid2");
+                var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
+                var $detailDivDelete = $("#otherSpendingDelete");
+
+                $.get(url, function (data) {
+                    $detailDivDelete.replaceWith(data);
+                    $('#ModalOtherSpendingDelete').modal('show');
+                });
+            });
+
+            $(editNodes).click(function () {
+                let otherSpendingId = $(this).data("otherspendingid");
+                var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
+                var $detailDivEdit = $("#otherSpendingEdit");
+
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalotherSpendingEdit').modal('show');
+                });
+            });
+
+
         });
     }
 
@@ -202,17 +231,16 @@
 
 
     $(function () {
-        filterTableAJAX("", "");
         $('#homeClicked').removeClass('active');
         $('#spendingsClicked').addClass('active');
         $('#othersClicked').removeClass('active');
     });
 
         /* Create Modal Window */
-        $(function () {
-            $(".creNewOtherSpending").click(function () {
-                var url = "/OtherSpendings/_ModalCreate";
-                var $detailDivCreate = $("#otherSpendingCreate");
+    $(function () {
+        $(".creNewOtherSpending").click(function () {
+            var url = "/OtherSpendings/_ModalCreate";
+            var $detailDivCreate = $("#otherSpendingCreate");
 
             $.get(url, function (data) {
                 $detailDivCreate.replaceWith(data);
@@ -221,37 +249,10 @@
         });
     });
 
-    /*Edit Modal Window*/
-    $(function () {
-        $(".getOtherSpendingId").click(function () {
-            let otherSpendingId = $(this).data("otherspendingid");
-            var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
-            var $detailDivEdit = $("#otherSpendingEdit");
-
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $('#ModalotherSpendingEdit').modal('show');
-            });
-        });
-    });
-
-
-    /*Delete Modal Window*/
-    $(function () {
-        $(".delOtherSpendingId").click(function () {
-            let otherSpendingId2 = $(this).data("otherspendingid2");
-            var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
-            var $detailDivDelete = $("#otherSpendingDelete");
-
-            $.get(url, function (data) {
-                $detailDivDelete.replaceWith(data);
-                $('#ModalOtherSpendingDelete').modal('show');
-            });
-        });
-    });
-
     //On page load showes chart's partials with data for current year
     $(document).ready(async function () {
+
+
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;
         var url = "/OtherSpendings/Chart/?year=" + thisYear;
@@ -283,6 +284,8 @@
                 $(divForPartialBar).html(result);
             }
         });
+
+        filterTableAJAX("", "");
     });
 
     //On year's dropdown change showes chart's partials with data for selected year

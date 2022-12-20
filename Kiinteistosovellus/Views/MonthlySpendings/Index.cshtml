@@ -28,7 +28,7 @@
     <div class="card-body row">
         <div class="col-md-4">
             <label class="form-label">
-                Kulutyyppi
+                Kulutustyyppi
             </label>
             <div class="dropdown form-group" style="width:93%">
                 <div class="form-select form-control" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,7 +62,6 @@
         </button>*@
     </div>
 </div>
-
 <table class="table" id="sortableTable">
     <thead>
         <tr class="card-header bg-primary" style="color:white">
@@ -76,13 +75,13 @@
                 Kulutustyyppi<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
             <th id="3" class="clickable-th">
-                Kokonaiskulutus<img src="~/Icons/sort.svg" class="sort-icon" />
+                Yksiköiden määrä<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
             <th id="4" class="clickable-th">
-                Energian yksikkö<img src="~/Icons/sort.svg" class="sort-icon" />
+                Yksikkö<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
             <th id="5" class="details clickable-th" style="display: none; font-weight: bold;">
-                Yksikköhinta<img src="~/Icons/sort.svg" class="sort-icon" />
+                Yksikön hinta<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
             <th id="6" class="details clickable-th" style="display: none; font-weight: bold;">
                 Siirtomaksu<img src="~/Icons/sort.svg" class="sort-icon" />
@@ -107,6 +106,9 @@
 
 </table>
 <script type="text/javascript">
+    var editNodes = $(".getOrderId");
+    var deleteNodes = $(".getId");
+
 
     $("th").click(function () {
         var passedID = this.id.toString();
@@ -167,7 +169,6 @@
         }
 
         filterTableAJAX("", "");
-        //filterTable("hidingField", "dropdownMenuButton1", "beginDate", "endDate");
     });
 
     $("#filterBtn").click(function () {
@@ -187,7 +188,7 @@
         if (dateEnd != "") {
             dtDateEnd = new Date(dateEnd);
         }
-        console.log(dateBegin);
+        //console.log(dateBegin);
 
         var stringTypes = "";
 
@@ -201,7 +202,7 @@
             }
 
         });
-        console.log(stringTypes);
+        //console.log(stringTypes);
         var columnNumberData;
         var ascOrDescData;
 
@@ -216,6 +217,36 @@
         $.post("@Url.Action("_IndexTable","MonthlySpendings")", { alkuPvm: dateBegin, loppuPvm: dateEnd, kulutyypit: stringTypes, columnNumber: columnNumberData, ascOrDesc: ascOrDescData } ,function(data){
             
             $("#createBodyHere").html(data);
+            editNodes = $(".getOrderId");
+            deleteNodes = $(".getId");
+
+            $(deleteNodes).click(function () {
+                let MSDeleteId = $(this).data("id");
+
+                var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
+
+                var $detailDivEdit = $("#ModalPlaceDelete");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalMSDelete").modal("show");
+
+                });
+
+            });
+
+            $(editNodes).click(function () {
+                let MSEditId = $(this).data("orderid");
+
+                var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
+
+                var $detailDivEdit = $("#ModalPlaceEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalMSEdit").modal("show");
+
+                });
+
+            });
         });
     }
 
@@ -232,40 +263,7 @@
         $('#othersClicked').removeClass('active');
     });
 
-    $(document).ready(function () {
-        $(".getOrderId").click(function () {
-            let MSEditId = $(this).data("orderid");
-
-            var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
-
-            var $detailDivEdit = $("#ModalPlaceEdit");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalMSEdit").modal("show");
-
-            });
-
-        });
-    });
-
-    $(document).ready(function () {
-        filterTableAJAX("", "");
-
-        $(".getId").click(function () {
-            let MSDeleteId = $(this).data("id");
-
-            var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
-
-            var $detailDivEdit = $("#ModalPlaceDelete");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalMSDelete").modal("show");
-
-            });
-
-        });
-    });
-    $(document).ready(function () {
+    $(document).ready(async function () {
         $("#CreateMS").click(function () {
             var url = "/MonthlySpendings/_CreateModal";
 
@@ -276,10 +274,6 @@
 
             });
         });
-    });
-
-    //Details toggle button
-    $(document).ready(function () {
 
         $("#DetailButton").click(function () {
             $(".details").toggle();
@@ -292,11 +286,7 @@
                 $("#moreInfo").attr("src", "/Icons/square-more-info.svg")
             };
         });
-    });
 
-
-    //On page load showes chart's partials with data for current year
-    $(document).ready(async function () {
         var thisYear = new Date().getFullYear();
         document.getElementById("Vuosi").value = thisYear;
         var url = "/MonthlySpendings/Chart/?year=" + thisYear;
@@ -327,7 +317,10 @@
                 $(divForPartialBar).html(result);
             }
         });
+
+        filterTableAJAX("", "");
     });
+
 
     //On year's dropdown change showes chart's partials with data for selected year
     $('#Vuosi').change(async function () {
