@@ -270,6 +270,7 @@
     <Content Include="Icons\square-edit.svg" />
     <Content Include="Icons\square-more-info.svg" />
     <Content Include="Icons\square-no-more-info.svg" />
+    <Content Include="Icons\sort.svg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

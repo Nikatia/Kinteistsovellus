@@ -28,3 +28,14 @@ textarea {
     background-color: #777;
     border-color: #fff
 }
+
+.clickable-th:hover {
+    cursor: pointer;
+    background-color: #72c156;
+}
+
+.sort-icon{
+    height:27px;
+    width:27px;
+}
+
