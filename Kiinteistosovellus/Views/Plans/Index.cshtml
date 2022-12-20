@@ -31,7 +31,7 @@
             Kuvaus
         </th>
         <th style="width:9%">
-            Hinta
+            Kokonaishinta
         </th>
         <th style="width:16%">
             Kuukausittainen vai muu
@@ -114,7 +114,7 @@
     $(function () {
         $(".deletePlanModal").click(function () {
             let deleteId = $(this).data("deleteid");
-            modalGet("Plans", "Poista", deleteId, "plansDelete", "ModalPlansDelete");
+            modalGet("Plans", "Delete", deleteId, "plansDelete", "ModalPlansDelete");
         });
     });
 
