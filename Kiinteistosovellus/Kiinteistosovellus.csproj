@@ -145,9 +145,6 @@
     <Compile Include="Models\Contractors.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\database_firewall_rules.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DecimalModelBinder.cs" />
     <Compile Include="Models\ForCategorySortChartWithYears.cs">
       <DependentUpon>Model1.tt</DependentUpon>
