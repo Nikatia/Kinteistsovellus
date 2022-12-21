@@ -126,9 +126,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ConnectionString.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\LoginsController.cs" />
     <Compile Include="Controllers\MonthlySpendingsController.cs" />
     <Compile Include="Controllers\MonthlySpendingTypesController.cs" />
@@ -312,6 +314,8 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Images\LatestImage.cshtml" />
+    <Content Include="Images\Upload.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\custom\modalScriptAllViews.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
@@ -397,6 +401,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
