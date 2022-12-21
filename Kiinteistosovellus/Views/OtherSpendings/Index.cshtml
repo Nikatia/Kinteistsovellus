@@ -90,14 +90,14 @@
         var allHeaders = $("th");
 
         for (var i = 0; i < allHeaders.length; i++) {
-            console.log($(this).attr('id'));
+            ////console.log($(this).attr('id'));
             if (i == $(this).attr('id')) {
                 continue;
             }
             $(allHeaders[i]).removeClass("desc");
             $(allHeaders[i]).removeClass("asc");
         }
-        console.log($(this).hasClass("asc"));
+        //console.log($(this).hasClass("asc"));
         if ($(this).hasClass("asc")) {
             $(this).removeClass("asc");
             $(this).addClass("desc");
@@ -152,25 +152,25 @@
     });
 
     function filterTableAJAX(columnNumber, ascOrDesc) {
-        console.log(columnNumber, ascOrDesc);
+        //console.log(columnNumber, ascOrDesc);
         var dateBegin = $("#beginDate").val();
         var dtDateBegin;
         if (dateBegin != "") {
             dtDateBegin = new Date(dateBegin);
         }
-        //console.log(dateBegin);
+        ////console.log(dateBegin);
         var dateEnd = $("#endDate").val();
         var dtDateEnd;
         if (dateEnd != "") {
             dtDateEnd = new Date(dateEnd);
         }
-        //console.log(dateBegin);
+        ////console.log(dateBegin);
 
         var stringTypes = "";
 
         var activeClassCollection = $(".chosen");
         activeClassCollection.each(function (index, node) {
-            console.log(index, $(node).text());
+            //console.log(index, $(node).text());
             if (index == 0) {
                 stringTypes += $(node).text();
             } else {
@@ -178,7 +178,7 @@
             }
 
         });
-        //console.log(stringTypes);
+        ////console.log(stringTypes);
         var columnNumberData;
         var ascOrDescData;
 
@@ -223,7 +223,7 @@
     }
 
     $("#beginDate").change(function () {
-        console.log("toimii");
+        //console.log("toimii");
         filterTableAJAX("", "");    });
 
     $("#endDate").change(function () {

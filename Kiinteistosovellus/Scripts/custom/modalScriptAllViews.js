@@ -1,9 +1,9 @@
 ﻿function submitModalPost(controller, actionResult, formId, modalId) {
-    /*console.log(formId);*/
+    /*//console.log(formId);*/
     var indexUrl = '/' + controller + '/Index';
     var submittedForm = new FormData(document.getElementById(formId));     //Luodaan formdata-tyyppinen muuttuja, joka kerää tiedot halutulta formilta
     var modalIdParent = parent.document.getElementById(modalId); //Etsitään parentista eli index-viewstä oikea kohta, johon modaali luodaan uudestaan
-    /*console.log("menee tänne asti");*/
+    /*//console.log("menee tänne asti");*/
     $.ajax({
         url: "/" + controller + "/" + actionResult,
         cache: false,
@@ -13,8 +13,8 @@
         type: "POST",
         data: submittedForm, //aikaisemmin mainittu formdata viedään ajax-pyynnöllä controllerille
         success: function (result) {
-            //console.log("Result:")
-            //console.log(result);
+            ////console.log("Result:")
+            ////console.log(result);
             if (result == "") { //Jos lisäys onnistui, controller palauttaa nullin
                 window.location.href = indexUrl; //Onnistumisen jälkeen käyttäjä ohjataan indexiin, jossa päivittyneet tiedot
             } else {//tallentaminen ei onnistunut, koska modelstate.isvalid ei ollut true
@@ -28,7 +28,7 @@
 
 function modalGet(controller, actionresult, actionresultId, iframeId, modalId) {
     var url = "/" + controller + "/" + actionresult;
-    /*console.log(actionresultId);*/
+    /*//console.log(actionresultId);*/
     if (actionresultId != null) {
         url += "/?id=" + actionresultId;
     }
@@ -79,8 +79,8 @@ function partialViewSubmit(controller, actionresult, realFormDivId, formId, drop
         type: "POST",
         data: submittedForm, //aikaisemmin mainittu formdata viedään ajax-pyynnöllä controllerille
         success: function (result) {
-            //console.log("Result:")
-            //console.log(result);
+            ////console.log("Result:")
+            ////console.log(result);
 
             updateDropdownList(controller, dropdownId);
             $(divForPartial).html("");
@@ -177,7 +177,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
     //etsi kaikki rivit taulukosta, jossa filtering-class
     var rows = $(".filtering"), //filtering class pitää olla kaikissa roweissa indexissä!!!
         rowsLength = rows.length;
-    console.log(rowsLength);
+    //console.log(rowsLength);
 
     var activateThis = $(".activate-this");
     var activeSelect = [];
@@ -236,7 +236,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
         //switch-casella päätetään, millainen toteutus
         switch (true) {
             case (dateBeginInput != "" && dateEndInput == ""): //Suodatuksessa: alkupvm
-                console.log("VAin alkupvm");
+                //console.log("VAin alkupvm");
                 dtDateBegin = new Date(dateBeginInput);
                 tdsDateEnd = new Date(createISO(tds[1].innerText));
 
@@ -247,21 +247,21 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
                 break;
 
             case (dateEndInput != "" && dateBeginInput == ""): //Suodatuksessa: loppupvm
-                console.log("VAin loppupvm");
+                //console.log("VAin loppupvm");
                 dtDateEnd = new Date(dateEndInput)
                 tdsDateBegin = new Date(createISO(tds[0].innerText));
-                console.log(dtDateEnd, tdsDateBegin, tds[0].innerText, createISO(tds[0].innerText));
+                //console.log(dtDateEnd, tdsDateBegin, tds[0].innerText, createISO(tds[0].innerText));
 
                 if (tdsDateBegin <= dtDateEnd) {//Jos alkupvm td:ssä on pienempi tai yhtäsuuri kuin suodatuksessa oleva loppupvm, annetaan class ChosenDate
                     //$(rows[i]).addClass("d-none");
-                    console.log("Rivi: " + rows[i] + " sisältää oikean esiintymän");
+                    //console.log("Rivi: " + rows[i] + " sisältää oikean esiintymän");
                     $(rows[i]).addClass("ChosenDate");
                 }
 
                 break;
 
             case (dateEndInput != "" && dateBeginInput != ""): //Suodatuksessa: alkupvm ja loppupvm
-                console.log("Kummatkin");
+                //console.log("Kummatkin");
                 dtDateBegin = new Date(dateBeginInput); //datetime-muuttuja alkupvm (suodatuksesta) vertailuun
                 dtDateEnd = new Date(dateEndInput); //datetime-muuttuja loppupvm (suodatuksesta) vertailuun
                 tdsDateEnd = new Date(createISO(tds[1].innerText));
@@ -274,7 +274,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
                 break;
 
             default:
-                console.log("Ei pitäisi mennä tänne");
+                //console.log("Ei pitäisi mennä tänne");
                 break;
         }
 
@@ -296,7 +296,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
             for (var i = 0; i < rowsLength; i++) {
                 if ($(rows[i]).hasClass("ChosenDate")) {
                     $(rows[i]).removeClass("d-none");
-                    console.log(i);
+                    //console.log(i);
                 }
             }
             break;
@@ -309,7 +309,7 @@ function filterTable(hidingFieldID, dropdownMenuButtonID, dateBeginInputID, date
             }
             break;
         default:
-            console.log("Ei pitäisi mennä tänne lopulliseen suodatukseen")
+            //console.log("Ei pitäisi mennä tänne lopulliseen suodatukseen")
             break;
     }
     
@@ -326,7 +326,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
     table = document.getElementById(tableID);
     switching = true;
     //stop = 1;
-    console.log(varThis);
+    //console.log(varThis);
     var emptyRowArray = [];
     if ($(varThis).hasClass("desc")) {//Jos on laskeva, luodaan nouseva järjestys
         $(varThis).addClass("asc");
@@ -340,7 +340,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 x = rows[i].getElementsByTagName("TD")[columnNumber];
                 
                 if (x.innerText == "") {
-                    console.log("Postaa rivin: " + $(rows[i]));
+                    //console.log("Postaa rivin: " + $(rows[i]));
                     emptyRowArray.push(rows[i]);
                     $(rows[i]).remove();
                     i--;
@@ -348,7 +348,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 }
                 y = rows[i + 1].getElementsByTagName("TD")[columnNumber];
                 if (dateNumberOther == "DATE") {
-                    //console.log("Tänne meni päivämäärä");
+                    ////console.log("Tänne meni päivämäärä");
                     if (createISO(x.innerText) < createISO(y.innerText)) {
                         shouldSwitch = true;
                         break;
@@ -356,7 +356,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 } else if (dateNumberOther == "NUMBER") {
                     if (y.innerText == "" && x.innerText != "") {
                         y = parseFloat("0");
-                        //console.log("funktioon menee y: " + x.innerText);
+                        ////console.log("funktioon menee y: " + x.innerText);
                         if (eurosToFloat(x.innerText) < y) {
                             shouldSwitch = true;
                             break;
@@ -364,7 +364,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                     }
                     else if (y.innerText != "" && x.innerText == "") {
                         x = parseFloat("0");
-                        //console.log("funktioon menee x: " + y.innerText);
+                        ////console.log("funktioon menee x: " + y.innerText);
                         if (x < eurosToFloat(y.innerText)) {
                             shouldSwitch = true;
                             break;
@@ -373,14 +373,14 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
 
                     else {
                         if (eurosToFloat(x.innerText) < eurosToFloat(y.innerText)) {
-                            //console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
+                            ////console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
                             shouldSwitch = true;
                             break;
                         }
                     }
 
                 } else {
-                    //console.log("Tänne meni muu aakkosjärjestyksessä");
+                    ////console.log("Tänne meni muu aakkosjärjestyksessä");
                     if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                         shouldSwitch = true;
                         break;
@@ -388,7 +388,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 }
             }
             if (shouldSwitch) {
-                //console.log("Pitäisi vaihtaa");
+                ////console.log("Pitäisi vaihtaa");
                 rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
                 switching = true;
             }
@@ -416,7 +416,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                     continue;
                 }
                 if (dateNumberOther == "DATE") {
-                    //console.log("Tänne meni päivämäärä");
+                    ////console.log("Tänne meni päivämäärä");
                     if (createISO(x.innerText) > createISO(y.innerText)) {
                         shouldSwitch = true;
                         break;
@@ -424,7 +424,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                 } else if (dateNumberOther == "NUMBER") {
                     if (y.innerText == "" && x.innerText != "") {
                         y = parseFloat("0");
-                        //console.log("funktioon menee y: " + x.innerText);
+                        ////console.log("funktioon menee y: " + x.innerText);
                         if (eurosToFloat(x.innerText) > y) {
                             shouldSwitch = true;
                             break;
@@ -432,7 +432,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
                     }
                     else if (y.innerText != "" && x.innerText == "") {
                         x = parseFloat("0");
-                        //console.log("funktioon menee x: " + y.innerText);
+                        ////console.log("funktioon menee x: " + y.innerText);
                         if (x > eurosToFloat(y.innerText)) {
                             shouldSwitch = true;
                             break;
@@ -441,14 +441,14 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
 
                     else {
                         if (eurosToFloat(x.innerText) > eurosToFloat(y.innerText)) {
-                            //console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
+                            ////console.log("funktioon menee x ja y: " + x.innerText + " ja " + y.innerText);
                             shouldSwitch = true;
                             break;
                         }
                     }
 
                 } else {
-                    //console.log("Tänne meni muu aakkosjärjestyksessä");
+                    ////console.log("Tänne meni muu aakkosjärjestyksessä");
                     if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                         shouldSwitch = true;
                         break;
@@ -470,7 +470,7 @@ function sortTable(tableID, columnNumber, dateNumberOther, varThis) {
 
 function eurosToFloat(euro) {
     var correctNumber = parseFloat(euro.toString().replace("€", "").replace(",", ".").replace(/\s/g, '').trim());
-    //console.log(parseFloat(correctNumber.toString().replace("€", "").replace(",", ".").replace(" ", "").trim()));
+    ////console.log(parseFloat(correctNumber.toString().replace("€", "").replace(",", ".").replace(" ", "").trim()));
     return correctNumber;
 }
 
@@ -479,7 +479,7 @@ function eurosToFloat(euro) {
 //    //etsi kaikki rivit taulukosta, jossa filtering-class
 //    var rows = $(".filtering"), //filtering class pitää olla kaikissa roweissa indexissä!!!
 //        rowsLength = rows.length;
-//    console.log(rowsLength);
+//    //console.log(rowsLength);
 
 //    var activateThis = $(".activate-this");
 //    var activeSelect = [];
@@ -488,7 +488,7 @@ function eurosToFloat(euro) {
 //            activeSelect.push(activateThis[i].innerText);
 //        }
 //    }
-//    //console.log(activeSelect);
+//    ////console.log(activeSelect);
 
 //    //Haetaan span-elementit eli badget dropdownin sisäll'
 //    var spans = $(".spans");
@@ -524,7 +524,7 @@ function eurosToFloat(euro) {
 //        var tds = rows[i].getElementsByTagName('td'),
 //            tdsLength = tds.length;
 
-//        console.log(tds);
+//        //console.log(tds);
 //        for (var tdsCounter = 0; tdsCounter < tdsLength; ++tdsCounter) {
 //            for (var k = 0; k < activeSelect.length; k++) {
 //                if (tds[tdsCounter].innerText.indexOf(activeSelect[k]) > -1) {
@@ -539,8 +539,8 @@ function eurosToFloat(euro) {
 
 //function isNumberKey(evt, priceFieldId) {
 //    var priceInputField = document.getElementById(priceFieldId);
-//    //console.log(priceFieldId);
-//    //console.log(getCaretPosition(priceInputField));
+//    ////console.log(priceFieldId);
+//    ////console.log(getCaretPosition(priceInputField));
 //    var caretPosition = getCaretPosition(priceInputField);
 //    var charCode = (evt.which) ? evt.which : evt.keyCode;
 
@@ -552,7 +552,7 @@ function eurosToFloat(euro) {
 //        evt.preventDefault();
 //        return false;
 //    }
-//    //console.log(priceInputField.value.toString().replace(',', '').length);
+//    ////console.log(priceInputField.value.toString().replace(',', '').length);
 //    if (priceInputField.value.toString().replace(',', '').length >= 7 || (priceInputField.value.toString().includes(',') && charCode == 44)) {
 //        evt.preventDefault();
 //        return false;
