@@ -100,7 +100,7 @@ namespace Kiinteistosovellus.Controllers
             //                       select ms;
             string strKulutyypit = kulutyypit;
 
-            
+
             if (strKulutyypit != "")
             {
                 var kulutyyppiArray = strKulutyypit.Split('#');
@@ -109,7 +109,7 @@ namespace Kiinteistosovellus.Controllers
             }
             else
             {
-                monthlySpendings=tempIQueryable;
+                monthlySpendings = tempIQueryable;
             }
 
             string intColumnNumber = columnNumber;
@@ -128,7 +128,7 @@ namespace Kiinteistosovellus.Controllers
             else if (dtAlkuPvm == null && dtLoppuPvm != null)
             {
                 monthlySpendings = monthlySpendings.Where(ms => ms.DateBegin <= dtLoppuPvm);
-            }            
+            }
 
 
             switch (columnNumber)
@@ -221,6 +221,16 @@ namespace Kiinteistosovellus.Controllers
                     else
                     {
                         monthlySpendings = monthlySpendings.OrderBy(ms => ms.Contractors.Name);
+                    }
+                    break;
+                case "9":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.ImageUrl);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.ImageUrl);
                     }
                     break;
                 default:
@@ -323,7 +333,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID")] MonthlySpendings monthlySpendings)
+        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,ImageUrl")] MonthlySpendings monthlySpendings)
         {
             if (Session["UserName"] != null)
             {
@@ -332,6 +342,14 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
                 if (ModelState.IsValid)
                 {
+                    if (monthlySpendings.ImageUrl != null)
+                    {
+                        ViewBag.Error = 0;
+                        db.MonthlySpendings.Add(monthlySpendings);
+                        db.SaveChanges();
+                        return Content("image");
+                    }
+
                     ViewBag.Error = 0;
                     db.MonthlySpendings.Add(monthlySpendings);
                     db.SaveChanges();
@@ -403,15 +421,41 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _EditModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID")] MonthlySpendings monthlySpendings)
+        public ActionResult _EditModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,ImageUrl")] MonthlySpendings monthlySpendings)
         {
             if (Session["UserName"] != null)
             {
+
+                var original = db.MonthlySpendings.AsNoTracking().FirstOrDefault(m => m.MonthlySpendingID == monthlySpendings.MonthlySpendingID); //Alkuperäiset arvot
+                var old = original.ImageUrl;
+                var anew = monthlySpendings.ImageUrl;//Uudet arvot
+
+                bool equal()
+                {
+                    if (old != null && anew != null)
+                    {
+                        var modified = db.MonthlySpendings.AsNoTracking().FirstOrDefault(m => m.MonthlySpendingID == monthlySpendings.MonthlySpendingID);
+                        var result = modified.ImageUrl.Equals(monthlySpendings.ImageUrl);
+
+                        return result;
+                    }
+                    return false;
+                }
+
                 if (ModelState.IsValid)
                 {
+                    if (equal() || (old == null && anew == null) || anew == null)
+                    {
+                        db.Entry(monthlySpendings).State = EntityState.Modified;
+                        db.SaveChanges();
+                        db.Dispose();
+                        return null;
+                    }
                     db.Entry(monthlySpendings).State = EntityState.Modified;
                     db.SaveChanges();
-                    return null;
+                    db.Dispose();
+                    return Content("image");
+
                 }
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);

@@ -106,6 +106,19 @@
                                             @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        Valitse kuva
+                                        <div class="col-md-10">
+                                            <input type="file" id="kuvaim" onchange="document.getElementById('ImageUrl').value ='https://kuvapankki.blob.core.windows.net/pics/' + this.value.substring(12);" />
+                                        </div>
+                                        <input type="button" id="poistanappi" value="Poista kuva" onclick="document.getElementById('ImageUrl').value=''" />
+                                    </div>
+                                    <div class="form-group" id="imageinput">
+                                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -130,6 +143,20 @@
 
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            var arvo = $("#ImageUrl").val();
+            if (arvo == "") {
+                console.log(arvo)
+                $("#poistanappi").hide();
+                $("#imageinput").hide();
+            } else {
+                $("#poistanappi").show();
+                $("#imageinput").show();
+            }
+        });
+
+
+
         function paivitaOikeaKenttaName() {
             var falseFormInput = $("#fakeFormTypeName");
             var realForm = $("#TypeName");

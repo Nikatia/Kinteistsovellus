@@ -29,6 +29,5 @@ namespace Kiinteistosovellus.Models
         public decimal Marraskuu { get; set; }
         public decimal Joulukuu { get; set; }
         public int Tyyppi { get; set; }
-        public string Vuodet { get { return this.Vuosi + "-" + (this.Vuosi-1); } }
     }
 }

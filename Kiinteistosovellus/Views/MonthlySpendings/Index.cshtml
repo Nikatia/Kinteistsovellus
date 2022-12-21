@@ -23,6 +23,12 @@
 <div id="ModalPlaceDelete"></div>
 <div id="ModalPlaceCreate"></div>
 
+@*//Kuvien modaalit*@
+<div id="myModals" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+
+</div>
 <div class="card border-primary" style="margin:10px 0">
     <div class="card-header bg-primary" style="color: white; font-weight: bold;">Suodatus</div>
     <div class="card-body row">
@@ -58,8 +64,8 @@
             <input type="date" id="endDate" class="form-control" />
         </div>
         @*<button type="button" id="filterBtn">
-            Suodata
-        </button>*@
+                Suodata
+            </button>*@
     </div>
 </div>
 <table class="table" id="sortableTable">
@@ -92,20 +98,22 @@
             <th id="8" class="clickable-th">
                 Urakoitsija<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
-       
+            <th id="9" class="clickable-th">
+                Kuva<img src="~/Icons/sort.svg" class="sort-icon" />
+            </th>
 
             <th></th>
         </tr>
     </thead>
 
     <tbody id="createBodyHere">
-
     </tbody>
 
-    
+
 
 </table>
 <script type="text/javascript">
+
     var editNodes = $(".getOrderId");
     var deleteNodes = $(".getId");
 
@@ -131,7 +139,7 @@
             filterTableAJAX(passedID, "asc");
             $(this).removeClass("desc");
             $(this).addClass("asc");
-        }       
+        }
     });
 
     $(".activate-this").click(function () {
@@ -222,8 +230,10 @@
             ascOrDescData = ascOrDesc;
         }
 
+
         $.post("@Url.Action("_IndexTable","MonthlySpendings")", { alkuPvm: dateBegin, loppuPvm: dateEnd, kulutyypit: stringTypes, columnNumber: columnNumberData, ascOrDesc: ascOrDescData, showOrHide: disabled } ,function(data){
             
+
             $("#createBodyHere").html(data);
             editNodes = $(".getOrderId");
             deleteNodes = $(".getId");

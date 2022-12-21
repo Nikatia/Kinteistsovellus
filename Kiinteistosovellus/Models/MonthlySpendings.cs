@@ -40,7 +40,7 @@ namespace Kiinteistosovellus.Models
         public decimal FullPrice { get; set; }
 
         public Nullable<int> ContractorID { get; set; }
-    
+        public string ImageUrl { get; set; }
         public virtual Contractors Contractors { get; set; }
         public virtual MonthlySpendingTypes MonthlySpendingTypes { get; set; }
     }

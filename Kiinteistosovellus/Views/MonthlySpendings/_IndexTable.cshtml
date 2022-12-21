@@ -53,7 +53,14 @@
         <td class="centeredTds">
             @Html.DisplayFor(modelItem => item.Contractors.Name)
         </td>
-
+        <td class="centeredTds">
+            @if (item.ImageUrl != null)
+            {
+                <img class="images" src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="100" />
+            }
+            else
+            {@Html.DisplayFor(modelItem => item.ImageUrl)}
+        </td>
 
         <td class="centeredTds">
             <a class="card-link ikonka getOrderId" title="Muokkaa Kulu" data-orderid="@item.MonthlySpendingID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
@@ -61,3 +68,31 @@
         </td>
     </tr>
 }
+<script type="text/javascript">
+
+    // create references to the modal...
+    var modal = document.getElementById('myModals');
+    // to all images -- note I'm using a class!
+    var images = document.getElementsByClassName('images');
+    // the image in the modal
+    var modalImg = document.getElementById("img01");
+    // and the caption in the modal
+    // var captionText = document.getElementById("caption");
+
+    // Go through all of the images with our custom class
+    for (var i = 0; i < images.length; i++) {
+        var img = images[i];
+        // and attach our click listener for this image.
+        img.onclick = function (evt) {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            //captionText.innerHTML = this.alt;
+        }
+    }
+
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+</script>
