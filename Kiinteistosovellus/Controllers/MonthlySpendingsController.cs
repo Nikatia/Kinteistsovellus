@@ -221,6 +221,16 @@ namespace Kiinteistosovellus.Controllers
                         monthlySpendings = monthlySpendings.OrderBy(ms => ms.Contractors.Name);
                     }
                     break;
+                case "9":
+                    if (ascOrDesc == "desc")
+                    {
+                        monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.ImageUrl);
+                    }
+                    else
+                    {
+                        monthlySpendings = monthlySpendings.OrderBy(ms => ms.ImageUrl);
+                    }
+                    break;
                 default:
                     monthlySpendings = monthlySpendings.OrderByDescending(ms => ms.DateBegin);
                     break;
