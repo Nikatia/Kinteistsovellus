@@ -409,8 +409,6 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="Images\LatestImage.cshtml" />
-    <Content Include="Images\Upload.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\custom\modalScriptAllViews.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
@@ -492,11 +490,12 @@
     <Content Include="Views\OtherSpendings\_IndexTable.cshtml" />
     <Content Include="Views\Home\_NotLogged.cshtml" />
     <Content Include="Views\Contractors\_ModalCreateContactPerson.cshtml" />
+    <Content Include="Views\Images\LatestImage.cshtml" />
+    <Content Include="Views\Images\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
