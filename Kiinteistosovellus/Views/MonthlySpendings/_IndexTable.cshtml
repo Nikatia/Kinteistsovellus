@@ -26,12 +26,27 @@
         <td class="centeredTds">
             @Html.DisplayFor(modelItem => item.MonthlySpendingTypes.Unit)
         </td>
-        <td class="details centeredTds" style="display:none;font-weight: bold;">
-            @Html.DisplayFor(modelItem => item.PricePerUnit)
-        </td>
-        <td class="details centeredTds" style="display: none; font-weight: bold;">
-            @Html.DisplayFor(modelItem => item.TransferPayment)
-        </td>
+        @{
+            if (ViewBag.Disabled == "hide")
+            {
+                <td class="details centeredTds d-none" style="font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.PricePerUnit)
+                </td>
+                <td class="details centeredTds d-none" style="font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.TransferPayment)
+                </td>
+            }
+            else
+            {
+                <td class="details centeredTds" style="font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.PricePerUnit)
+                </td>
+                <td class="details centeredTds" style="font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.TransferPayment)
+                </td>
+            }
+        }
+
         <td class="centeredTds">
             @Html.DisplayFor(modelItem => item.FullPrice)
         </td>

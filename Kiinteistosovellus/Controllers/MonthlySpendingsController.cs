@@ -71,7 +71,7 @@ namespace Kiinteistosovellus.Controllers
             }
         }
 
-        public PartialViewResult _IndexTable(string alkuPvm, string loppuPvm, string kulutyypit, string columnNumber, string ascOrDesc)
+        public PartialViewResult _IndexTable(string alkuPvm, string loppuPvm, string kulutyypit, string columnNumber, string ascOrDesc, string showOrHide)
         {
             DateTime dtAlkuPvmTest;
             DateTime dtLoppuPvmTest;
@@ -90,6 +90,8 @@ namespace Kiinteistosovellus.Controllers
                 dtLoppuPvmTest = DateTime.Parse(loppuPvm);
                 dtLoppuPvm = dtLoppuPvmTest;
             }
+
+            ViewBag.Disabled = showOrHide;
             var tempIQueryable = from ms in db.MonthlySpendings
                                  select ms;
             IQueryable<MonthlySpendings> monthlySpendings = null;

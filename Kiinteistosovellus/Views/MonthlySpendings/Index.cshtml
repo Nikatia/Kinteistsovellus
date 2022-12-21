@@ -80,10 +80,10 @@
             <th id="4" class="clickable-th">
                 Yksikkö<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
-            <th id="5" class="details clickable-th" style="display: none; font-weight: bold;">
+            <th id="5" class="details clickable-th d-none" style="font-weight: bold;">
                 Yksikön hinta<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
-            <th id="6" class="details clickable-th" style="display: none; font-weight: bold;">
+            <th id="6" class="details clickable-th d-none" style="font-weight: bold;">
                 Siirtomaksu<img src="~/Icons/sort.svg" class="sort-icon" />
             </th>
             <th id="7" class="clickable-th">
@@ -188,6 +188,14 @@
         if (dateEnd != "") {
             dtDateEnd = new Date(dateEnd);
         }
+
+        var disabled = "hide";
+        if ($("#5").hasClass("d-none")) {
+            disabled = "hide";
+        }
+        else {
+            disabled = "show";
+        }
         //console.log(dateBegin);
 
         var stringTypes = "";
@@ -214,7 +222,7 @@
             ascOrDescData = ascOrDesc;
         }
 
-        $.post("@Url.Action("_IndexTable","MonthlySpendings")", { alkuPvm: dateBegin, loppuPvm: dateEnd, kulutyypit: stringTypes, columnNumber: columnNumberData, ascOrDesc: ascOrDescData } ,function(data){
+        $.post("@Url.Action("_IndexTable","MonthlySpendings")", { alkuPvm: dateBegin, loppuPvm: dateEnd, kulutyypit: stringTypes, columnNumber: columnNumberData, ascOrDesc: ascOrDescData, showOrHide: disabled } ,function(data){
             
             $("#createBodyHere").html(data);
             editNodes = $(".getOrderId");
@@ -276,14 +284,22 @@
         });
 
         $("#DetailButton").click(function () {
-            $(".details").toggle();
+            var detailsNodes = $(".details");
             if ($("#DetailButton").attr('title') == "Näytä lisätiedot") {
                 $("#DetailButton").attr('title', "Piilota lisätiedot");
                 $("#moreInfo").attr("src", "/Icons/square-no-more-info.svg");
+                $(detailsNodes).each(function (index, node) {
+                    //console.log(index, node);
+                    $(node).removeClass("d-none");
+                });
             }
             else {
                 $("#DetailButton").attr('title', "Näytä lisätiedot");
                 $("#moreInfo").attr("src", "/Icons/square-more-info.svg")
+                $(detailsNodes).each(function (index, node) {
+                    //console.log(index, node);
+                    $(node).addClass("d-none");
+                });
             };
         });
 
