@@ -38,7 +38,14 @@
         <td class="centeredTds">
             @Html.DisplayFor(modelItem => item.Contractors.Name)
         </td>
-
+        <td class="centeredTds">
+            @if (item.ImageUrl != null)
+            {
+                <img class="images" src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="100" />
+            }
+            else
+            {@Html.DisplayFor(modelItem => item.ImageUrl)}
+        </td>
 
         <td class="centeredTds">
             <a class="card-link ikonka getOrderId" title="Muokkaa Kulu" data-orderid="@item.MonthlySpendingID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
