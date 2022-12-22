@@ -51,7 +51,7 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
                 if (ModelState.IsValid)
                 {
-                    if (count > 1)
+                    if (count > 0)
                     {
                         ViewBag.Error = "Käyttäjä on jo olemassa!";
                         return PartialView("/Views/Logins/_CreateModalLogins.cshtml", logins);
