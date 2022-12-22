@@ -48,8 +48,11 @@ namespace Kiinteistosovellus.Controllers
                 string typeList;
                 string priceList;
                 List<ForMonthSummary> spendingList = new List<ForMonthSummary>();
-                var monthList = from sm in db.SpendingMonths where sm.Rivi == id select sm;
-                var categoryList = from ms in db.MonthlySummary select ms;
+                var monthList = from sm in db.SpendingMonths 
+                                where sm.Rivi == id 
+                                select sm;
+                var categoryList = from ms in db.MonthlySummary 
+                                   select ms;
 
                 foreach (SpendingMonths month in monthList)
                 {
@@ -68,9 +71,9 @@ namespace Kiinteistosovellus.Controllers
                 typeList = "'" + string.Join("','", spendingList.Select(n => n.TypeName).ToList()) + "'";
                 priceList = string.Join(",", spendingList.Select(n => n.Kokonaishinta).ToList());
                 var thismonth = string.Join(",",spendingList.Select(n=>n.MonthOfSpending).First()).ToString();
-                var thismonthname= DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(int.Parse(thismonth));
-                byte[] bytes = Encoding.Default.GetBytes(thismonthname);
-                thismonthname = Encoding.UTF8.GetString(bytes);
+                string thismonthname= (DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(int.Parse(thismonth))).ToString();
+                //byte[] bytes = Encoding.Default.GetBytes(thismonthname);
+                //thismonthname = Encoding.UTF8.GetString(bytes);
                 ViewBag.ThisMonth = thismonthname + "kuun";
                 ViewBag.Category = typeList;
                 ViewBag.Price = priceList;
