@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Kiinteistosovellus.Models;
 
 namespace Kiinteistosovellus.Controllers
@@ -43,15 +44,28 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["Role"].ToString() == "Admin")
             {
+                var userExists = from l in db.Logins
+                                 where logins.UserName.ToString() == l.UserName.ToString()
+                                 select l;
+                int count = userExists.Count();
                 ViewBag.RoleID = new SelectList(db.Roles, "RoleID", "Role", logins.RoleID);
                 if (ModelState.IsValid)
                 {
-                    db.Logins.Add(logins);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    if (count > 1)
+                    {
+                        ViewBag.Error = "Käyttäjä on jo olemassa!";
+                        return PartialView("/Views/Logins/_CreateModalLogins.cshtml", logins);
+                    }
+                    else
+                    {
+                        db.Logins.Add(logins);
+                        db.SaveChanges();
+                        return null;
+                    }
+                    
                 }
-
-                return View(logins);
+                ViewBag.Error = "";
+                return PartialView("/Views/Logins/_CreateModalLogins.cshtml",logins);
             }
             else { return null; }
         }
