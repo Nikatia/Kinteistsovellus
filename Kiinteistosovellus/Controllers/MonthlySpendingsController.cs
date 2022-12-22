@@ -384,15 +384,26 @@ namespace Kiinteistosovellus.Controllers
             {
                 ViewBag.SuccessMsg = "";
 
-                if (ModelState.IsValid)//On aina true jostain syystä PITÄÄ KORJATA!!!
-                {
-                    Console.WriteLine("IsValid");
-                    db.MonthlySpendingTypes.Add(monthSpendingType);
-                    db.SaveChanges();
-                    ViewBag.SuccessMsg = "successfully added";
-                    return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml"); //Tässä pitää palauttaa näkymä!!!
-                }
+                var typeExists = from l in db.MonthlySpendingTypes
+                                 where monthSpendingType.TypeName.ToString() == l.TypeName.ToString()
+                                 select l;
+                int count = typeExists.Count();
 
+                if (ModelState.IsValid)
+                {
+                    if (count > 0)
+                    {
+                        ViewBag.Error = "Kulutustyyppi on jo olemassa!";
+                        return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml", monthSpendingType);
+                    }
+                    else
+                    {
+                        db.MonthlySpendingTypes.Add(monthSpendingType);
+                        db.SaveChanges();
+                        ViewBag.SuccessMsg = "successfully added";
+                        return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml");
+                    }
+                }
                 return PartialView("/Views/MonthlySpendings/_PartialViewMonthSpendType.cshtml", monthSpendingType);
             }
             else

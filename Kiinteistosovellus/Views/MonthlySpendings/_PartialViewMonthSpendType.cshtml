@@ -13,6 +13,7 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control tyhjennaKentta" } })
             @Html.ValidationMessageFor(model => model.TypeName, "", new { @class = "text-danger", @id = "realErrorTypeName" }) @*Täytyy antaa id*@
+            <div class="text-danger" id="existsReal">@ViewBag.Error</div>
         </div>
     </div>
 
@@ -52,6 +53,16 @@
             fakeErrorUnit.innerText = realErrorUnit.innerText; //Hos realErrorTypeName pitää sisällään jotain tekstiä eli errorin, errori lisätään myös feikki inputille
         } else {
             fakeErrorUnit.innerText = "";
+        }
+
+        //Error, which shows, that inputted TypeName already exists is transfered to Modal div
+        var existsRealError = document.getElementById("existsReal"); 
+        var existsFakeError = document.getElementById("existsFake");
+
+        if (existsRealError.innerText != "") {
+            existsFakeError.innerText = existsRealError.innerText; 
+        } else {
+            existsFakeError.innerText = "";
         }
     }
 </script>

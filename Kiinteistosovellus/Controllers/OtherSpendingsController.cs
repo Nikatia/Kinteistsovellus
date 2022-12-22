@@ -330,14 +330,25 @@ namespace Kiinteistosovellus.Controllers
             if (Session["UserName"] != null)
             {
                 ViewBag.SuccessMsg = "";
+                var typeExists = from l in db.OtherSpendingTypes
+                                 where otherSpendingType.TypeName.ToString() == l.TypeName.ToString()
+                                 select l;
+                int count = typeExists.Count();
 
-                if (ModelState.IsValid)//On aina true jostain syystä PITÄÄ KORJATA!!!
+                if (ModelState.IsValid)
                 {
-                    Console.WriteLine("IsValid");
-                    db.OtherSpendingTypes.Add(otherSpendingType);
-                    db.SaveChanges();
-                    ViewBag.SuccessMsg = "successfully added";
-                    return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml"); //Tässä pitää palauttaa näkymä!!!
+                    if (count > 0)
+                    {
+                        ViewBag.Error = "Kulutustyyppi on jo olemassa!";
+                        return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml", otherSpendingType);
+                    }
+                    else
+                    {
+                        db.OtherSpendingTypes.Add(otherSpendingType);
+                        db.SaveChanges();
+                        ViewBag.SuccessMsg = "successfully added";
+                        return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml");
+                    }
                 }
 
                 return PartialView("/Views/OtherSpendings/_PartialOthSpendType.cshtml", otherSpendingType);

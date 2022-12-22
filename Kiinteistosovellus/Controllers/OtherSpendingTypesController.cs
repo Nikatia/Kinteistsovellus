@@ -101,11 +101,23 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
+                var typeExists = from l in db.OtherSpendingTypes
+                                 where othSpendType.TypeName.ToString() == l.TypeName.ToString()
+                                 select l;
+                int count = typeExists.Count();
                 if (ModelState.IsValid)
                 {
-                    db.OtherSpendingTypes.Add(othSpendType);
-                    await db.SaveChangesAsync();
-                    return null;
+                    if (count > 0)
+                    {
+                        ViewBag.Error = "Kulutustyyppi on jo olemassa!";
+                        return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml", othSpendType);
+                    }
+                    else
+                    {
+                        db.OtherSpendingTypes.Add(othSpendType);
+                        await db.SaveChangesAsync();
+                        return null;
+                    }
                 }
                 return PartialView("/Views/OtherSpendingTypes/_CreateModal.cshtml", othSpendType);
             }
@@ -138,10 +150,10 @@ namespace Kiinteistosovellus.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(othSpendType).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-                    return null;
-                }
+                        db.Entry(othSpendType).State = EntityState.Modified;
+                        await db.SaveChangesAsync();
+                        return null;
+                    }
                 return PartialView("/Views/OtherSpendingTypes/_EditModal.cshtml", othSpendType);
             }
             else { return null; }

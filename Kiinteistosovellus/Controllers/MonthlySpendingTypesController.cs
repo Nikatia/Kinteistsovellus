@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Kiinteistosovellus.Models;
 using Kiinteistosovellus.ViewModels;
 using Newtonsoft.Json;
@@ -210,12 +211,24 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
+                var typeExists = from l in db.MonthlySpendingTypes
+                                 where monthlySpendingTypes.TypeName.ToString() == l.TypeName.ToString()
+                                 select l;
+                int count = typeExists.Count();
                 if (ModelState.IsValid)
                 {
-                    db.MonthlySpendingTypes.Add(monthlySpendingTypes);
-                    db.SaveChanges();
-                    return null;
-                    //return RedirectToAction("Index");
+                    
+                    if (count > 0)
+                    {
+                        ViewBag.Error = "Kulutustyyppi on jo olemassa!";
+                        return PartialView("_CreateModal", monthlySpendingTypes);
+                    }
+                    else
+                    {
+                        db.MonthlySpendingTypes.Add(monthlySpendingTypes);
+                        db.SaveChanges();
+                        return null;
+                    }
                 }
                 return PartialView("_CreateModal", monthlySpendingTypes);
             }
