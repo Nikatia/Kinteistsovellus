@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="modal-body">
-                    @using (Html.BeginForm("_ModalEdit", "OtherSpendings", FormMethod.Post, new { id = "editForm" }))
+                    @using (Html.BeginForm("_ModalEdit", "OtherSpendings", FormMethod.Post, new { enctype = "multipart/form-data", id = "editForm" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -59,6 +59,20 @@
 
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        Valitse kuva
+                                        <div class="col-md-10">
+                                            <input type="file" id="kuvaim" name="kuvaim" onchange="nayta();" />
+                                        </div>
+                                        <input type="button" @*style="display:none"*@ id="poistanappi" value="Poista kuva" onclick="document.getElementById('ImageUrl').value=''" />
+                                    </div>
+                                    <div class="form-group" id="imageinput" @*style="display:none"*@>
+                                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
+                                        </div>
+                                    </div>
+                                    <div id="error" style="display: none; color: red;">Tiedoston pitää olla alle 4 MB. Valitse uudelleen.</div>
 
                                     <div class="form-group" id="hiddenFieldAddType" style="display:none">
                                         Kulutustyyppi* <span class="field-validation-error text-danger" id="fakeErrorTypeName"></span>
@@ -103,6 +117,32 @@
     </div>
 
     <script type="text/javascript">
+        function nayta() {
+            let virhe = document.getElementById("error");
+            let file = document.getElementById("kuvaim").files[0];
+            if (file.size > 4000000) {
+                document.getElementById("kuvaim").value = "";
+                virhe.style.display = "block";
+            } else {
+                document.getElementById('ImageUrl').value = 'https://kuvapankki.blob.core.windows.net/pics/' + document.getElementById('kuvaim').value.substring(12);
+                virhe.style.display = "none";
+            }
+        }
+
+
+        $(document).ready(function () {
+            var arvo = $("#ImageUrl").val();
+            if (arvo == "") {
+                console.log(arvo)
+                $("#poistanappi").hide();
+                $("#imageinput").hide();
+            } else {
+                $("#poistanappi").show();
+                $("#imageinput").show();
+            }
+        });
+
+
         //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
         function paivitaOikeaKentta() {
             var falseFormInput = $("#fakeFormTypeName");

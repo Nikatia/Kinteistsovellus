@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Kiinteistosovellus.Models;
@@ -57,7 +58,7 @@ namespace Kiinteistosovellus.Controllers
                 {
                     if (!othTypeArray.Contains(kulutyypit[i].OtherSpendingTypes.TypeName.ToString()))
                     {
-                        othTypeArray.Add( kulutyypit[i].OtherSpendingTypes.TypeName.ToString());
+                        othTypeArray.Add(kulutyypit[i].OtherSpendingTypes.TypeName.ToString());
                     }
                 }
                 ViewBag.Kulutyypit = othTypeArray;
@@ -291,12 +292,21 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _ModalCreate([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price")] OtherSpendings otherSpendings)
+        public async Task<ActionResult> _ModalCreate([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,ImageUrl")] OtherSpendings otherSpendings, HttpPostedFileBase kuvaim)
         {
             if (Session["UserName"] != null)
             {
                 if (ModelState.IsValid)
                 {
+                    if (otherSpendings.ImageUrl != null)
+                    {
+                        ImageService imageService = new ImageService();
+                        await imageService.UploadImageAsync(kuvaim);
+                        ViewBag.Error = 0;
+                        db.OtherSpendings.Add(otherSpendings);
+                        db.SaveChanges();
+                        return null;
+                    }
                     Console.WriteLine("IsValid");
                     db.OtherSpendings.Add(otherSpendings);
                     db.SaveChanges();
@@ -374,15 +384,40 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _ModalEdit([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price")] OtherSpendings otherSpendings)
+        public async Task<ActionResult> _ModalEdit([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,ImageUrl")] OtherSpendings otherSpendings, HttpPostedFileBase kuvaim)
         {
             if (Session["UserName"] != null)
             {
+                var original = db.OtherSpendings.AsNoTracking().FirstOrDefault(m => m.OtherSpendingsID == otherSpendings.OtherSpendingsID); //Alkuperäiset arvot
+                var old = original.ImageUrl;
+                var anew = otherSpendings.ImageUrl;//Uudet arvot
+
+                bool equal()
+                {
+                    if (old != null && anew != null)
+                    {
+                        var modified = db.OtherSpendings.AsNoTracking().FirstOrDefault(m => m.OtherSpendingsID == otherSpendings.OtherSpendingsID);
+                        var result = modified.ImageUrl.Equals(otherSpendings.ImageUrl);
+
+                        return result;
+                    }
+                    return false;
+                }
                 if (ModelState.IsValid)
                 {
 
+                    if (equal() || (old == null && anew == null) || anew == null)
+                    {
+                        db.Entry(otherSpendings).State = EntityState.Modified;
+                        db.SaveChanges();
+                        db.Dispose();
+                        return null;
+                    }
+                    ImageService imageService = new ImageService();
+                    await imageService.UploadImageAsync(kuvaim);
                     db.Entry(otherSpendings).State = EntityState.Modified;
                     db.SaveChanges();
+                    db.Dispose();
                     return null;
                 }
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", otherSpendings.ContractorID);
