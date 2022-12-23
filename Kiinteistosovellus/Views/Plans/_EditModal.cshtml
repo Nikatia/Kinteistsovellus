@@ -70,7 +70,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                        @Html.ActionLink("Takaisin", "Index")
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalPlansEdit")'>Takaisin</a>
                     </div>
                 </div>
             </div>
@@ -88,6 +88,10 @@
         });
         $("#Price").keyup(function () {
             validateKeyUp(event, "Price");
+        });
+
+        $(document).ready(function () {
+            dismissOrRedirect('/Plans/Index');
         });
     </script>
 

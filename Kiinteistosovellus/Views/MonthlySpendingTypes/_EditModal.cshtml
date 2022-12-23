@@ -40,7 +40,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="submitEdit" class="btn btn-primary">Tallenna</button>
-                    @Html.ActionLink("Takaisin", "Index", "monthlyspendingtypes")
+                    <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalMSEdit")'>Takaisin</a>
                 </div>
             </div>
         </div>
@@ -52,6 +52,9 @@
             submitModalPost("MonthlySpendingTypes", "_EditModal", "editMSForm", "ModalMSEdit");
         });
 
+        $(document).ready(function () {
+            dismissOrRedirect('/monthlyspendingTypes/Index');
+        });
     </script>
 }
 else

@@ -46,7 +46,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
-                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
+                        <a href="#" data-bs-dismiss="modal" onclick='destroyDiv("ModalContactCreatePerson")'>Takaisin</a>
                     </div>
                 </div>
             </div>
@@ -101,11 +101,6 @@
                 $("#PersonID").val("@ViewBag.PersonID");
             });
         });
-
-        function destroyDiv() {
-            var div = parent.document.getElementById("ModalContactCreatePerson");
-            div.parentNode.removeChild(div);
-        }
     </script>
 }
 else

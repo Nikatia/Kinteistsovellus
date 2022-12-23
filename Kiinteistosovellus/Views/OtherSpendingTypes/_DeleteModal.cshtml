@@ -29,7 +29,7 @@
                         @Html.AntiForgeryToken()
                         <div class="form-actions no-color">
                             <button type="submit" value="Poista" class="btn btn-primary">Poistaa</button>
-                            <a href="@Url.Action("Index", "OtherSpendingTypes")">Peruuta</a>
+                            <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalOthSpendTypeDelete")'>Takaisin</a>
                         </div>
                     }
                 </div>

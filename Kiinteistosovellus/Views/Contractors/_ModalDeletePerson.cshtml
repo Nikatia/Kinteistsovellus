@@ -71,20 +71,13 @@
                         @Html.AntiForgeryToken()
                         <div class="form-actions no-color">
                             <button type="submit" value="Poista" class="btn btn-primary">Poistaa</button>
-                            <a href="#" data-bs-dismiss="modal" onclick='destroyDiv()'>Peruuta</a>
+                            <a href="#" data-bs-dismiss="modal" onclick='destroyDiv("ModalPersonDelete")'>Takaisin</a>
                         </div>
                     }
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function destroyDiv() {
-            var div = parent.document.getElementById("ModalPersonDelete");
-            div.parentNode.removeChild(div);
-        }
-    </script>
 }
 else
 {

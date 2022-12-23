@@ -63,6 +63,7 @@
 
     $(document).ready(function () {
         $(".getO").click(function () {
+            createDiv("logModalEdit");
             let LogEditId = $(this).data("editlogin");
 
             var url = "/Logins/_EditModalLogins/?id=" + LogEditId;
@@ -79,6 +80,7 @@
 
     $(document).ready(function () {
         $(".getId").click(function () {
+            createDiv("logModalDelete");
             let LoginDeleteId = $(this).data("deletelogin");
 
             var url = "/Logins/_DeleteModalLogins/?id=" + LoginDeleteId;
@@ -94,6 +96,7 @@
     });
     $(document).ready(function () {
         $("#CreateLoginsButton").click(function () {
+            createDiv("logModalCreate");
             var url = "/Logins/_CreateModalLogins";
 
             var $detailDivEdit = $("#logModalCreate");

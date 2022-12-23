@@ -20,21 +20,21 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
+                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("SpendingTypeID", null, new { @class = "form-control form-select" })
                                             <div><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
@@ -64,7 +64,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Yksiköiden määrä @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
+                                        Yksiköiden määrä @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
@@ -73,7 +73,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Yksikön hinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+                                        Yksikön hinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
@@ -82,7 +82,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Siirtomaksu @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger" })
+                                        Siirtomaksu @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.TransferPayment, new { htmlAttributes = new { @class = "form-control" } })
@@ -91,7 +91,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
+                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
@@ -100,7 +100,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("ContractorID", null, "", new { @class = "form-control form-select" })
                                         </div>
@@ -113,7 +113,7 @@
                                         <input type="button" @*style="display:none"*@ id="poistanappi" value="Poista kuva" onclick="document.getElementById('ImageUrl').value=''" />
                                     </div>
                                     <div class="form-group" id="imageinput" @*style="display:none"*@>
-                                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
                                         </div>
@@ -130,7 +130,7 @@
                     <div class="modal-footer">
                         <div class="form-actions no-color">
                             <input type="button" onclick="submitModal()" value="Tallenna" class="btn btn-primary" />
-                            @Html.ActionLink("Takaisin", "Index")
+                            <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalMSEdit")'>Takaisin</a>
                         </div>
                     </div>
                     <div id="divForPartialPseudo" style="display:none;">
@@ -244,6 +244,10 @@
         $(function () {
             $("#SpendingTypeID option[value='1000']").remove();
         })
+
+        $(document).ready(function () {
+            dismissOrRedirectWithPartials('/monthlyspendings/index');
+        });
     </script>
 }
 else

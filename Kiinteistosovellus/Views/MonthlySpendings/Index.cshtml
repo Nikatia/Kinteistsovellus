@@ -239,6 +239,7 @@
             deleteNodes = $(".getId");
 
             $(deleteNodes).click(function () {
+                createDiv("ModalPlaceDelete");
                 let MSDeleteId = $(this).data("id");
 
                 var url = "/MonthlySpendings/_DeleteModal/?id=" + MSDeleteId;
@@ -253,6 +254,7 @@
             });
 
             $(editNodes).click(function () {
+                createDiv("ModalPlaceEdit");
                 let MSEditId = $(this).data("orderid");
 
                 var url = "/MonthlySpendings/_EditModal/?id=" + MSEditId;
@@ -283,6 +285,7 @@
 
     $(document).ready(async function () {
         $("#CreateMS").click(function () {
+            createDiv("ModalPlaceCreate");
             var url = "/MonthlySpendings/_CreateModal";
 
             var $detailDivEdit = $("#ModalPlaceCreate");

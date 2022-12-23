@@ -100,12 +100,14 @@
 
     $(function () {
         $("#createNewPlanModal").click(function () {
+            createDiv("plansCreate");
             modalGet("Plans", "Create", null, "plansCreate", "ModalPlansCreate");
         });
     });
 
     $(function () {
         $(".editPlanModal").click(function () {
+            createDiv("plansEdit");
             let editId = $(this).data("editid");
             modalGet("Plans", "Edit", editId, "plansEdit", "ModalPlansEdit");
         });
@@ -113,6 +115,7 @@
 
     $(function () {
         $(".deletePlanModal").click(function () {
+            createDiv("plansDelete");
             let deleteId = $(this).data("deleteid");
             modalGet("Plans", "Delete", deleteId, "plansDelete", "ModalPlansDelete");
         });
@@ -120,7 +123,7 @@
 
     $(function () {
         $(".creNewOtherSpending").click(function () {
-
+            createDiv("otherSpendingCreate");
             let newSpendingId = $(this).data("moveothid");
             modalGet("Plans", "_MoveOthPlan", newSpendingId, "otherSpendingCreate", "ModalOtherSpendingPlanCreate");
         });
@@ -128,6 +131,7 @@
 
     $(function () {
         $(".creNewMonthlySpending").click(function () {
+            createDiv("monthlySpendingCreate");
             let newMonthSpendingId = $(this).data("movemonthid");
             modalGet("Plans", "_MoveMonthPlan", newMonthSpendingId, "monthlySpendingCreate", "ModalMonthlySpendingPlanCreate");
         });

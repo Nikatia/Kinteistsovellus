@@ -72,7 +72,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalContractorEdit")'>Takaisin</a>
                     </div>
                 </div>
             </div>
@@ -85,38 +85,9 @@
             submitModalPost("Contractors", "EditContractor", "editForm", "ModalContractorEdit");
         });
 
-        function allHaveAttribute(elements, attrName, attrValue) {
-            // Do all elements have given attribute?
-            for (var i = 0; i < elements.length; i++) {
-                if (!elements[i].hasAttribute(attrName)) return false;
-            }
-
-            //if given value...
-            if (attrValue) {
-                for (i = 0; i < elements.length; i++) {
-                    if (elements[i].getAttribute(attrName) !== attrValue) //is different than we want
-                        return false;
-                }
-                return true;
-            } else { // if elements have the attribute we have given
-                return true;
-            }
-        }
-
         $(document).ready(function () {
-            var els = document.querySelectorAll('span.field-validation-error.text-danger');
-            if (allHaveAttribute(els, 'innerText', '') == false) {
-                $("#back").attr('href', '/Contractors/Index');
-                $("#back").removeAttr('data-bs-dismiss');
-                $("#back").removeAttr('onclick');
-            }
+            dismissOrRedirect('/Contractors/Index');
         });
-
-        function destroyDiv() {
-            var div = parent.document.getElementById("ModalContractorEdit");
-            div.parentNode.removeChild(div);
-        }
-
     </script>
 }
 else

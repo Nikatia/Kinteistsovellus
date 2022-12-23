@@ -66,12 +66,14 @@
 
     $(function () {
         $("#createNewOthSpendTypeModal").click(function () {
+            createDiv("othSpendTypeCreate");
             modalGet("OtherSpendingTypes", "Create", null, "othSpendTypeCreate", "ModalOthSpendTypeCreate");
         });
     });
 
     $(function () {
         $(".editOthSpendTypeModal").click(function () {
+            createDiv("othSpendTypeEdit");
             let editId = $(this).data("editid");
             modalGet("OtherSpendingTypes", "Edit", editId, "othSpendTypeEdit", "ModalOthSpendTypeEdit");
         });
@@ -79,6 +81,7 @@
 
     $(function () {
         $(".deleteOthSpendTypeModal").click(function () {
+            createDiv("othSpendTypeDelete");
             let deleteId = $(this).data("deleteid");
             modalGet("OtherSpendingTypes", "Delete", deleteId, "othSpendTypeDelete", "ModalOthSpendTypeDelete");
         });
@@ -86,6 +89,7 @@
 
     $(function () {
         $(".chartOthSpendTypeModal").click(function () {
+            createDiv("othSpendTypeChart");
             let chartId = $(this).data("chartid");
             modalGet("OtherSpendingTypes", "ChartContainer", chartId, "othSpendTypeChart", "ModalOtherSpendTypeChart");
         });

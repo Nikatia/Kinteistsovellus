@@ -52,7 +52,7 @@
                 <div class="modal-footer">
                     <button type="submit" id="loginModb" class="btn btn-primary" form="editLoginsForm">Tallenna</button>
                     <button type="button" onclick="jepajuus()" id="nappi" class="btn btn-primary">Tallenna</button>
-                    @Html.ActionLink("Takaisin", "Index", "logins")
+                    <a href="#" data-bs-dismiss="modal" onclick='destroyDiv("ModalLoginsEdit")'>Takaisin</a>
                 </div>
             </div>
         </div>

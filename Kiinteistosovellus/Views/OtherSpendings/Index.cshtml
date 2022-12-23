@@ -197,6 +197,7 @@
             deleteNodes = $(".delOtherSpendingId");
 
             $(deleteNodes).click(function () {
+                createDiv("otherSpendingDelete");
                 let otherSpendingId2 = $(this).data("otherspendingid2");
                 var url = "/otherspendings/_ModalDelete/?id=" + otherSpendingId2;
                 var $detailDivDelete = $("#otherSpendingDelete");
@@ -208,6 +209,7 @@
             });
 
             $(editNodes).click(function () {
+                createDiv("otherSpendingEdit");
                 let otherSpendingId = $(this).data("otherspendingid");
                 var url = "/otherspendings/_ModalEdit/?id=" + otherSpendingId;
                 var $detailDivEdit = $("#otherSpendingEdit");
@@ -239,6 +241,7 @@
         /* Create Modal Window */
     $(function () {
         $(".creNewOtherSpending").click(function () {
+            createDiv("otherSpendingCreate");
             var url = "/OtherSpendings/_ModalCreate";
             var $detailDivCreate = $("#otherSpendingCreate");
 

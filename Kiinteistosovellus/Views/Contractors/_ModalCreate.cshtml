@@ -20,35 +20,35 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        Nimi* @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "nameError"})
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Osoite* @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger" })
+                                        Osoite* @Html.ValidationMessageFor(model => model.StreetAdress, "", new { @class = "text-danger", @id = "addressError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.StreetAdress, new { htmlAttributes = new { @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Postinumero* @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger" })
+                                        Postinumero* @Html.ValidationMessageFor(model => model.PostCode, "", new { @class = "text-danger", @id = "postError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.PostCode, new { htmlAttributes = new { @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Postitoimipaikka* @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                        Postitoimipaikka* @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger", @id = "cityError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Maa* @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                        Maa* @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger", @id = "countryError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
                                         </div>
@@ -69,7 +69,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                        @Html.ActionLink("Takaisin", "Index")
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalContractorCreate")'>Takaisin</a>
                     </div>
                 </div>
             </div>
@@ -82,6 +82,9 @@
             submitModalPost("Contractors", "CreateContractor", "createForm", "ModalContractorCreate");
         });
 
+        $(document).ready(function () {
+            dismissOrRedirect('/Contractors/Index');
+        });
     </script>
 }
 else

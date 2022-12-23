@@ -30,7 +30,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
-                        @Html.ActionLink("Takaisin", "Index")
+                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalOthSpendTypeEdit")'>Takaisin</a>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,10 @@
     <script type="text/javascript">
         $("#submitDataModal").click(function () {
             submitModalPost("OtherSpendingTypes", "Edit", "editForm", "ModalOthSpendTypeEdit");
+        });
+
+        $(document).ready(function () {
+            dismissOrRedirect('/OtherSpendingTypes/Index');
         });
     </script>
 }

@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="submitCreate" class="btn btn-primary">Tallenna</button>
-                    @Html.ActionLink("Takaisin", "Index", "MonthlySpendingTypes")
+                    <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalMSCreate")'>Takaisin</a>
                 </div>
             </div>
         </div>
@@ -48,6 +48,10 @@
         $("#submitCreate").click(function submitModal() {
             submitModalPost("MonthlySpendingTypes", "_CreateModal", "createMSForm", "ModalMSCreate");
         })
+
+        $(document).ready(function () {
+            dismissOrRedirect('/monthlyspendingTypes/Index');
+        });
     </script>
 }
 else

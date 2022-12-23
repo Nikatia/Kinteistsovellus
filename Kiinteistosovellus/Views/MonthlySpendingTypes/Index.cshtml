@@ -84,6 +84,7 @@
 
     $(document).ready(function () {
         $(".getMSTOrderId").click(function () {
+            createDiv("ModalPlaceEdit");
             let MSEditId = $(this).data("orderid");
 
             var url = "/MonthlySpendingTypes/_EditModal/?id=" + MSEditId;
@@ -100,6 +101,7 @@
 
     $(document).ready(function () {
         $(".getMSTId").click(function () {
+            createDiv("ModalPlaceDelete");
             let MSDeleteId = $(this).data("id");
 
             var url = "/MonthlySpendingTypes/_DeleteModal/?id=" + MSDeleteId;
@@ -115,6 +117,7 @@
     });
     $(document).ready(function () {
         $("#CreateMS").click(function () {
+            createDiv("ModalPlaceCreate");
             var url = "/MonthlySpendingTypes/_CreateModal";
 
             var $detailDivEdit = $("#ModalPlaceCreate");
@@ -128,6 +131,7 @@
 
     $(document).ready(function () {
         $(".chartMSTId").click(function () {
+            createDiv("ModalPlaceChart");
             let MSChartId = $(this).data("chartid");
             var url = "/MonthlySpendingTypes/ChartContainer/" + MSChartId;
             var $detailDivChart = $("#ModalPlaceChart");
@@ -140,6 +144,7 @@
 
     $(document).ready(function () {
         $(".chartMSCId").click(function () {
+            createDiv("ModalPlaceChart");
             let MSChartId = $(this).data("chartid2");
             var url = "/MonthlySpendingTypes/ChartContainerUnits/" + MSChartId;
             var $detailDivChart = $("#ModalPlaceChart");

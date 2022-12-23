@@ -2,7 +2,7 @@
 
 @if (Session["UserName"] != null)
 {
-    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalContactCreate">
+    <div class="modal fade" data-bs-backdrop="static" id="ModalContactCreate">
         <div class="modal-dialog modal-dialog-centered" id="modalWindow">
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,7 +68,7 @@
                 <div class="modal-footer">
                     <div class="form-actions no-color">
                         <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
-                        <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv()'>Takaisin</a>
+                        <a href="#" data-bs-dismiss="modal" onclick='destroyDiv("ModalContactCreate")'>Takaisin</a>
                     </div>
                 </div>
                 <div id="divForPartialPseudo" style="display:inline-block;"></div>
@@ -190,11 +190,6 @@
                 });
             });
         });
-
-        function destroyDiv() {
-            var div = parent.document.getElementById("ModalContactCreate");
-            div.parentNode.removeChild(div);
-        }
     </script>
 }
 else

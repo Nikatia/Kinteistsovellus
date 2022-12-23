@@ -477,6 +477,61 @@ function eurosToFloat(euro) {
     return correctNumber;
 }
 
+function destroyDiv(modalId) {
+    var div = parent.document.getElementById(modalId);
+    div.parentNode.removeChild(div);
+}
+
+function createDiv(divName) {
+    if (document.getElementById(divName) === null) {
+        newIframe = document.createElement('iframe');
+        newIframe.setAttribute("id", divName);
+        newIframe.style.display = "none";
+        document.body.appendChild(newIframe);
+    }
+}
+
+function allHaveAttribute(elements, attrName, attrValue) {
+    // Do all elements have given attribute?
+    for (var i = 0; i < elements.length; i++) {
+        if (!elements[i].hasAttribute(attrName)) return false;
+    }
+
+    //if given value...
+    if (attrValue) {
+        for (i = 0; i < elements.length; i++) {
+            if (elements[i].getAttribute(attrName) !== attrValue) //is different than we want
+                return false;
+        }
+        return true;
+    } else { // if elements have the attribute we have given
+        return true;
+    }
+}
+
+function dismissOrRedirect(url) {
+    var els = document.querySelectorAll('span.field-validation-error.text-danger');
+    console.log(allHaveAttribute(els, 'innerText', ''));
+    if (allHaveAttribute(els, 'innerText', '') == false) {
+        $("#back").attr('href', url);
+        $("#back").removeAttr('data-bs-dismiss');
+        $("#back").removeAttr('onclick');
+    }
+}
+
+function dismissOrRedirectWithPartials(url) {
+    var els = document.querySelectorAll('span.field-validation-error.text-danger.realError');
+    console.log(allHaveAttribute(els, 'innerText', ''));
+    if (allHaveAttribute(els, 'innerText', '') == false) {
+        $("#back").attr('href', url);
+        $("#back").removeAttr('data-bs-dismiss');
+        $("#back").removeAttr('onclick');
+    }
+}
+
+
+
+
 //function filterTable(hidingFieldID, dropdownMenuButtonID) {
 
 //    //etsi kaikki rivit taulukosta, jossa filtering-class

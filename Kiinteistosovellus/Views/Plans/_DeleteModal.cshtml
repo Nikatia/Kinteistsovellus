@@ -97,7 +97,7 @@
                         @Html.AntiForgeryToken()
                         <div class="form-actions no-color">
                             <button type="submit" value="Poista" class="btn btn-primary">Poista</button>
-                            <a href="@Url.Action("Index", "Plans")">Peruuta</a>
+                            <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalPlansDelete")'>Takaisin</a>
                         </div>
                     }
                 </div>

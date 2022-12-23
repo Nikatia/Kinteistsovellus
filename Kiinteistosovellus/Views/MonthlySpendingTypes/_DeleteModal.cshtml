@@ -46,7 +46,7 @@
                     {
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-primary">Poista</button>
-                        @Html.ActionLink("Takaisin", "Index", "MonthlyspendingTypes")
+                        <a href="#" data-bs-dismiss="modal" onclick='destroyDiv("ModalMSDelete")'>Takaisin</a>
                     }
                 </div>
             </div>
