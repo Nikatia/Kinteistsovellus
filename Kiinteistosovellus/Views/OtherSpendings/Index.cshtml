@@ -24,9 +24,16 @@
 <iframe id="otherSpendingEdit" style="display:none;"></iframe>
 <iframe id="otherSpendingDelete" style="display:none;"></iframe>
 
+@*//Kuvien modaalit*@
+<div id="myModals" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+
+</div>
+
 <div class="card border-primary" style="margin:10px 0">
     <div class="card-header bg-primary" style="color: white; font-weight: bold;">Suodatus</div>
-    <div class="card-body row" >
+    <div class="card-body row">
         <div class="col-md-4">
             <label class="form-label">
                 Kulutustyyppi
@@ -36,7 +43,7 @@
                     <div id="hidingField" style="margin-left:auto; margin-right:auto; color:gray">-- Valitse suodattimet --</div>
                 </div>
                 <ul style="width:100%" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    @{ 
+                    @{
                         var array = ViewBag.Kulutyypit;
                         foreach (var item in array)
                         {
@@ -74,11 +81,10 @@
             <th></th>
         </tr>
     </thead>
-    
-    <tbody id="createBodyHere">
 
+    <tbody id="createBodyHere">
     </tbody>
-    
+
 
 </table>
 
