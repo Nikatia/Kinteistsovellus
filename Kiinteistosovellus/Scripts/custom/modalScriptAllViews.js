@@ -511,7 +511,6 @@ function allHaveAttribute(elements, attrName, attrValue) {
 
 function dismissOrRedirect(url) {
     var els = document.querySelectorAll('span.field-validation-error.text-danger');
-    console.log(allHaveAttribute(els, 'innerText', ''));
     if (allHaveAttribute(els, 'innerText', '') == false) {
         $("#back").attr('href', url);
         $("#back").removeAttr('data-bs-dismiss');
@@ -521,7 +520,6 @@ function dismissOrRedirect(url) {
 
 function dismissOrRedirectWithPartials(url) {
     var els = document.querySelectorAll('span.field-validation-error.text-danger.realError');
-    console.log(allHaveAttribute(els, 'innerText', ''));
     if (allHaveAttribute(els, 'innerText', '') == false) {
         $("#back").attr('href', url);
         $("#back").removeAttr('data-bs-dismiss');
