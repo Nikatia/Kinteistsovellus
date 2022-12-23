@@ -224,7 +224,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\LoginsController.cs" />
     <Compile Include="Controllers\MonthlySpendingsController.cs" />
     <Compile Include="Controllers\MonthlySpendingTypesController.cs" />
@@ -490,8 +489,6 @@
     <Content Include="Views\OtherSpendings\_IndexTable.cshtml" />
     <Content Include="Views\Home\_NotLogged.cshtml" />
     <Content Include="Views\Contractors\_ModalCreateContactPerson.cshtml" />
-    <Content Include="Views\Images\LatestImage.cshtml" />
-    <Content Include="Views\Images\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
