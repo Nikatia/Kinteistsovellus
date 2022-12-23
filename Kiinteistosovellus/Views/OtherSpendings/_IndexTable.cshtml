@@ -18,8 +18,14 @@
         <td style="word-break:break-word;  width:35%;">@Html.DisplayFor(modelItem => item.Description)</td>
         <td>@Html.DisplayFor(modelItem => item.Price)</td>
         <td>@Html.DisplayFor(modelItem => item.Contractors.Name)</td>
-        <td>@Html.DisplayFor(modelItem => item.ImageUrl)</td>
-
+        <td>
+            @if (item.ImageUrl != null)
+            {
+                <img class="images" src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="100" />
+            }
+            else
+            {@Html.DisplayFor(modelItem => item.ImageUrl)}
+        </td>
         <td>
             <a class="card-link ikonka getOtherSpendingId" title="Muokkaa Kulu" data-otherspendingid="@item.OtherSpendingsID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
             <a class="card-link ikonka delOtherSpendingId" title="Poista Kulu" data-otherspendingid2="@item.OtherSpendingsID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
