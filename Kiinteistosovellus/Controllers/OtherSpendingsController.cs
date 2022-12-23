@@ -187,6 +187,16 @@ namespace Kiinteistosovellus.Controllers
                         otherSpendings = otherSpendings.OrderBy(ms => ms.Contractors.Name);
                     }
                     break;
+                case "6":
+                    if (ascOrDesc == "desc")
+                    {
+                        otherSpendings = otherSpendings.OrderByDescending(ms => ms.ImageUrl);
+                    }
+                    else
+                    {
+                        otherSpendings = otherSpendings.OrderBy(ms => ms.ImageUrl);
+                    }
+                    break;
                 default:
                     otherSpendings = otherSpendings.OrderByDescending(ms => ms.DateBegin);
                     break;
