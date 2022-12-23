@@ -21,21 +21,21 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
+                                            @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control realError" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger" })
+                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.SpendingTypeID, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("SpendingTypeID", null, new { @class = "form-control form-select" })
                                             <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
@@ -65,7 +65,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Käytetyt mittayksiköt @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger" })
+                                        Käytetyt mittayksiköt @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
@@ -74,7 +74,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Yksikköhinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+                                        Yksikköhinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
@@ -83,7 +83,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Siirtomaksu @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-danger" })
+                                        Siirtomaksu @Html.ValidationMessageFor(model => model.TransferPayment, "", new { @class = "text-dange realErrorr" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.TransferPayment, new { htmlAttributes = new { @class = "form-control" } })
@@ -92,7 +92,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger" })
+                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.FullPrice, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @*@{ Html.EnableClientValidation(false); }*@
                                             @Html.EditorFor(model => model.FullPrice, new { htmlAttributes = new { @class = "form-control" } })
@@ -101,7 +101,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
                                         </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-6">
                                     <input type="button" onclick="submitModal()" value="Tallenna" class="btn btn-primary" />
-                                    @Html.ActionLink("Takaisin", "Index")
+                                    <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalMonthlySpendingPlanCreate")'>Takaisin</a>
                                 </div>
                             </div>
                         </div>
@@ -146,144 +146,149 @@
 
     <script type="text/javascript">
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        $('#PlanToDelete').val($(this).is(':checked'));
+            $('#PlanToDelete').val($(this).is(':checked'));
 
-        $('#PlanToDeleteCheck').click(function () {
-            if ($(this).is(':checked') == true) {
-                $('#PlanToDelete').val("true");
-            } else {
-                $('#PlanToDelete').val("false");
-            }
-        });
-    });
-
-    $(function () {
-        $("#DateBegin").val("@ViewBag.DateBegin");
-        $("#DateEnd").val("@ViewBag.DateEnd");
-        $("#FullPrice").val("@ViewBag.Price");
-    });
-
-    function paivitaOikeaKenttaName() {
-        var falseFormInput = $("#fakeFormTypeName");
-        var realForm = $("#TypeName");
-        realForm.val(falseFormInput.val());
-    }
-    function paivitaOikeaKenttaUnit() {
-        var falseFormInput = $("#fakeFormUnit");
-        var realForm = $("#Unit");
-        realForm.val(falseFormInput.val());
-    }
-
-    //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
-    $("#lisaaUusiHiddenField").click(function () {
-        partialViewGet("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo");
-        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-    });
-
-    $("#lisaaToinenTyyppi").click(function () {
-        partialViewGet("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo");
-        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        document.getElementById("successfullyAddedType").style.display = "none";
-    });
-
-    $(".closeAddType").click(function () {
-        document.getElementById("hiddenFieldAddType").style.display = "none";
-        document.getElementById("lisaaUusiHiddenField").style.display = "block";
-        document.getElementById("divForPartialPseudo").innerHTML = "";
-        document.getElementById("successfullyAddedType").style.display = "none";
-    });
-
-
-    //luodaan uusi kulutyyppi
-    $("#lisaaUusiType").click(async function () {
-        partialViewSubmit("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo", "createTypeForm", "SpendingTypeID");
-    });
-
-
-    //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
-    function submitModal() {
-        submitModalPost("Plans", "_MoveMonthPlan", "createMSForm", "ModalMonthlySpendingPlanCreate");
-    };
-
-
-
-
-    $("#FullPrice").keyup(function () {
-        validateKeyUp(event, "FullPrice");
-
-    });
-
-    $("#TransferPayment").keyup(function () {
-        validateKeyUp(event, "TransferPayment");
-
-    });
-
-    $("#PricePerUnit").keyup(function () {
-        validateKeyUp(event, "PricePerUnit");
-
-    });
-
-    $("#AmountOfUnits").keyup(function () {
-        validateKeyUp(event, "AmountOfUnits");
-
-    });
-
-    //Kokonaishinnan merkkien tarkastelu
-    $("#FullPrice").keypress(function () {
-        ////console.log("toimii eventlistener");
-        isNumberKey(event, "FullPrice");
-
-    });
-
-    //Siirtohinnan merkkien tarkastelu
-    $("#TransferPayment").keypress(function () {
-        ////console.log("toimii eventlistener");
-        isNumberKey(event, "TransferPayment");
-    });
-
-    //Yksikköhinnan merkkien tarkastelu
-    $("#PricePerUnit").keypress(function () {
-        ////console.log("toimii eventlistener");
-        isNumberKey(event, "PricePerUnit");
-    });
-
-    //Kokokaiskulutuksen merkkien tarkastelu
-    $("#AmountOfUnits").keypress(function () {
-        ////console.log("toimii eventlistener");
-        isNumberKey(event, "AmountOfUnits");
-    });
-
-    //Reloads contractor's dropdown with empty value as first
-    $(function () {
-        var contractors = $('#ContractorID');
-        var contractorUrl = '/Contractors/FetchContractors';
-        contractors.empty();
-        contractors.append($('<option></option>').val('').text(''));
-        $.getJSON(contractorUrl, function (data) {
-            $.each(data, function (index, item) {
-                contractors.append($('<option></option>').val(item.Value).text(item.Text));
-            });
-        });
-    })
-
-    //Reloads type's dropdown with empty value as first
-    $(function () {
-        var types = $('#SpendingTypeID');
-        var typeUrl = '/MonthlySpendings/FetchTypes';
-        types.empty();
-        types.append($('<option></option>').val('').text(''));
-        $.getJSON(typeUrl, function (data) {
-            $.each(data, function (index, item) {
-                if (item.Value != 1000) {
-                    types.append($('<option></option>').val(item.Value).text(item.Text));
+            $('#PlanToDeleteCheck').click(function () {
+                if ($(this).is(':checked') == true) {
+                    $('#PlanToDelete').val("true");
+                } else {
+                    $('#PlanToDelete').val("false");
                 }
             });
         });
-    })
+
+        $(function () {
+            $("#DateBegin").val("@ViewBag.DateBegin");
+            $("#DateEnd").val("@ViewBag.DateEnd");
+            $("#FullPrice").val("@ViewBag.Price");
+        });
+
+        function paivitaOikeaKenttaName() {
+            var falseFormInput = $("#fakeFormTypeName");
+            var realForm = $("#TypeName");
+            realForm.val(falseFormInput.val());
+        }
+        function paivitaOikeaKenttaUnit() {
+            var falseFormInput = $("#fakeFormUnit");
+            var realForm = $("#Unit");
+            realForm.val(falseFormInput.val());
+        }
+
+        //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
+        $("#lisaaUusiHiddenField").click(function () {
+            partialViewGet("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        });
+
+        $("#lisaaToinenTyyppi").click(function () {
+            partialViewGet("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+            document.getElementById("successfullyAddedType").style.display = "none";
+        });
+
+        $(".closeAddType").click(function () {
+            document.getElementById("hiddenFieldAddType").style.display = "none";
+            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+            document.getElementById("divForPartialPseudo").innerHTML = "";
+            document.getElementById("successfullyAddedType").style.display = "none";
+        });
+
+
+        //luodaan uusi kulutyyppi
+        $("#lisaaUusiType").click(async function () {
+            partialViewSubmit("MonthlySpendings", "_ModalCreateMonthSpendingType", "divForPartialPseudo", "createTypeForm", "SpendingTypeID");
+        });
+
+
+        //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
+        function submitModal() {
+            submitModalPost("Plans", "_MoveMonthPlan", "createMSForm", "ModalMonthlySpendingPlanCreate");
+        };
+
+
+
+
+        $("#FullPrice").keyup(function () {
+            validateKeyUp(event, "FullPrice");
+
+        });
+
+        $("#TransferPayment").keyup(function () {
+            validateKeyUp(event, "TransferPayment");
+
+        });
+
+        $("#PricePerUnit").keyup(function () {
+            validateKeyUp(event, "PricePerUnit");
+
+        });
+
+        $("#AmountOfUnits").keyup(function () {
+            validateKeyUp(event, "AmountOfUnits");
+
+        });
+
+        //Kokonaishinnan merkkien tarkastelu
+        $("#FullPrice").keypress(function () {
+            ////console.log("toimii eventlistener");
+            isNumberKey(event, "FullPrice");
+
+        });
+
+        //Siirtohinnan merkkien tarkastelu
+        $("#TransferPayment").keypress(function () {
+            ////console.log("toimii eventlistener");
+            isNumberKey(event, "TransferPayment");
+        });
+
+        //Yksikköhinnan merkkien tarkastelu
+        $("#PricePerUnit").keypress(function () {
+            ////console.log("toimii eventlistener");
+            isNumberKey(event, "PricePerUnit");
+        });
+
+        //Kokokaiskulutuksen merkkien tarkastelu
+        $("#AmountOfUnits").keypress(function () {
+            ////console.log("toimii eventlistener");
+            isNumberKey(event, "AmountOfUnits");
+        });
+
+        //Reloads contractor's dropdown with empty value as first
+        $(function () {
+            var contractors = $('#ContractorID');
+            var contractorUrl = '/Contractors/FetchContractors';
+            contractors.empty();
+            contractors.append($('<option></option>').val('').text(''));
+            $.getJSON(contractorUrl, function (data) {
+                $.each(data, function (index, item) {
+                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
+                });
+            });
+        })
+
+        //Reloads type's dropdown with empty value as first
+        $(function () {
+            var types = $('#SpendingTypeID');
+            var typeUrl = '/MonthlySpendings/FetchTypes';
+            types.empty();
+            types.append($('<option></option>').val('').text(''));
+            $.getJSON(typeUrl, function (data) {
+                $.each(data, function (index, item) {
+                    if (item.Value != 1000) {
+                        types.append($('<option></option>').val(item.Value).text(item.Text));
+                    }
+                });
+            });
+        })
+
+        $(document).ready(function () {
+            dismissOrRedirectWithPartials('/Plans/index');
+        });
+
     </script>
 }
 else

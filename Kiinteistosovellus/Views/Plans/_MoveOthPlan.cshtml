@@ -21,35 +21,35 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                        Aloituspvm* @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateBegin, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                        Päättymispvm @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @Type = "date", @class = "form-control" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger" })
+                                        Urakoitsija @Html.ValidationMessageFor(model => model.ContractorID, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("ContractorID", null, new { @class = "form-control form-select" })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        Kokonaishinta* @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger" })
+                                        Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.DropDownList("OtherSpendingTypeID", null, new { @class = "form-control form-select" })
                                             <div style="text-align:right; padding-right:30px"><a class="card-link" role="button" id="lisaaUusiHiddenField">Lisää uusi kulutustyyppi</a></div>
@@ -75,7 +75,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        Kuvaus @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @Html.TextArea("Description", (string)ViewBag.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000", name = "Description" })
                                         </div>
@@ -101,7 +101,7 @@
                             </div>
                             <div class="col-6">
                                 <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Tallenna" class="btn btn-primary" />
-                                @Html.ActionLink("Takaisin", "Index")
+                                <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalOtherSpendingPlanCreate")'>Takaisin</a>
                             </div>
                         </div>
                     </div>
@@ -117,101 +117,104 @@
 
     <script type="text/javascript">
 
-    //checkbox
-    $(document).ready(function () {
+        //checkbox
+        $(document).ready(function () {
 
-        $('#PlanToDelete').val($(this).is(':checked'));
+            $('#PlanToDelete').val($(this).is(':checked'));
 
-        $('#PlanToDeleteCheck').click(function () {
-            if ($(this).is(':checked') == true) {
-                $('#PlanToDelete').val("true");
-            } else {
-                $('#PlanToDelete').val("false");
-            }
-        });
-    });
-
-     //Fills corresponding fields with data from Plan and reloads dropdowns with empty value as first
-    $(function () {
-        $("#DateBegin").val("@ViewBag.DateBegin");
-        $("#DateEnd").val("@ViewBag.DateEnd");
-        $("#Price").val("@ViewBag.Price");
-
-        var types = $('#OtherSpendingTypeID');
-        var typeUrl = '/OtherSpendings/FetchTypes';
-        types.empty();
-        types.append($('<option></option>').val('').text(''));
-        $.getJSON(typeUrl, function (data) {
-            $.each(data, function (index, item) {
-                if (item.Value != 1000) {
-                    types.append($('<option></option>').val(item.Value).text(item.Text));
+            $('#PlanToDeleteCheck').click(function () {
+                if ($(this).is(':checked') == true) {
+                    $('#PlanToDelete').val("true");
+                } else {
+                    $('#PlanToDelete').val("false");
                 }
             });
         });
 
-        var contractors = $('#ContractorID');
-        var contractorUrl = '/Contractors/FetchContractors';
-        //console.log(contractorUrl);
-        contractors.empty();
-        contractors.append($('<option></option>').val('').text(''));
-        $.getJSON(contractorUrl, function (data) {
-            $.each(data, function (index, item) {
-                contractors.append($('<option></option>').val(item.Value).text(item.Text));
+         //Fills corresponding fields with data from Plan and reloads dropdowns with empty value as first
+        $(function () {
+            $("#DateBegin").val("@ViewBag.DateBegin");
+            $("#DateEnd").val("@ViewBag.DateEnd");
+            $("#Price").val("@ViewBag.Price");
+
+            var types = $('#OtherSpendingTypeID');
+            var typeUrl = '/OtherSpendings/FetchTypes';
+            types.empty();
+            types.append($('<option></option>').val('').text(''));
+            $.getJSON(typeUrl, function (data) {
+                $.each(data, function (index, item) {
+                    if (item.Value != 1000) {
+                        types.append($('<option></option>').val(item.Value).text(item.Text));
+                    }
+                });
+            });
+
+            var contractors = $('#ContractorID');
+            var contractorUrl = '/Contractors/FetchContractors';
+            //console.log(contractorUrl);
+            contractors.empty();
+            contractors.append($('<option></option>').val('').text(''));
+            $.getJSON(contractorUrl, function (data) {
+                $.each(data, function (index, item) {
+                    contractors.append($('<option></option>').val(item.Value).text(item.Text));
+                });
             });
         });
-    });
 
-    //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
+        //Kun dokumentti on latautunut, modaaliin luodaan alas partialview ajax-koodilla. Ei onnistunut suoraan html-bodyyn razorilla luominen, koska sitten ajax-pyynnöt ei toimi oikein
 
-    //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
-    function paivitaOikeaKentta() {
-        var falseFormInput = $("#fakeFormTypeName");
-        var realForm = $("#TypeName");
-        realForm.val(falseFormInput.val());
-    };
+        //Pseudo-kenttä päivittää oikean formin kentän tällä toiminnolla
+        function paivitaOikeaKentta() {
+            var falseFormInput = $("#fakeFormTypeName");
+            var realForm = $("#TypeName");
+            realForm.val(falseFormInput.val());
+        };
 
-    //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
-    $("#lisaaUusiHiddenField").click(function () {
-        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
-        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-    });
+        //Tuo tyypinlisäyskentän näkyviin---- TÄTÄ PITÄÄ  PÄIVITTÄÄ TYYLIKKÄÄMMÄKSI
+        $("#lisaaUusiHiddenField").click(function () {
+            partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+        });
 
-    $("#lisaaToinenTyyppi").click(function () {
-        partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
-        document.getElementById("hiddenFieldAddType").style.display = "inline-block";
-        document.getElementById("lisaaUusiHiddenField").style.display = "none";
-        document.getElementById("successfullyAddedType").style.display = "none";
-    });
+        $("#lisaaToinenTyyppi").click(function () {
+            partialViewGet("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo");
+            document.getElementById("hiddenFieldAddType").style.display = "inline-block";
+            document.getElementById("lisaaUusiHiddenField").style.display = "none";
+            document.getElementById("successfullyAddedType").style.display = "none";
+        });
 
-    $(".closeAddType").click(function () {
-        document.getElementById("hiddenFieldAddType").style.display = "none";
-        document.getElementById("lisaaUusiHiddenField").style.display = "block";
-        document.getElementById("divForPartialPseudo").innerHTML = "";
-        document.getElementById("successfullyAddedType").style.display = "none";
-    });
-
-
-    //luodaan uusi kulutyyppi
-    $("#lisaaUusiType").click(async function () {
-        partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
-    });
+        $(".closeAddType").click(function () {
+            document.getElementById("hiddenFieldAddType").style.display = "none";
+            document.getElementById("lisaaUusiHiddenField").style.display = "block";
+            document.getElementById("divForPartialPseudo").innerHTML = "";
+            document.getElementById("successfullyAddedType").style.display = "none";
+        });
 
 
-    //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
-    function submitModal() {
-        submitModalPost("Plans", "_MoveOthPlan", "createForm", "ModalOtherSpendingPlanCreate");
-    };
-
-    $("#Price").keypress(function () {
-        isNumberKey(event, "Price");
-    });
-
-    $("#Price").keyup(function () {
-        validateKeyUp(event, "Price");
-    });
+        //luodaan uusi kulutyyppi
+        $("#lisaaUusiType").click(async function () {
+            partialViewSubmit("OtherSpendings", "_ModalCreateOthSpendingType", "divForPartialPseudo", "createTypeForm", "OtherSpendingTypeID");
+        });
 
 
+        //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
+        function submitModal() {
+            submitModalPost("Plans", "_MoveOthPlan", "createForm", "ModalOtherSpendingPlanCreate");
+        };
+
+        $("#Price").keypress(function () {
+            isNumberKey(event, "Price");
+        });
+
+        $("#Price").keyup(function () {
+            validateKeyUp(event, "Price");
+        });
+
+        $(document).ready(function () {
+            dismissOrRedirectWithPartials('/Plans/index');
+        });
+        
     </script>
 }
 else
