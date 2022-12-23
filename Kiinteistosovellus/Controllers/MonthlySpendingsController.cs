@@ -333,10 +333,13 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,ImageUrl")] MonthlySpendings monthlySpendings)
+        public async Task<ActionResult> _CreateModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,ImageUrl")] MonthlySpendings monthlySpendings, HttpPostedFileBase kuvaim)
         {
+
             if (Session["UserName"] != null)
             {
+
+
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
 
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
@@ -344,10 +347,13 @@ namespace Kiinteistosovellus.Controllers
                 {
                     if (monthlySpendings.ImageUrl != null)
                     {
+                        ImageService imageService = new ImageService();
+
+                        await imageService.UploadImageAsync(kuvaim);
                         ViewBag.Error = 0;
                         db.MonthlySpendings.Add(monthlySpendings);
                         db.SaveChanges();
-                        return Content("image");
+                        return null;
                     }
 
                     ViewBag.Error = 0;
@@ -421,11 +427,10 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _EditModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,ImageUrl")] MonthlySpendings monthlySpendings)
+        public async Task<ActionResult> _EditModal([Bind(Include = "MonthlySpendingID,DateBegin,DateEnd,SpendingTypeID,AmountOfUnits,PricePerUnit,TransferPayment,FullPrice,ContractorID,ImageUrl")] MonthlySpendings monthlySpendings, HttpPostedFileBase kuvaim)
         {
             if (Session["UserName"] != null)
             {
-
                 var original = db.MonthlySpendings.AsNoTracking().FirstOrDefault(m => m.MonthlySpendingID == monthlySpendings.MonthlySpendingID); //Alkuperäiset arvot
                 var old = original.ImageUrl;
                 var anew = monthlySpendings.ImageUrl;//Uudet arvot
@@ -446,15 +451,18 @@ namespace Kiinteistosovellus.Controllers
                 {
                     if (equal() || (old == null && anew == null) || anew == null)
                     {
+
                         db.Entry(monthlySpendings).State = EntityState.Modified;
                         db.SaveChanges();
                         db.Dispose();
                         return null;
                     }
+                    ImageService imageService = new ImageService();
+                    await imageService.UploadImageAsync(kuvaim);
                     db.Entry(monthlySpendings).State = EntityState.Modified;
                     db.SaveChanges();
                     db.Dispose();
-                    return Content("image");
+                    return null;
 
                 }
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
