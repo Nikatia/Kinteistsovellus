@@ -60,8 +60,37 @@
                                         <div class="text-success">Tyyppi lisätty onnistuneesti</div>
                                         <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                     </div>
-                                </div>
 
+                                    <div class="form-group" id="picture">
+                                        Kuva @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            <img class="images img-thumbnail" src="@Html.DisplayFor(model => model.ImageUrl)" style="width:90%" />
+                                            <a href="#" id="poistanappi" style="margin-left:60%" onclick="document.getElementById('ImageUrl').value=''">Poista kuvaa</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="imageinput" style="display:none">
+                                        Kuvan Url @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-8" style="padding-right:0px; width:65%">
+                                                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", aria_describedby = "poistanappi" } })
+                                                </div>
+                                                <div class="col-3" style="padding-left:0px">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Valitse kuva
+                                        <div class="col-md-10">
+                                            <input type="file" class="form-control" id="kuvaim" name="kuvaim" onchange="nayta();" />
+                                        </div>
+                                    </div>
+                                    <div id="error" style="display: none; color: red;">Tiedoston pitää olla alle 4 MB. Valitse uudelleen.</div>
+                                </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         Yksiköiden määrä @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger realError" })
@@ -105,20 +134,7 @@
                                             @Html.DropDownList("ContractorID", null, "", new { @class = "form-control form-select" })
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        Valitse kuva
-                                        <div class="col-md-10">
-                                            <input type="file" id="kuvaim" name="kuvaim" onchange="nayta();" />
-                                        </div>
-                                        <input type="button" @*style="display:none"*@ id="poistanappi" value="Poista kuva" onclick="document.getElementById('ImageUrl').value=''" />
-                                    </div>
-                                    <div class="form-group" id="imageinput" @*style="display:none"*@>
-                                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger realError" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
-                                        </div>
-                                    </div>
-                                    <div id="error" style="display: none; color: red;">Tiedoston pitää olla alle 4 MB. Valitse uudelleen.</div>
+                                   
                                 </div>
                             </div>
                             <div class="form-group">
@@ -161,14 +177,16 @@
             if (arvo == "") {
                 console.log(arvo)
                 $("#poistanappi").hide();
-                $("#imageinput").hide();
+                $("#picture").hide();
             } else {
                 $("#poistanappi").show();
-                $("#imageinput").show();
+                $("#picture").show();
             }
         });
 
-
+        $("#poistanappi").click(function () {
+            $("#picture").hide();
+        })
 
         function paivitaOikeaKenttaName() {
             var falseFormInput = $("#fakeFormTypeName");
