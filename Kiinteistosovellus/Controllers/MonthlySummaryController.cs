@@ -22,7 +22,7 @@ namespace Kiinteistosovellus.Controllers
         {
             if (Session["UserName"] != null)
             {
-                List<MonthlySummary> summary = db.MonthlySummary.ToList();
+                List<MonthlySummary> summary = db.MonthlySummary.AsNoTracking().ToList();
                 return summary;
             }
             else { return null; }
@@ -51,7 +51,7 @@ namespace Kiinteistosovellus.Controllers
                 var monthList = from sm in db.SpendingMonths 
                                 where sm.Rivi == id 
                                 select sm;
-                var categoryList = from ms in db.MonthlySummary 
+                var categoryList = from ms in db.MonthlySummary.AsNoTracking()
                                    select ms;
 
                 foreach (SpendingMonths month in monthList)
