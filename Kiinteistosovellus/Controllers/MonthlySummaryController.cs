@@ -14,7 +14,7 @@ using System.Web.WebPages;
 
 namespace Kiinteistosovellus.Controllers
 {
-    public class MonthlySummaryController : Controller
+    public class MonthlySummaryController : BaseController
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
