@@ -21,14 +21,14 @@
                             @Html.DisplayFor(model => model.TypeName)
                         </dd>
                     </dl>
-                    <p class="text-danger">Huom! <br />Jos tämä kulutustyyppi on käytössä, poistaminen muuttaisi kulutyyppien nimet kaikissa liittyvissä kuluissa muotoon <br />"(poistettu)"!</p>
+                    <p class="text-danger">Huom! <br />Jos tämä kulutustyyppi on käytössä, poistaminen muuttaisi kulutustyyppien nimet kaikissa siihen liittyvissä kuluissa muotoon <br />"(poistettu)"!</p>
                 </div>
                 <div class="modal-footer">
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-actions no-color">
-                            <button type="submit" value="Poista" class="btn btn-primary">Poistaa</button>
+                            <button type="submit" value="Poista" class="btn btn-primary">Poista</button>
                             <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalOthSpendTypeDelete")'>Takaisin</a>
                         </div>
                     }

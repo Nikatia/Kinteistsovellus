@@ -50,44 +50,7 @@
                                             @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @id = "Price" } })
                                         </div>
                                     </div>
-                                    <div class="form-group" id="picture">
-                                        Kuva @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-                                        <div class="col-md-10">
-                                            <img class="images img-thumbnail" src="@Html.DisplayFor(model => model.ImageUrl)" style="width:90%" />
-                                            <a href="#" id="poistanappi" style="margin-left:60%" onclick="document.getElementById('ImageUrl').value=''">Poista kuva</a>
-                                        </div>
-                                    </div>
 
-                                    <div class="form-group" id="imageinput" style="display:none">
-                                        Kuvan Url @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-                                        <div class="col-md-10">
-                                            <div class="row">
-                                                <div class="col-8" style="padding-right:0px; width:65%">
-                                                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", aria_describedby = "poistanappi" } })
-                                                </div>
-                                                <div class="col-3" style="padding-left:0px">  
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        Valitse kuva
-                                        <div class="col-md-10">
-                                            <input type="file" class="form-control" id="kuvaim" name="kuvaim" onchange="nayta();" />
-                                        </div>
-                                    </div>
-                                    <div id="error" style="display: none; color: red;">Tiedoston pitää olla alle 4 MB. Valitse uudelleen.</div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        Kuvaus
-                                        <div class="col-md-10">
-                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
-                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger realError" })
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         Kulutustyyppi* @Html.ValidationMessageFor(model => model.OtherSpendingTypeID, "", new { @class = "text-danger realError" })
@@ -112,6 +75,47 @@
                                         <div class="text-success">Tyyppi lisätty onnistuneesti</div>
                                         <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                     </div>
+
+                                    <div class="form-group" id="picture">
+                                        Kuva @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            <img class="images img-thumbnail" src="@Html.DisplayFor(model => model.ImageUrl)" style="width:90%" />
+                                            <a href="#" id="poistanappi" style="margin-left:60%" onclick="document.getElementById('ImageUrl').value=''">Poista kuva</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="imageinput" style="display:none">
+                                        Kuvan Url @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-8" style="padding-right:0px; width:65%">
+                                                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", aria_describedby = "poistanappi" } })
+                                                </div>
+                                                <div class="col-3" style="padding-left:0px">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Valitse kuva
+                                        <div class="col-md-10">
+                                            <input type="file" class="form-control" id="kuvaim" name="kuvaim" onchange="nayta();" />
+                                        </div>
+                                    </div>
+                                    <div id="error" style="display: none; color: red;">Tiedoston pitää olla alle 4 MB. Valitse uudelleen.</div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        Kuvaus
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "15", @maxlength = "1000" })
+                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger realError" })
+                                        </div>
+                                    </div>
+
+                                    
                                 </div>
                             </div>
                         </div>

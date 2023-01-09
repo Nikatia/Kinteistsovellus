@@ -6,7 +6,7 @@
         <div class="modal-dialog modal-dialog-centered" id="modalWindow">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Luo uusi yhteystiedot</h3>
+                    <h3>Luo Uusi yhteystieto</h3>
                 </div>
 
                 <div class="modal-body">
@@ -23,7 +23,7 @@
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                                     <div class="form-group">
-                                        Puhelinumero<div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
+                                        Puhelinnumero<div class="text-danger" id="wrongPhone" style="display:none">, kirjoita oikea puhelinnumero</div>
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
                                             @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -45,7 +45,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-actions no-color">
-                        <input type="button" value="Lisää yhteystiedot" id="submitDataModal" class="btn btn-primary" />
+                        <input type="button" value="Tallenna" id="submitDataModal" class="btn btn-primary" />
                         <a href="#" data-bs-dismiss="modal" onclick='destroyDiv("ModalContactCreatePerson")'>Takaisin</a>
                     </div>
                 </div>
