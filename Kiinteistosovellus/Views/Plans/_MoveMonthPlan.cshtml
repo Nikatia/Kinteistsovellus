@@ -48,7 +48,7 @@
                                             <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormTypeName" onkeyup="paivitaOikeaKenttaName()" />
 
                                         </div>
-                                        Yksikkönimi <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
+                                        Yksikkö <span class="field-validation-error text-danger" id="fakeErrorUnit"></span>
                                         <div class="col-md-10 input-group">
                                             <input type="text" maxlength="100" size="500" class="form-control tyhjennaKentta" id="fakeFormUnit" onkeyup="paivitaOikeaKenttaUnit()" />
 
@@ -61,11 +61,26 @@
                                         <div class="text-success">Tyyppi lisätty onnistuneesti</div>
                                         <div style="padding:0 3px"><a class="card-link" role="button" id="lisaaToinenTyyppi">Lisää toinen tyyppi</a> | <a class="card-link closeAddType" role="button">Poistu</a></div>
                                     </div>
+
+                                    <div class="form-group" style="margin-top:2%">
+                                        Valitse kuva
+                                        <div class="col-md-10">
+                                            <input type="file" id="kuvaim" name="kuvaim" accept=".jpg,.jpeg,.png" class="form-control" onchange="document.getElementById('ImageUrl').value = 'https://kiinteistoteststorage.blob.core.windows.net/pics/' + this.value.substring(12); nayta();" />
+                                        </div>
+                                        <input type="button" id="poistanappi" value="Poista kuva" onclick="document.getElementById('ImageUrl').value=''" />
+                                    </div>
+                                    <div class="form-group" id="imageinput">
+                                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger realError" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
+                                        </div>
+                                    </div>
+                                    <div id="error" style="display: none; color: red;"></div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        Käytetyt mittayksiköt @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger realError" })
+                                        Yksiköiden määrä @Html.ValidationMessageFor(model => model.AmountOfUnits, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.AmountOfUnits, new { htmlAttributes = new { @class = "form-control" } })
@@ -74,7 +89,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        Yksikköhinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger realError" })
+                                        Yksikön hinta @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger realError" })
                                         <div class="col-md-10">
                                             @{ Html.EnableClientValidation(false); }
                                             @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
@@ -145,6 +160,65 @@
     {TempData["PlanID"] = ViewBag.PlanID;}
 
     <script type="text/javascript">
+
+        //checks if file is correct size and if file is a picture, shows corresponding error if not
+        function nayta() {
+            let virhe = document.getElementById("error");
+            let file = document.getElementById("kuvaim").files[0];
+            var fileName = document.getElementById("kuvaim").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (file.size > 5000000 || (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
+                if (file.size > 5000000 && (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
+                    if (extFile != "jpg") {
+                        console.log("nie jpg");
+                    }
+                    if (extFile != "jpeg") {
+                        console.log("nie jpeg");
+                    }
+                    if (extFile != "png") {
+                        console.log("nie png");
+                    }
+                    console.log(extFile);
+                    document.getElementById("kuvaim").value = "";
+                    document.getElementById('ImageUrl').value = "";
+                    virhe.innerHTML = "Tiedoston pitää olla alle 5 MB. <br> Voit ladata vain .jpg-, .jpeg- tai .png-tiedostoja. Valitse uudelleen."
+                    virhe.style.display = "block";
+                    console.log("zły plik i za duzy");
+                }
+                else if (file.size > 5000000 && (extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+                    document.getElementById("kuvaim").value = "";
+                    document.getElementById('ImageUrl').value = "";
+                    virhe.innerHTML = "Tiedoston pitää olla alle 5 MB. Valitse uudelleen."
+                    virhe.style.display = "block";
+                    console.log("tylko za duzy");
+                }
+                else {
+                    document.getElementById("kuvaim").value = "";
+                    document.getElementById('ImageUrl').value = "";
+                    virhe.innerHTML = "Voit ladata vain .jpg-, .jpeg- tai .png-tiedostoja. Valitse uudelleen."
+                    virhe.style.display = "block";
+                    console.log("tylko zły");
+                }
+
+            } else {
+                virhe.style.display = "none";
+            }
+
+        }
+
+        $(document).ready(function () {
+            var arvo = $("#ImageUrl").val();
+            if (arvo == "") {
+                console.log(arvo)
+                $("#poistanappi").hide();
+                $("#imageinput").hide();
+            } else {
+                $("#poistanappi").show();
+                $("#imageinput").show();
+            }
+        });
 
         $(document).ready(function () {
 

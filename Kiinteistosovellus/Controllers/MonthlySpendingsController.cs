@@ -338,11 +338,9 @@ namespace Kiinteistosovellus.Controllers
 
             if (Session["UserName"] != null)
             {
-
-
                 ViewBag.ContractorID = new SelectList(db.Contractors, "ContractorID", "Name", monthlySpendings.ContractorID);
-
                 ViewBag.SpendingTypeID = new SelectList(db.MonthlySpendingTypes, "SpendingTypeID", "TypeName", monthlySpendings.SpendingTypeID);
+                
                 if (ModelState.IsValid)
                 {
                     if (monthlySpendings.ImageUrl != null)
@@ -360,8 +358,6 @@ namespace Kiinteistosovellus.Controllers
                     db.MonthlySpendings.Add(monthlySpendings);
                     db.SaveChanges();
                     return null;
-
-
                 }
                 ViewBag.Error = 1;
                 return PartialView("/Views/MonthlySpendings/_CreateModal.cshtml", monthlySpendings);
