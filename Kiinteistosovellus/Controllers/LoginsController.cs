@@ -18,7 +18,7 @@ namespace Kiinteistosovellus.Controllers
         // GET: Logins
         public ActionResult Index()
         {
-            if (Session["Role"].ToString() == "Admin")
+            if (Session["UserName"] != null)
             {
                 return View(db.Logins.ToList());
             }

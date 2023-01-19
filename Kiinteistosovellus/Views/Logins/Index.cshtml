@@ -1,112 +1,121 @@
 ﻿@model IEnumerable<Kiinteistosovellus.Models.Logins>
 
 @{
-        ViewBag.Title = "Käyttäjät";
-    }
+    ViewBag.Title = "Käyttäjät";
+}
 <br />
 <h2>Käyttäjät</h2>
-<p class="lead">
-    Tällä sivulla voit luoda ja poistaa käyttäjiä sekä muuttaa käyttäjien tietoja. Kun käyttäjä on luotu, et voi nähdä hänen salasanaansa.<br />
-    Vain Adminillä on pääsy tälle sivulle. Jotta vältetään tilanne, jossa kaikki Adminit poistetaan vahingossa, Adminin poistamista rajoitetaan. <br />
-    Jos haluat poistaa Adminin, muuta hänen roolinsa ensin Käyttäjäksi.
-</p>
-<a class="card-link ikonka" title="Uusi Käyttäjä" id="CreateLoginsButton" role="button"><img src="/Icons/square-add.svg" height="45"></a>
-<br />
+@if (Session["Role"].ToString() == "Admin")
+{
+    <p class="lead">
+        Tällä sivulla voit luoda ja poistaa käyttäjiä sekä muuttaa käyttäjien tietoja. Kun käyttäjä on luotu, et voi nähdä hänen salasanaansa.<br />
+        Vain Adminillä on pääsy tälle sivulle. Jotta vältetään tilanne, jossa kaikki Adminit poistetaan vahingossa, Adminin poistamista rajoitetaan. <br />
+        Jos haluat poistaa Adminin, muuta hänen roolinsa ensin Käyttäjäksi.
+    </p>
+    <a class="card-link ikonka" title="Uusi Käyttäjä" id="CreateLoginsButton" role="button"><img src="/Icons/square-add.svg" height="45"></a>
+    <br />
 
-<table class="table">
-    <tr>
-        <th>
-            Käyttäjänimi
-        </th>
-        <th>
-            Rooli
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td class="centeredTds">
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td class="centeredTds">
-                @Html.DisplayFor(modelItem => item.Roles.Role)
-            </td>
-
-            <td class="centeredTds">
-                <a class="card-link ikonka getO" title="Muokkaa Käyttäjä" data-editlogin="@item.LoginID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
-                @if (item.Roles.Role != "Admin")
-                {
-                    <a class="card-link ikonka getId" title="Poista Käyttäjä" data-deletelogin="@item.LoginID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
-                }
-                else
-                {
-                    <a class="noUnits" title="Jos varmasti haluat poistaa tämän, vaihda hänen roolinsa Administa Käyttäjäksi"><img src="/Icons/square-delete.svg" height="30"></a>
-                }
-            </td>
-
+            <th>
+                Käyttäjänimi
+            </th>
+            <th>
+                Rooli
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
-<div id="logModalCreate"></div>
-<div id="logModalDelete"></div>
-<div id="logModalEdit"></div>
-<script type="text/javascript">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="centeredTds">
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td class="centeredTds">
+                    @Html.DisplayFor(modelItem => item.Roles.Role)
+                </td>
 
-    $(function () {
-        $('#homeClicked').removeClass('active');
-        $('#spendingsClicked').removeClass('active');
-        $('#othersClicked').addClass('active');
-    });
+                <td class="centeredTds">
+                    <a class="card-link ikonka getO" title="Muokkaa Käyttäjä" data-editlogin="@item.LoginID" role="button"><img src="/Icons/square-edit.svg" height="30"></a>
+                    @if (item.Roles.Role != "Admin")
+                    {
+                        <a class="card-link ikonka getId" title="Poista Käyttäjä" data-deletelogin="@item.LoginID" role="button"><img src="/Icons/square-delete.svg" height="30"></a>
+                    }
+                    else
+                    {
+                        <a class="noUnits" title="Jos varmasti haluat poistaa tämän, vaihda hänen roolinsa Administa Käyttäjäksi"><img src="/Icons/square-delete.svg" height="30"></a>
+                    }
+                </td>
 
-    $(document).ready(function () {
-        $(".getO").click(function () {
-            createDiv("logModalEdit");
-            let LogEditId = $(this).data("editlogin");
+            </tr>
+        }
 
-            var url = "/Logins/_EditModalLogins/?id=" + LogEditId;
+    </table>
+    <div id="logModalCreate"></div>
+    <div id="logModalDelete"></div>
+    <div id="logModalEdit"></div>
+    <script type="text/javascript">
 
-            var $detailDivEdit = $("#logModalEdit");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalLoginsEdit").modal("show");
-
-            });
-
+        $(function () {
+            $('#homeClicked').removeClass('active');
+            $('#spendingsClicked').removeClass('active');
+            $('#othersClicked').addClass('active');
         });
-    });
 
-    $(document).ready(function () {
-        $(".getId").click(function () {
-            createDiv("logModalDelete");
-            let LoginDeleteId = $(this).data("deletelogin");
+        $(document).ready(function () {
+            $(".getO").click(function () {
+                createDiv("logModalEdit");
+                let LogEditId = $(this).data("editlogin");
 
-            var url = "/Logins/_DeleteModalLogins/?id=" + LoginDeleteId;
+                var url = "/Logins/_EditModalLogins/?id=" + LogEditId;
 
-            var $detailDivEdit = $("#logModalDelete");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalLoginsDelete").modal("show");
+                var $detailDivEdit = $("#logModalEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalLoginsEdit").modal("show");
 
-            });
-
-        });
-    });
-    $(document).ready(function () {
-        $("#CreateLoginsButton").click(function () {
-            createDiv("logModalCreate");
-            var url = "/Logins/_CreateModalLogins";
-
-            var $detailDivEdit = $("#logModalCreate");
-            $.get(url, function (data) {
-                $detailDivEdit.replaceWith(data);
-                $("#ModalLoginsCreate").modal("show");
+                });
 
             });
         });
-    });
+
+        $(document).ready(function () {
+            $(".getId").click(function () {
+                createDiv("logModalDelete");
+                let LoginDeleteId = $(this).data("deletelogin");
+
+                var url = "/Logins/_DeleteModalLogins/?id=" + LoginDeleteId;
+
+                var $detailDivEdit = $("#logModalDelete");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalLoginsDelete").modal("show");
+
+                });
+
+            });
+        });
+        $(document).ready(function () {
+            $("#CreateLoginsButton").click(function () {
+                createDiv("logModalCreate");
+                var url = "/Logins/_CreateModalLogins";
+
+                var $detailDivEdit = $("#logModalCreate");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalLoginsCreate").modal("show");
+
+                });
+            });
+        });
 
 
-</script>
+    </script>
+}
+else
+{
+    <p class="lead">
+        Nähdäksesi tämän sivun sisällön, sinulla on oltava admin oikeudet.
+    </p>
+}
