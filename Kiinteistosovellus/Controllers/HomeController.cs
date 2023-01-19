@@ -27,8 +27,16 @@ namespace Kiinteistosovellus.Controllers
                                         where sld.Vuosi == thisYear
                                         select sld;
                 var yearObject = monthOthSpendData.FirstOrDefault();
-                summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu +
+                if (yearObject != null)
+                {
+                    summa = yearObject.Tammikuu + yearObject.Helmikuu + yearObject.Maaliskuu + yearObject.Huhtikuu + yearObject.Toukokuu +
                         yearObject.Kesäkuu + yearObject.Heinäkuu + yearObject.Elokuu + yearObject.Syyskuu + yearObject.Lokakuu + yearObject.Marraskuu + yearObject.Joulukuu;
+                }
+                else
+                {
+                    summa = 0;
+                }
+                
                 ViewBag.ThisYearSumma = summa;
 
                 return View();
@@ -84,20 +92,37 @@ namespace Kiinteistosovellus.Controllers
                                         select sld;
 
                 var yearObject = monthOthSpendData.FirstOrDefault();
-
                 decimal[] yearValues = new decimal[12];
-                yearValues[0] = yearObject.Tammikuu;
-                yearValues[1] = yearObject.Helmikuu;
-                yearValues[2] = yearObject.Maaliskuu;
-                yearValues[3] = yearObject.Huhtikuu;
-                yearValues[4] = yearObject.Toukokuu;
-                yearValues[5] = yearObject.Kesäkuu;
-                yearValues[6] = yearObject.Heinäkuu;
-                yearValues[7] = yearObject.Elokuu;
-                yearValues[8] = yearObject.Syyskuu;
-                yearValues[9] = yearObject.Lokakuu;
-                yearValues[10] = yearObject.Marraskuu;
-                yearValues[11] = yearObject.Joulukuu;
+                if (yearObject == null)
+                {
+                    yearValues[0] = 0;
+                    yearValues[1] = 0;
+                    yearValues[2] = 0;
+                    yearValues[3] = 0;
+                    yearValues[4] = 0;
+                    yearValues[5] = 0;
+                    yearValues[6] = 0;
+                    yearValues[7] = 0;
+                    yearValues[8] = 0;
+                    yearValues[9] = 0;
+                    yearValues[10] = 0;
+                    yearValues[11] = 0;
+                }
+                else
+                {
+                    yearValues[0] = yearObject.Tammikuu;
+                    yearValues[1] = yearObject.Helmikuu;
+                    yearValues[2] = yearObject.Maaliskuu;
+                    yearValues[3] = yearObject.Huhtikuu;
+                    yearValues[4] = yearObject.Toukokuu;
+                    yearValues[5] = yearObject.Kesäkuu;
+                    yearValues[6] = yearObject.Heinäkuu;
+                    yearValues[7] = yearObject.Elokuu;
+                    yearValues[8] = yearObject.Syyskuu;
+                    yearValues[9] = yearObject.Lokakuu;
+                    yearValues[10] = yearObject.Marraskuu;
+                    yearValues[11] = yearObject.Joulukuu;
+                }
 
                 string[] months = new string[12];
                 months[0] = "Tammikuu";
