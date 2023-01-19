@@ -28,6 +28,7 @@ namespace Kiinteistosovellus.ViewModels
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         public string PlanToDelete { get; set; }
+        public string ImageUrl { get; set; }
 
         public virtual Contractors Contractors { get; set; }
         public virtual OtherSpendingTypes OtherSpendingTypes { get; set; }

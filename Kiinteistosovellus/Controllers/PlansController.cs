@@ -145,7 +145,7 @@ namespace Kiinteistosovellus.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _MoveOthPlan([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,PlanToDelete")] MoveOthSpendings otherSpendings)
+        public async Task<ActionResult> _MoveOthPlan([Bind(Include = "OtherSpendingsID,DateBegin,DateEnd,Description,OtherSpendingTypeID,ContractorID,Price,PlanToDelete,ImageUrl")] MoveOthSpendings otherSpendings, HttpPostedFileBase kuvaim)
         {
             if (Session["UserName"] != null)
             {
@@ -165,6 +165,13 @@ namespace Kiinteistosovellus.Controllers
                     newSpending.OtherSpendingTypeID = otherSpendings.OtherSpendingTypeID;
                     newSpending.ContractorID = otherSpendings.ContractorID;
                     newSpending.Price = otherSpendings.Price;
+                    if (otherSpendings.ImageUrl != null)
+                    {
+                        ImageService imageService = new ImageService();
+                        await imageService.UploadImageAsync(kuvaim);
+                        ViewBag.Error = 0;
+                        newSpending.ImageUrl = otherSpendings.ImageUrl;
+                    }
                     db.OtherSpendings.Add(newSpending);
                     db.SaveChanges();
                     return null;
