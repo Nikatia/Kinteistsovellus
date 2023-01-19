@@ -100,7 +100,7 @@
                                     <div class="form-group">
                                         Valitse kuva
                                         <div class="col-md-10">
-                                            <input type="file" class="form-control" id="kuvaim" name="kuvaim" onchange="nayta();" />
+                                            <input type="file" accept=".jpg,.jpeg,.png" class="form-control" id="kuvaim" name="kuvaim" onchange="nayta();" />
                                         </div>
                                     </div>
                                     <div id="error" style="display: none; color: red;">Tiedoston pitää olla alle 4 MB. Valitse uudelleen.</div>
@@ -133,14 +133,36 @@
     </div>
 
     <script type="text/javascript">
+        //checks if file is correct size and if file is a picture, shows corresponding error if not, shows link if yes
         function nayta() {
             let virhe = document.getElementById("error");
             let file = document.getElementById("kuvaim").files[0];
-            if (file.size > 4000000) {
-                document.getElementById("kuvaim").value = "";
-                virhe.style.display = "block";
+            var fileName = document.getElementById("kuvaim").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (file.size > 5000000 || (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
+                if (file.size > 5000000 && (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
+                    document.getElementById("kuvaim").value = "";
+                    document.getElementById('ImageUrl').value = "";
+                    virhe.innerHTML = "Tiedoston pitää olla alle 5 MB. <br> Voit ladata vain .jpg-, .jpeg- tai .png-tiedostoja. Valitse uudelleen."
+                    virhe.style.display = "block";
+                }
+                else if (file.size > 5000000 && (extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+                    document.getElementById("kuvaim").value = "";
+                    document.getElementById('ImageUrl').value = "";
+                    virhe.innerHTML = "Tiedoston pitää olla alle 5 MB. Valitse uudelleen."
+                    virhe.style.display = "block";
+                }
+                else {
+                    document.getElementById("kuvaim").value = "";
+                    document.getElementById('ImageUrl').value = "";
+                    virhe.innerHTML = "Voit ladata vain .jpg-, .jpeg- tai .png-tiedostoja. Valitse uudelleen."
+                    virhe.style.display = "block";
+                }
+
             } else {
-                document.getElementById('ImageUrl').value = 'https://kuvapankki.blob.core.windows.net/pics/' + document.getElementById('kuvaim').value.substring(12);
+                document.getElementById('ImageUrl').value = 'https://kiinteistoteststorage.blob.core.windows.net/pics/' + document.getElementById('kuvaim').value.substring(12);
                 virhe.style.display = "none";
             }
         }
