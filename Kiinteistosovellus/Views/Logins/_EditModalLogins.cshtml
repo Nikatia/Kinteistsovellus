@@ -2,10 +2,10 @@
 
 @if (Session["UserName"] != null && Session["Role"].ToString() == "Admin")
 {
-    <div class="modal fade" id="ModalLoginsEdit">
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ModalLoginsEdit">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header style="padding-bottom:0px"">
                     <h3>Muokkaa</h3>
                 </div>
                 <div class="modal-body">
