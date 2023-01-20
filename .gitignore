@@ -351,3 +351,8 @@ MigrationBackup/
 
 # Web.Config (Connection String/sensitive data)
 Web.config
+/Kiinteistosovellus/Properties/ServiceDependencies/KiinteistosovellusMonika - Web Deploy/profile.arm.json
+/Kiinteistosovellus/Properties/ServiceDependencies/KiinteistosovellusMonika - Web Deploy/secrets1.arm.json
+/Kiinteistosovellus/Properties/ServiceDependencies/KiinteistosovellusMonika - Web Deploy/storage1.arm.json
+/Kiinteistosovellus/Properties/serviceDependencies.json
+/Kiinteistosovellus/Properties/serviceDependencies.KiinteistosovellusMonika - Web Deploy.json
