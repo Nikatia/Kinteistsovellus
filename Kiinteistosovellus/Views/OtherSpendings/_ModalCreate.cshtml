@@ -102,7 +102,11 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-actions no-color">
-                        <input type="button" onclick="submitModal()" value="Tallenna" class="btn btn-primary" />
+                        <button class="btn btn-primary" type="button" style="display:none" id="spinner" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only">Loading...</span>
+                        </button>
+                        <input type="button" onclick="submitModal()" value="Tallenna" class="btn btn-primary" id="save" />
                         <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalOtherSpendingCreate")'>Takaisin</a>
                     </div>
                 </div>
@@ -200,6 +204,8 @@
 
         //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
         function submitModal() {
+            document.getElementById("spinner").style.display = "inline-block";
+            document.getElementById("save").style.display = "none";
             submitModalPost("OtherSpendings", "_ModalCreate", "createForm", "ModalOtherSpendingCreate");
         };
 

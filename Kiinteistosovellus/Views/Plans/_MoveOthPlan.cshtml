@@ -115,7 +115,11 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Tallenna" class="btn btn-primary" />
+                                <button class="btn btn-primary" type="button" style="display:none" id="spinner" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span class="sr-only">Loading...</span>
+                                </button>
+                                <input type="button" onclick="submitModal()" data-planid="@ViewBag.PlanID" value="Tallenna" class="btn btn-primary" id="save" />
                                 <a href="#" id="back" data-bs-dismiss="modal" onclick='destroyDiv("ModalOtherSpendingPlanCreate")'>Takaisin</a>
                             </div>
                         </div>
@@ -211,7 +215,6 @@
 
             var contractors = $('#ContractorID');
             var contractorUrl = '/Contractors/FetchContractors';
-            //console.log(contractorUrl);
             contractors.empty();
             contractors.append($('<option></option>').val('').text(''));
             $.getJSON(contractorUrl, function (data) {
@@ -260,6 +263,8 @@
 
         //Ajax-pyynnöllä submitataan modaali ja luodaan se uudestaan pääsivulle
         function submitModal() {
+            document.getElementById("spinner").style.display = "inline-block";
+            document.getElementById("save").style.display = "none";
             submitModalPost("Plans", "_MoveOthPlan", "createForm", "ModalOtherSpendingPlanCreate");
         };
 
