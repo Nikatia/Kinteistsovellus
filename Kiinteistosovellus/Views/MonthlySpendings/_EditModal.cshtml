@@ -168,14 +168,14 @@
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
-            if (file.size / (1024 * 1024) > 4.9 || (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
-                if (file.size / (1024 * 1024) > 4.9 && (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
+            if (file.size / (1024 * 1024) > 5 || (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
+                if (file.size / (1024 * 1024) > 5 && (extFile != "jpg" && extFile != "jpeg" && extFile != "png")) {
                     document.getElementById("kuvaim").value = "";
                     document.getElementById('ImageUrl').value = "";
                     virhe.innerHTML = "Tiedoston koko ei saa olla yli 5 MB.<br> Voit ladata vain .jpg-, .jpeg- tai .png-tiedostoja. Valitse uudelleen."
                     virhe.style.display = "block";
                 }
-                else if (file.size / (1024 * 1024) > 4.9 && (extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+                else if (file.size / (1024 * 1024) > 5 && (extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
                     document.getElementById("kuvaim").value = "";
                     document.getElementById('ImageUrl').value = "";
                     virhe.innerHTML = "Tiedoston koko ei saa olla yli 5 MB.<br> Valitse uudelleen."
