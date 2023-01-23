@@ -46,6 +46,7 @@ namespace Kiinteistosovellus.Controllers
 
         }
 
+        //For persons, who don't have any contact information
         public List<Persons> GetNoContactPersons()
         {
             if (Session["UserName"] != null)
@@ -92,7 +93,7 @@ namespace Kiinteistosovellus.Controllers
             {
                 ViewBag.Persons = GetPersons();
                 ViewBag.Contacts = GetContacts();
-                ViewBag.NoContactPersons = GetNoContactPersons();
+                ViewBag.NoContactPersons = GetNoContactPersons(); 
 
                 var wholeContractorsList = from ctr in db.Contractors
                                            select new AllContractorsData
@@ -125,6 +126,7 @@ namespace Kiinteistosovellus.Controllers
 
             return PartialView("/Views/Contractors/_NoContactPersons.cshtml");
         }
+
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
         //------------------------------------Contractors------------------------------------

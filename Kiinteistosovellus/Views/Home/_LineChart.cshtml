@@ -1,6 +1,5 @@
-﻿
-
-<canvas id="typeChartLine"></canvas>@*max-width:400px;max-height:400px*@
+﻿<canvas style="max-height: 398px" id="typeChartLine"></canvas>@*max-width:400px;max-height:400px*@
+<div id="nothing2" style="margin-left:40%; margin-top:20%">Ei tietoja tälle vuodelle</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.js"></script>
 <script type="text/javascript">
@@ -47,6 +46,19 @@
                 }
             }
         });
+
+        //if there is no data for current year chart is hidden and message is shown
+        let noData = document.getElementById('nothing2');
+        if (dataValuesLine.some(item => item !== 0)) {
+            noData.style.display = 'none';
+            ctxLine.style.display = 'block';
+            console.log("DATA");
+        }
+        else {
+            noData.style.display = 'block';
+            ctxLine.style.display = 'none';
+            console.log("NO DATA");
+        }
     });
 
 </script>
