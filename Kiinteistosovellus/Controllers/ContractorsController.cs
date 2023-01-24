@@ -112,21 +112,6 @@ namespace Kiinteistosovellus.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
 
-        public PartialViewResult _NoContactPersons(int? id)
-        {
-            var personexist = db.Contacts.Any(x => x.PersonID == id);
-            if (personexist)
-            {
-                ViewBag.PersonExists = true;
-            }
-            else
-            {
-                ViewBag.PersonExists = false;
-            }
-
-            return PartialView("/Views/Contractors/_NoContactPersons.cshtml");
-        }
-
         // ----------------------------------------------- CREATE PART -----------------------------------------------
 
         //------------------------------------Contractors------------------------------------

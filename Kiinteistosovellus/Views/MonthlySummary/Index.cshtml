@@ -4,29 +4,22 @@
 }
 
 <style>
-
     .panel-title::after {
-        content: "\f107";
-        color: #5a5a5a;
         top: 0px;
-        left: 0px;
-        position: absolute;
-        font-family: "FontAwesome";
-    }
-
-    .panel-title[aria-expanded="true"]::after {
-        content: "\f106";
     }
 </style>
 
 <br />
 <h2>Yhteenveto</h2>
 <div class="row">
+
+    <!-- #region List of Months -->
     <div class="col-12" id="monthList">
         <div class="card"  id="MonthList">
             <div class="card-body">
                 @foreach (var item in Model)
                 {
+                    <!-- #region Header Part -->
                     <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.Rivi">
                         <div class="accordion-header" id="heading_@item.Rivi">
                             <div class="accordion-button collapsed row panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.Rivi" data-monthid="@item.Rivi" aria-expanded="false" aria-controls="heading_@item.Rivi" title="Näytä tiedot">
@@ -45,6 +38,8 @@
                             </div>
                         </div>
                     </div><br />
+                    <!-- #endregion --> @*Month,Year*@
+                    <!--#region Body Part-->
                     <div id="collapse_@item.Rivi" class="accordion-collapse collapse" aria-labelledby="heading_@item.Rivi" data-bs-parent="#MonthList">
                         <div class="accordion-body" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; ">
                             <ul>
@@ -59,47 +54,34 @@
                             <h6><b>&emsp;Summa: @item.Summa</b></h6>
                         </div><br />
                     </div>
+                    <!-- #endregion --> @*Listed and Summed Expenses in selected month*@
                 }
             </div>
         </div>
     </div>
-    <div class="col-6" id="chart" style="display: none">
+    <!-- #endregion -->
+    <!-- #region Chart -->
+    <div class="col-6 hide" id="chart">
         <div style="position: sticky; top: 0; height: 700px" id="chartContainer"></div>
     </div>
+    <!-- #endregion -->
+
 </div>
 
-
+<!-- #region Scripts-->
 <script>
 
-    function allHaveAttribute(elements, attrName, attrValue) {
-        // Do all elements have given attribute?
-        for (var i = 0; i < elements.length; i++) {
-            if (!elements[i].hasAttribute(attrName)) return false;
-        }
-
-        //if given value...
-        if (attrValue) { 
-            for (i = 0; i < elements.length; i++) {
-                if (elements[i].getAttribute(attrName) !== attrValue) //is different than we want
-                    return false;
-            }
-            return true;
-        } else { // if elements have the attribute we have given
-            return true;
-        }
-    }
-
-    //using above function, open or close chart's div
+    //using allHaveAttribute function, open or close chart's div
     $(".accordion-button").click(function () {
         var els = document.querySelectorAll('div.accordion-button.row.panel-title');
         if (allHaveAttribute(els, 'aria-expanded', 'false') == true) {
             $("#monthList").removeClass("col-6");
             $("#monthList").addClass("col-12");
-            document.getElementById("chart").style.display = "none";
+            $("#chart").addClass("hide");
         } else {
             $("#monthList").removeClass("col-12");
             $("#monthList").addClass("col-6");
-            document.getElementById("chart").style.display = "block";
+            $("#chart").removeClass("hide");
         }
     });
 
@@ -123,3 +105,4 @@
         });
     });
 </script>
+<!-- #endregion -->

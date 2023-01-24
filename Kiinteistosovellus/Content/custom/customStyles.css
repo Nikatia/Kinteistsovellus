@@ -14,6 +14,24 @@ td.centeredTds {
 .noUnits {
     filter: invert(86%) sepia(14%) saturate(532%) hue-rotate(53deg) brightness(85%) contrast(86%)
 }
+
+.hide {
+    display: none;
+}
+
+.panel-title::after {
+    content: "\f107";
+    color: #5a5a5a;
+    top: 7px;
+    left: 0px;
+    position: absolute;
+    font-family: "FontAwesome"
+}
+
+.panel-title[aria-expanded="true"]::after {
+    content: "\f106";
+}
+
 #myImg {
     border-radius: 5px;
     cursor: pointer;

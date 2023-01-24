@@ -4,6 +4,7 @@
     ViewBag.Title = "Urakoitsijat";
 }
 
+<!-- #region groupedList of Model -->
 @{
     List<Kiinteistosovellus.ViewModels.AllContractorsData> groupedList = Model
             .GroupBy(l => l.ContractorID)
@@ -20,49 +21,37 @@
                 }
             ).ToList();
 }
-<style>
+<!-- #endregion --> 
 
-    .panel-title::after {
-        content: "\f107";
-        color: #5a5a5a;
-        top: 7px;
-        left: 0px;
-        position: absolute;
-        font-family: "FontAwesome"
-    }
-
-    .panel-title[aria-expanded="true"]::after {
-        content: "\f106";
-    }
-
-    .hide {
-        display: none;
-    }
-</style>
+<!-- #region Top of the page -->
 <br />
 <h2>Urakoitsijat</h2>
 
+@*Create new Contractor*@
+<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>
+<!-- #endregion --> @*Header + Create New Contractor Button*@
 
-<a class="card-link ikonka" title="Uusi Urakoitsija" id="creNewContractor" role="button"><img src="/Icons/contractors-add-square.svg" height="45"></a>  @*<a class="card-link ikonka" title="Uusi yhteystieto" id="creNewContact" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>*@
-
-
-@*---Modal Containers---*@
+<!-- #region Modal Containers -->
 @*Contractors*@
-<iframe id="contractorCreate" style="display:none;"></iframe>
-<iframe id="contractorEdit" style="display:none;"></iframe>
-<iframe id="contractorDelete" style="display:none;"></iframe>
+<iframe id="contractorCreate" class="hide"></iframe>
+<iframe id="contractorEdit" class="hide"></iframe>
+<iframe id="contractorDelete" class="hide"></iframe>
 
 @*Persons*@
-<iframe id="personCreate" style="display:none;"></iframe>
-<iframe id="personEdit" style="display:none;"></iframe>
-<iframe id="personDelete" style="display:none;"></iframe>
+<iframe id="personCreate" class="hide"></iframe>
+<iframe id="personEdit" class="hide"></iframe>
+<iframe id="personDelete" class="hide"></iframe>
 
 @*Contacts*@
-<iframe id="contactCreate" style="display:none;"></iframe>
-<iframe id="contactEdit" style="display:none;"></iframe>
-<iframe id="contactDelete" style="display:none;"></iframe>
+<iframe id="contactCreate" class="hide"></iframe>
+<iframe id="contactEdit" class="hide"></iframe>
+<iframe id="contactDelete" class="hide"></iframe>
+<!-- #endregion -->
 
+<!-- #region Card with Contractors -->
 <div class="card" id="ContractorsList">
+
+    <!-- #region Header Part -->
     <div class="card-header bg-primary" style="color:white">
         <div class="row">
             <div class="col-1" style="padding-left:27px">ID</div>
@@ -74,9 +63,12 @@
             <div class="col-1"></div>
         </div>
     </div>
+    <!-- #endregion -->
+    <!-- #region Body Part -->
     <div class="card-body" id="card">
         @foreach (var item in groupedList)
         {
+            <!-- #region Contractor's Head Part -->
             <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.ContractorID">
                 <div class="accordion-header" id="heading_@item.ContractorID">
                     <div class="accordion-button collapsed row openContractor panel-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@item.ContractorID" data-contractorid="@item.ContractorID" aria-expanded="false" aria-controls="heading_@item.ContractorID">
@@ -93,15 +85,23 @@
                     </div>
                 </div>
             </div><br />
+            <!-- #endregion -->
+
+            <!-- #region Collapsed Contractor's Info Part -->
             <div id="collapse_@item.ContractorID" class="accordion-collapse collapse cardsCollapse" style="background-color: rgba(240, 247, 236); padding: 10px; border: 2px solid rgba(112, 173, 71, 0.5); border-radius: 8px; padding: 5px; " aria-labelledby="heading_@item.ContractorID" data-bs-parent="#ContractorsList">
                 <div class="accordion-body">
+                    <!-- #region Top: Description + Contractor's Contacts without Person -->
                     <div class="row">
+
+                        @*Contractor's description*@
                         <div class="col-sm-8">
                             <div style="word-break:break-word">
                                 <b>Kuvaus:</b><br />
                                 @item.ContractorsDescription
                             </div>
                         </div>
+
+                        @*Contractor's contact, that is not assigned to a certain person*@
                         <div class="col-sm-4">
                             <b>Yleiset yhteystiedot:</b>
                             <table width="80%">
@@ -123,15 +123,25 @@
                                                 <td>• @contact.PhoneNumber</td>
                                             }
 
-                                            <td><a class="card-link getContactEdit ikonka" title="Muokkaa yhteystietoja" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a><a class="card-link getContactDelete ikonka" title="Poista yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a></td>
+                                            <td>
+                                                <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystietoja" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a>
+                                                <a class="card-link getContactDelete ikonka" title="Poista yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a>
+                                            </td>
                                         </tr>
                                     }
                                 }
                             </table>
                         </div>
+
                     </div>
+                    <!-- #endregion -->
+                    <!-- #region Middle: Creating new Contact + Contact Persons Table -->
+
                     <br />
+                    @*Create new Contact+Person*@
                     <a class="card-link ikonka creNewContact" title="Uusi yhteystieto" data-contrid="@item.ContractorID" role="button"><img src="/Icons/comment-add-square.svg" height="45"></a>
+
+                    @*Contractor's contact person's table. Only workers belonging to currently opened contractor and with contact information are in here*@
                     <table class="table">
                         <thead>
                             <tr>
@@ -157,8 +167,10 @@
                                             <td>@contact.PhoneNumber</td>
                                             <td>@contact.Email</td>
                                             <td>
-                                                <a class="card-link getHooman ikonka" title="Muokkaa henkilöää" role="button" data-hooman="@person.PersonID"><img src="/Icons/person-edit-square.svg" height="30"></a>  <a class="card-link getHoman ikonka" title="Poista henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/person-delete-square.svg" height="30"></a> &emsp;
-                                                <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystietoja" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a>  <a class="card-link getContactDelete ikonka" title="Poista yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a>
+                                                <a class="card-link getHooman ikonka" title="Muokkaa henkilöää" role="button" data-hooman="@person.PersonID"><img src="/Icons/person-edit-square.svg" height="30"></a>
+                                                <a class="card-link getHoman ikonka" title="Poista henkilö" role="button" data-homan="@person.PersonID"><img src="/Icons/person-delete-square.svg" height="30"></a> &emsp;
+                                                <a class="card-link getContactEdit ikonka" title="Muokkaa yhteystietoja" role="button" data-editcontactid="@contact.ContactID"><img src="/Icons/comment-edit-square.svg" height="30"></a>
+                                                <a class="card-link getContactDelete ikonka" title="Poista yhteystiedot" role="button" data-delcontactid="@contact.ContactID"><img src="/Icons/comment-delete-square.svg" height="30"></a>
                                             </td>
                                         </tr>
                                     }
@@ -166,10 +178,14 @@
                             }
                         </tbody>
                     </table>
+                    <!-- #endregion -->
+                    <!-- #region Bottom: Contractor's Contactless Persons Table -->
                     <br />
+                    @*Contractor's persons without contact information*@
                     <div class="noContactDiv">
                         <b>Henkilöt, joilla ei ole yhteystietoja:</b>
                         <table class="noContactTable">
+                            @*smalls in scripts*@
                             @foreach (Kiinteistosovellus.Models.Persons person in ViewBag.NoContactPersons)
                             {
                                 if (person.ContractorID == item.ContractorID)
@@ -184,136 +200,136 @@
                             }
                         </table>
                     </div>
+                    <!-- #endregion -->
                 </div>
             </div>
+            <!-- #endregion -->
         }
     </div>
+    <!-- #endregion -->
+
 </div>
+<!-- #endregion --> @*Main content of this page*@
 
-@section scripts {
-    <script type="text/javascript">
+<!-- #region Scripts -->
+<script type="text/javascript">
 
-        $(function () {
-            setTimeout(() => {
-                const smalls = document.querySelectorAll("#card .cardsCollapse .noContactDiv .noContactTable");
-                for (const small of smalls) {
-                    if (
-                        !small.firstChild ||
-                        (small.childNodes.length === 1 && !small.firstChild.nodeValue.trim())
-                    ) {
-                        small.closest(".noContactDiv").classList.add("hide");
-                    }
+    /*Hiding Table of Persons without Contact if it's empty*/
+    $(function () {
+        const smalls = document.querySelectorAll("#card .cardsCollapse .noContactDiv .noContactTable");
+        for (const small of smalls) {
+            if (!small.firstChild || (small.childNodes.length === 1 && !small.firstChild.nodeValue.trim())) {
+                small.closest(".noContactDiv").classList.add("hide");
+            }
+        }
+    });
+
+    /* NavBar active setting */
+    $(function () {
+        $('#homeClicked').removeClass('active');
+        $('#spendingsClicked').removeClass('active');
+        $('#othersClicked').addClass('active');
+    });
+
+    //#region Contractors Modals
+    /* Create */
+    $(function () {
+        $("#creNewContractor").click(function () {
+            createDiv("contractorCreate");
+            modalGet("Contractors", "CreateContractor", null, "contractorCreate", "ModalContractorCreate");
+        });
+    });
+
+    /* Edit */
+    $(function () {
+        $(".getContractorEdit").click(function () {
+            createDiv("contractorEdit");
+            let editId = $(this).data("editid");
+            modalGet("Contractors", "EditContractor", editId, "contractorEdit", "ModalContractorEdit");
+        });
+    });
+
+    /* Delete */
+    $(function () {
+        $(".getContractorDelete").click(function () {
+            createDiv("contractorDelete");
+            let deleteId = $(this).data("deleteid");
+            modalGet("Contractors", "DeleteContractor", deleteId, "contractorDelete", "ModalContractorDelete");
+        });
+    });
+    //#endregion
+
+    //#region Persons Modals
+    /* Create */
+    $(function () {
+        $(".creNewContactPerson").click(function () {
+            createDiv("contactCreate");
+            let creContactContrID = $(this).data("contrid");
+            let creContactPersonID = $(this).data("personid");
+
+            var url = "/Contractors/CreateContactPerson/" + creContactContrID + "/" + creContactPersonID;
+            var iframeForModal = $("#contactCreate");
+            $.ajax({
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'get',
+                type: "get",
+                success: function (result) {
+                    iframeForModal.replaceWith(result);
+                    $("#ModalContactCreatePerson").modal('show');
                 }
-            }, 800);
-        });
-
-        $(function () {
-            $('#homeClicked').removeClass('active');
-            $('#spendingsClicked').removeClass('active');
-            $('#othersClicked').addClass('active');
-        });
-
-        /*------Contractors Modals------*/
-        /* Create */
-        $(function () {
-            $("#creNewContractor").click(function () {
-                createDiv("contractorCreate");
-                modalGet("Contractors", "CreateContractor", null, "contractorCreate", "ModalContractorCreate");
             });
         });
+    });
 
-        /* Edit */
-        $(function () {
-            $(".getContractorEdit").click(function () {
-                createDiv("contractorEdit");
-                let editId = $(this).data("editid");
-                modalGet("Contractors", "EditContractor", editId, "contractorEdit", "ModalContractorEdit");
-            });
+    /* Edit */
+    $(function () {
+        $(".getHooman").click(function () {
+            createDiv("personEdit");
+            let leHooman = $(this).data("hooman");
+            modalGet("Contractors", "EditPerson", leHooman, "personEdit", "ModalPersonEdit");
         });
+    });
 
-        /* Delete */
-        $(function () {
-            $(".getContractorDelete").click(function () {
-                createDiv("contractorDelete");
-                let deleteId = $(this).data("deleteid");
-                modalGet("Contractors", "DeleteContractor", deleteId, "contractorDelete", "ModalContractorDelete");
-            });
+    /* Delete */
+    $(function () {
+        $(".getHoman").click(function () {
+            createDiv("personDelete");
+            let leHoman = $(this).data("homan");
+            modalGet("Contractors", "DeletePerson", leHoman, "personDelete", "ModalPersonDelete");
         });
+    });
+    //#endregion
 
-
-        /*------Persons Modals------*/
-        /* Create */
-
-
-        /* Edit */
-        $(function () {
-            $(".getHooman").click(function () {
-                createDiv("personEdit");
-                let leHooman = $(this).data("hooman");
-                modalGet("Contractors", "EditPerson", leHooman, "personEdit", "ModalPersonEdit");
-            });
+    //#region Contacts Modals
+    /* Create */
+    $(function () {
+        $(".creNewContact").click(function () {
+            createDiv("contactCreate");
+            let creContactContrID = $(this).data("contrid");
+            modalGet("Contractors", "CreateContact", creContactContrID, "contactCreate", "ModalContactCreate");
         });
+    });
 
-        /* Delete */
-        $(function () {
-            $(".getHoman").click(function () {
-                createDiv("personDelete");
-                let leHoman = $(this).data("homan");
-                modalGet("Contractors", "DeletePerson", leHoman, "personDelete", "ModalPersonDelete");
-            });
+    /* Edit */
+    $(function () {
+        $(".getContactEdit").click(function () {
+            createDiv("contactEdit");
+            let editContactID = $(this).data("editcontactid");
+            modalGet("Contractors", "EditContact", editContactID, "contactEdit", "ModalContactEdit");
         });
+    });
 
-
-        /*------Contacts Modals------*/
-
-        /* Create */
-        $(function () {
-            $(".creNewContact").click(function () {
-                createDiv("contactCreate");
-                let creContactContrID = $(this).data("contrid");
-                modalGet("Contractors", "CreateContact", creContactContrID, "contactCreate", "ModalContactCreate");
-            });
+    /* Delete */
+    $(function () {
+        $(".getContactDelete").click(function () {
+            createDiv("contactDelete");
+            let leDelCont = $(this).data("delcontactid");
+            modalGet("Contractors", "DeleteContact", leDelCont, "contactDelete", "ModalContactDelete");
         });
-
-        $(function () {
-            $(".creNewContactPerson").click(function () {
-                createDiv("contactCreate");
-                let creContactContrID = $(this).data("contrid");
-                let creContactPersonID = $(this).data("personid");
-
-                var url = "/Contractors/CreateContactPerson/" + creContactContrID + "/" + creContactPersonID;
-                var iframeForModal = $("#contactCreate");
-                $.ajax({
-                    url: url,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    method: 'get',
-                    type: "get",
-                    success: function (result) {
-                        iframeForModal.replaceWith(result);
-                        $("#ModalContactCreatePerson").modal('show');
-                    }
-                });
-            });
-        });
-
-        /* Edit */
-        $(function () {
-            $(".getContactEdit").click(function () {
-                createDiv("contactEdit");
-                let editContactID = $(this).data("editcontactid");
-                modalGet("Contractors", "EditContact", editContactID, "contactEdit", "ModalContactEdit");
-            });
-        });
-
-        /* Delete */
-        $(function () {
-            $(".getContactDelete").click(function () {
-                createDiv("contactDelete");
-                let leDelCont = $(this).data("delcontactid");
-                modalGet("Contractors", "DeleteContact", leDelCont, "contactDelete", "ModalContactDelete");
-            });
-        });
-    </script>
-}
+    });
+        //#endregion
+</script>
+<!-- #endregion -->
