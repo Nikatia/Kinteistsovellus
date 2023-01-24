@@ -1,27 +1,8 @@
-﻿@model IEnumerable<Kiinteistosovellus.ViewModels.AllContractorsData>
+﻿@model IEnumerable<Kiinteistosovellus.Models.Contractors>
 
 @{
     ViewBag.Title = "Urakoitsijat";
 }
-
-<!-- #region groupedList of Model -->
-@{
-    List<Kiinteistosovellus.ViewModels.AllContractorsData> groupedList = Model
-            .GroupBy(l => l.ContractorID)
-            .Select(i =>
-                new Kiinteistosovellus.ViewModels.AllContractorsData()
-                {
-                    ContractorID = i.Key,
-                    Name = i.First().Name,
-                    ContractorsDescription = i.First().ContractorsDescription,
-                    StreetAdress = i.First().StreetAdress,
-                    PostCode = i.First().PostCode,
-                    City = i.First().City,
-                    Country = i.First().Country
-                }
-            ).ToList();
-}
-<!-- #endregion --> 
 
 <!-- #region Top of the page -->
 <br />
@@ -66,7 +47,7 @@
     <!-- #endregion -->
     <!-- #region Body Part -->
     <div class="card-body" id="card">
-        @foreach (var item in groupedList)
+        @foreach (var item in Model)
         {
             <!-- #region Contractor's Head Part -->
             <div class="accordion-item panel" style="border-bottom: 1px solid rgba(112, 173, 71, 0.2)" id="item_@item.ContractorID">
@@ -97,7 +78,7 @@
                         <div class="col-sm-8">
                             <div style="word-break:break-word">
                                 <b>Kuvaus:</b><br />
-                                @item.ContractorsDescription
+                                @item.Description
                             </div>
                         </div>
 

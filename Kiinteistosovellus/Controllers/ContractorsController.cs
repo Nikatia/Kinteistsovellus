@@ -20,8 +20,8 @@ namespace Kiinteistosovellus.Controllers
     {
         private KiinteistoDBEntities db = new KiinteistoDBEntities();
 
-        // ----------------------------------------------- GET LISTS -----------------------------------------------
-
+        // ----------------------------------------------- GET LISTS -------------------------------------------------
+        #region Get Lists
         public List<Contractors> GetContractors()
         {
             if (Session["UserName"] != null)
@@ -83,9 +83,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return null; }
         }
+        #endregion
 
-        // ----------------------------------------------- INDEX -----------------------------------------------
-
+        // ----------------------------------------------- INDEX -----------------------------------------------------
+        #region Index
         // GET: Contractors
         public ActionResult Index()
         {
@@ -95,35 +96,25 @@ namespace Kiinteistosovellus.Controllers
                 ViewBag.Contacts = GetContacts();
                 ViewBag.NoContactPersons = GetNoContactPersons(); 
 
-                var wholeContractorsList = from ctr in db.Contractors
-                                           select new AllContractorsData
-                                           {
-                                               ContractorID = (int)ctr.ContractorID,
-                                               Name = ctr.Name,
-                                               ContractorsDescription = ctr.Description,
-                                               StreetAdress = ctr.StreetAdress,
-                                               PostCode = ctr.PostCode,
-                                               City = ctr.City,
-                                               Country = ctr.Country,
-                                           };
+                var wholeContractorsList = db.Contractors;
 
                 return View(wholeContractorsList.ToList());
             }
             else { return RedirectToAction("Index", "Home"); }
         }
+        #endregion
 
         // ----------------------------------------------- CREATE PART -----------------------------------------------
-
+        #region Create
+        #region Contractors
         //------------------------------------Contractors------------------------------------
-        // GET: Contractors/Create
+        // GET
         public PartialViewResult CreateContractor()
         {
             return PartialView("/Views/Contractors/_ModalCreate.cshtml");
         }
 
-        // POST: Contractors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress, PostCode, City, Country")] Contractors contractors)
@@ -145,10 +136,9 @@ namespace Kiinteistosovellus.Controllers
                 return null;
             }
         }
-
-
+        #endregion
+        #region Contacts + ContactPerson
         //------------------------------------Contacts------------------------------------
-
         [HttpGet]
         public JsonResult FetchContractors()
         {
@@ -174,7 +164,7 @@ namespace Kiinteistosovellus.Controllers
             else { return null; }
         }
 
-        // GET: Contacts/Create
+        // GET:
         public PartialViewResult CreateContact(int? id)
         {
             if (Session["UserName"] != null)
@@ -190,9 +180,7 @@ namespace Kiinteistosovellus.Controllers
             else { return PartialView("/Views/Contractors/_ModalCreateContact.cshtml"); }
         }
 
-        // POST: Contractors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult CreateContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email")] Contacts contacts)
@@ -215,6 +203,7 @@ namespace Kiinteistosovellus.Controllers
             else { return null; }
         }
 
+        //GET:
         [Route("Contractors/CreateContactPerson/{contractor?}/{person?}")]
         public PartialViewResult CreateContactPerson(int? contractor, int? person)
         {
@@ -233,9 +222,7 @@ namespace Kiinteistosovellus.Controllers
             else { return PartialView("/Views/Contractors/_ModalCreateContactPerson.cshtml"); }
         }
 
-        // POST: Contractors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult CreateContactPerson([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email")] Contacts contacts)
@@ -257,10 +244,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return null; }
         }
-
-
+        #endregion
+        #region Persons
         //------------------------------------Persons------------------------------------
-        // GET: Contacts/Create
+        // GET:
         public PartialViewResult CreatePerson(int? id)
         {
             if (Session["UserName"] != null)
@@ -272,9 +259,7 @@ namespace Kiinteistosovellus.Controllers
             else { return PartialView("/Views/Home/_NotLogged.cshtml"); }
         }
 
-        // POST: Contractors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST:
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult CreatePerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,Description")] Persons persons)
@@ -298,10 +283,15 @@ namespace Kiinteistosovellus.Controllers
                 return PartialView("/Views/Home/_NotLogged.cshtml");
             }
         }
+        #endregion
+        #endregion
 
-        // ----------------------------------------------- EDIT PART -----------------------------------------------
-
+        // ----------------------------------------------- EDIT PART -------------------------------------------------
+        #region Edit
+        #region Contractors
         //------------------------------------Contractors------------------------------------
+
+        //GET
         public ActionResult EditContractor(int? id)
         {
             if (id == null)
@@ -316,6 +306,7 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/Contractors/_ModalEdit.cshtml", contractors);
         }
 
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult EditContractor([Bind(Include = "ContractorID,Name,Description,StreetAdress, PostCode, City, Country")] Contractors contractors)
@@ -332,8 +323,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return null; }
         }
-
+        #endregion
+        #region Persons
         //------------------------------------Persons------------------------------------
+        //GET
         public ActionResult EditPerson(int? id)
         {
             if (id == null)
@@ -349,6 +342,7 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/Contractors/_ModalEditPerson.cshtml", person);
         }
 
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult EditPerson([Bind(Include = "PersonID,FirstName,LastName,ContractorID,Description")] Persons person)
@@ -366,8 +360,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return null; }
         }
-
+        #endregion
+        #region Contacts
         //------------------------------------Contacts------------------------------------
+        //GET
         public ActionResult EditContact(int? id)
         {
             if (id == null)
@@ -384,6 +380,7 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("/Views/Contractors/_ModalEditContact.cshtml", contact);
         }
 
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult EditContact([Bind(Include = "ContactID,ContractorID,PersonID,PhoneNumber,Email")] Contacts contact)
@@ -405,12 +402,14 @@ namespace Kiinteistosovellus.Controllers
                 return null;
             }
         }
+        #endregion
+        #endregion
 
         // ----------------------------------------------- DELETE PART -----------------------------------------------
-
-
+        #region Delete
+        #region Contractors
         //------------------------------------Contractors------------------------------------
-        // GET: Contractors/Delete/5
+        // GET
         public ActionResult DeleteContractor(int? id)
         {
 
@@ -429,7 +428,7 @@ namespace Kiinteistosovellus.Controllers
 
         }
 
-        // POST: Contractors/Delete/5
+        // POST
         [HttpPost, ActionName("DeleteContractor")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteContractorConfirmed(int id)
@@ -462,9 +461,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return PartialView("/Views/Home/_NotLoggedModal.cshtml"); }
         }
-
+        #endregion
+        #region Persons
         //------------------------------------Persons------------------------------------
-        // GET: Contractors/Delete/5
+        // GET
         public ActionResult DeletePerson(int? id)
         {
             if (id == null)
@@ -481,7 +481,7 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("_ModalDeletePerson", persons);
         }
 
-        // POST: Contractors/Delete/5
+        // POST
         [HttpPost, ActionName("DeletePerson")]
         [ValidateAntiForgeryToken]
         public ActionResult DeletePersonConfirmed(int id)
@@ -498,8 +498,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return PartialView("/Views/Home/_NotLoggedModal.cshtml"); }
         }
-
+        #endregion
+        #region Contacts
         //------------------------------------Contacts------------------------------------
+        //GET
         public ActionResult DeleteContact(int? id)
         {
             if (id == null)
@@ -515,7 +517,7 @@ namespace Kiinteistosovellus.Controllers
             return PartialView("_ModalDeleteContact", contact);
         }
 
-        // POST: Contractors/Delete/5
+        // POST
         [HttpPost, ActionName("DeleteContact")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteContactConfirmed(int id)
@@ -529,8 +531,10 @@ namespace Kiinteistosovellus.Controllers
             }
             else { return PartialView("/Views/Home/_NotLoggedModal.cshtml"); }
         }
+        #endregion
+        #endregion
 
-
+        #region Dispose
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -539,8 +543,7 @@ namespace Kiinteistosovellus.Controllers
             }
             base.Dispose(disposing);
         }
-
-
+        #endregion
 
     }
 }
